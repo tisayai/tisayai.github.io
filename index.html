@@ -1,0 +1,888 @@
+<!doctype doctype>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Fantasy Character Generator</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&amp;family=Cinzel:wght@600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .app-container {
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            overflow-auto;
+            font-family: 'IM Fell DW Pica', serif;
+            color: #D6C7A1;
+        }
+        
+        .content-wrapper {
+            min-height: 100%;
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .content-wrapper {
+                padding: 3rem 2rem;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem 1rem;
+            background: #2B2B2B;
+            border: 3px solid #5A4B37;
+            border-radius: 6px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        
+        @media (min-width: 768px) {
+            .header {
+                margin-bottom: 3rem;
+                padding: 2rem;
+            }
+        }
+        
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #D6C7A1;
+            text-shadow: 1px 1px 3px #000;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .main-title {
+                font-size: 3.5rem;
+                letter-spacing: 3px;
+            }
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #A89968;
+            font-style: italic;
+            text-shadow: 1px 1px 3px #000;
+        }
+        
+        @media (min-width: 768px) {
+            .subtitle {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .generate-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .generate-btn {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: #3A3A3A;
+            color: #D6C7A1;
+            border: 3px solid #5A4B37;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        @media (min-width: 768px) {
+            .generate-btn {
+                font-size: 1.3rem;
+                padding: 1.2rem 3rem;
+                letter-spacing: 2px;
+                width: auto;
+            }
+        }
+        
+        .generate-btn:hover {
+            background: #4A4A4A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .character-card {
+            background: #2B2B2B;
+            border: 3px solid #5A4B37;
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(0, 0, 0, 0.7);
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @media (min-width: 768px) {
+            .character-card {
+                border-radius: 6px;
+                padding: 2.5rem;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .character-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #5A4B37;
+        }
+        
+        @media (min-width: 768px) {
+            .character-header {
+                margin-bottom: 2.5rem;
+                padding-bottom: 1.5rem;
+            }
+        }
+        
+        .character-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #D6C7A1;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px #000;
+        }
+        
+        @media (min-width: 768px) {
+            .character-name {
+                font-size: 2.8rem;
+            }
+        }
+        
+        .character-title {
+            font-size: 1.1rem;
+            color: #A89968;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .character-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        .monster-type {
+            display: inline-block;
+            background: #3A3A3A;
+            color: #D6C7A1;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            border: 2px solid #5A4B37;
+            font-weight: 600;
+        }
+        
+        @media (min-width: 768px) {
+            .monster-type {
+                padding: 0.6rem 1.5rem;
+                font-size: 1.1rem;
+            }
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        .section {
+            background: rgba(20, 20, 20, 0.6);
+            padding: 1rem;
+            border-radius: 6px;
+            border: 2px solid #5A4B37;
+        }
+        
+        @media (min-width: 768px) {
+            .section {
+                padding: 1.5rem;
+                border-radius: 6px;
+            }
+        }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #D6C7A1;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #5A4B37;
+            padding-bottom: 0.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 1.6rem;
+                letter-spacing: 2px;
+                margin-bottom: 1.2rem;
+            }
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(90, 75, 55, 0.3);
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #A89968;
+            font-size: 0.95rem;
+        }
+        
+        .info-value {
+            color: #D6C7A1;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+        
+        @media (min-width: 768px) {
+            .info-row {
+                padding: 0.7rem 0;
+            }
+            
+            .info-label, .info-value {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .stat-bar-container {
+            margin: 0.7rem 0;
+        }
+        
+        .stat-label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-name {
+            font-weight: 600;
+            color: #A89968;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            color: #D6C7A1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .stat-bar {
+            height: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid #5A4B37;
+        }
+        
+        .stat-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5A4B37 0%, #8B7355 100%);
+            transition: width 0.8s ease;
+            box-shadow: inset 0 2px 4px rgba(139, 115, 85, 0.3);
+        }
+        
+        @media (min-width: 768px) {
+            .stat-bar-container {
+                margin: 0.8rem 0;
+            }
+            
+            .stat-name, .stat-value {
+                font-size: 1.05rem;
+            }
+            
+            .stat-bar {
+                height: 24px;
+            }
+        }
+        
+        .full-width-section {
+            grid-column: 1 / -1;
+        }
+        
+        .description-text {
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: #D6C7A1;
+            text-align: left;
+        }
+        
+        @media (min-width: 768px) {
+            .description-text {
+                font-size: 1.15rem;
+                line-height: 1.8;
+                text-align: justify;
+            }
+        }
+        
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.7rem;
+            margin-top: 0.8rem;
+        }
+        
+        @media (min-width: 768px) {
+            .traits-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+        }
+        
+        .trait-badge {
+            background: #1a1a1a;
+            padding: 0.5rem 0.7rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #5A4B37;
+            font-size: 0.75rem;
+            color: #D6C7A1;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(255, 204, 51, 0.4), 0 0 30px rgba(255, 204, 51, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 10px rgba(255, 204, 51, 0.6), 0 0 20px rgba(255, 204, 51, 0.3);
+        }
+        
+        @media (min-width: 768px) {
+            .trait-badge {
+                padding: 0.6rem 1rem;
+                border-radius: 8px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .dere-personality {
+            background: #2a1a1a;
+            border: 2px solid #8B7355;
+            box-shadow: 0 0 20px rgba(255, 204, 51, 0.6), 0 0 40px rgba(255, 204, 51, 0.3), inset 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        .quote-section {
+            background: #1a1a1a;
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 2px solid #5A4B37;
+            margin-top: 1.5rem;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #D6C7A1;
+            text-align: center;
+            line-height: 1.6;
+            box-shadow: 0 0 25px rgba(255, 204, 51, 0.5), 0 0 50px rgba(255, 204, 51, 0.3), inset 0 2px 10px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 0 12px rgba(255, 204, 51, 0.5), 0 0 25px rgba(255, 204, 51, 0.2);
+        }
+        
+        @media (min-width: 768px) {
+            .quote-section {
+                padding: 2rem;
+                border-radius: 12px;
+                margin-top: 2rem;
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+        }
+        
+        .quote-section::before {
+            content: '"';
+            font-size: 1.8rem;
+            color: #8B7355;
+            line-height: 0;
+            margin-right: 0.3rem;
+            text-shadow: 0 0 15px rgba(255, 204, 51, 0.6);
+        }
+        
+        @media (min-width: 768px) {
+            .quote-section::before {
+                font-size: 2.5rem;
+                margin-right: 0.5rem;
+            }
+        }
+        
+        .quote-section::after {
+            content: '"';
+            font-size: 1.8rem;
+            color: #8B7355;
+            line-height: 0;
+            margin-left: 0.3rem;
+            text-shadow: 0 0 15px rgba(255, 204, 51, 0.6);
+        }
+        
+        @media (min-width: 768px) {
+            .quote-section::after {
+                font-size: 2.5rem;
+                margin-left: 0.5rem;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <div class="content-wrapper">
+    <div class="header">
+     <h1 class="main-title" id="mainTitle">Dark Fantasy Character Generator</h1>
+     <p class="subtitle" id="subtitleText">Medieval Otome Edition</p>
+    </div>
+    <div class="generate-section"><button class="generate-btn" id="generateBtn">Summon Character</button>
+    </div>
+    <div class="character-card" id="characterCard">
+     <div class="character-header">
+      <h2 class="character-name" id="charName"></h2>
+      <p class="character-title" id="charTitle"></p><span class="monster-type" id="monsterType"></span>
+     </div>
+     <div class="content-grid">
+      <div class="section">
+       <h3 class="section-title">Basic Information</h3>
+       <div class="info-row"><span class="info-label">Age:</span> <span class="info-value" id="age"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Height:</span> <span class="info-value" id="height"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Social Rank:</span> <span class="info-value" id="rank"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Occupation:</span> <span class="info-value" id="occupation"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Territory:</span> <span class="info-value" id="territory"></span>
+       </div>
+      </div>
+      <div class="section">
+       <h3 class="section-title">Personality Type</h3>
+       <div class="info-row"><span class="info-label">Dere Type:</span> <span class="info-value" id="dereType"></span>
+       </div>
+       <div class="info-row"><span class="info-label">MBTI:</span> <span class="info-value" id="mbti"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Alignment:</span> <span class="info-value" id="alignment"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Romance Difficulty:</span> <span class="info-value" id="difficulty"></span>
+       </div>
+      </div>
+      <div class="section full-width-section">
+       <h3 class="section-title">Combat Statistics</h3>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Strength</span> <span class="stat-value" id="strengthVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="strengthBar"></div>
+        </div>
+       </div>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Stamina</span> <span class="stat-value" id="staminaVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="staminaBar"></div>
+        </div>
+       </div>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Swordsmanship</span> <span class="stat-value" id="swordVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="swordBar"></div>
+        </div>
+       </div>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Magic Affinity</span> <span class="stat-value" id="magicVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="magicBar"></div>
+        </div>
+       </div>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Stealth</span> <span class="stat-value" id="stealthVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="stealthBar"></div>
+        </div>
+       </div>
+       <div class="stat-bar-container">
+        <div class="stat-label-row"><span class="stat-name">Charisma</span> <span class="stat-value" id="charismaVal"></span>
+        </div>
+        <div class="stat-bar">
+         <div class="stat-fill" id="charismaBar"></div>
+        </div>
+       </div>
+      </div>
+      <div class="section full-width-section">
+       <h3 class="section-title">Physical Appearance</h3>
+       <div class="info-row"><span class="info-label">Hair:</span> <span class="info-value" id="hair"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Eyes:</span> <span class="info-value" id="eyes"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Build:</span> <span class="info-value" id="build"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Distinguishing Feature:</span> <span class="info-value" id="feature"></span>
+       </div>
+       <div class="info-row"><span class="info-label">Monstrous Trait:</span> <span class="info-value" id="monsterTrait"></span>
+       </div>
+      </div>
+      <div class="section full-width-section">
+       <h3 class="section-title">Character Traits</h3>
+       <div class="traits-grid" id="traitsGrid"></div>
+      </div>
+      <div class="section full-width-section">
+       <h3 class="section-title">Background</h3>
+       <p class="description-text" id="background"></p>
+      </div>
+      <div class="section full-width-section">
+       <h3 class="section-title">Romance Path</h3>
+       <p class="description-text" id="romance"></p>
+      </div>
+     </div>
+     <div class="quote-section" id="quote"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            title_text: "Dark Fantasy Character Generator",
+            subtitle_text: "Medieval Otome Edition",
+            button_text: "Summon Character",
+            background_color: "#0a0a0a",
+            surface_color: "#140000",
+            text_color: "#ffd700",
+            primary_action_color: "#8b0000",
+            accent_color: "#ffd700"
+        };
+        
+        const config = {};
+        
+        const monsterTypes = [
+            { name: "Vampire Lord", trait: "Crimson eyes that glow in darkness, retractable fangs" },
+            { name: "Werewolf Alpha", trait: "Silver-streaked hair, wolf ears that twitch" },
+            { name: "Dark Fae Prince", trait: "Pointed ears, ethereal glow, butterfly wings" },
+            { name: "Demon Noble", trait: "Curved horns, shadow manipulation marks on skin" },
+            { name: "Dragon Knight", trait: "Scaled patches on neck, reptilian eyes, tail" },
+            { name: "Necromancer", trait: "Pale skin, death magic runes on hands" },
+            { name: "Shadow Wraith", trait: "Translucent in moonlight, shadowy aura" },
+            { name: "Incubus", trait: "Bat-like wings, hypnotic gaze" },
+            { name: "Kitsune", trait: "Nine fox tails, amber eyes with slit pupils" },
+            { name: "Oni Warlord", trait: "Single horn, supernatural strength marks" },
+            { name: "Fallen Angel", trait: "Black feathered wings, golden halo corruption" },
+            { name: "Lich King", trait: "Glowing blue eyes, ancient runes carved in skin" }
+        ];
+        
+        const dereTypes = [
+            { type: "Tsundere", desc: "Cold and hostile initially, secretly caring" },
+            { type: "Kuudere", desc: "Emotionless exterior, hidden deep feelings" },
+            { type: "Yandere", desc: "Obsessively devoted, dangerously possessive" },
+            { type: "Dandere", desc: "Shy and quiet, opens up slowly" },
+            { type: "Himedere", desc: "Princess-like arrogance, expects worship" },
+            { type: "Sadodere", desc: "Enjoys teasing, secretly affectionate" },
+            { type: "Kamidere", desc: "God complex, slowly humanized by love" }
+        ];
+        
+        const mbtiTypes = ["INTJ", "ENTJ", "INFJ", "ENFJ", "INTP", "ENTP", "INFP", "ENFP", "ISTJ", "ESTJ", "ISFJ", "ESFJ", "ISTP", "ESTP", "ISFP", "ESFP"];
+        
+        const names = [
+            "Alaric", "Dante", "Lucien", "Vesper", "Mordecai", "Kael", "Thorne", "Caspian", "Zephyr", "Draven",
+            "Corvus", "Lysander", "Obsidian", "Raven", "Silas", "Azrael", "Magnus", "Valerian", "Orpheus", "Soren"
+        ];
+        
+        const titles = [
+            "The Crimson Duke", "Lord of Shadows", "The Cursed Prince", "Master of the Dark Woods",
+            "The Eternal Wanderer", "Baron of Blood", "The Forsaken Knight", "Count of Nightfall",
+            "The Beast of Ravenmoor", "The Immortal Tactician", "Keeper of Ancient Secrets",
+            "The Moonlit Sovereign", "Guardian of the Abyss", "The Scarred Warlord"
+        ];
+        
+        const occupations = [
+            "Royal Assassin", "Dark Court Advisor", "Mercenary Captain", "Forbidden Scholar",
+            "Castle Guardian", "Shadow Inquisitor", "Cursed Blacksmith", "War General",
+            "Alchemist", "Beast Tamer", "Royal Executioner", "Spymaster"
+        ];
+        
+        const territories = [
+            "Shadowpeak Citadel", "Crimson Forest", "The Obsidian Keep", "Nightveil Castle",
+            "The Cursed Highlands", "Thornewood Manor", "The Abyss Gate", "Darkwater Estate",
+            "The Blood Moon Tower", "Ravenhollow", "The Whispering Catacombs", "Eclipse Fortress"
+        ];
+        
+        const traits = [
+            "Protective", "Brooding", "Calculating", "Ruthless", "Mysterious", "Honorable",
+            "Sardonic", "Melancholic", "Vengeful", "Loyal", "Intimidating", "Intelligent",
+            "Tormented", "Charismatic", "Reserved", "Dominant", "Battle-scarred", "Ancient"
+        ];
+        
+        const hairColors = [
+            "Midnight black", "Silver-white", "Deep crimson", "Raven black with silver streaks",
+            "Platinum blonde", "Dark purple", "Blood red", "Ash grey", "Obsidian black",
+            "White with black tips"
+        ];
+        
+        const eyeColors = [
+            "Piercing silver", "Blood red", "Golden amber", "Deep violet", "Ice blue",
+            "Emerald green", "Crimson with gold flecks", "Stormy grey", "Glowing purple",
+            "Heterochromatic (one red, one gold)"
+        ];
+        
+        const builds = [
+            "Tall and lean with dangerous grace", "Powerfully built warrior physique",
+            "Elegant and deceptively strong", "Intimidatingly muscular", "Lithe and agile",
+            "Towering and imposing", "Refined but battle-hardened"
+        ];
+        
+        const features = [
+            "Prominent battle scar across face", "Intricate magical tattoos", "Missing eye covered by eyepatch",
+            "Faded curse marks", "Ancient war wounds", "Elegant aristocratic features with cruel edge",
+            "Runic brands on arms", "Perpetually cold skin", "Sharp, predatory features"
+        ];
+        
+        function random(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+        
+        function randomStat() {
+            return Math.floor(Math.random() * 401) + 600;
+        }
+        
+        function generateBackground(monster, dere, occupation, territory) {
+            const backgrounds = [
+                `Born into darkness within the walls of ${territory}, ${monster.name.toLowerCase()} blood flows through his veins alongside noble heritage. His ${dere.type.toLowerCase()} nature developed after witnessing the fall of his kingdom in childhood. Now serving as a ${occupation.toLowerCase()}, he walks the line between monster and man, searching for redemption he believes impossible.`,
+                
+                `Once a celebrated knight before his transformation into a ${monster.name.toLowerCase()}, he was cursed during a forbidden ritual. Banished to ${territory}, his ${dere.type.toLowerCase()} personality masks centuries of loneliness. His role as ${occupation.toLowerCase()} keeps him occupied, but he yearns for someone who can see past his monstrous exterior.`,
+                
+                `A pure-blooded ${monster.name.toLowerCase()} raised in isolation at ${territory}, he knows nothing but duty and survival. His ${dere.type.toLowerCase()} demeanor protects a heart that has never known warmth. As the realm's ${occupation.toLowerCase()}, he encounters countless people, yet none have breached his walls—until now.`,
+                
+                `Betrayed by those he trusted, he embraced his ${monster.name.toLowerCase()} heritage to survive. ${territory} became his fortress, his ${dere.type.toLowerCase()} personality a shield against further pain. His work as ${occupation.toLowerCase()} is his only solace, a purpose in an otherwise meaningless immortal existence.`
+            ];
+            return random(backgrounds);
+        }
+        
+        function generateRomance(dere) {
+            const romances = {
+                "Tsundere": "His route begins with hostility and sharp words, but his actions betray his concern. Watch for moments when he protects you while denying any care. Breaking through his defenses requires patience and seeing past his harsh exterior to the vulnerable heart beneath. Key moments involve him reluctantly accepting help and finally admitting his feelings in a moment of crisis.",
+                
+                "Kuudere": "Expressionless and distant, he seems impossible to reach. His route is about reading subtle gestures—a hand that lingers a moment too long, his presence at your side without being asked. Progress comes through shared silence and small acts of service. The breakthrough occurs when he finally shows raw emotion, unable to maintain his mask any longer.",
+                
+                "Yandere": "Intense from the first meeting, his obsession grows dangerously. His route walks a knife's edge between passion and possession. You must teach him healthy boundaries while accepting his fierce devotion. Key scenes involve him committing increasingly extreme acts 'for your protection' until you make him understand that true love means trusting you to make your own choices.",
+                
+                "Dandere": "Shy and withdrawn, he avoids eye contact and speaks in whispers. His route requires gentle patience, creating safe spaces for him to open up. Progress is measured in small victories—a genuine smile, an initiated conversation, his hand seeking yours. The pivotal moment comes when he finds courage to voice his feelings despite his fear.",
+                
+                "Himedere": "Arrogant and demanding, he expects subservience and worship. His route involves standing up to him, earning his respect rather than his dismissal. Each challenge to his authority intrigues him more. The turning point arrives when he realizes his feelings make him vulnerable, something his pride never prepared him for.",
+                
+                "Sadodere": "He delights in teasing and seeing you flustered, but his playfulness hides genuine affection. His route balances his need for control with growing tenderness. Key moments show him struggling between his dominant nature and his desire to cherish rather than torment. Victory comes when he admits his teasing stems from wanting your attention.",
+                
+                "Kamidere": "He views himself as superior, almost divine, and expects recognition. His route involves humanizing him, showing that vulnerability isn't weakness. Each instance of you treating him as an equal rather than a deity shakes his worldview. The breakthrough occurs when he experiences genuine human emotion—fear of losing you—and realizes mortality's beauty."
+            };
+            return romances[dere.type] || romances["Tsundere"];
+        }
+        
+        function generateQuote(dere, name) {
+            const quotes = {
+                "Tsundere": `I-It's not like I was worried about you, fool. I just happened to be passing by when you needed help. Don't misunderstand, ${name} doesn't concern himself with mortals... usually.`,
+                
+                "Kuudere": `You're different from the others. I don't understand why your presence doesn't irritate me. Perhaps you're simply... tolerable. That's all.`,
+                
+                "Yandere": `You belong to me now. No one else can have you, no one else can touch you, no one else can even look at you. I'll destroy anyone who tries to take you from me.`,
+                
+                "Dandere": `I... I've never met anyone like you before. You make me want to be brave, even though every instinct tells me to hide. Please... stay with me.`,
+                
+                "Himedere": `You dare speak to me with such familiarity? I am nobility, darkness incarnate. You should grovel— yet somehow, I permit your insolence. Consider yourself... privileged.`,
+                
+                "Sadodere": `Oh? You're blushing. How delightful. I wonder what other expressions I can coax from you. Don't worry, I'll be gentle... mostly.`,
+                
+                "Kamidere": `I am eternal, powerful, beyond your mortal comprehension. Yet you intrigue me. Perhaps I shall keep you as my companion. You should be honored by my interest.`
+            };
+            return quotes[dere.type] || quotes["Tsundere"];
+        }
+        
+        function generateCharacter() {
+            const monster = random(monsterTypes);
+            const dere = random(dereTypes);
+            const name = random(names);
+            const title = random(titles);
+            const mbti = random(mbtiTypes);
+            const occupation = random(occupations);
+            const territory = random(territories);
+            
+            const age = Math.floor(Math.random() * 500) + 100;
+            const heightFeet = Math.floor(Math.random() * 3) + 6;
+            const heightInches = Math.floor(Math.random() * 12);
+            const height = `${heightFeet}'${heightInches}"`;
+            
+            const alignments = ["Lawful Evil", "Neutral Evil", "Chaotic Neutral", "True Neutral", "Lawful Neutral"];
+            const difficulties = ["★★★★★ (Extremely Difficult)", "★★★★☆ (Very Difficult)", "★★★☆☆ (Challenging)"];
+            
+            const stats = {
+                strength: randomStat(),
+                stamina: randomStat(),
+                sword: randomStat(),
+                magic: randomStat(),
+                stealth: randomStat(),
+                charisma: randomStat()
+            };
+            
+            const selectedTraits = [];
+            while (selectedTraits.length < 8) {
+                const trait = random(traits);
+                if (!selectedTraits.includes(trait)) {
+                    selectedTraits.push(trait);
+                }
+            }
+            
+            document.getElementById('charName').textContent = name;
+            document.getElementById('charTitle').textContent = title;
+            document.getElementById('monsterType').textContent = monster.name;
+            
+            document.getElementById('age').textContent = `${age} years (appears mid-20s)`;
+            document.getElementById('height').textContent = height;
+            document.getElementById('rank').textContent = random(["Duke", "Count", "Baron", "Prince", "Lord"]);
+            document.getElementById('occupation').textContent = occupation;
+            document.getElementById('territory').textContent = territory;
+            
+            document.getElementById('dereType').textContent = `${dere.type} (${dere.desc})`;
+            document.getElementById('mbti').textContent = mbti;
+            document.getElementById('alignment').textContent = random(alignments);
+            document.getElementById('difficulty').textContent = random(difficulties);
+            
+            document.getElementById('strengthVal').textContent = stats.strength;
+            document.getElementById('strengthBar').style.width = ((stats.strength / 1000) * 100) + '%';
+            
+            document.getElementById('staminaVal').textContent = stats.stamina;
+            document.getElementById('staminaBar').style.width = ((stats.stamina / 1000) * 100) + '%';
+            
+            document.getElementById('swordVal').textContent = stats.sword;
+            document.getElementById('swordBar').style.width = ((stats.sword / 1000) * 100) + '%';
+            
+            document.getElementById('magicVal').textContent = stats.magic;
+            document.getElementById('magicBar').style.width = ((stats.magic / 1000) * 100) + '%';
+            
+            document.getElementById('stealthVal').textContent = stats.stealth;
+            document.getElementById('stealthBar').style.width = ((stats.stealth / 1000) * 100) + '%';
+            
+            document.getElementById('charismaVal').textContent = stats.charisma;
+            document.getElementById('charismaBar').style.width = ((stats.charisma / 1000) * 100) + '%';
+            
+            document.getElementById('hair').textContent = random(hairColors);
+            document.getElementById('eyes').textContent = random(eyeColors);
+            document.getElementById('build').textContent = random(builds);
+            document.getElementById('feature').textContent = random(features);
+            document.getElementById('monsterTrait').textContent = monster.trait;
+            
+            const traitsGrid = document.getElementById('traitsGrid');
+            traitsGrid.innerHTML = '';
+            selectedTraits.forEach(trait => {
+                const badge = document.createElement('div');
+                badge.className = 'trait-badge';
+                badge.textContent = trait;
+                traitsGrid.appendChild(badge);
+            });
+            
+            const dereBadge = document.createElement('div');
+            dereBadge.className = 'trait-badge dere-personality';
+            dereBadge.textContent = dere.type;
+            traitsGrid.appendChild(dereBadge);
+            
+            document.getElementById('background').textContent = generateBackground(monster, dere, occupation, territory);
+            document.getElementById('romance').textContent = generateRomance(dere);
+            document.getElementById('quote').textContent = generateQuote(dere, name);
+            
+            document.getElementById('characterCard').style.display = 'block';
+        }
+        
+        document.getElementById('generateBtn').addEventListener('click', generateCharacter);
+        
+        async function onConfigChange(newConfig) {
+            const titleElement = document.getElementById('mainTitle');
+            const subtitleElement = document.getElementById('subtitleText');
+            const buttonElement = document.getElementById('generateBtn');
+            
+            if (titleElement) {
+                titleElement.textContent = newConfig.title_text || defaultConfig.title_text;
+            }
+            if (subtitleElement) {
+                subtitleElement.textContent = newConfig.subtitle_text || defaultConfig.subtitle_text;
+            }
+            if (buttonElement) {
+                buttonElement.textContent = newConfig.button_text || defaultConfig.button_text;
+            }
+        }
+        
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+        
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["title_text", config.title_text || defaultConfig.title_text],
+                ["subtitle_text", config.subtitle_text || defaultConfig.subtitle_text],
+                ["button_text", config.button_text || defaultConfig.button_text]
+            ]);
+        }
+        
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9be15402247e533b',t:'MTc2ODQzNzY5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
