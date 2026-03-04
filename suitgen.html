@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Fantasy Suitor Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* TOKENS */
+:root {
+  --blood:    #8B0000;
+  --crimson:  #C41230;
+  --gold:     #C8A84B;
+  --black:    #000000;
+  --panel:    #0A0A0A;
+  --parchment:#EAE0CA;
+  --faded:    #C8B899;
+  --bodytext: #D4C9B4;
+  --muted:    #7A7A96;
+  --labelcol: #8A7E6E;
+  --white:    #F5F2EC;
+  --blo:      rgba(139,0,0,0.14);
+  --bhi:      rgba(139,0,0,0.32);
+}
+
+/* BASE */
+body {
+  background-color: #000000;
+  color: #D4C9B4;
+  font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.65;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+/* LAYOUT */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 16px 80px;
+}
+
+/* HEADER */
+.hdr { text-align: center; margin-bottom: 40px; }
+
+.hdr-eye {
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 9px;
+  letter-spacing: 7px;
+  color: #8B0000;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.hdr h1 {
+  font-family: 'UnifrakturMaguntia', 'Times New Roman', cursive;
+  font-size: 54px;
+  color: #EAE0CA;
+  line-height: 1.1;
+  text-shadow: 0 0 32px rgba(139,0,0,0.5), 2px 2px 0 rgba(0,0,0,0.85);
+  margin-bottom: 10px;
+}
+
+.hdr-sub {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #7A7A96;
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
+}
+
+.hdr-lore {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #7A7A96;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* DIVIDER — no gap, use margin on span */
+.divider {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 20px 0;
+}
+.divider-line {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  height: 1px;
+  background: -webkit-linear-gradient(left, transparent, #8B0000, transparent);
+  background: linear-gradient(to right, transparent, #8B0000, transparent);
+}
+.divider-sym {
+  color: #8B0000;
+  font-size: 16px;
+  opacity: 0.75;
+  margin: 0 12px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+/* GENERATE BUTTON */
+.btn-gen {
+  display: block;
+  margin: 0 auto 44px;
+  background: transparent;
+  border: 1px solid #8B0000;
+  color: #EAE0CA;
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  padding: 15px 44px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-transition: color 0.35s ease, box-shadow 0.35s ease;
+          transition: color 0.35s ease, box-shadow 0.35s ease;
+}
+.btn-gen-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #8B0000;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: -webkit-transform 0.35s ease;
+          transition: transform 0.35s ease;
+  z-index: 0;
+}
+.btn-gen-txt { position: relative; z-index: 1; }
+.btn-gen:hover .btn-gen-bg,
+.btn-gen:focus .btn-gen-bg { -webkit-transform: scaleX(1); transform: scaleX(1); }
+.btn-gen:hover,
+.btn-gen:focus { color: #F5F2EC; box-shadow: 0 0 28px rgba(139,0,0,0.35); outline: none; }
+.btn-gen:active { -webkit-transform: scale(0.97); transform: scale(0.97); }
+
+/* CHARACTER CARD — visibility toggled by JS style, not class */
+.card {
+  display: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.65s ease;
+          transition: opacity 0.65s ease;
+}
+
+/* NAME BANNER */
+.name-banner {
+  text-align: center;
+  margin-bottom: 34px;
+  padding: 28px 24px;
+  border: 1px solid rgba(139,0,0,0.32);
+  background: #050505;
+  position: relative;
+}
+.name-banner-tl {
+  position: absolute;
+  top: 10px; left: 14px;
+  color: #8B0000;
+  font-size: 20px;
+  opacity: 0.40;
+  line-height: 1;
+}
+.name-banner-br {
+  position: absolute;
+  bottom: 10px; right: 14px;
+  color: #8B0000;
+  font-size: 20px;
+  opacity: 0.40;
+  line-height: 1;
+}
+
+.char-name {
+  font-family: 'UnifrakturMaguntia', 'Times New Roman', cursive;
+  font-size: 40px;
+  color: #EAE0CA;
+  text-shadow: 0 0 18px rgba(139,0,0,0.42);
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+.char-epithet {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  color: #C8B899;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.scroll-deco {
+  text-align: center;
+  color: rgba(139,0,0,0.28);
+  font-size: 18px;
+  letter-spacing: 12px;
+  margin: 14px 0 22px;
+}
+
+/* SECTION */
+.sec {
+  margin-bottom: 26px;
+  border: 1px solid rgba(139,0,0,0.14);
+  background: #0A0A0A;
+  position: relative;
+}
+.sec-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: -webkit-linear-gradient(top, #8B0000, transparent, #8B0000);
+  background: linear-gradient(to bottom, #8B0000, transparent, #8B0000);
+  opacity: 0.50;
+}
+
+.sec-head {
+  background: -webkit-linear-gradient(left, rgba(139,0,0,0.16), transparent);
+  background: linear-gradient(to right, rgba(139,0,0,0.16), transparent);
+  padding: 9px 18px 9px 22px;
+  border-bottom: 1px solid rgba(139,0,0,0.14);
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 8.5px;
+  letter-spacing: 4px;
+  color: #C8A84B;
+  text-transform: uppercase;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.sec-icon {
+  font-size: 13px;
+  opacity: 0.65;
+  margin-right: 8px;
+}
+
+/* FIELD GRID — no gap shorthand, use margins */
+.fgrid {
+  padding: 16px 18px 20px 22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-right: -22px; /* compensate for field right margin */
+}
+
+.field {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 260px;
+          flex: 1 1 260px;
+  min-width: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 14px;
+  margin-right: 22px;
+}
+.field.full {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 100%;
+          flex: 1 1 100%;
+  width: 100%;
+}
+
+/* field label */
+.fl {
+  display: block;
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 7.5px;
+  letter-spacing: 2.8px;
+  color: #8A7E6E;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* field value */
+.fv {
+  display: block;
+  font-family: 'Crimson Text', Georgia, 'Times New Roman', serif;
+  font-size: 17px;
+  color: #D4C9B4;
+  line-height: 1.62;
+  font-weight: 400;
+}
+
+/* highlighted italic field */
+.field.hi .fv {
+  font-style: italic;
+  color: #C8B899;
+  font-size: 16.5px;
+  border-left: 2px solid rgba(139,0,0,0.32);
+  padding-left: 10px;
+  margin-top: 2px;
+}
+
+/* PALETTE SWATCHES */
+.pal-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.swatch {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  display: inline-block;
+  margin-right: 6px;
+}
+.pal-name {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #C8B899;
+}
+
+/* BADGES */
+.badge-aura {
+  display: inline-block;
+  padding: 4px 14px;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  border: 1px solid rgba(139,0,0,0.38);
+  background: rgba(139,0,0,0.07);
+  color: #C41230;
+}
+.badge-align {
+  display: inline-block;
+  padding: 4px 14px;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  border: 1px solid rgba(200,168,75,0.28);
+  background: rgba(200,168,75,0.05);
+  color: #C8A84B;
+}
+
+/* COPY SECTION */
+.copy-wrap {
+  text-align: center;
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(139,0,0,0.16);
+}
+.btn-copy {
+  background: transparent;
+  border: 1px solid #C8A84B;
+  color: #C8A84B;
+  font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  padding: 13px 38px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-transition: color 0.35s ease;
+          transition: color 0.35s ease;
+}
+.btn-copy-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #C8A84B;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: -webkit-transform 0.35s ease;
+          transition: transform 0.35s ease;
+  z-index: 0;
+}
+.btn-copy-txt { position: relative; z-index: 1; }
+.btn-copy:hover .btn-copy-bg,
+.btn-copy:focus .btn-copy-bg { -webkit-transform: scaleX(1); transform: scaleX(1); }
+.btn-copy:hover,
+.btn-copy:focus { color: #000000; outline: none; }
+.btn-copy:active { -webkit-transform: scale(0.97); transform: scale(0.97); }
+
+.copy-msg {
+  display: block;
+  margin-top: 11px;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  color: #7A7A96;
+  opacity: 0;
+  -webkit-transition: opacity 0.4s ease;
+          transition: opacity 0.4s ease;
+  min-height: 20px;
+}
+.copy-msg.show { opacity: 1; }
+
+/* MOBILE */
+@media screen and (max-width: 520px) {
+  .hdr h1     { font-size: 34px; }
+  .char-name  { font-size: 28px; }
+  .field      { -webkit-box-flex: 1; -ms-flex: 1 1 100%; flex: 1 1 100%; }
+  .fv         { font-size: 16px; }
+  .field.hi .fv { font-size: 15.5px; }
+  .btn-gen    { padding: 14px 20px; font-size: 10px; letter-spacing: 2.5px; }
+  .sec-head   { font-size: 7.5px; letter-spacing: 3px; }
+  .name-banner { padding: 22px 16px; }
+}
+
+/* TABLET */
+@media screen and (min-width: 521px) and (max-width: 767px) {
+  .hdr h1    { font-size: 44px; }
+  .char-name { font-size: 34px; }
+  .field     { -webkit-box-flex: 1; -ms-flex: 1 1 100%; flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <p class="hdr-eye">&#x29F8; A Grimoire of Dark Hearts &#x29F8;</p>
+    <h1>Dark Suitor<br>Generator</h1>
+    <p class="hdr-sub">for the damned &amp; desiring</p>
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-sym">&#x2726;</span>
+      <span class="divider-line"></span>
+    </div>
+    <p class="hdr-lore">In the shadowed kingdom where blood writes law and desire carves wounds deeper than any blade &#8212; here is the man who will ruin you beautifully.</p>
+  </div>
+
+  <!-- GENERATE BUTTON -->
+  <button class="btn-gen" id="btn-gen" onclick="generate()">
+    <span class="btn-gen-bg"></span>
+    <span class="btn-gen-txt">&#x29F8; Summon a Suitor &#x29F8;</span>
+  </button>
+
+  <!-- CHARACTER CARD -->
+  <div class="card" id="card">
+
+    <div class="name-banner">
+      <span class="name-banner-tl">&#x29F8;</span>
+      <span class="name-banner-br">&#x29F8;</span>
+      <p class="char-name"    id="char-name"></p>
+      <p class="char-epithet" id="char-epithet"></p>
+    </div>
+
+    <p class="scroll-deco">&#x2726; &#x29F8; &#x2726;</p>
+
+    <!-- 1. ARCHETYPES & PSYCHE -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x1F70F;</span> Archetypes &amp; Psyche</div>
+      <div class="fgrid">
+        <div class="field full hi">
+          <span class="fl">Romantasy Archetype</span>
+          <span class="fv" id="f-romantic"></span>
+        </div>
+        <div class="field">
+          <span class="fl">TV Tropes Archetype</span>
+          <span class="fv" id="f-tv"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Anime Archetype</span>
+          <span class="fv" id="f-anime"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Dere-Type</span>
+          <span class="fv" id="f-dere"></span>
+        </div>
+        <div class="field">
+          <span class="fl">MBTI (type + stack)</span>
+          <span class="fv" id="f-mbti"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Enneagram (type + wing)</span>
+          <span class="fv" id="f-enneagram"></span>
+        </div>
+        <div class="field">
+          <span class="fl">SLOAN</span>
+          <span class="fv" id="f-sloan"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Socionics</span>
+          <span class="fv" id="f-socionics"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Attachment Style</span>
+          <span class="fv" id="f-attach"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Core Wound</span>
+          <span class="fv" id="f-wound"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Taboo Traits</span>
+          <span class="fv" id="f-taboo"></span>
+        </div>
+        <div class="field full hi">
+          <span class="fl">Driving Desire / Obsession</span>
+          <span class="fv" id="f-obsession"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PHYSICAL DESIGN -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x2694;</span> Physical Design</div>
+      <div class="fgrid">
+        <div class="field">
+          <span class="fl">Eyes (color, type)</span>
+          <span class="fv" id="f-eyes"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Hair (color, style)</span>
+          <span class="fv" id="f-hair"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Skin</span>
+          <span class="fv" id="f-skin"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Body Type</span>
+          <span class="fv" id="f-body"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Aura</span>
+          <span class="fv"><span class="badge-aura" id="f-aura"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PERSONAL QUARTERS -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x1F3F0;</span> Personal Quarters</div>
+      <div class="fgrid">
+        <div class="field full">
+          <span class="fl">Home Type</span>
+          <span class="fv" id="f-home"></span>
+        </div>
+        <div class="field full hi">
+          <span class="fl">What They Hide From Visitors</span>
+          <span class="fv" id="f-secret"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. BELONGINGS & HABITS -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x2697;</span> Belongings &amp; Habits</div>
+      <div class="fgrid">
+        <div class="field">
+          <span class="fl">Signature Weapon / Tool</span>
+          <span class="fv" id="f-weapon"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Daily Carry Items</span>
+          <span class="fv" id="f-carry"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Heirlooms / Relics</span>
+          <span class="fv" id="f-heirloom"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Clothing Aesthetic</span>
+          <span class="fv" id="f-clothing"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Morning Ritual</span>
+          <span class="fv" id="f-morning"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Night Ritual</span>
+          <span class="fv" id="f-night"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Hobbies</span>
+          <span class="fv" id="f-hobbies"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Shoes</span>
+          <span class="fv" id="f-shoes"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Signature Outfit</span>
+          <span class="fv" id="f-outfit"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. SOCIAL PRESENCE -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x269C;</span> Social Presence</div>
+      <div class="fgrid">
+        <div class="field full">
+          <span class="fl">Reputation</span>
+          <span class="fv" id="f-reputation"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Interpersonal Vibe</span>
+          <span class="fv" id="f-vibe"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Romantic Style</span>
+          <span class="fv" id="f-romance"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Who They Allow Into Their Space</span>
+          <span class="fv" id="f-allow"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Social Class / Wealth / Background</span>
+          <span class="fv" id="f-class"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Job Role</span>
+          <span class="fv" id="f-role"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Clique Affiliation</span>
+          <span class="fv" id="f-clique"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. META -->
+    <div class="sec">
+      <span class="sec-bar"></span>
+      <div class="sec-head"><span class="sec-icon">&#x2726;</span> Meta</div>
+      <div class="fgrid">
+        <div class="field">
+          <span class="fl">Character Role</span>
+          <span class="fv" id="f-charrole"></span>
+        </div>
+        <div class="field">
+          <span class="fl">Medieval Role</span>
+          <span class="fv" id="f-medrole"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Color Palette</span>
+          <span class="fv">
+            <span class="pal-row">
+              <span class="swatch" id="sw1"></span>
+              <span class="swatch" id="sw2"></span>
+              <span class="swatch" id="sw3"></span>
+              <span class="swatch" id="sw4"></span>
+              <span class="pal-name" id="f-palette"></span>
+            </span>
+          </span>
+        </div>
+        <div class="field">
+          <span class="fl">Moral Alignment</span>
+          <span class="fv"><span class="badge-align" id="f-align"></span></span>
+        </div>
+        <div class="field">
+          <span class="fl">Fatal Flaw</span>
+          <span class="fv" id="f-flaw"></span>
+        </div>
+        <div class="field full">
+          <span class="fl">Core Virtue</span>
+          <span class="fv" id="f-virtue"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COPY -->
+    <div class="copy-wrap">
+      <button class="btn-copy" onclick="copyCharacter()">
+        <span class="btn-copy-bg"></span>
+        <span class="btn-copy-txt">&#x29F8; Copy Character to Scroll &#x29F8;</span>
+      </button>
+      <span class="copy-msg" id="copy-msg">The parchment is sealed. The suitor is yours.</span>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /wrap -->
+
+<script>
+/* DATA POOLS */
+var D = {
+
+names: [
+  ["Aldric Mornevane","the Watcher in Silence"],
+  ["Caelum Voss","Plague-Duke of the Ashfen Marches"],
+  ["Dorian Blackthorn","He Who Keeps No Mercy"],
+  ["Erevan Nighthollow","the Sworn and the Forsaken"],
+  ["Faustian Crael","Guildmaster of the Quiet Knife"],
+  ["Gorvain the Unmarked","Last Blood of a Dead House"],
+  ["Hadrian Vael","Warden of the Sunken Throne"],
+  ["Ilen Mordecas","the Twice-Cursed"],
+  ["Jorath Duskmore","Slayer of the Pale Court"],
+  ["Kaspien Wraithvane","He Who Counts the Bones"],
+  ["Lucen Ashford","the Beautiful and the Cruel"],
+  ["Maerik Solenne","Commander of Hollowed Legions"],
+  ["Norath Greyfall","the Living Wound"],
+  ["Oberon Sett","Inquisitor of the Black Synod"],
+  ["Peregrin Sable","the Exile Who Returned Wrong"],
+  ["Quentis Vargrave","Necromancer-Consort to No One"],
+  ["Raeven Coldmarch","He of the Bleeding Covenant"],
+  ["Silas Thornweald","the Smiling Hangman"],
+  ["Theron Duskbane","Baronet of the Shattered Keep"],
+  ["Ulric Ashmoore","the Rot King's Favorite"],
+  ["Vesper Haelmoor","Architect of Quiet Ruin"],
+  ["Wulfric Sorn","the Beast Who Learned Manners"],
+  ["Xandric Veyne","Keeper of Forbidden Contracts"],
+  ["Yorran Darkfield","the Shepherd of Lost Causes"],
+  ["Zarek Nightcroft","Blood Arbiter of the Third Ward"]
+],
+
+romantic: [
+  "The Possessive Vampire Lord -- ancient, territorial, incapable of half-measures. He loved once and it hollowed him, and has been quietly collecting pieces of the world ever since to fill the wound.",
+  "The Exiled Cursed Prince -- stripped of birthright by a betrayal he half-deserved, wandering the kingdom like a ghost in a living man's body, dangerous in the way only the dispossessed are.",
+  "The Tyrannical Duke -- rules his fief with a logic so cold it passes for justice; fears tenderness more than siege engines; loves only in secret and punishes himself for it.",
+  "The Necromancer Savant -- keeps company with the dead because the living disappoint too quickly; his affection is meticulous, preserving, obsessive -- a taxidermist of the heart.",
+  "The Blood Knight -- lives for combat with the fervor of a monk at prayer; his gentleness, when it surfaces, is violent in its sincerity.",
+  "The Shadow Inquisitor -- extracts confessions for a living; deeply fluent in human weakness; drawn to the one soul whose lies he cannot parse.",
+  "The Ruined Heir -- born to greatness, undone by a single catastrophic choice; now rebuilds himself from ash with the grim patience of a mason in winter.",
+  "The Feral Warlord -- civilized by precisely one thin layer of etiquette that cracks under stress; primal in loyalty, catastrophic when he feels abandoned.",
+  "The Plague Doctor of the Soul -- healer of dark arts; collects suffering like currency; clings to the beloved with the grip of a man drowning in philosophically interesting waters.",
+  "The Fallen High Priest -- cast from a temple of order into a world of rot; holds his beloved with a reverence so intense it becomes its own kind of blasphemy.",
+  "The Monster Collector -- hunts horrors professionally; deeply calm in the face of the grotesque; unsettled only by genuine warmth directed at him.",
+  "The Debt Collector of Fates -- enforcer of supernatural contracts; barters in promises and suffering; wants, against all better judgment, one thing that cannot be bargained for."
+],
+
+tvTropes: [
+  "The Byronic Hero -- morally compromised, magnetically tragic, intellectually superior, and very aware of all three.",
+  "Tall, Dark, and Snarky -- cynicism as self-defense, wit as armor, genuine warmth available only in the fine print.",
+  "Villain with Good Publicity -- the kingdom adores him; the truth would shatter them.",
+  "The Chessmaster -- three moves ahead of everyone including himself; forgets he cannot plan desire.",
+  "Broken Ace -- capable of everything, comfortable with nothing; excellence as a wound.",
+  "Anti-Villain -- his methods are monstrous, his goals quietly noble, his self-awareness devastating.",
+  "Dark and Troubled Past -- the backstory that explains, if not excuses, everything.",
+  "The Stoic -- emotion buried deep enough to become geological; love surfaces as tectonic shift.",
+  "Noble Demon -- bound by his own code while society's crumbles around him.",
+  "Well-Intentioned Extremist -- genuinely believes the horror is worth the outcome; might be right.",
+  "The Woobie, Destroyer of Worlds -- sympathy and catastrophe in equal measure.",
+  "Aloof Ally -- useful, unreachable, infuriating in his precision."
+],
+
+anime: [
+  "Kuudere -- emotionally inaccessible as a matter of policy; warmth present but rationed like a wartime resource.",
+  "Himedere -- carries himself like royalty whether or not the crown is still his.",
+  "Yandere (restrained) -- the obsession is there; the control is exquisite; the cracks are growing.",
+  "Kamidere -- godlike self-assurance concealing something so fragile it dare not be named.",
+  "Dandere -- silent by architecture, not nature; one right word from someone patient enough could dismantle him.",
+  "Oujidere -- princely affect, genuine loneliness; the performance is immaculate and exhausting.",
+  "Gundere -- speaks in strategy and logic; love reads to him like a tactical problem he genuinely wants to solve."
+],
+
+dere: [
+  "Kuudere -- cold surface, magma interior; shows affection through action and proximity, never language.",
+  "Yandere (Controlled) -- devotion that calculates rather than erupts; possessiveness wrapped in composure.",
+  "Tsundere (Dark) -- hostility as misdirection; the softness underneath is real and he resents you for seeing it.",
+  "Dandere -- quietness as moat; words emerge rarely but weighed to the grain.",
+  "Kamidere -- self-worship as survival; beneath it, a desperate need for one person who sees through it.",
+  "Himedere -- demands reverence not from ego but from a childhood where love required performance.",
+  "Mayadere -- was the enemy; now uncertain; loyalty still smells like war."
+],
+
+mbti: [
+  ["INTJ","Ni-Te-Fi-Se -- the Architect of Cold Certainties"],
+  ["ENTJ","Te-Ni-Se-Fi -- the Commander who Forgets to Ask Permission"],
+  ["INFJ","Ni-Fe-Ti-Se -- the Poisoned Prophet"],
+  ["ISTJ","Si-Te-Fi-Ne -- Loyal to a Code Written in His Own Blood"],
+  ["ISTP","Ti-Se-Ni-Fe -- Precision in Violence, Silence in Feeling"],
+  ["ENTP","Ne-Ti-Fe-Si -- the Devil's Advocate Who Believes the Devil Has a Point"],
+  ["INTP","Ti-Ne-Si-Fe -- Anatomizes Everything Including His Own Ruin"],
+  ["ESTJ","Te-Si-Ne-Fi -- the Institution Personified, Brittle at the Foundation"]
+],
+
+enneagram: [
+  "Type 8w9 -- The Bear: immovable, protective, silently furious at any threat to what he claims.",
+  "Type 5w4 -- The Ghost Scholar: detaches to preserve himself; love is data he does not know how to file.",
+  "Type 1w9 -- The Perfectionist Saint: judges himself harder than any court; mercy is the one law he cannot write.",
+  "Type 3w4 -- The Hollow Crown: performs success as identity; the man beneath the mask is a question he avoids.",
+  "Type 4w5 -- The Exquisite Wound: suffering aestheticized; uniqueness as armor; longs to be truly seen and flees when it happens.",
+  "Type 6w5 -- The Loyal Skeptic: trusts no one, needs someone, builds loyalty like a fortress and calls it home.",
+  "Type 2w1 -- The Reluctant Servant: gives to control, loves to bind, furious when the gift is refused."
+],
+
+sloan: [
+  "RCUEI -- Reserved, Calm, Unstructured, Egocentric, Inquisitive",
+  "RLOEI -- Reserved, Limbic, Organized, Egocentric, Inquisitive",
+  "RCOAN -- Reserved, Calm, Organized, Accommodating, Non-curious",
+  "RLOEN -- Reserved, Limbic, Organized, Egocentric, Non-curious",
+  "RCUAI -- Reserved, Calm, Unstructured, Accommodating, Inquisitive"
+],
+
+socionics: [
+  "ILI -- Ni/Te: the Nostradamus type; sees decay in advance, chooses battles only when the outcome is already visible.",
+  "LIE -- Te/Ni: goal-oriented to the point of ruthlessness; charming in service of efficiency.",
+  "LSI -- Ti/Se: structured, tradition-bound, lethal in close quarters.",
+  "IEI -- Ni/Fe: melancholic visionary; emotionally perceptive, chronically melancholy.",
+  "EIE -- Fe/Ni: theatrical in grief and passion, a natural catastrophist."
+],
+
+attachment: [
+  "Dismissive-Avoidant -- compulsively self-sufficient; interprets need as weakness; will quietly destroy a relationship before admitting he requires it.",
+  "Fearful-Avoidant (Disorganized) -- wants closeness, dismantles it when it arrives; the internal war is total.",
+  "Anxious-Preoccupied -- hyper-vigilant to abandonment; love is an emergency at all times.",
+  "Earned Secure -- fought his way to functional attachment through sheer will; still has nights where the old patterns resurface like siege engines."
+],
+
+wound: [
+  "Abandoned by the one person who was supposed to stay -- now rehearses leaving before being left.",
+  "Was loved only for what he could produce -- worth was always conditional; intimacy feels like audition.",
+  "Witnessed the brutal destruction of everything he had built -- now invests in nothing he cannot afford to lose.",
+  "Was betrayed by his liege lord and learned that loyalty flows upward but justice does not.",
+  "Grew powerful as compensation for a childhood of helplessness -- strength is not confidence, it is scar tissue.",
+  "Lost a beloved to a violence he failed to prevent -- guilt calcified into control; he will not be unprepared again.",
+  "Was used as a political instrument from birth -- his own desires are foreign to him; the map of himself is blank."
+],
+
+taboo: [
+  "Intermittent cruelty he does not always recognize as such; genuine tenderness that embarrasses him.",
+  "Pathological honesty deployed as weapon; strategic deception deployed as kindness.",
+  "Collects trophies from his cruelest acts and keeps them as penance.",
+  "Speaks to the dead. Not metaphorically.",
+  "Becomes genuinely frightening when gentled -- the predator made domestic is still a predator.",
+  "Loves through surveillance; considers knowing everything about someone a form of devotion.",
+  "Keeps a ledger of every wrong done to him. Has never closed a debt.",
+  "Finds mercy more difficult than punishment -- justice, for him, is a language he cannot speak softly."
+],
+
+obsession: [
+  "To possess, absolutely, the one thing that has refused to be possessed -- and to protect it from the world he himself embodies.",
+  "To unmake the institution that made him what he is -- from the inside, methodically, with a smile.",
+  "To be truly known by one person before he dies -- and to ensure that person never leaves.",
+  "To make the kingdom fear and then, one day, to make it understand the difference.",
+  "To prove his worth to a ghost -- the father who died thinking him a disappointment.",
+  "To carve order from a world that has only ever shown him entropy -- to win against the rot.",
+  "To find the wound in the world's chest and press his hand over it -- not to heal it, but to feel it pulse."
+],
+
+eyes: [
+  "Storm-grey, hooded, heavy-lidded -- like watching a tide decide whether to destroy a city.",
+  "Pale silver verging on white -- the light refracts wrong; they look through rather than at.",
+  "Amber flecked with black -- too warm to be safe; predator wrapped in gold.",
+  "Dark charcoal, expressionless as stone, impossibly perceptive -- misses nothing, reacts to nothing.",
+  "Deep burgundy, a trait of his bloodline's old curse -- terrifying in candlelight, beautiful in full dark.",
+  "Green-black, changeable as tarnished copper -- the color shifts with his mood and he pretends it doesn't.",
+  "Obsidian black from iris to rim -- a hereditary consequence of the family's alchemical experiments.",
+  "Steel blue, ice-cool, fractionally warmer than his expression ever allows the world to know."
+],
+
+hair: [
+  "Raven-black, worn long and loose to the jaw, habitually swept back with one hand; silver threads at the temple from something that happened three winters ago.",
+  "Deep auburn, nearly black in low light; short on the sides, longer on top, slightly unkempt as though grooming ceased to interest him after a particular loss.",
+  "White-blond, nearly albino; kept short and severe; deeply incongruous with his reputation.",
+  "Ash-brown, grown past the collar, tied back with a cord of leather for combat; comes loose in intimate moments.",
+  "Black with natural silver streaks he acquired at thirty from a curse that aged him briefly; worn in a half-queue.",
+  "Dark charcoal, cropped close at the neck, slightly overgrown at the crown; shows curl when it rains.",
+  "Pitch black, worn in a severe widow's peak, slicked back; the precision of it is its own kind of threat."
+],
+
+skin: [
+  "Pallor edged with blue-grey -- the court calls it distinguished; his physician calls it concerning.",
+  "Warm olive kissed to gold by years in the field, now paled by indoor scheming; still shows where armor used to sit.",
+  "Deep brown with faint ritual scarification along the collar and left forearm -- voluntary marks from an oath he has not yet broken.",
+  "Fair as new snow, with violet veins visible at the wrist and throat -- a side effect of the alchemical regimen that keeps him functional.",
+  "Weathered light tan, sun-damaged from campaigns; a network of faint old scars like a palimpsest of every wrong decision.",
+  "Tawny with faint silver curse-marks that only appear under moonlight, like frost on dark water.",
+  "Ashen grey-brown -- a consequence of the blight he survived; his touch sometimes drops temperatures by a degree."
+],
+
+body: [
+  "Tall (6'3\"), lean and angular -- the kind of thinness that is clearly chosen, maintained like an argument.",
+  "Large (6'1\", heavy with old muscle) -- was a weapon for years and has never fully softened; carries it like an apology.",
+  "Wiry and above average height (5'11\") -- deceptively strong; looks underfed; could break a door.",
+  "Commanding height (6'4\"), broad through the shoulders; somehow takes up space in rooms that should be too large for anyone.",
+  "Medium height (5'10\"), compact and precise -- moves like the body is an instrument being played very well.",
+  "Tall and gaunt (6'2\"), long-limbed; the aesthetic of a man for whom eating is merely maintenance."
+],
+
+aura: [
+  "Charged Stillness -- the air near him feels pre-storm.",
+  "Velvet Authority -- effortless dominance that does not raise its voice.",
+  "Elegant Menace -- beautiful and quietly dangerous in equal proportion.",
+  "Cold Gravity -- everything in the room quietly orients toward him.",
+  "Controlled Devastation -- you understand, looking at him, what he is capable of, and he is currently choosing not to.",
+  "Mourning Magnificence -- grief worn so long it has become regalia.",
+  "Sovereign Rot -- the grandeur and the decay inseparable, magnificently so."
+],
+
+home: [
+  "A blood manor on the edge of the fief's worst district -- impressive from the road, inexplicable from within; rooms that should not exist do; rooms that should, don't.",
+  "A tower of black stone at the city's edge, technically his by inheritance, practically by force -- three floors above ground, two below that appear on no blueprint.",
+  "A modest city townhouse maintained with alarming precision -- the inside is larger than the outside and he does not discuss why.",
+  "An estate halfway into ruin, kept habitable only in the wing he uses -- the rest left as monument to something he has not named.",
+  "A fortress-abbey repurposed after its order dissolved -- still smells of incense over older smells; the chapel is locked.",
+  "Rented chambers in the city's finest quarter that feel, somehow, entirely his -- the landlord no longer asks questions.",
+  "A keep carved into a cliff above a dying village -- his by conquest, maintained by duty; the locals consider it both protection and threat."
+],
+
+secret: [
+  "A room kept exactly as it was on the day someone left it -- untouched, preserved, visited only when he thinks no one is watching.",
+  "A collection of correspondence he has never sent -- years of drafts, confessions, threats, pleas, all filed and dated.",
+  "Evidence that would undo the alliance keeping the city stable -- held not for blackmail but as insurance against his own worst impulses.",
+  "A bound creature in the lower level that he tends with what can only be described as guilt.",
+  "A working mirror that shows not reflection but the last moment of a specific person's life -- he cannot stop looking.",
+  "Journals of the most meticulous kind: everyone who ever wronged him, cross-referenced against what he chose to do about it.",
+  "A child's belongings. He has no children anyone knows about.",
+  "A failed alchemical experiment he keeps alive out of personal obligation -- it should not be sentient; it is."
+],
+
+weapon: [
+  "A long-bladed sword of unusual make -- no crossguard, no ornament; the dedication to function reads as philosophy.",
+  "A slim dagger worn inside the left sleeve, never drawn in public, used only when he means it.",
+  "A rune-inlaid shortblade that hums at a frequency only he can hear -- a gift that cost the giver something significant.",
+  "His hands -- he trained in the dismantling arts before he acquired refinement; he has not forgotten.",
+  "A black iron staff that doubles as a conduit for his arcane workings -- older than the dynasty he serves.",
+  "Twin blades, mismatched -- one inherited, one taken; he considers the asymmetry appropriate.",
+  "A garrote of braided silver and leather worn as a bracelet -- decorative to everyone who does not know him."
+],
+
+carry: [
+  "A wax seal of his house, a folding knife of bone and iron, a small flask of something medicinal, a folded letter he has not opened.",
+  "Three lock picks, a vial of neutralizing tincture, a compass that points to something other than north.",
+  "A worn almanac of contracts and debts, a stick of sealing wax, the signet ring he does not wear but carries.",
+  "A small brass astrolabe, a piece of cord knotted in a pattern only he can read, dried herbs in a paper fold.",
+  "A flask, a clean cloth, a medical kit maintained with surgical precision, the tooth of something large.",
+  "His seal, a writing kit, three different keys to three different locks, a small portrait folded four times."
+],
+
+heirloom: [
+  "A broken signet ring worn on a chain -- the house it represents is gone; he is the house now.",
+  "A coin from a kingdom that no longer exists, carried as proof that permanence is a lie he refuses to believe in.",
+  "A letter in his mother's hand, never read past the first line -- he knows the contents; he does not need to revisit them.",
+  "A piece of armor from his father's final battle, kept not in tribute but in reminder.",
+  "A small carved figure of an animal, badly made, clearly done by a child -- he made it at seven; he has carried it for twenty years.",
+  "A fragment of a cursed mirror set in iron -- looking into it at the right angle shows the past; he uses it rarely and hates himself after.",
+  "An old oath ring, its inscription in a dialect three centuries dead -- the oath is technically still binding."
+],
+
+clothing: [
+  "Severe aristocratic -- high collars, structured coats of deep wool, no ornamentation that does not serve a function; the elegance is in the cut.",
+  "Warrior-court hybrid -- gambeson beneath a rich overrobe he never fully closes; practicality insisting itself through finery.",
+  "Scholarly dark -- ink-black layers, silver clasps, an academic's coat over a soldier's boots; the incongruity is coherent on him.",
+  "Mourning-chic -- exclusively dark tones, no color except the occasional deep red; the aesthetic was not adopted for grief but has remained through it.",
+  "Restrained gothic -- dark brocade, a single statement piece, otherwise controlled; the details reward close inspection.",
+  "Battle-worn ceremonial -- armor treated with the care of formal dress; the distinction between war and court is not one he recognizes."
+],
+
+morning: [
+  "Wakes before light, spends an hour alone in silence he does not call meditation; then correspondence, then ablutions performed with the precision of ritual.",
+  "Reviews the night's intelligence reports while drinking something bitter over a window overlooking the city he partially owns.",
+  "Trains alone for an hour before anyone else in the household is awake -- the violence is focused, private, necessary.",
+  "Tends to whatever is kept in the lower levels; emerges with a composure that suggests the task costs him something each time.",
+  "Reads -- always the same book, always from a different page -- while the household assembles around him without disturbing him.",
+  "Writes until the light changes, then burns half of what he wrote, then eats in silence."
+],
+
+night: [
+  "Walks the perimeter of his holdings alone; the guards know not to follow; something about the patrol has never been entirely explained.",
+  "Sits with his collection of the dead -- letters, objects, a chair he never takes -- and accounts for the day like a ledger.",
+  "Performs workings he does not discuss in daylight; the light in his chambers is not always natural.",
+  "Sleeps very little, very lightly, always dressed; the readiness is not anxiety, it is architecture.",
+  "Meets with the city's criminal upper stratum in rooms with no witnesses, over terms that are always honored.",
+  "Reads the same passage from a banned text until he has memorized it again, then closes the book and stares at the dark."
+],
+
+hobbies: [
+  "Cartography -- obsessively detailed maps of places he has been, annotated in a code only he can read.",
+  "Bookbinding -- repairs and rebinds rare volumes with a craftsman's patience entirely at odds with his reputation.",
+  "Falconry -- keeps a black-feathered bird of unusual intelligence; the relationship is not clearly hierarchical.",
+  "Chess -- plays correspondence matches against opponents who do not know who they are playing; has never lost.",
+  "Knife-throwing at a private range -- the target has a face drawn on it in charcoal; he redraws it when the face changes.",
+  "Herbalism and poison-craft -- maintains a private garden; the plants are labeled in a dead language.",
+  "Transcription of oral histories from dying elders -- the record-keeping impulse as the only form of mercy he exercises freely."
+],
+
+shoes: [
+  "Knee-high cavalry boots of blackened leather, impeccably maintained, slightly louder than he intends on stone floors.",
+  "Low court boots of dark suede, silent on any surface -- the silence is not accidental.",
+  "Battered field boots, resoled four times, worn to the shape of his foot; he refuses to replace them.",
+  "High boots of deep burgundy leather, formal and faintly militaristic -- the one vanity he acknowledges.",
+  "Plain dark leather, unremarkable, indistinguishable from any tradesman's -- chosen for exactly that reason."
+],
+
+outfit: [
+  "A high-collared coat of black wool, double-breasted, with silver buttons he never fully does up; over a dark cambric shirt without lace; dark trousers; the boots. The ring on his right hand is the only ornamentation.",
+  "A heavy brocade overrobe in midnight blue over a fitted black gambeson; dark leather bracers; the sword at his hip is slightly anachronistic for court and he does not care.",
+  "Dark layered wool -- under-robe, long vest, structured outer coat reaching mid-thigh; no cape; a narrow silver chain at the throat holding something tucked inside the shirt.",
+  "Black riding clothes of fine make -- close-fitted jacket, high boots, a long charcoal cloak pinned with an iron clasp bearing his house device; functional for horse or court alike.",
+  "A deep plum-to-black coat of unusual fabric worn over unadorned dark clothes; the effect is formal without effort; he removes the coat for violence and replaces it immediately after."
+],
+
+reputation: [
+  "Brilliant, dangerous, and reliably terrible to cross. The city's economy depends on alliances he maintains by knowing exactly how much each one is worth and to whom. Beloved by nobody; necessary to everyone.",
+  "Known as fair to those below him and merciless to those who break his word. The peasants in his fief eat; the lords who tested him are cautionary tales.",
+  "A shadow on the council -- not formally powerful, comprehensively influential. Proposals he opposes fail. Proposals he supports pass. Nobody votes against him twice.",
+  "A war hero converted into an administrator he despises being; the violence has not left him, only redistributed. Everyone can see it.",
+  "Infamous in the ecclesiastical record; celebrated in the criminal one. Which hierarchy you consult determines your answer entirely.",
+  "Considered eccentric by the court -- a polite word for frightening. His social appearances are infrequent, devastating, and always strategic."
+],
+
+vibe: [
+  "Quiet intensity -- the room adjusts to him rather than the reverse; conversations become more careful without anyone deciding to be.",
+  "Controlled remove -- attentive in a way that feels invasive; he catalogues more than he reveals; speaking with him is like being read.",
+  "Magnetic gravity -- people orbit him without understanding why; the warmth he occasionally deploys is disproportionately effective.",
+  "Elegant menace -- well-mannered to a degree that implies threat; the courtesy is real but the subtext is always legible.",
+  "Unnerving stillness -- rarely fidgets, rarely raises his voice; the control is total and suggests what happens when it is not."
+],
+
+romance: [
+  "Devotional and possessive -- loves like a liturgy; the beloved becomes the center of an orbit from which he does not permit drift.",
+  "Cruelly tender -- affection delivered through honesty that would be devastation from anyone else; the care is genuine, the delivery catastrophic.",
+  "Protecting to the point of suffocation -- his love manifests as removal of threat, perceived or otherwise; the cage is gilded and he cannot see it.",
+  "Obsessively attentive -- notices everything, forgets nothing; the gift and the danger are the same thing.",
+  "Cold and certain -- declares himself once, completely, without theater; does not repeat it; means it more than others mean anything they say daily.",
+  "Reluctant and devastating -- resisted the feeling past the point where resistance was possible; when it surfaces it is complete."
+],
+
+allow: [
+  "No one without appointment; and even then, only into the first two rooms. The rest is not shown, not offered, not discussed.",
+  "His second-in-command, once, under specific conditions. No one else without deliberate reason.",
+  "Exactly one person who has earned it over years of proving they will not use what they see. He resents how much that matters to him.",
+  "Nobody -- until someone found their way past his protocols without him allowing it, and he has been renegotiating his perimeter ever since.",
+  "Informants, under supervision. The living kind and otherwise."
+],
+
+socialClass: [
+  "Old nobility in the process of becoming new money -- the house name still opens doors; the coffers are supplemented by arrangements the name would not survive being associated with.",
+  "Landed gentry with a title above his wealth -- survives on competence, contracts, and a reputation too expensive to let decay.",
+  "Common-born, self-elevated through the military and a talent for political survival -- has the manor; does not have the centuries; cannot decide if he wants them.",
+  "Merchant-class origins, current approximation of minor court figure -- bought his way adjacent to power and has spent twenty years making the adjacency unremarkable.",
+  "Noble by blood, disinherited by circumstance -- the rank is technically stripped; the bearing is not; the resentment is exquisitely maintained.",
+  "Church-trained, now secular -- educated beyond his birth class, employed by powers that use that gap against him."
+],
+
+role: [
+  "Shadow Inquisitor of the Black Synod -- extracts confessions, adjudicates apostasy, and maintains the official fiction that the institution is just.",
+  "Necromancer-Guildmaster of the Pale Covenant -- administers a guild ostensibly dealing in funerary rites; the rites are more complicated than advertised.",
+  "Blood Arbiter of the Merchant's Court -- enforces contract law with final authority; the 'blood' in the title is metaphorical. Mostly.",
+  "Plague Warden of the Eastern Marches -- appointed to quarantine and contain; arrived during an outbreak; has not left; the outbreak ended; the reason has not.",
+  "Cursed Duke of Ashfen Province -- governs a territory the crown would prefer not to think about; the curse is manageable; the duchy is not.",
+  "War Chancellor Emeritus -- technically retired from active command; technically advisory only; technically.",
+  "Master of the Quiet Registry -- maintains the official record of births, deaths, and debts; the information is more valuable than anyone has fully calculated."
+],
+
+clique: [
+  "The Obsidian Compact -- a secret council of seven who collectively hold more power than the throne and meet in a building that appears on no map.",
+  "The Brotherhood of the Sealed Word -- oath-bound scholars of forbidden contracts; membership is permanent in the way that matters.",
+  "The Crimson Quorum -- the nobility's shadow court; they do not overthrow kings, they make kings unnecessary.",
+  "The Pale Registry -- keepers of supernatural debts; they call in what is owed with patience that outlasts lifespans.",
+  "The Iron Collegium -- former military commanders who took their tactics into civilian devastation.",
+  "The Unmarked -- a network with no hierarchy and no name anyone admits to; identified by a scar in a specific location."
+],
+
+charRole: [
+  "The Antagonist Who Is Not Wrong -- his methods are unjustifiable; his diagnosis of the world's rot is accurate.",
+  "The Love Interest Who Is Also the Complication -- impossible to want safely; impossible to stop.",
+  "The Reluctant Mentor -- knows things the protagonist needs; resents needing to care about the protagonist needing them.",
+  "The Hidden Protagonist -- the story thinks it is about someone else; he is where all the actual decisions are made.",
+  "The Villain Redeemed Too Late -- the arc exists; the timing is catastrophic."
+],
+
+medievalRole: [
+  "Fief Lord -- governs a territory by hereditary right, military competence, or some combination of extortion the crown has agreed to overlook.",
+  "Military Commander -- holds rank in the standing army; exercises it selectively and with precision.",
+  "Court Functionary -- officially advisory; actually decisive; the title is smaller than the function by design.",
+  "Guild Overseer -- administers one of the city's major trade organizations with authority that overlaps too comfortably with enforcement.",
+  "Inquisitor-at-Large -- granted extraordinary jurisdiction by an institution he may or may not currently believe in.",
+  "Warden of a Contested Territory -- appointed to govern a region in dispute; the appointment was political; the problem is real."
+],
+
+palettes: [
+  { name: "Mourning Crimson & Ash",   c: ["#1A0000","#6B0000","#2D2D2D","#C4B49A"] },
+  { name: "Obsidian & Pale Gold",     c: ["#0A0A0F","#1C1C2E","#B8860B","#E8DCC8"] },
+  { name: "Bloodmist & Iron",         c: ["#1F0A0A","#4A1A1A","#4A4A55","#8B8B99"] },
+  { name: "Plague Ochre & Bone",      c: ["#1A1505","#5C4A00","#9E8B3D","#D4C9A0"] },
+  { name: "Violet Dusk & Silver",     c: ["#0F0A1A","#2D1F4A","#7A6A9A","#C8C0D8"] },
+  { name: "Tarnished Bronze & Night", c: ["#0A0A05","#2A2015","#7A5C1E","#B8975A"] }
+],
+
+alignment: [
+  "Lawful Evil -- the law is his; he follows it absolutely; it does not say what you think it says.",
+  "Neutral Evil -- pursues his goals with elegant efficiency; morality is a variable, not a constant.",
+  "Chaotic Neutral -- loyal to his own code; contemptuous of yours; not malicious by intention, devastating by nature.",
+  "Lawful Neutral -- the function precedes the feeling; order is not goodness and he has never confused them.",
+  "True Neutral -- occupies the eye of a moral storm he himself created; claims uninvolvement; is never uninvolved."
+],
+
+fatalFlaw: [
+  "Cannot trust enough to be truly protected -- his self-sufficiency is his greatest vulnerability.",
+  "Loves in ways that his beloved cannot long survive -- the devotion is real; the method is catastrophic.",
+  "Has been right so long he has lost the capacity to imagine being wrong -- the moment he is wrong, it will be about something that matters.",
+  "Mistakes control for safety -- has dismantled every relationship that threatened to become something he could not manage.",
+  "The cruelty is not always strategic -- sometimes he is simply cruel, and he has not confronted this clearly enough to stop.",
+  "He will sacrifice the beloved for the cause and he knows this and has told himself he has made peace with it."
+],
+
+virtue: [
+  "Fidelity -- to his word, to his dead, to the one person he has decided belongs to him; an absolute he has never broken.",
+  "Precision -- he does not waste: not words, not suffering, not time; in a world of grotesque excess, this reads as mercy.",
+  "Honesty -- brutal, unsoftened, delivered without theater; the truth from him is a gift whether or not it feels like one.",
+  "Protection -- extends to those under his authority with a totality that costs him more than he shows; the kingdom may not deserve it; they get it anyway.",
+  "Endurance -- has survived things that should have destroyed him; continues; the persistence is its own form of courage."
+]
+
+}; /* end D */
+
+/* UTILS */
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function set(id, val) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+var current = {};
+
+/* GENERATE */
+function generate() {
+  var n = rnd(D.names);
+  var m = rnd(D.mbti);
+  var p = rnd(D.palettes);
+  var i, sw;
+
+  current = {
+    name:    n[0],
+    epithet: n[1],
+    ro:  rnd(D.romantic),
+    tv:  rnd(D.tvTropes),
+    an:  rnd(D.anime),
+    dr:  rnd(D.dere),
+    mb:  m[0] + " -- " + m[1],
+    en:  rnd(D.enneagram),
+    sl:  rnd(D.sloan),
+    so:  rnd(D.socionics),
+    at:  rnd(D.attachment),
+    wo:  rnd(D.wound),
+    ta:  rnd(D.taboo),
+    ob:  rnd(D.obsession),
+    ey:  rnd(D.eyes),
+    ha:  rnd(D.hair),
+    sk:  rnd(D.skin),
+    bo:  rnd(D.body),
+    au:  rnd(D.aura),
+    ho:  rnd(D.home),
+    se:  rnd(D.secret),
+    we:  rnd(D.weapon),
+    ca:  rnd(D.carry),
+    he:  rnd(D.heirloom),
+    cl:  rnd(D.clothing),
+    mo:  rnd(D.morning),
+    ni:  rnd(D.night),
+    hb:  rnd(D.hobbies),
+    sh:  rnd(D.shoes),
+    ou:  rnd(D.outfit),
+    re:  rnd(D.reputation),
+    vi:  rnd(D.vibe),
+    rm:  rnd(D.romance),
+    al:  rnd(D.allow),
+    sc:  rnd(D.socialClass),
+    rl:  rnd(D.role),
+    cq:  rnd(D.clique),
+    cr:  rnd(D.charRole),
+    mr:  rnd(D.medievalRole),
+    pn:  p.name,
+    ag:  rnd(D.alignment),
+    ff:  rnd(D.fatalFlaw),
+    vt:  rnd(D.virtue)
+  };
+
+  set('char-name',    current.name);
+  set('char-epithet', current.epithet);
+  set('f-romantic',   current.ro);
+  set('f-tv',         current.tv);
+  set('f-anime',      current.an);
+  set('f-dere',       current.dr);
+  set('f-mbti',       current.mb);
+  set('f-enneagram',  current.en);
+  set('f-sloan',      current.sl);
+  set('f-socionics',  current.so);
+  set('f-attach',     current.at);
+  set('f-wound',      current.wo);
+  set('f-taboo',      current.ta);
+  set('f-obsession',  current.ob);
+  set('f-eyes',       current.ey);
+  set('f-hair',       current.ha);
+  set('f-skin',       current.sk);
+  set('f-body',       current.bo);
+  set('f-aura',       current.au);
+  set('f-home',       current.ho);
+  set('f-secret',     current.se);
+  set('f-weapon',     current.we);
+  set('f-carry',      current.ca);
+  set('f-heirloom',   current.he);
+  set('f-clothing',   current.cl);
+  set('f-morning',    current.mo);
+  set('f-night',      current.ni);
+  set('f-hobbies',    current.hb);
+  set('f-shoes',      current.sh);
+  set('f-outfit',     current.ou);
+  set('f-reputation', current.re);
+  set('f-vibe',       current.vi);
+  set('f-romance',    current.rm);
+  set('f-allow',      current.al);
+  set('f-class',      current.sc);
+  set('f-role',       current.rl);
+  set('f-clique',     current.cq);
+  set('f-charrole',   current.cr);
+  set('f-medrole',    current.mr);
+  set('f-palette',    p.name);
+  set('f-align',      current.ag);
+  set('f-flaw',       current.ff);
+  set('f-virtue',     current.vt);
+
+  /* palette swatches */
+  for (i = 0; i < p.c.length; i++) {
+    sw = document.getElementById('sw' + (i + 1));
+    if (sw) { sw.style.backgroundColor = p.c[i]; }
+  }
+
+  /* show card: set display block, then fade in after brief delay */
+  var card = document.getElementById('card');
+  card.style.display = 'block';
+  card.style.opacity = '0';
+  setTimeout(function() {
+    card.style.opacity = '1';
+  }, 30);
+
+  /* clear copy message */
+  var msg = document.getElementById('copy-msg');
+  if (msg) { msg.className = 'copy-msg'; }
+
+  /* scroll to card */
+  setTimeout(function() {
+    card.scrollIntoView(true);
+    window.scrollBy(0, -16);
+  }, 80);
+}
+
+/* COPY */
+function copyCharacter() {
+  if (!current.name) { return; }
+
+  var lines = [
+    "DARK FANTASY SUITOR -- CHARACTER SHEET",
+    "=======================================",
+    current.name,
+    '"' + current.epithet + '"',
+    "",
+    "-- ARCHETYPES & PSYCHE --",
+    "Romantasy Archetype: "         + current.ro,
+    "TV Tropes Archetype: "         + current.tv,
+    "Anime Archetype: "             + current.an,
+    "Dere-Type: "                   + current.dr,
+    "MBTI: "                        + current.mb,
+    "Enneagram: "                   + current.en,
+    "SLOAN: "                       + current.sl,
+    "Socionics: "                   + current.so,
+    "Attachment Style: "            + current.at,
+    "Core Wound: "                  + current.wo,
+    "Taboo Traits: "                + current.ta,
+    "Driving Desire / Obsession: "  + current.ob,
+    "",
+    "-- PHYSICAL DESIGN --",
+    "Eyes: "      + current.ey,
+    "Hair: "      + current.ha,
+    "Skin: "      + current.sk,
+    "Body Type: " + current.bo,
+    "Aura: "      + current.au,
+    "",
+    "-- PERSONAL QUARTERS --",
+    "Home Type: "                   + current.ho,
+    "What They Hide From Visitors: "+ current.se,
+    "",
+    "-- BELONGINGS & HABITS --",
+    "Signature Weapon/Tool: " + current.we,
+    "Daily Carry Items: "     + current.ca,
+    "Heirlooms/Relics: "      + current.he,
+    "Clothing Aesthetic: "    + current.cl,
+    "Morning Ritual: "        + current.mo,
+    "Night Ritual: "          + current.ni,
+    "Hobbies: "               + current.hb,
+    "Shoes: "                 + current.sh,
+    "Outfit: "                + current.ou,
+    "",
+    "-- SOCIAL PRESENCE --",
+    "Reputation: "                         + current.re,
+    "Interpersonal Vibe: "                 + current.vi,
+    "Romantic Style: "                     + current.rm,
+    "Who They Allow Into Their Space: "    + current.al,
+    "Social Class / Wealth / Background: " + current.sc,
+    "Job Role: "                           + current.rl,
+    "Clique Affiliation: "                 + current.cq,
+    "",
+    "-- META --",
+    "Character Role: "  + current.cr,
+    "Medieval Role: "   + current.mr,
+    "Color Palette: "   + current.pn,
+    "Moral Alignment: " + current.ag,
+    "Fatal Flaw: "      + current.ff,
+    "Core Virtue: "     + current.vt,
+    "",
+    "Generated by the Dark Suitor Grimoire"
+  ];
+
+  var text = lines.join("\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(flashMsg, function() { legacyCopy(text); });
+  } else {
+    legacyCopy(text);
+  }
+}
+
+function legacyCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '-9999px';
+  ta.style.left = '-9999px';
+  ta.setAttribute('readonly', '');
+  document.body.appendChild(ta);
+  ta.select();
+  try { ta.setSelectionRange(0, ta.value.length); } catch(e) {}
+  try {
+    document.execCommand('copy');
+    flashMsg();
+  } catch(e) {
+    alert('Copy failed. Please select the text manually.');
+  }
+  document.body.removeChild(ta);
+}
+
+function flashMsg() {
+  var msg = document.getElementById('copy-msg');
+  if (!msg) { return; }
+  msg.className = 'copy-msg show';
+  setTimeout(function() { msg.className = 'copy-msg'; }, 4000);
+}
+</script>
+</body>
+</html>
