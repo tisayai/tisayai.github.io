@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Character Card V2 Editor</title>
+<title>AI Character V2 Designer</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -102,7 +102,7 @@
 
   .space-y > * + * { margin-top: 12px; }
 
-  /* Writer-friendly large textareas */
+  /* textareas */
   textarea.writer {
     min-height: 220px;
     line-height: 1.85;
@@ -234,7 +234,7 @@
   ::-webkit-scrollbar-thumb { background: #5A4B37; border-radius: 2px; }
   ::-webkit-scrollbar-thumb:hover { background: #8B7355; }
 
-  /* ── KO-FI FLOATING BUTTON ── */
+  /* ── BUTTON ── */
   .kofi-fab {
     position: fixed;
     bottom: 24px;
@@ -330,15 +330,15 @@
 
   <!-- HEADER -->
   <header style="text-align:center; padding:24px 16px 16px;">
-    <h1>✦ Character Card V2 Editor</h1>
-    <p style="color:#8B7355; font-size:11px; margin:4px 0 0 0;">SillyTavern &amp; Chub.ai · Spec v2.0 · All data stored locally in your browser</p>
+    <h1>✦ AI V2 Character Editor</h1>
+    <p style="color:#8B7355; font-size:11px; margin:4px 0 0 0;">AIRP Tavern &amp; AI CHAT· malfoylastname Spec v2.0 · All data stored locally in your browser</p>
   </header>
 
   <!-- NAV -->
   <nav>
     <button class="tab-btn active" data-tab="editor">✏️ Editor</button>
     <button class="tab-btn" data-tab="book">📖 Character Book</button>
-    <button class="tab-btn" data-tab="trade">📦 Trade</button>
+    <button class="tab-btn" data-tab="trade">📦 Files</button>
     <button class="tab-btn" data-tab="history">📚 History</button>
     <button class="tab-btn" data-tab="about">ℹ️ Info</button>
   </nav>
