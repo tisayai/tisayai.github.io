@@ -1,1 +1,1621 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Card V2 Editor</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    font-family: 'IM Fell DW Pica', serif;
+    background: #2B2B2B;
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.3) 2px, rgba(0,0,0,.3) 4px),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.3) 2px, rgba(0,0,0,.3) 4px);
+    color: #D6C7A1;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .glass-card {
+    max-width: 780px;
+    padding: 20px;
+    margin: 0 auto 20px auto;
+    border: 3px solid #5A4B37;
+    border-radius: 6px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,0,0,0.7);
+    background: rgba(20,15,10,0.85);
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  h1 { font-family: 'IM Fell DW Pica', serif; font-size: 28px; letter-spacing: 1px; color: #D6C7A1; text-shadow: 2px 2px 4px #000; margin: 0 0 4px 0; }
+  h2 { font-family: 'IM Fell DW Pica', serif; font-size: 18px; color: #D6C7A1; text-shadow: 2px 2px 4px #000; margin: 0 0 14px 0; border-bottom: 2px solid #5A4B37; padding-bottom: 8px; }
+  h3 { font-family: 'IM Fell DW Pica', serif; font-size: 14px; color: #D6C7A1; text-shadow: 1px 1px 3px #000; margin: 0 0 8px 0; }
+
+  nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px; padding: 0 16px; }
+
+  .tab-btn {
+    padding: 10px 16px; border-radius: 4px; transition: all 0.3s ease;
+    background: rgba(20,15,10,0.6); border: 2px solid #5A4B37;
+    color: #D6C7A1; cursor: pointer; font-size: 12px;
+    font-family: 'IM Fell DW Pica', serif; text-shadow: 1px 1px 3px #000;
+  }
+  .tab-btn:hover { background: rgba(20,15,10,0.9); border-color: #8B7355; }
+  .tab-btn.active { background: rgba(90,75,55,0.6); border-color: #D6C7A1; box-shadow: inset 0 0 8px rgba(0,0,0,0.8); }
+
+  .input-field {
+    background: rgba(20,15,10,0.9); border: 2px solid #5A4B37; border-radius: 4px;
+    padding: 9px 12px; color: #D6C7A1; width: 100%; transition: all 0.3s ease;
+    font-family: 'IM Fell DW Pica', serif; font-size: 12px; text-shadow: 1px 1px 2px #000; outline: none;
+  }
+  .input-field:focus { border-color: #8B7355; box-shadow: inset 0 0 8px rgba(139,115,85,0.3), 0 0 8px rgba(139,115,85,0.2); }
+  .input-field::placeholder { color: rgba(214,199,161,0.35); }
+  textarea.input-field { resize: vertical; }
+  select.input-field { cursor: pointer; }
+  select.input-field option { background: #1a1208; color: #D6C7A1; }
+
+  .btn-primary {
+    background: rgba(90,75,55,0.7); padding: 10px 16px; border-radius: 4px;
+    transition: all 0.3s ease; border: 2px solid #5A4B37; color: #D6C7A1; cursor: pointer;
+    font-size: 12px; font-family: 'IM Fell DW Pica', serif; text-shadow: 1px 1px 2px #000;
+  }
+  .btn-primary:hover { background: rgba(90,75,55,0.95); border-color: #8B7355; box-shadow: inset 0 0 8px rgba(0,0,0,0.6); }
+
+  .btn-secondary {
+    background: rgba(20,15,10,0.6); padding: 10px 16px; border-radius: 4px;
+    transition: all 0.3s ease; border: 2px solid #5A4B37; color: #D6C7A1; cursor: pointer;
+    font-size: 12px; font-family: 'IM Fell DW Pica', serif; text-shadow: 1px 1px 2px #000;
+  }
+  .btn-secondary:hover { background: rgba(20,15,10,0.9); border-color: #8B7355; }
+
+  .btn-danger {
+    background: rgba(20,15,10,0.6); border: 2px solid #A85A5A; padding: 8px 12px;
+    border-radius: 4px; color: #C9A961; cursor: pointer; transition: all 0.3s ease;
+    font-size: 11px; font-family: 'IM Fell DW Pica', serif; text-shadow: 1px 1px 2px #000;
+  }
+  .btn-danger:hover { background: rgba(168,90,90,0.3); border-color: #C9A961; }
+
+  .btn-sm {
+    padding: 6px 10px; font-size: 10px; border: 1px solid #5A4B37; border-radius: 3px;
+    cursor: pointer; transition: all 0.2s ease; font-family: 'IM Fell DW Pica', serif; text-shadow: 1px 1px 2px #000;
+  }
+  .btn-sm.primary { background: rgba(90,75,55,0.7); color: #D6C7A1; }
+  .btn-sm.primary:hover { background: rgba(90,75,55,0.95); border-color: #8B7355; }
+  .btn-sm.danger { background: rgba(20,15,10,0.6); color: #C9A961; border-color: #A85A5A; }
+  .btn-sm.danger:hover { background: rgba(168,90,90,0.3); border-color: #C9A961; }
+
+  .field-label { display: block; font-size: 12px; color: #D6C7A1; margin-bottom: 4px; }
+  .field-label-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .field-with-counter { display: flex; flex-direction: column; gap: 2px; }
+
+  .token-counter { font-size: 10px; color: #8B7355; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+  .token-counter.warning { color: #C9A961; }
+  .token-counter.high { color: #A85A5A; }
+
+  .space-y > * + * { margin-top: 12px; }
+
+  /* Writer-friendly large textareas */
+  textarea.writer {
+    min-height: 220px;
+    line-height: 1.85;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    padding: 14px 16px;
+  }
+  textarea.writer-md {
+    min-height: 140px;
+    line-height: 1.85;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    padding: 14px 16px;
+  }
+  .writer-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #8B7355;
+  }
+
+  /* Portrait */
+  .portrait-wrap {
+    position: relative;
+    width: 160px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 8px rgba(201,169,97,0.5))
+            drop-shadow(0 0 24px rgba(139,115,85,0.3))
+            drop-shadow(0 0 52px rgba(90,60,20,0.2));
+    transition: filter 0.4s ease;
+  }
+  .portrait-wrap:hover {
+    filter: drop-shadow(0 0 14px rgba(201,169,97,0.75))
+            drop-shadow(0 0 36px rgba(139,115,85,0.45))
+            drop-shadow(0 0 70px rgba(90,60,20,0.28));
+  }
+  .portrait-frame {
+    border: 2px solid #8B7355;
+    border-radius: 6px;
+    background: rgba(20,15,10,0.9);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    aspect-ratio: 3/4;
+    width: 160px;
+    overflow: hidden; position: relative; cursor: pointer;
+    transition: border-color 0.3s;
+    box-shadow: inset 0 0 24px rgba(0,0,0,0.7);
+  }
+  .portrait-frame:hover { border-color: #C9A961; }
+  .portrait-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .portrait-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #8B7355; font-size: 11px; text-align: center; padding: 16px; gap: 8px; }
+  .portrait-controls { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(20,15,10,0.95); border-top: 1px solid #5A4B37; padding: 6px; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
+
+  /* Chip input */
+  .chip-wrap {
+    min-height: 38px; background: rgba(20,15,10,0.9); border: 2px solid #5A4B37; border-radius: 4px;
+    padding: 4px 8px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; cursor: text; transition: all 0.3s;
+  }
+  .chip-wrap:focus-within { border-color: #8B7355; box-shadow: inset 0 0 8px rgba(139,115,85,0.2); }
+  .chip { display: inline-flex; align-items: center; gap: 4px; background: rgba(90,75,55,0.5); border: 1px solid #8B7355; color: #D6C7A1; border-radius: 3px; padding: 1px 6px; font-size: 11px; }
+  .chip-x { cursor: pointer; opacity: 0.7; font-size: 12px; line-height: 1; }
+  .chip-x:hover { opacity: 1; color: #C9A961; }
+  .chip-input { flex: 1; min-width: 80px; background: transparent; border: none; outline: none; color: #D6C7A1; font-family: 'IM Fell DW Pica', serif; font-size: 12px; padding: 2px 4px; }
+  .chip-input::placeholder { color: rgba(214,199,161,0.35); }
+
+  /* Toggle */
+  .toggle-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; color: #D6C7A1; user-select: none; }
+  .toggle { position: relative; display: inline-flex; width: 38px; height: 21px; flex-shrink: 0; }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle-track { width: 38px; height: 21px; background: #3a2e22; border: 1px solid #5A4B37; border-radius: 11px; transition: background 0.2s; position: relative; }
+  .toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 15px; height: 15px; border-radius: 50%; background: #8B7355; transition: transform 0.2s; }
+  .toggle input:checked ~ .toggle-track { background: rgba(90,75,55,0.8); border-color: #8B7355; }
+  .toggle input:checked ~ .toggle-track::after { transform: translateX(17px); background: #D6C7A1; }
+
+  /* Book entry collapsible */
+  .book-entry { background: rgba(20,15,10,0.6); border: 2px solid #5A4B37; border-radius: 4px; margin-bottom: 8px; transition: border-color 0.2s; }
+  .book-entry:hover { border-color: #6b5a44; }
+  .book-entry.drag-over { border-color: #C9A961; }
+  .book-entry-head { display: flex; align-items: center; gap: 8px; padding: 10px 12px; cursor: pointer; background: rgba(20,15,10,0.3); border-radius: 2px; }
+  .book-entry-head:hover { background: rgba(90,75,55,0.2); }
+  .book-entry-title { flex: 1; font-size: 13px; color: #D6C7A1; }
+  .book-entry-title.muted { color: #8B7355; font-style: italic; }
+  .book-entry-chevron { color: #8B7355; font-size: 11px; transition: transform 0.2s; flex-shrink: 0; }
+  .book-entry.open .book-entry-chevron { transform: rotate(180deg); }
+  .book-entry-body { display: none; padding: 12px; border-top: 1px solid #5A4B37; }
+  .book-entry.open .book-entry-body { display: block; }
+
+  /* Lorebook list */
+  .lorebook-item { background: rgba(20,15,10,0.6); border: 2px solid #5A4B37; border-radius: 4px; padding: 12px; margin-bottom: 8px; transition: all 0.3s; cursor: pointer; }
+  .lorebook-item:hover { border-color: #8B7355; background: rgba(20,15,10,0.9); }
+  .lorebook-item.selected { border-color: #8B7355; background: rgba(90,75,55,0.35); box-shadow: inset 0 0 8px rgba(0,0,0,0.5); }
+
+  /* History */
+  .history-item { background: rgba(20,15,10,0.6); border: 2px solid #5A4B37; border-radius: 4px; padding: 12px; margin-bottom: 10px; transition: all 0.3s; }
+  .history-item:hover { border-color: #8B7355; background: rgba(20,15,10,0.9); }
+
+  .portrait-thumb { aspect-ratio: 3/4; border: 2px solid #5A4B37; border-radius: 4px; overflow: hidden; background: rgba(0,0,0,0.5); flex-shrink: 0; width: 80px; }
+  .portrait-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait-thumb-empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #8B7355; font-size: 9px; }
+
+  .json-preview {
+    background: rgba(20,15,10,0.9); border: 2px solid #5A4B37; border-radius: 4px;
+    padding: 12px; overflow-y: auto; max-height: 220px; font-size: 10px; color: #D6C7A1;
+    white-space: pre-wrap; font-family: 'JetBrains Mono', monospace;
+    scrollbar-width: thin; scrollbar-color: #5A4B37 #2B2B2B;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .toast {
+    position: fixed; bottom: 88px; right: 20px; padding: 12px 20px; border-radius: 4px;
+    border: 2px solid #5A4B37; background: rgba(90,75,55,0.95); color: #D6C7A1; font-size: 12px;
+    transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 1000;
+    text-shadow: 1px 1px 2px #000; font-family: 'IM Fell DW Pica', serif;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { border-color: #A85A5A; background: rgba(168,90,90,0.85); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .divider { border: none; border-top: 2px solid #5A4B37; margin: 14px 0; }
+  .info-box { border: 2px solid #5A4B37; border-radius: 4px; padding: 12px; background: rgba(90,75,55,0.2); font-size: 11px; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #2B2B2B; }
+  ::-webkit-scrollbar-thumb { background: #5A4B37; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #8B7355; }
+
+  /* ── KO-FI FLOATING BUTTON ── */
+  .kofi-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(20,15,10,0.92);
+    border: 2px solid #8B7355;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    text-decoration: none;
+    font-size: 22px;
+    box-shadow: 0 0 12px rgba(201,169,97,0.35), 0 0 28px rgba(201,169,97,0.15), 0 4px 16px rgba(0,0,0,0.7);
+    animation: kofiPulse 3s ease-in-out infinite;
+    transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+  }
+  .kofi-fab:hover {
+    border-color: #C9A961;
+    box-shadow: 0 0 18px rgba(201,169,97,0.6), 0 0 40px rgba(201,169,97,0.25), 0 4px 16px rgba(0,0,0,0.8);
+    transform: scale(1.08);
+    animation: none;
+  }
+  .kofi-fab .kofi-tooltip {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(20,15,10,0.95);
+    border: 1px solid #5A4B37;
+    color: #D6C7A1;
+    font-family: 'IM Fell DW Pica', serif;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    text-shadow: 1px 1px 2px #000;
+  }
+  .kofi-fab:hover .kofi-tooltip { opacity: 1; }
+  @keyframes kofiPulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(201,169,97,0.3), 0 0 22px rgba(201,169,97,0.1), 0 4px 14px rgba(0,0,0,0.7); }
+    50%       { box-shadow: 0 0 18px rgba(201,169,97,0.55), 0 0 36px rgba(201,169,97,0.2), 0 4px 14px rgba(0,0,0,0.7); }
+  }
+
+  /* ── RESPONSIVE ── */
+  /* Tablet: up to 900px */
+  @media (max-width: 900px) {
+    .glass-card { margin-left: 12px; margin-right: 12px; }
+    nav { gap: 6px; padding: 0 12px; }
+    .tab-btn { padding: 9px 13px; font-size: 11px; }
+  }
+
+  /* Mobile: up to 600px */
+  @media (max-width: 600px) {
+    body { font-size: 13px; }
+    h1 { font-size: 20px; }
+    h2 { font-size: 16px; }
+    nav { gap: 5px; padding: 0 8px; }
+    .tab-btn { padding: 8px 10px; font-size: 11px; flex: 1 1 auto; text-align: center; }
+    .glass-card { padding: 14px; margin-left: 8px; margin-right: 8px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .portrait-wrap { width: 110px; } .portrait-frame { width: 110px; }
+    /* Portrait panel stacks below on tiny screens */
+    .portrait-identity-flex { flex-direction: column; }
+    .portrait-identity-flex .portrait-side { align-self: center; }
+    textarea.writer { min-height: 160px; font-size: 13px; }
+    textarea.writer-md { min-height: 110px; font-size: 13px; }
+    .book-entry-head { padding: 9px 10px; gap: 6px; }
+    .kofi-fab { bottom: 16px; right: 16px; width: 46px; height: 46px; font-size: 20px; }
+    .history-grid { grid-template-columns: 60px 1fr !important; }
+    .btn-primary, .btn-secondary { padding: 10px 12px; font-size: 12px; }
+    /* Touch-friendly tap targets */
+    .tab-btn, .btn-primary, .btn-secondary, .btn-danger { min-height: 44px; }
+    .btn-sm { min-height: 36px; padding: 6px 10px; }
+  }
+
+  /* Very small screens */
+  @media (max-width: 380px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .tab-btn { font-size: 10px; padding: 7px 8px; }
+  }
+</style>
+</head>
+<body>
+<div style="min-height:100%; padding-bottom:48px;">
+
+  <!-- HEADER -->
+  <header style="text-align:center; padding:24px 16px 16px;">
+    <h1>✦ Character Card V2 Editor</h1>
+    <p style="color:#8B7355; font-size:11px; margin:4px 0 0 0;">SillyTavern &amp; Chub.ai · Spec v2.0 · All data stored locally in your browser</p>
+  </header>
+
+  <!-- NAV -->
+  <nav>
+    <button class="tab-btn active" data-tab="editor">✏️ Editor</button>
+    <button class="tab-btn" data-tab="book">📖 Character Book</button>
+    <button class="tab-btn" data-tab="trade">📦 Trade</button>
+    <button class="tab-btn" data-tab="history">📚 History</button>
+    <button class="tab-btn" data-tab="about">ℹ️ Info</button>
+  </nav>
+
+  <!-- ══════════════ EDITOR ══════════════ -->
+  <section id="editor" class="section active">
+
+    <!-- Portrait + Identity -->
+    <div class="glass-card">
+      <h2>✦ Portrait &amp; Identity</h2>
+      <div class="portrait-identity-flex" style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+        <div class="portrait-side">
+          <div class="portrait-wrap">
+            <div class="portrait-frame" id="portrait-frame" title="Click or drag to upload image">
+              <div class="portrait-placeholder" id="portrait-placeholder"><div style="font-size:26px">📷</div><div>Click or drag<br>to upload</div></div>
+              <img id="portrait-image" class="portrait-image" style="display:none">
+              <div class="portrait-controls" id="portrait-controls" style="display:none">
+                <button class="btn-sm primary" id="btn-change-image">Change</button>
+                <button class="btn-sm danger" id="btn-remove-image">Remove</button>
+              </div>
+            </div>
+          </div>
+          <input type="file" id="portrait-file-input" accept="image/*" style="display:none">
+        </div>
+        <div style="flex:1; min-width:180px;" class="space-y">
+          <div class="field-with-counter">
+            <div class="field-label-row">
+              <label class="field-label">Name *</label>
+              <span class="token-counter" id="counter-name">0 tok</span>
+            </div>
+            <input type="text" id="char-name" class="input-field" placeholder="Character name…">
+          </div>
+          <div class="grid-2">
+            <div>
+              <label class="field-label">Creator</label>
+              <input type="text" id="char-creator" class="input-field" placeholder="Your handle…">
+            </div>
+            <div>
+              <label class="field-label">Version</label>
+              <input type="text" id="char-version" class="input-field" placeholder="1.0">
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Tags</label>
+            <div class="chip-wrap" id="tags-wrap" onclick="document.getElementById('tags-input').focus()">
+              <input class="chip-input" id="tags-input" placeholder="tag, Enter to add…" onkeydown="handleTagKey(event)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Character Data -->
+    <div class="glass-card">
+      <h2>✦ Character Data</h2>
+      <div class="space-y">
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">Description</label>
+            <span class="token-counter" id="counter-description">0 tok</span>
+          </div>
+          <textarea id="char-description" class="input-field writer" placeholder="Write your character's description here — appearance, personality, history, mannerisms, speech patterns… There is no length limit."></textarea>
+          <div class="writer-footer">
+            <span id="wc-description">0 words</span>
+          </div>
+        </div>
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">Scenario</label>
+            <span class="token-counter" id="counter-scenario">0 tok</span>
+          </div>
+          <textarea id="char-scenario" class="input-field" style="height:80px" placeholder="The situation or world context…"></textarea>
+        </div>
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">First Message</label>
+            <span class="token-counter" id="counter-first-message">0 tok</span>
+          </div>
+          <textarea id="char-first-message" class="input-field writer-md" placeholder="The character's opening message to the user…"></textarea>
+          <div class="writer-footer">
+            <span id="wc-first-message">0 words</span>
+          </div>
+        </div>
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">Example Messages</label>
+            <span class="token-counter" id="counter-mes-example">0 tok</span>
+          </div>
+          <textarea id="char-mes-example" class="input-field" style="height:90px" placeholder="&lt;START&gt;&#10;{{user}}: Hello!&#10;{{char}}: Hi there…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alternate Greetings -->
+    <div class="glass-card">
+      <h2>✦ Alternate Greetings</h2>
+      <div id="greetings-list" class="space-y"></div>
+      <button class="btn-secondary" style="width:100%; margin-top:10px" onclick="addGreeting()">+ Add Alternate Greeting</button>
+    </div>
+
+    <!-- Advanced -->
+    <div class="glass-card">
+      <h2>✦ Advanced</h2>
+      <div class="space-y">
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">System Prompt <span style="color:#8B7355; font-size:10px">(overrides client default if supported)</span></label>
+            <span class="token-counter" id="counter-system-prompt">0 tok</span>
+          </div>
+          <textarea id="char-system-prompt" class="input-field" style="height:80px" placeholder="System prompt override (optional)…"></textarea>
+        </div>
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">Post-History Instructions</label>
+            <span class="token-counter" id="counter-post-history">0 tok</span>
+          </div>
+          <textarea id="char-post-history" class="input-field" style="height:80px" placeholder="Injected after chat history…"></textarea>
+        </div>
+        <div class="field-with-counter">
+          <div class="field-label-row">
+            <label class="field-label">Creator Notes <span style="color:#8B7355; font-size:10px">(visible to users in the frontend)</span></label>
+            <span class="token-counter" id="counter-creator-notes">0 tok</span>
+          </div>
+          <textarea id="char-creator-notes" class="input-field" style="height:60px" placeholder="Usage tips, recommended settings, credits…"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="glass-card">
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="btn-save" class="btn-primary" style="flex:1">💾 Save to History</button>
+        <button id="btn-new" class="btn-secondary">✦ New Card</button>
+        <button id="btn-clear" class="btn-danger">🗑 Clear</button>
+      </div>
+    </div>
+
+    <!-- JSON Preview -->
+    <div class="glass-card">
+      <h2>✦ JSON Preview</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+        <span style="font-size:10px; padding:3px 8px; border:1px solid #5A4B37; border-radius:3px; color:#8B7355">spec: chara_card_v2 · 2.0</span>
+        <span id="total-tokens" class="token-counter" style="font-size:10px; padding:3px 8px; border:1px solid #5A4B37; border-radius:3px;">Total: 0 tok</span>
+      </div>
+      <pre id="json-preview" class="json-preview"></pre>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ CHARACTER BOOK ══════════════ -->
+  <section id="book" class="section">
+
+    <div class="glass-card">
+      <h2>✦ Character Book</h2>
+      <div class="space-y">
+        <label class="toggle-label">
+          <label class="toggle">
+            <input type="checkbox" id="book-enabled" onchange="onBookToggle()">
+            <div class="toggle-track"></div>
+          </label>
+          Enable Embedded Character Book
+          <span style="color:#8B7355; font-size:10px">(V2 spec: character_book directly under data{})</span>
+        </label>
+
+        <div id="book-settings" style="display:none" class="space-y">
+          <hr class="divider" style="margin:8px 0">
+          <div class="grid-2">
+            <div>
+              <label class="field-label">Book Name</label>
+              <input type="text" id="book-name" class="input-field" placeholder="My Character Lore…" oninput="scheduleAutoSave();updatePreview()">
+            </div>
+            <div>
+              <label class="field-label">Book Description</label>
+              <input type="text" id="book-description" class="input-field" placeholder="Optional…" oninput="scheduleAutoSave()">
+            </div>
+          </div>
+          <div class="grid-3">
+            <div>
+              <label class="field-label">Scan Depth</label>
+              <input type="number" id="book-scan-depth" class="input-field" value="4" min="1" max="100" oninput="scheduleAutoSave()">
+            </div>
+            <div>
+              <label class="field-label">Token Budget</label>
+              <input type="number" id="book-token-budget" class="input-field" value="800" min="0" oninput="scheduleAutoSave()">
+            </div>
+            <div style="display:flex; align-items:flex-end; padding-bottom:4px">
+              <label class="toggle-label">
+                <label class="toggle">
+                  <input type="checkbox" id="book-recursive" onchange="scheduleAutoSave()">
+                  <div class="toggle-track"></div>
+                </label>
+                Recursive Scan
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card" id="book-entries-card" style="display:none">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+        <h2 style="margin:0; border:none; padding:0">✦ Entries</h2>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="token-counter mono" style="border:1px solid #5A4B37; padding:3px 8px; border-radius:3px">Book: <span id="book-token-count">0</span> tok</span>
+          <span class="token-counter mono" style="border:1px solid #5A4B37; padding:3px 8px; border-radius:3px">Entries: <span id="book-entry-count">0</span></span>
+        </div>
+      </div>
+      <div id="book-entries-list"></div>
+      <button class="btn-secondary" style="width:100%; margin-top:8px" onclick="addBookEntry()">+ Add Entry</button>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ TRADE ══════════════ -->
+  <section id="trade" class="section">
+
+    <div class="glass-card">
+      <h2>✦ Import</h2>
+      <div class="space-y">
+        <div>
+          <label class="field-label">Paste JSON</label>
+          <textarea id="import-json" class="input-field mono" style="height:90px; font-size:10px" placeholder="Paste V2 or SillyTavern JSON here…"></textarea>
+        </div>
+        <button id="btn-import-json" class="btn-primary" style="width:100%">Import from JSON text</button>
+        <hr class="divider">
+        <div>
+          <label class="field-label" style="margin-bottom:6px; display:block">Upload File (.json or .png card)</label>
+          <input type="file" id="file-input" accept=".json,.png" style="display:none">
+          <button id="btn-upload" class="btn-secondary" style="width:100%">📁 Upload JSON or PNG Card</button>
+        </div>
+        <p id="import-status" style="font-size:10px; color:#8B7355; text-align:center; margin:0"></p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <h2>✦ Export</h2>
+      <div class="space-y">
+        <div>
+          <label class="field-label">Filename</label>
+          <input type="text" id="export-filename" class="input-field" placeholder="character">
+        </div>
+        <button id="btn-export-v2" class="btn-primary" style="width:100%">⬇ Export Char V2 JSON</button>
+        <button id="btn-export-png" class="btn-secondary" style="width:100%">⬇ Export PNG Card (embedded V2 data)</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ HISTORY ══════════════ -->
+  <section id="history" class="section">
+    <div class="glass-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+        <h2 style="margin:0; border:none; padding:0">✦ Saved Characters</h2>
+        <button id="btn-clear-history" class="btn-danger" style="font-size:11px">Clear All</button>
+      </div>
+      <div id="history-list"></div>
+      <p id="history-empty" style="text-align:center; color:#8B7355; padding:24px; font-size:11px">No saved characters yet</p>
+    </div>
+  </section>
+
+  <!-- ══════════════ ABOUT ══════════════ -->
+  <section id="about" class="section">
+    <div class="glass-card">
+      <h2>ℭ About</h2>
+      <div style="color:#D6C7A1; line-height:1.9; font-size:12px" class="space-y">
+        <p>A complete editor for creating and managing AI character cards in the <strong>V2 spec</strong>, with integrated Character Book (world info). Fully local — nothing is uploaded to any server.</p>
+        <div class="info-box" style="margin-top:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+          <div style="font-size:20px">☕</div>
+          <div style="flex:1; min-width:160px">
+            <div style="font-size:13px; margin-bottom:4px"><strong>Made by tisayai.com</strong></div>
+            <div style="font-size:11px; color:#8B7355; line-height:1.7">
+              <a href="https://links.tisayai.com" target="_blank" rel="noopener" style="color:#C9A961; text-decoration:none;">links.tisayai.com</a>
+              &nbsp;·&nbsp;
+              <a href="https://ko-fi.com/tisay" target="_blank" rel="noopener" style="color:#C9A961; text-decoration:none;">ko-fi.com/tisay</a>
+            </div>
+          </div>
+          <a href="https://ko-fi.com/tisay" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none; font-size:11px; padding:8px 14px; white-space:nowrap">☕ Support on Ko-fi</a>
+        </div>
+        <div class="info-box">🔒 <strong>Privacy:</strong> All data lives in your browser's localStorage. You have complete control over your characters and their data.</div>
+        <h3 style="margin-top:14px">Supported Formats</h3>
+        <ul style="list-style:none; padding:0; font-size:11px">
+          <li>• <strong>Char V2 JSON</strong> — spec_version 2.0, character_book under data{}, Chub.ai / SillyTavern standard</li>
+          <li>• <strong>PNG Cards</strong> — tEXt "chara" chunk with base64 V2 JSON, read &amp; write</li>
+          <li>• <strong>SillyTavern JSON</strong> — imported automatically and converted to V2</li>
+        </ul>
+        <h3 style="margin-top:14px">Character Book (V2 Spec)</h3>
+        <ul style="list-style:none; padding:0; font-size:11px">
+          <li>• Entries with keywords, secondary keywords, content, priority, insertion order</li>
+          <li>• Per-entry flags: Enabled, Constant, Selective, Case Sensitive</li>
+          <li>• Position: before_char / after_char · Drag-to-reorder</li>
+          <li>• Live token budget display per entry and book total</li>
+        </ul>
+        <h3 style="margin-top:14px">Tips</h3>
+        <ul style="list-style:none; padding:0; font-size:11px">
+          <li>💡 Upload a portrait — it embeds in the PNG export so others see it when they import</li>
+          <li>💡 Drag a PNG card anywhere on the page to import it</li>
+          <li>💡 Token counters turn gold >1500, red >2000 tokens — keep fields lean</li>
+          <li>💡 The editor auto-saves every 2 seconds — your work is safe even if you close the tab</li>
+          <li>💡 Alternate Greetings let you provide multiple opening messages for variety</li>
+          <li>💡 Post-History Instructions are great for directing how the AI handles past context</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// GLOBALS
+// ════════════════════════════════════════
+const $ = id => document.getElementById(id);
+let portraitImage = null;
+let currentTags = [];
+let alternateGreetings = [];
+let bookEntries = [];
+let entryIdCounter = 0;
+let dragSrcIdx = null;
+let autoSaveTimer = null;
+
+// ════════════════════════════════════════
+// WORD / TOKEN COUNTERS
+// ════════════════════════════════════════
+function countWords(text) {
+  if (!text || !text.trim()) return 0;
+  return text.trim().split(/\s+/).length;
+}
+function updateWordCount(elId, text) {
+  const el = document.getElementById(elId);
+  if (el) el.textContent = countWords(text) + ' words';
+}
+function estimateTokens(text) { return text ? Math.ceil(text.length / 4) : 0; }
+
+function updateTokenCounter(fieldId, counterId) {
+  const f = $(fieldId), c = $(counterId);
+  if (!f || !c) return;
+  const t = estimateTokens(f.value);
+  c.textContent = t + ' tok';
+  c.className = 'token-counter' + (t > 2000 ? ' high' : t > 1500 ? ' warning' : '');
+  updateTotalTokens();
+}
+
+function updateTotalTokens() {
+  const ids = ['char-description','char-scenario','char-first-message','char-mes-example','char-system-prompt','char-post-history','char-creator-notes'];
+  let total = ids.reduce((s, id) => s + estimateTokens($(id) ? $(id).value : ''), 0);
+  total += alternateGreetings.reduce((s, g) => s + estimateTokens(g), 0);
+  if ($('book-enabled').checked) total += bookEntries.reduce((s, e) => s + estimateTokens(e.content), 0);
+  const el = $('total-tokens');
+  if (el) { el.textContent = 'Total: ' + total + ' tok'; el.className = 'token-counter' + (total > 4000 ? ' high' : total > 3000 ? ' warning' : ''); }
+  const bt = bookEntries.reduce((s, e) => s + estimateTokens(e.content), 0);
+  if ($('book-token-count')) $('book-token-count').textContent = bt;
+  if ($('book-entry-count')) $('book-entry-count').textContent = bookEntries.length;
+}
+
+function updateAllCounters() {
+  [['char-name','counter-name'],['char-description','counter-description'],['char-scenario','counter-scenario'],
+   ['char-first-message','counter-first-message'],['char-mes-example','counter-mes-example'],
+   ['char-system-prompt','counter-system-prompt'],['char-post-history','counter-post-history'],
+   ['char-creator-notes','counter-creator-notes']
+  ].forEach(([f, c]) => updateTokenCounter(f, c));
+}
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ════════════════════════════════════════
+// TABS
+// ════════════════════════════════════════
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    $(btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'history') renderHistory();
+  });
+});
+
+// ════════════════════════════════════════
+// PORTRAIT
+// ════════════════════════════════════════
+function displayPortrait(dataUrl) {
+  portraitImage = dataUrl;
+  $('portrait-image').src = dataUrl;
+  $('portrait-image').style.display = 'block';
+  $('portrait-placeholder').style.display = 'none';
+  $('portrait-controls').style.display = 'flex';
+}
+function clearPortrait() {
+  portraitImage = null;
+  $('portrait-image').src = ''; $('portrait-image').style.display = 'none';
+  $('portrait-placeholder').style.display = 'flex'; $('portrait-controls').style.display = 'none';
+}
+function compressImage(dataUrl, callback) {
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    let w = img.width, h = img.height;
+    if (w > 512) { h = Math.round(h * 512 / w); w = 512; }
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+    let q = 0.82, r = canvas.toDataURL('image/jpeg', q);
+    while (r.length > 500000 && q > 0.1) { q -= 0.1; r = canvas.toDataURL('image/jpeg', q); }
+    callback(r);
+  };
+  img.src = dataUrl;
+}
+
+$('portrait-frame').addEventListener('click', () => $('portrait-file-input').click());
+$('portrait-frame').addEventListener('dragover', e => { e.preventDefault(); $('portrait-frame').style.opacity = '0.7'; });
+$('portrait-frame').addEventListener('dragleave', () => $('portrait-frame').style.opacity = '1');
+$('portrait-frame').addEventListener('drop', e => {
+  e.preventDefault(); $('portrait-frame').style.opacity = '1';
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) {
+    const r = new FileReader();
+    r.onload = () => compressImage(r.result, d => { displayPortrait(d); scheduleAutoSave(); showToast('Portrait uploaded'); });
+    r.readAsDataURL(f);
+  }
+});
+$('portrait-file-input').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) { const r = new FileReader(); r.onload = () => compressImage(r.result, d => { displayPortrait(d); scheduleAutoSave(); showToast('Portrait uploaded'); }); r.readAsDataURL(f); }
+  e.target.value = '';
+});
+$('btn-change-image').addEventListener('click', e => { e.stopPropagation(); $('portrait-file-input').click(); });
+$('btn-remove-image').addEventListener('click', e => { e.stopPropagation(); clearPortrait(); scheduleAutoSave(); showToast('Portrait removed'); });
+
+// ════════════════════════════════════════
+// TAGS CHIP INPUT
+// ════════════════════════════════════════
+function handleTagKey(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = e.target.value.trim().replace(/,$/, '');
+    if (val && !currentTags.includes(val)) { currentTags.push(val); renderTags(); scheduleAutoSave(); updatePreview(); }
+    e.target.value = '';
+  } else if (e.key === 'Backspace' && e.target.value === '' && currentTags.length) {
+    currentTags.pop(); renderTags(); scheduleAutoSave(); updatePreview();
+  }
+}
+function removeTag(i) { currentTags.splice(i, 1); renderTags(); scheduleAutoSave(); updatePreview(); }
+function renderTags() {
+  const wrap = $('tags-wrap'), input = $('tags-input');
+  // Remove only chip elements, not the input
+  Array.from(wrap.querySelectorAll('.chip')).forEach(c => c.remove());
+  currentTags.forEach((tag, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.idx = i;
+    chip.appendChild(document.createTextNode(tag));
+    const x = document.createElement('span');
+    x.className = 'chip-x';
+    x.textContent = '\u00d7';
+    x.dataset.idx = i;
+    chip.appendChild(x);
+    wrap.insertBefore(chip, input);
+  });
+}
+// Delegated removal — single listener, never re-registered
+$('tags-wrap').addEventListener('click', e => {
+  if (e.target.classList.contains('chip-x')) {
+    const i = parseInt(e.target.dataset.idx, 10);
+    if (!isNaN(i)) removeTag(i);
+  }
+});
+
+// ════════════════════════════════════════
+// ALTERNATE GREETINGS
+// ════════════════════════════════════════
+function addGreeting(value = '') {
+  alternateGreetings.push(value);
+  renderGreetings();
+}
+function removeGreeting(i) {
+  alternateGreetings.splice(i, 1);
+  renderGreetings(); updateTotalTokens(); updatePreview(); scheduleAutoSave();
+}
+function renderGreetings() {
+  const list = $('greetings-list'); list.innerHTML = '';
+  if (alternateGreetings.length === 0) {
+    list.innerHTML = '<p style="color:#8B7355; font-size:11px; text-align:center; padding:6px 0">No alternate greetings yet.</p>';
+    return;
+  }
+  alternateGreetings.forEach((g, i) => {
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex; gap:6px; align-items:flex-start;';
+    div.innerHTML = `<div style="flex:1; display:flex; flex-direction:column; gap:3px"><textarea class="input-field writer-md" placeholder="Alternate greeting ${i+1} — write it as the character's opening…" oninput="alternateGreetings[${i}]=this.value;updateTotalTokens();updatePreview();scheduleAutoSave();updateWordCount('wg-${i}',this.value)">${escH(g)}</textarea><div class="writer-footer"><span id="wg-${i}">${countWords(g)} words</span></div></div><button class="btn-sm danger" onclick="removeGreeting(${i})" title="Remove" style="margin-top:4px">✕</button>`;
+    list.appendChild(div);
+  });
+}
+
+// ════════════════════════════════════════
+// CHARACTER BOOK
+// ════════════════════════════════════════
+function onBookToggle() {
+  const enabled = $('book-enabled').checked;
+  $('book-settings').style.display = enabled ? 'block' : 'none';
+  $('book-entries-card').style.display = enabled ? 'block' : 'none';
+  updatePreview();
+}
+
+function createEntry() {
+  return { id: ++entryIdCounter, name:'', keys:[], secondary_keys:[], content:'', comment:'', enabled:true, insertion_order:100, priority:10, case_sensitive:false, selective:false, constant:false, position:'before_char' };
+}
+
+function addBookEntry() {
+  bookEntries.push(createEntry()); renderBookEntries(); updateTotalTokens(); updatePreview(); scheduleAutoSave();
+  // Open the newest entry
+  setTimeout(() => { const all = document.querySelectorAll('.book-entry'); if (all.length) all[all.length-1].classList.add('open'); }, 50);
+}
+
+function removeBookEntry(id) {
+  bookEntries = bookEntries.filter(e => e.id !== id); renderBookEntries(); updateTotalTokens(); updatePreview(); scheduleAutoSave();
+}
+
+function setEntryField(id, field, value) {
+  const e = bookEntries.find(e => e.id === id);
+  if (!e) return;
+  e[field] = value;
+  if (field === 'content' || field === 'name') updateEntryHeader(id);
+  updateTotalTokens();
+  updatePreview();
+  scheduleAutoSave();
+}
+
+function updateEntryHeader(id) {
+  const el = document.querySelector(`.book-entry[data-eid="${id}"]`);
+  if (!el) return;
+  const e = bookEntries.find(e => e.id === id);
+  if (!e) return;
+  const nameDisplay = e.name || (e.keys.length ? e.keys[0] : '');
+  const titleEl = el.querySelector('.book-entry-title');
+  if (titleEl) {
+    titleEl.textContent = nameDisplay || 'Untitled Entry';
+    titleEl.className = 'book-entry-title' + (nameDisplay ? '' : ' muted');
+  }
+  const metaEl = el.querySelector('.book-entry-meta');
+  if (metaEl) metaEl.textContent = `#${e.insertion_order} · ${estimateTokens(e.content)} tok`;
+  const tokEl = el.querySelector('.entry-tok-counter');
+  if (tokEl) tokEl.textContent = estimateTokens(e.content) + ' tok';
+}
+
+function refreshChipWrap(wrap, field, id) {
+  const entry = bookEntries.find(e => e.id === id);
+  if (!entry) return;
+  Array.from(wrap.querySelectorAll('.chip')).forEach(c => c.remove());
+  const input = wrap.querySelector('.chip-input');
+  entry[field].forEach((kw, ki) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.field = field;
+    chip.dataset.id = id;
+    chip.dataset.ki = ki;
+    chip.appendChild(document.createTextNode(kw));
+    const x = document.createElement('span');
+    x.className = 'chip-x';
+    x.textContent = '×';
+    chip.appendChild(x);
+    wrap.insertBefore(chip, input);
+  });
+}
+
+function toggleBookEntry(id) {
+  const el = document.querySelector(`.book-entry[data-eid="${id}"]`);
+  if (el) el.classList.toggle('open');
+}
+
+function buildEntryDom(entry, idx) {
+  const div = document.createElement('div');
+  div.className = 'book-entry';
+  div.dataset.eid = entry.id;
+  div.draggable = true;
+
+  const nameDisplay = entry.name || (entry.keys.length ? entry.keys[0] : '');
+  const tokCount = estimateTokens(entry.content);
+
+  // Header
+  const head = document.createElement('div');
+  head.className = 'book-entry-head';
+
+  const dragHandle = document.createElement('span');
+  dragHandle.style.cssText = 'color:#8B7355;cursor:grab;font-size:14px;flex-shrink:0';
+  dragHandle.textContent = '\u2bc0';
+  head.appendChild(dragHandle);
+
+  const titleSpan = document.createElement('span');
+  titleSpan.className = 'book-entry-title' + (nameDisplay ? '' : ' muted');
+  titleSpan.textContent = nameDisplay || 'Untitled Entry';
+  head.appendChild(titleSpan);
+
+  const metaSpan = document.createElement('span');
+  metaSpan.className = 'book-entry-meta mono';
+  metaSpan.style.cssText = 'font-size:10px;color:#8B7355;margin-right:6px;white-space:nowrap';
+  metaSpan.textContent = `#${entry.insertion_order} \u00b7 ${tokCount} tok`;
+  head.appendChild(metaSpan);
+
+  const enabledToggle = document.createElement('label');
+  enabledToggle.className = 'toggle';
+  enabledToggle.style.margin = '0';
+  enabledToggle.title = 'Enabled';
+  const enabledCb = document.createElement('input');
+  enabledCb.type = 'checkbox';
+  enabledCb.checked = entry.enabled;
+  enabledCb.addEventListener('change', function() { setEntryField(entry.id, 'enabled', this.checked); });
+  const enabledTrack = document.createElement('div');
+  enabledTrack.className = 'toggle-track';
+  enabledToggle.appendChild(enabledCb);
+  enabledToggle.appendChild(enabledTrack);
+  enabledToggle.addEventListener('click', e => e.stopPropagation());
+  head.appendChild(enabledToggle);
+
+  const delBtn = document.createElement('button');
+  delBtn.className = 'btn-sm danger';
+  delBtn.style.cssText = 'margin-left:4px;padding:4px 8px;flex-shrink:0';
+  delBtn.textContent = '\u2715';
+  delBtn.title = 'Delete entry';
+  delBtn.addEventListener('click', e => { e.stopPropagation(); removeBookEntry(entry.id); });
+  head.appendChild(delBtn);
+
+  const chev = document.createElement('span');
+  chev.className = 'book-entry-chevron';
+  chev.textContent = '\u25be';
+  head.appendChild(chev);
+
+  head.addEventListener('click', () => div.classList.toggle('open'));
+  div.appendChild(head);
+
+  // Body
+  const body = document.createElement('div');
+  body.className = 'book-entry-body';
+  const inner = document.createElement('div');
+  inner.className = 'space-y';
+
+  // Entry Name
+  const nameRow = document.createElement('div');
+  nameRow.innerHTML = '<label class="field-label">Entry Name <span style="color:#8B7355;font-size:10px">(label only, not injected)</span></label>';
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text'; nameInput.className = 'input-field';
+  nameInput.value = entry.name;
+  nameInput.placeholder = 'Optional label for this entry…';
+  nameInput.addEventListener('input', function() { setEntryField(entry.id, 'name', this.value); });
+  nameRow.appendChild(nameInput);
+  inner.appendChild(nameRow);
+
+  // Keys
+  function makeChipWrap(field, placeholder) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chip-wrap';
+    const inp = document.createElement('input');
+    inp.className = 'chip-input';
+    inp.placeholder = placeholder;
+    wrap.appendChild(inp);
+    wrap.addEventListener('click', e => {
+      if (e.target.classList.contains('chip-x')) {
+        const chip = e.target.closest('.chip');
+        if (!chip) return;
+        const ki = parseInt(chip.dataset.ki, 10);
+        const en = bookEntries.find(en => en.id === entry.id);
+        if (en && !isNaN(ki)) {
+          en[field].splice(ki, 1);
+          refreshChipWrap(wrap, field, entry.id);
+          if (field === 'keys') updateEntryHeader(entry.id);
+          updatePreview(); scheduleAutoSave();
+        }
+      } else {
+        inp.focus();
+      }
+    });
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ',') {
+        e.preventDefault();
+        const val = e.target.value.trim().replace(/,$/, '');
+        const en = bookEntries.find(en => en.id === entry.id);
+        if (val && en && !en[field].includes(val)) {
+          en[field].push(val); e.target.value = '';
+          refreshChipWrap(wrap, field, entry.id);
+          if (field === 'keys') updateEntryHeader(entry.id);
+          updatePreview(); scheduleAutoSave();
+        } else { e.target.value = ''; }
+      } else if (e.key === 'Backspace' && e.target.value === '') {
+        const en = bookEntries.find(en => en.id === entry.id);
+        if (en && en[field].length) {
+          en[field].pop();
+          refreshChipWrap(wrap, field, entry.id);
+          if (field === 'keys') updateEntryHeader(entry.id);
+          updatePreview(); scheduleAutoSave();
+        }
+      }
+    });
+    refreshChipWrap(wrap, field, entry.id);
+    return wrap;
+  }
+
+  const keysRow = document.createElement('div');
+  keysRow.innerHTML = '<label class="field-label">Keywords <span style="color:#8B7355;font-size:10px">(trigger this entry — required)</span></label>';
+  keysRow.appendChild(makeChipWrap('keys', 'keyword — press Enter or comma to add…'));
+  inner.appendChild(keysRow);
+
+  const secRow = document.createElement('div');
+  secRow.innerHTML = '<label class="field-label">Secondary Keywords <span style="color:#8B7355;font-size:10px">(AND match when Selective is on)</span></label>';
+  secRow.appendChild(makeChipWrap('secondary_keys', 'secondary keyword…'));
+  inner.appendChild(secRow);
+
+  // Content
+  const contentRow = document.createElement('div');
+  const contentLrow = document.createElement('div');
+  contentLrow.className = 'field-label-row';
+  contentLrow.innerHTML = '<label class="field-label">Content <span style="color:#8B7355;font-size:10px">(injected into AI context)</span></label>';
+  const tokSpan = document.createElement('span');
+  tokSpan.className = 'token-counter entry-tok-counter';
+  tokSpan.textContent = tokCount + ' tok';
+  contentLrow.appendChild(tokSpan);
+  const contentTA = document.createElement('textarea');
+  contentTA.className = 'input-field writer-md';
+  contentTA.value = entry.content;
+  contentTA.placeholder = 'The lore text to inject when keywords are matched…';
+  contentTA.addEventListener('input', function() { setEntryField(entry.id, 'content', this.value); });
+  contentRow.appendChild(contentLrow);
+  contentRow.appendChild(contentTA);
+  inner.appendChild(contentRow);
+
+  // Comment
+  const commentRow = document.createElement('div');
+  commentRow.innerHTML = '<label class="field-label">Comment <span style="color:#8B7355;font-size:10px">(private notes, not injected)</span></label>';
+  const commentInput = document.createElement('input');
+  commentInput.type = 'text'; commentInput.className = 'input-field';
+  commentInput.value = entry.comment;
+  commentInput.placeholder = 'Internal notes only…';
+  commentInput.addEventListener('input', function() { setEntryField(entry.id, 'comment', this.value); });
+  commentRow.appendChild(commentInput);
+  inner.appendChild(commentRow);
+
+  // Number grid
+  const numGrid = document.createElement('div');
+  numGrid.className = 'grid-3';
+
+  function numCol(label, el) {
+    const d = document.createElement('div');
+    d.innerHTML = `<label class="field-label">${label}</label>`;
+    d.appendChild(el); return d;
+  }
+
+  const orderInput = document.createElement('input');
+  orderInput.type = 'number'; orderInput.className = 'input-field';
+  orderInput.value = entry.insertion_order; orderInput.min = 0;
+  orderInput.addEventListener('input', function() {
+    const en = bookEntries.find(e => e.id === entry.id);
+    if (en) { en.insertion_order = parseInt(this.value)||0; updateEntryHeader(entry.id); updatePreview(); scheduleAutoSave(); }
+  });
+
+  const prioInput = document.createElement('input');
+  prioInput.type = 'number'; prioInput.className = 'input-field';
+  prioInput.value = entry.priority; prioInput.min = 0;
+  prioInput.addEventListener('input', function() {
+    const en = bookEntries.find(e => e.id === entry.id);
+    if (en) { en.priority = parseInt(this.value)||0; updatePreview(); scheduleAutoSave(); }
+  });
+
+  const posSelect = document.createElement('select');
+  posSelect.className = 'input-field';
+  ['before_char','after_char'].forEach(v => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v === 'before_char' ? 'Before Char' : 'After Char';
+    if (entry.position === v) o.selected = true;
+    posSelect.appendChild(o);
+  });
+  posSelect.addEventListener('change', function() { setEntryField(entry.id, 'position', this.value); });
+
+  numGrid.appendChild(numCol('Insertion Order', orderInput));
+  numGrid.appendChild(numCol('Priority', prioInput));
+  numGrid.appendChild(numCol('Position', posSelect));
+  inner.appendChild(numGrid);
+
+  // Toggle flags
+  const flagsRow = document.createElement('div');
+  flagsRow.style.cssText = 'display:flex;gap:20px;flex-wrap:wrap;padding-top:4px';
+
+  function makeFlag(label, checked, field) {
+    const lbl = document.createElement('label');
+    lbl.className = 'toggle-label';
+    const tgl = document.createElement('label');
+    tgl.className = 'toggle'; tgl.style.margin = '0';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = checked;
+    cb.addEventListener('change', function() { setEntryField(entry.id, field, this.checked); });
+    const track = document.createElement('div');
+    track.className = 'toggle-track';
+    tgl.appendChild(cb); tgl.appendChild(track);
+    lbl.appendChild(tgl);
+    lbl.appendChild(document.createTextNode('\u00a0' + label));
+    return lbl;
+  }
+  flagsRow.appendChild(makeFlag('Case Sensitive', entry.case_sensitive, 'case_sensitive'));
+  flagsRow.appendChild(makeFlag('Selective', entry.selective, 'selective'));
+  flagsRow.appendChild(makeFlag('Constant', entry.constant, 'constant'));
+  inner.appendChild(flagsRow);
+
+  body.appendChild(inner);
+  div.appendChild(body);
+
+  // Drag reorder
+  div.addEventListener('dragstart', e => { dragSrcIdx = idx; e.dataTransfer.effectAllowed = 'move'; });
+  div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
+  div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+  div.addEventListener('drop', e => {
+    e.preventDefault(); div.classList.remove('drag-over');
+    if (dragSrcIdx !== null && dragSrcIdx !== idx) {
+      const moved = bookEntries.splice(dragSrcIdx, 1)[0];
+      bookEntries.splice(idx, 0, moved);
+      renderBookEntries(); updatePreview(); scheduleAutoSave();
+    }
+  });
+
+  return div;
+}
+
+function renderBookEntries() {
+  const list = $('book-entries-list');
+  list.innerHTML = '';
+  if (bookEntries.length === 0) {
+    list.innerHTML = '<p style="color:#8B7355;font-size:11px;text-align:center;padding:16px 0">No entries yet. Click “+ Add Entry” to begin.</p>';
+    updateTotalTokens(); return;
+  }
+  bookEntries.forEach((entry, idx) => list.appendChild(buildEntryDom(entry, idx)));
+  updateTotalTokens();
+}
+
+
+// ════════════════════════════════════════
+// GET / SET CHAR DATA
+// ════════════════════════════════════════
+function getCharData() {
+  return {
+    name: $('char-name').value.trim(),
+    description: $('char-description').value.trim(),
+    scenario: $('char-scenario').value.trim(),
+    first_mes: $('char-first-message').value.trim(),
+    mes_example: $('char-mes-example').value.trim(),
+    system_prompt: $('char-system-prompt').value.trim(),
+    post_history_instructions: $('char-post-history').value.trim(),
+    creator_notes: $('char-creator-notes').value.trim(),
+    creator: $('char-creator').value.trim(),
+    character_version: $('char-version').value.trim() || '1.0',
+    tags: [...currentTags],
+    alternate_greetings: [...alternateGreetings],
+    portrait: portraitImage
+  };
+}
+
+function setCharData(data) {
+  $('char-name').value = data.name || data.char_name || '';
+  $('char-description').value = data.description || '';
+  $('char-scenario').value = data.scenario || '';
+  $('char-first-message').value = data.first_mes || data.first_message || '';
+  $('char-mes-example').value = data.mes_example || '';
+  $('char-system-prompt').value = data.system_prompt || '';
+  $('char-post-history').value = data.post_history_instructions || '';
+  $('char-creator-notes').value = data.creator_notes || '';
+  $('char-creator').value = data.creator || '';
+  $('char-version').value = data.character_version || data.version || '1.0';
+  if (Array.isArray(data.tags)) currentTags = [...data.tags];
+  else if (typeof data.tags === 'string') currentTags = data.tags.split(',').map(t=>t.trim()).filter(Boolean);
+  else currentTags = [];
+  renderTags();
+
+  alternateGreetings = Array.isArray(data.alternate_greetings) ? [...data.alternate_greetings] : [];
+  renderGreetings();
+
+  if (data.portrait) displayPortrait(data.portrait);
+  else clearPortrait();
+
+  // Character book
+  if (data.character_book) {
+    const b = data.character_book;
+    $('book-enabled').checked = true;
+    $('book-name').value = b.name || '';
+    $('book-description').value = b.description || '';
+    $('book-scan-depth').value = b.scan_depth ?? 4;
+    $('book-token-budget').value = b.token_budget ?? 800;
+    $('book-recursive').checked = !!b.recursive_scanning;
+    bookEntries = (b.entries || []).map(e => ({
+      id: ++entryIdCounter, name: e.name||'', keys: Array.isArray(e.keys)?e.keys:[],
+      secondary_keys: Array.isArray(e.secondary_keys)?e.secondary_keys:[],
+      content: e.content||'', comment: e.comment||'', enabled: e.enabled!==false,
+      insertion_order: e.insertion_order??100, priority: e.priority??10,
+      case_sensitive: !!e.case_sensitive, selective: !!e.selective,
+      constant: !!e.constant, position: e.position||'before_char'
+    }));
+  } else {
+    $('book-enabled').checked = false;
+    bookEntries = [];
+  }
+  onBookToggle();
+  renderBookEntries();
+}
+
+// ════════════════════════════════════════
+// BUILD V2 JSON
+// ════════════════════════════════════════
+function buildV2(data) {
+  const obj = {
+    spec: 'chara_card_v2', spec_version: '2.0',
+    data: {
+      name: data.name||'', description: data.description||'', personality: '',
+      scenario: data.scenario||'', first_mes: data.first_mes||'', mes_example: data.mes_example||'',
+      creator_notes: data.creator_notes||'', system_prompt: data.system_prompt||'',
+      post_history_instructions: data.post_history_instructions||'',
+      alternate_greetings: data.alternate_greetings||[], tags: data.tags||[],
+      creator: data.creator||'', character_version: data.character_version||'1.0',
+      extensions: { ...(data.portrait?{portrait:data.portrait}:{}) }
+    }
+  };
+  if ($('book-enabled').checked) {
+    obj.data.character_book = {
+      name: $('book-name').value, description: $('book-description').value,
+      scan_depth: parseInt($('book-scan-depth').value)||4,
+      token_budget: parseInt($('book-token-budget').value)||800,
+      recursive_scanning: $('book-recursive').checked, extensions: {},
+      entries: bookEntries.map((e, i) => ({
+        keys: e.keys, secondary_keys: e.secondary_keys, content: e.content,
+        enabled: e.enabled, insertion_order: e.insertion_order, case_sensitive: e.case_sensitive,
+        name: e.name, priority: e.priority, comment: e.comment, selective: e.selective,
+        constant: e.constant, position: e.position, extensions: {}, id: i
+      }))
+    };
+  }
+  return obj;
+}
+
+function updatePreview() {
+  const data = getCharData();
+  const v2 = buildV2(data);
+  const preview = JSON.parse(JSON.stringify(v2));
+  if (preview.data.extensions?.portrait) preview.data.extensions.portrait = '[base64 image — omitted from preview]';
+  $('json-preview').textContent = JSON.stringify(preview, null, 2);
+  updateAllCounters();
+  // Word counts for writer fields
+  updateWordCount('wc-description', data.description);
+  updateWordCount('wc-first-message', data.first_mes);
+}
+
+// ════════════════════════════════════════
+// SAVE / NEW / CLEAR
+// ════════════════════════════════════════
+$('btn-save').addEventListener('click', () => {
+  const data = getCharData();
+  if (!data.name) { showToast('Name is required!', true); return; }
+  const history = JSON.parse(localStorage.getItem('charHistory') || '[]');
+  history.unshift({ id: Date.now(), name: data.name, data: buildV2(data), portrait: portraitImage, savedAt: new Date().toISOString() });
+  localStorage.setItem('charHistory', JSON.stringify(history.slice(0, 50)));
+  showToast('Saved to history!');
+});
+
+$('btn-new').addEventListener('click', () => {
+  ['char-name','char-description','char-scenario','char-first-message','char-mes-example',
+   'char-system-prompt','char-post-history','char-creator-notes','char-creator'].forEach(id => { if($(id)) $(id).value=''; });
+  $('char-version').value = '1.0';
+  currentTags = []; renderTags(); alternateGreetings = []; renderGreetings();
+  bookEntries = []; $('book-enabled').checked = false; onBookToggle(); renderBookEntries();
+  clearPortrait(); updatePreview(); showToast('New card started');
+});
+
+$('btn-clear').addEventListener('click', () => { if (!confirm('Clear all fields?')) return; $('btn-new').click(); });
+
+// ════════════════════════════════════════
+// AUTO-SAVE
+// ════════════════════════════════════════
+function scheduleAutoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    try {
+      const data = getCharData();
+      localStorage.setItem('charEditorState', JSON.stringify({
+        ...data,
+        _bookMeta: {
+          enabled: $('book-enabled').checked,
+          name: $('book-name').value, description: $('book-description').value,
+          scan_depth: $('book-scan-depth').value, token_budget: $('book-token-budget').value,
+          recursive_scanning: $('book-recursive').checked
+        },
+        _bookEntries: bookEntries
+      }));
+    } catch(e) {}
+  }, 2000);
+}
+
+// Wire all text inputs for live preview + auto-save
+['char-name','char-description','char-scenario','char-first-message','char-mes-example',
+ 'char-system-prompt','char-post-history','char-creator-notes','char-creator','char-version'
+].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('input', () => { updatePreview(); scheduleAutoSave(); });
+});
+
+// ════════════════════════════════════════
+// PNG CHUNK UTILS
+// ════════════════════════════════════════
+function readU32(b, o) { return ((b[o]<<24)|(b[o+1]<<16)|(b[o+2]<<8)|b[o+3])>>>0; }
+function writeU32(b, o, v) { b[o]=(v>>>24)&0xff; b[o+1]=(v>>>16)&0xff; b[o+2]=(v>>>8)&0xff; b[o+3]=v&0xff; }
+const CRC_TABLE = (() => { const t=new Uint32Array(256); for(let i=0;i<256;i++){let n=i;for(let j=0;j<8;j++)n=(n&1)?(0xedb88320^(n>>>1)):(n>>>1);t[i]=n;} return t; })();
+function crc32(b) { let c=0xffffffff; for(let i=0;i<b.length;i++)c=CRC_TABLE[(c^b[i])&0xff]^(c>>>8); return (c^0xffffffff)>>>0; }
+
+function parsePNGChunks(buf) {
+  const ch=[]; let off=8;
+  while(off<buf.length-8){ const len=readU32(buf,off); const type=String.fromCharCode(buf[off+4],buf[off+5],buf[off+6],buf[off+7]); ch.push({type,data:buf.slice(off+8,off+8+len)}); off+=12+len; }
+  return ch;
+}
+function buildPNG(chunks) {
+  const sig=new Uint8Array([137,80,78,71,13,10,26,10]); let sz=8; for(const c of chunks)sz+=12+c.data.length;
+  const buf=new Uint8Array(sz); buf.set(sig,0); let off=8;
+  for(const c of chunks){
+    writeU32(buf,off,c.data.length); off+=4;
+    const tb=[c.type.charCodeAt(0),c.type.charCodeAt(1),c.type.charCodeAt(2),c.type.charCodeAt(3)];
+    buf.set(tb,off); off+=4; buf.set(c.data,off); off+=c.data.length;
+    const cd=new Uint8Array(4+c.data.length); cd.set(tb,0); cd.set(c.data,4);
+    writeU32(buf,off,crc32(cd)); off+=4;
+  }
+  return buf;
+}
+function makeTextChunk(kw, val) {
+  const k=new TextEncoder().encode(kw), v=new TextEncoder().encode(val);
+  const d=new Uint8Array(k.length+1+v.length); d.set(k,0); d[k.length]=0; d.set(v,k.length+1);
+  return {type:'tEXt',data:d};
+}
+function extractCharaFromPNG(buf) {
+  try {
+    for(const c of parsePNGChunks(buf)){
+      if(c.type==='tEXt'){ const s=new TextDecoder('latin1').decode(c.data); const nl=s.indexOf('\0');
+        if(nl!==-1 && s.slice(0,nl)==='chara') return JSON.parse(atob(s.slice(nl+1))); }
+    }
+  } catch(e){}
+  return null;
+}
+function injectCharaIntoPNG(pngBuf, jsonObj) {
+  const chunks=parsePNGChunks(pngBuf).filter(c=>{
+    if(c.type!=='tEXt') return true;
+    return !new TextDecoder('latin1').decode(c.data).startsWith('chara\0');
+  });
+  const b64=btoa(unescape(encodeURIComponent(JSON.stringify(jsonObj))));
+  const ihdr=chunks.findIndex(c=>c.type==='IHDR');
+  chunks.splice(ihdr+1,0,makeTextChunk('chara',b64));
+  return buildPNG(chunks);
+}
+function b64ToArr(b64) { const bin=atob(b64); const b=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i); return b; }
+
+// ════════════════════════════════════════
+// IMPORT / EXPORT
+// ════════════════════════════════════════
+function loadFromJSON(json) {
+  const isV2 = !!(json.spec_version || json.spec);
+  const data = isV2 ? json.data : json;
+  setCharData(data);
+  updateAllCounters();
+  updatePreview();
+  document.querySelector('[data-tab="editor"]').click();
+  showToast('Imported as ' + (isV2 ? 'Char V2' : 'SillyTavern'));
+  $('import-status').textContent = 'Format: ' + (isV2 ? 'Char V2' : 'SillyTavern');
+}
+
+function loadPNGFile(file) {
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const buf = b64ToArr(r.result.split(',')[1]);
+      const json = extractCharaFromPNG(buf);
+      if (json) {
+        loadFromJSON(json);
+        compressImage(r.result, d => displayPortrait(d));
+        showToast('PNG card imported!');
+      } else {
+        compressImage(r.result, d => { displayPortrait(d); scheduleAutoSave(); });
+        showToast('No chara data — portrait loaded');
+      }
+    } catch { showToast('Failed to read PNG!', true); }
+  };
+  r.readAsDataURL(file);
+}
+
+$('btn-import-json').addEventListener('click', () => {
+  try { loadFromJSON(JSON.parse($('import-json').value)); }
+  catch { showToast('Invalid JSON!', true); }
+});
+
+$('btn-upload').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', async e => {
+  const file = e.target.files[0]; if (!file) return;
+  if (file.name.endsWith('.json')) { try { loadFromJSON(JSON.parse(await file.text())); } catch { showToast('Invalid JSON!', true); } }
+  else if (file.name.endsWith('.png')) loadPNGFile(file);
+  e.target.value = '';
+});
+
+// Global drag-and-drop for PNG/JSON files
+document.body.addEventListener('dragover', e => e.preventDefault());
+document.body.addEventListener('drop', e => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0]; if (!file) return;
+  if (file.name.endsWith('.json')) { file.text().then(t => { try { loadFromJSON(JSON.parse(t)); } catch { showToast('Invalid JSON!', true); } }); }
+  else if (file.name.endsWith('.png')) loadPNGFile(file);
+});
+
+$('btn-export-v2').addEventListener('click', () => {
+  const data = getCharData();
+  const name = ($('export-filename').value.trim() || data.name || 'character').replace(/[^a-z0-9_-]/gi,'_');
+  const blob = new Blob([JSON.stringify(buildV2(data), null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download=name+'_v2.json'; a.click(); URL.revokeObjectURL(url);
+  showToast('Exported V2 JSON!');
+});
+
+$('btn-export-png').addEventListener('click', () => {
+  const data = getCharData();
+  const v2 = buildV2(data);
+  const name = ($('export-filename').value.trim() || data.name || 'character').replace(/[^a-z0-9_-]/gi,'_');
+  function doInject(pngBuf) {
+    const out = injectCharaIntoPNG(pngBuf, v2);
+    const blob = new Blob([out],{type:'image/png'}); const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=name+'.png'; a.click(); URL.revokeObjectURL(url);
+    showToast('PNG exported with embedded V2 data!');
+  }
+  if (portraitImage && portraitImage.startsWith('data:image/png')) {
+    doInject(b64ToArr(portraitImage.split(',')[1]));
+  } else if (portraitImage) {
+    const img=new Image(); img.onload=()=>{
+      const c=document.createElement('canvas'); c.width=img.width; c.height=img.height;
+      c.getContext('2d').drawImage(img,0,0);
+      c.toBlob(blob=>blob.arrayBuffer().then(ab=>doInject(new Uint8Array(ab))),'image/png');
+    }; img.src=portraitImage;
+  } else {
+    const c=document.createElement('canvas'); c.width=400; c.height=600;
+    const ctx=c.getContext('2d');
+    const g=ctx.createLinearGradient(0,0,400,600); g.addColorStop(0,'#2a1f0f'); g.addColorStop(1,'#0a0705');
+    ctx.fillStyle=g; ctx.fillRect(0,0,400,600);
+    ctx.fillStyle='#D6C7A1'; ctx.font='bold 28px serif'; ctx.textAlign='center';
+    ctx.fillText(data.name||'Character',200,270);
+    ctx.fillStyle='#8B7355'; ctx.font='14px serif'; ctx.fillText('Character Card V2',200,310);
+    c.toBlob(blob=>blob.arrayBuffer().then(ab=>doInject(new Uint8Array(ab))),'image/png');
+  }
+});
+
+// ════════════════════════════════════════
+// HISTORY
+// ════════════════════════════════════════
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('charHistory') || '[]');
+  const list = $('history-list'), empty = $('history-empty');
+  if (!history.length) { list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = history.map((entry,i) => `
+    <div class="history-item">
+      <div class="history-grid" style="display:grid; grid-template-columns:80px 1fr; gap:12px; align-items:start">
+        <div class="portrait-thumb">
+          ${entry.portrait?`<img src="${entry.portrait}">`:'<div class="portrait-thumb-empty">📷</div>'}
+        </div>
+        <div>
+          <h3 style="margin:0 0 2px 0; font-size:13px">${escH(entry.name)}</h3>
+          <p style="margin:0 0 8px 0; font-size:10px; color:#8B7355">${new Date(entry.savedAt).toLocaleString()}</p>
+          <div style="display:flex; gap:6px; flex-wrap:wrap">
+            <button class="btn-secondary" style="font-size:10px; padding:5px 10px" onclick="loadHistoryEntry(${i})">Load</button>
+            <button class="btn-secondary" style="font-size:10px; padding:5px 10px" onclick="exportHistoryEntryJSON(${i})">JSON</button>
+            <button class="btn-secondary" style="font-size:10px; padding:5px 10px" onclick="exportHistoryEntryPNG(${i})">PNG</button>
+            <button class="btn-danger" style="font-size:10px; padding:5px 10px" onclick="deleteHistoryEntry(${i})">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.loadHistoryEntry = i => {
+  const h = JSON.parse(localStorage.getItem('charHistory')||'[]'); const e=h[i];
+  if(e){ loadFromJSON(e.data); if(e.portrait) displayPortrait(e.portrait); showToast('Loaded!'); }
+};
+window.exportHistoryEntryJSON = i => {
+  const h = JSON.parse(localStorage.getItem('charHistory')||'[]'); const e=h[i];
+  if(!e) return;
+  const blob=new Blob([JSON.stringify(e.data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download=(e.name||'char').replace(/[^a-z0-9_-]/gi,'_')+'_v2.json'; a.click();
+  URL.revokeObjectURL(url); showToast('Exported JSON!');
+};
+
+window.exportHistoryEntryPNG = i => {
+  const h = JSON.parse(localStorage.getItem('charHistory')||'[]'); const e=h[i];
+  if(!e) return;
+  const v2 = e.data;
+  const portrait = e.portrait || null;
+  const name = (e.name||'char').replace(/[^a-z0-9_-]/gi,'_');
+
+  function doInject(pngBuf) {
+    try {
+      const out = injectCharaIntoPNG(pngBuf, v2);
+      const blob=new Blob([out],{type:'image/png'}); const url=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download=name+'.png'; a.click();
+      URL.revokeObjectURL(url); showToast('Exported PNG!');
+    } catch(err) { showToast('PNG export failed!', true); console.error(err); }
+  }
+
+  if (portrait && portrait.startsWith('data:image/png')) {
+    doInject(b64ToArr(portrait.split(',')[1]));
+  } else if (portrait) {
+    const img=new Image(); img.onload=()=>{
+      const c=document.createElement('canvas'); c.width=img.width; c.height=img.height;
+      c.getContext('2d').drawImage(img,0,0);
+      c.toBlob(blob=>blob.arrayBuffer().then(ab=>doInject(new Uint8Array(ab))),'image/png');
+    }; img.src=portrait;
+  } else {
+    // Generate placeholder card with character name
+    const c=document.createElement('canvas'); c.width=400; c.height=600;
+    const ctx=c.getContext('2d');
+    const g=ctx.createLinearGradient(0,0,400,600); g.addColorStop(0,'#2a1f0f'); g.addColorStop(1,'#0a0705');
+    ctx.fillStyle=g; ctx.fillRect(0,0,400,600);
+    ctx.fillStyle='#D6C7A1'; ctx.font='bold 28px serif'; ctx.textAlign='center';
+    ctx.fillText(e.name||'Character',200,270);
+    ctx.fillStyle='#8B7355'; ctx.font='14px serif'; ctx.fillText('Character Card V2',200,310);
+    c.toBlob(blob=>blob.arrayBuffer().then(ab=>doInject(new Uint8Array(ab))),'image/png');
+  }
+};
+window.deleteHistoryEntry = i => {
+  const h=JSON.parse(localStorage.getItem('charHistory')||'[]'); h.splice(i,1);
+  localStorage.setItem('charHistory',JSON.stringify(h)); renderHistory(); showToast('Deleted');
+};
+$('btn-clear-history').addEventListener('click', ()=>{
+  if(!confirm('Clear all saved characters?')) return;
+  localStorage.removeItem('charHistory'); renderHistory(); showToast('History cleared');
+});
+
+// ════════════════════════════════════════
+// UTIL
+// ════════════════════════════════════════
+function escH(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+(function init() {
+  try {
+    const saved = localStorage.getItem('charEditorState');
+    if (saved) {
+      const d = JSON.parse(saved);
+      setCharData(d);
+      if (d._bookMeta) {
+        $('book-enabled').checked = !!d._bookMeta.enabled;
+        $('book-name').value = d._bookMeta.name||'';
+        $('book-description').value = d._bookMeta.description||'';
+        $('book-scan-depth').value = d._bookMeta.scan_depth||4;
+        $('book-token-budget').value = d._bookMeta.token_budget||800;
+        $('book-recursive').checked = !!d._bookMeta.recursive_scanning;
+      }
+      if (Array.isArray(d._bookEntries)) {
+        bookEntries = d._bookEntries.map(e => ({...e, id: ++entryIdCounter}));
+      }
+      onBookToggle();
+      renderBookEntries();
+    }
+  } catch(e) {}
+  updateAllCounters();
+  updatePreview();
+})();
+</script>
+
+<!-- KO-FI FLOATING BUTTON -->
+<a class="kofi-fab" href="https://ko-fi.com/tisay" target="_blank" rel="noopener" title="Support on Ko-fi">
+  ☕
+  <span class="kofi-tooltip">Support on Ko-fi ♥</span>
+</a>
+
+</body>
+</html>
