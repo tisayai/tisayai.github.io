@@ -330,8 +330,8 @@
 
   <!-- HEADER -->
   <header style="text-align:center; padding:24px 16px 16px;">
-    <h1>✦ AI V2 Character Editor</h1>
-    <p style="color:#8B7355; font-size:11px; margin:4px 0 0 0;">AIRP Tavern &amp; AI CHAT· malfoylastname Spec v2.0 · All data stored locally in your browser</p>
+    <h1>✦ Design your AI Character</h1>
+    <p style="color:#8B7355; font-size:11px; margin:4px 0 0 0;">AIRP &amp; Tavern Chat · malfoylastname Spec v2.0 · All data stored locally in your browser</p>
   </header>
 
   <!-- NAV -->
@@ -393,7 +393,7 @@
 
     <!-- Character Data -->
     <div class="glass-card">
-      <h2>✦ Character Data</h2>
+      <h2>✦ Character Card</h2>
       <div class="space-y">
         <div class="field-with-counter">
           <div class="field-label-row">
@@ -561,7 +561,7 @@
       <div class="space-y">
         <div>
           <label class="field-label">Paste JSON</label>
-          <textarea id="import-json" class="input-field mono" style="height:90px; font-size:10px" placeholder="Paste V2 or SillyTavern JSON here…"></textarea>
+          <textarea id="import-json" class="input-field mono" style="height:90px; font-size:10px" placeholder="Paste RAW Char V2 JSON here…"></textarea>
         </div>
         <button id="btn-import-json" class="btn-primary" style="width:100%">Import from JSON text</button>
         <hr class="divider">
@@ -581,8 +581,8 @@
           <label class="field-label">Filename</label>
           <input type="text" id="export-filename" class="input-field" placeholder="character">
         </div>
-        <button id="btn-export-v2" class="btn-primary" style="width:100%">⬇ Export Char V2 JSON</button>
-        <button id="btn-export-png" class="btn-secondary" style="width:100%">⬇ Export PNG Card (embedded V2 data)</button>
+        <button id="btn-export-v2" class="btn-primary" style="width:100%">⬇ Export as JSON</button>
+        <button id="btn-export-png" class="btn-secondary" style="width:100%">⬇ Export as PNG (embedded V2)</button>
       </div>
     </div>
 
@@ -634,8 +634,8 @@
         </ul>
         <h3 style="margin-top:14px">Tips</h3>
         <ul style="list-style:none; padding:0; font-size:11px">
-          <li>💡 Upload a portrait — it embeds in the PNG export so others see it when they import</li>
-          <li>💡 Drag a PNG card anywhere on the page to import it</li>
+          <li>💡 Upload a portrait it exports as PNG so others see it easily for sharing.</li>
+          <li>💡 Drag a PNG card on the page to import it</li>
           <li>💡 Token counters turn gold >1500, red >2000 tokens — keep fields lean</li>
           <li>💡 The editor auto-saves every 2 seconds — your work is safe even if you close the tab</li>
           <li>💡 Alternate Greetings let you provide multiple opening messages for variety</li>
