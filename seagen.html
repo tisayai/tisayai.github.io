@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bikini Bottom Citizen Bureau</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Baloo+2:wght@400;600;700;800&display=swap');
+
+/* ── RESET & BASE ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --sun:     #FFD93D;
+  --coral:   #FF6B6B;
+  --teal:    #06D6A0;
+  --sky:     #4CC9F0;
+  --ink:     #1a1a2e;
+  --sand:    #FFF3B0;
+  --shell:   #FFDDD2;
+  --deep:    #0D3B66;
+  --bubble:  rgba(76,201,240,0.18);
+  --outline: 3px solid var(--ink);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Baloo 2', cursive;
+  background: var(--deep);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23FFD93D' stroke='%231a1a2e' stroke-width='2'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+/* ── OCEAN BACKGROUND ── */
+.ocean-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(6,214,160,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(76,201,240,0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #0D3B66 0%, #0a2f52 50%, #061d35 100%);
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute; bottom: 0; left: -10%; width: 120%;
+  height: 120px; opacity: 0.08;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z' fill='%2306D6A0'/%3E%3C/svg%3E") center/cover;
+  animation: waveflow 8s ease-in-out infinite;
+}
+.wave:nth-child(2) { bottom: 20px; animation-delay: -3s; animation-duration: 11s; opacity: 0.05; }
+.wave:nth-child(3) { bottom: 40px; animation-delay: -5s; animation-duration: 14s; opacity: 0.04; }
+@keyframes waveflow {
+  0%,100% { transform: translateX(0) scaleY(1); }
+  50%      { transform: translateX(-5%) scaleY(1.1); }
+}
+
+/* Floating bubbles */
+.bub {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.2);
+  animation: floatup linear infinite;
+}
+@keyframes floatup {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
+
+/* ── LAYOUT ── */
+.page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 28px 18px 80px; }
+
+/* ── HEADER ── */
+.site-header {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.bureau-stamp {
+  display: inline-block;
+  background: var(--sun);
+  border: var(--outline);
+  border-radius: 50%;
+  width: 90px; height: 90px;
+  line-height: 90px;
+  font-size: 3rem;
+  box-shadow: 4px 4px 0 var(--ink);
+  margin-bottom: 12px;
+  animation: spinbob 4s ease-in-out infinite;
+}
+@keyframes spinbob {
+  0%,100% { transform: rotate(-5deg) scale(1); }
+  50%      { transform: rotate(5deg) scale(1.05); }
+}
+
+.site-title {
+  font-family: 'Boogaloo', cursive;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  color: var(--sun);
+  line-height: 1;
+  text-shadow:
+    3px 3px 0 var(--ink),
+    6px 6px 0 rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+}
+
+.site-sub {
+  font-size: 1rem; color: var(--teal);
+  margin-top: 6px; font-weight: 600; letter-spacing: 0.5px;
+}
+
+.official-badge {
+  display: inline-block;
+  background: var(--coral);
+  color: #fff;
+  font-size: 0.7rem; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 20px;
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  margin-top: 8px;
+}
+
+/* ── GENERATE BUTTON ── */
+.btn-wrap { text-align: center; margin-bottom: 24px; }
+
+.btn-gen {
+  display: inline-block;
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.8rem;
+  color: var(--ink);
+  background: var(--sun);
+  border: var(--outline);
+  border-radius: 18px;
+  padding: 14px 40px;
+  cursor: pointer;
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform 0.12s, box-shadow 0.12s;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-gen::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+.btn-gen:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--ink); }
+.btn-gen:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--ink); }
+
+.comb-count {
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255,243,176,0.5);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ── LOADING ── */
+.loader {
+  display: none;
+  text-align: center;
+  padding: 48px 20px;
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.5rem;
+  color: var(--sun);
+}
+.loader-fish {
+  font-size: 2.8rem;
+  display: inline-block;
+  animation: swimfish 1s ease-in-out infinite alternate;
+}
+@keyframes swimfish {
+  from { transform: translateX(-20px) rotate(-5deg); }
+  to   { transform: translateX(20px) rotate(5deg); }
+}
+
+/* ── CARD ── */
+.card {
+  display: none;
+  background: var(--sand);
+  border: var(--outline);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 6px 6px 0 var(--ink);
+  animation: popin 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+@keyframes popin {
+  from { transform: scale(0.85) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Card banner */
+.card-banner {
+  background: var(--teal);
+  border-bottom: var(--outline);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.citizen-badge {
+  background: var(--sun);
+  border: var(--outline);
+  border-radius: 14px;
+  width: 70px; height: 70px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.6rem;
+  flex-shrink: 0;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.citizen-info { flex: 1; min-width: 200px; }
+
+.citizen-name {
+  font-family: 'Boogaloo', cursive;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: var(--ink);
+  line-height: 1;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.citizen-tagline {
+  font-size: 0.9rem; color: var(--deep);
+  font-style: italic; margin-top: 4px;
+  font-weight: 600;
+}
+
+.palette-dots {
+  display: flex; gap: 7px; align-items: center;
+  flex-wrap: wrap;
+}
+.pdot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  flex-shrink: 0;
+}
+
+/* ── SECTIONS ── */
+.sections { padding: 0; }
+
+.section {
+  border-bottom: 2px solid var(--ink);
+  padding: 18px 24px;
+}
+.section:last-child { border-bottom: none; }
+.section:nth-child(odd) { background: var(--sand); }
+.section:nth-child(even) { background: var(--shell); }
+
+.sec-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sec-icon {
+  background: var(--ink);
+  color: var(--sun);
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+.sec-title {
+  font-family: 'Boogaloo', cursive;
+  font-size: 1.25rem;
+  color: var(--deep);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.fields { display: grid; gap: 10px; }
+.fields.two-col { grid-template-columns: 1fr 1fr; }
+@media(max-width:560px) { .fields.two-col { grid-template-columns: 1fr; } }
+
+.field {
+  background: rgba(255,255,255,0.55);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.12);
+}
+
+.field-lbl {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--coral);
+  margin-bottom: 3px;
+}
+
+.field-val {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+/* Meta special row */
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media(max-width:480px) { .meta-row { grid-template-columns: 1fr; } }
+
+.meta-symbol {
+  background: var(--sun);
+  border: var(--outline);
+  border-radius: 12px;
+  padding: 12px 16px;
+  text-align: center;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.meta-symbol .sym-icon { font-size: 2rem; }
+.meta-symbol .sym-text { font-size: 0.82rem; font-weight: 700; margin-top: 4px; color: var(--ink); }
+
+.flaw-virtue {
+  display: grid; gap: 10px;
+}
+
+.flaw-pill {
+  background: var(--coral);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.flaw-pill .field-lbl { color: #fff; }
+.flaw-pill .field-val { color: #fff; font-size: 0.85rem; }
+
+.virtue-pill {
+  background: var(--teal);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.virtue-pill .field-lbl { color: var(--deep); }
+.virtue-pill .field-val { color: var(--deep); font-size: 0.85rem; }
+
+/* Footer */
+.card-footer {
+  background: var(--ink);
+  padding: 12px 24px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: rgba(255,243,176,0.4);
+  font-style: italic;
+}
+
+/* ── WATERMARK ── */
+.watermark { text-align:center; margin-top:28px; font-size:0.72rem; color:rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<!-- Ocean background -->
+<div class="ocean-bg" id="oceanBg">
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
+<div class="page">
+
+  <header class="site-header">
+    <div class="bureau-stamp">&#127829;</div>
+    <h1 class="site-title">Bikini Bottom<br>Citizen Bureau</h1>
+    <p class="site-sub">Official Resident Registration &amp; Character Dossier Office</p>
+    <span class="official-badge">&#128336; Est. Since The Ocean Had Time</span>
+  </header>
+
+  <div class="btn-wrap">
+    <button class="btn-gen" id="genBtn" onclick="generate()">
+      &#127932; Issue New Citizen Dossier
+    </button>
+    <div class="comb-count" id="combCount"></div>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="loader-fish">&#128032;</div>
+    <div id="loaderMsg" style="margin-top:12px;">Searching the ocean floor...</div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="card-banner">
+      <div class="citizen-badge" id="citizenIcon">&#128032;</div>
+      <div class="citizen-info">
+        <div class="citizen-name" id="citizenName">—</div>
+        <div class="citizen-tagline" id="citizenTagline">—</div>
+      </div>
+      <div class="palette-dots" id="paletteDots"></div>
+    </div>
+
+    <div class="sections" id="sections"></div>
+
+    <div class="card-footer">
+      Bikini Bottom Citizen Registry &middot; File #<span id="fileNum">00001</span> &middot; Not affiliated with Nickelodeon
+    </div>
+  </div>
+
+  <div class="watermark">Made with &#127754; for fans of the deep &mdash; upload freely to Neocities</div>
+</div>
+
+<script>
+// ══════════════════════════════════
+//  BUBBLE GENERATOR
+// ══════════════════════════════════
+(function(){
+  var bg=document.getElementById('oceanBg');
+  for(var i=0;i<22;i++){
+    var b=document.createElement('div');
+    b.className='bub';
+    var s=6+Math.random()*28;
+    b.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(Math.random()*100)+'%;bottom:'+(-s)+'px;animation-duration:'+(7+Math.random()*12)+'s;animation-delay:'+(Math.random()*15)+'s';
+    bg.appendChild(b);
+  }
+})();
+
+// ══════════════════════════════════
+//  DATA — species-matched names, SpongeBob-accurate physics
+// ══════════════════════════════════
+
+var CITIZENS = [
+
+  // ── SPONGES ──────────────────────────────────────────────────
+  {
+    icon:'&#129550;', gender:'male',
+    name:'Reginald Spongworth III',
+    tagline:'"Officially the squarest resident in Bikini Bottom."',
+    species:'Rectangular yellow sea sponge — 18 pores per side, naturally buoyant in still water, absorbs up to 40x body weight in liquids including self-pity',
+    job:'Understudy fry cook at the Krusty Krab — has memorized SpongeBob\'s entire spatula routine but has never been called upon; keeps a backup spatula in his sock',
+    trope:'The Eternal Backup — prepares obsessively for a moment that never arrives, radiates unstoppable optimism anyway',
+    mbti:'ISFJ | Type 6w7 — The Loyal Guardian; has a binder labeled CONTINGENCY PLANS; the binder is color-coded',
+    eyes:'Perfectly round, pale-blue, with a permanent wide-eyed expression that communicates "I am ready for whatever happens" even during nap time',
+    body:'Perfectly rectangular yellow sponge body with smooth corners worn soft from use; 18 visible round pores on front face; compresses to a thin wafer when sat upon and springs back with a cheerful squeak',
+    outfit:'Pressed white shirt, brown square pants with a single crease, white socks pulled to the knee, shoes buffed to reflect nearby patties',
+    house:'A slightly smaller pineapple two lots from SpongeBob\'s — same variety, different ripeness; Gary once visited and refused to leave for three days',
+    decor:'Interior smells of pine-apple and ambition; walls covered in motivational cross-stitch; one shelf holds 47 backup spatulas organized by grip width',
+    sigItem:'A laminated "Employee of the Month" certificate for a month that hasn\'t happened yet — he printed it in advance',
+    hobbies:'Practicing spatula flips into an empty pan, memorizing the Krusty Krab employee manual as a bedtime story, competitive sponge-ironing',
+    vices:'Agrees to everything before the sentence is finished; Soft spot: anyone who says his name correctly on the first try',
+    rep:'Considered "reliably present" by the town — nobody knows his name but recognizes his outline immediately',
+    friend:'The Understudy — shows up to every event fully prepared, takes no credit, hands out refreshments',
+    romantic:'Writes extremely thorough love letters that read like job applications — cover letter, references, five-year plan included',
+    symbol:'A backup spatula wrapped in tissue paper, never opened',
+    palette:['#FFE135','#FFFACD','#A8D8EA','#8BC34A'],
+    flaw:'Defines his worth entirely by his usefulness to others — has never once done something purely for himself',
+    virtue:'Reliability so perfect it functions as a local landmark — Bikini Bottom sets its clocks by his arrival'
+  },
+
+  {
+    icon:'&#129550;', gender:'female',
+    name:'Absorbella Porifera',
+    tagline:'"She cried at a seashell commercial. She\'d do it again."',
+    species:'Oval pink sea sponge — softer silhouette than most, holes arranged in a loose heart pattern, leaves faint damp patches on chairs which she has stopped apologizing for',
+    job:'Bikini Bottom Public Library head librarian — shushes with authority, has read everything, emotionally invested in the fiction section',
+    trope:'The Soft-Hearted Intellectual — encyclopedic knowledge delivered with a trembling lip',
+    mbti:'INFP | Type 4w5 — The Individualist; feels everything in surround sound; journals about it in purple ink',
+    eyes:'Large, liquid hazel, perpetually glistening — they reflect nearby light sources and nearby emotional situations equally',
+    body:'Rounded oval sponge body in dusty rose-pink; pores arranged in a loose heart pattern on the front; she absorbs ambient moisture which gives her a faint permanent bloom in humid weather',
+    outfit:'Long pastel cardigan over a floral blouse, reading glasses on a shell-bead chain, sensible flats that somehow squeak in libraries',
+    house:'A conch shell cottage — three stories spiraling upward, each floor narrower, the top floor accessible only by a ladder she has named Gerald',
+    decor:'Floor-to-ceiling bookshelves on all curved walls; one enormous reading chair with a dedicated lap blanket; smells of old paper and whatever she last cried about',
+    sigItem:'A first-edition copy of "The Ocean Floor: A History of Staying Put" — she\'s read it sixteen times; it still makes her emotional',
+    hobbies:'Competitive cataloguing, reading aloud to sea snails, writing stern anonymous notes to people who dog-ear pages',
+    vices:'Cries at well-structured arguments; Soft spot: anyone who returns a book on time',
+    rep:'"The one at the library" — half the town doesn\'t know she has a name; she is referred to as "the library lady" with universal affection',
+    friend:'The Resource — has read the book, knows the answer, was about to suggest you ask her anyway',
+    romantic:'Falls in love with people who use complete sentences and return things they borrow — has been disappointed twice',
+    symbol:'An open book with a dried kelp flower pressed between pages 42 and 43',
+    palette:['#FFB6C1','#DDA0DD','#F5DEB3','#8BC34A'],
+    flaw:'Processes the world entirely through literature — struggles when real life refuses to follow narrative structure',
+    virtue:'Empathy so vast and specific it can locate the exact emotional page you\'re on before you\'ve opened your mouth'
+  },
+
+  // ── STARFISH ─────────────────────────────────────────────────
+  {
+    icon:'&#11088;', gender:'female',
+    name:'Stella Echinodermia',
+    tagline:'"She arrived late to her own birthday. It was still the best party."',
+    species:'Bubblegum-pink sea star — five arms of unequal length (the left lower arm is noticeably longer; she uses it as a conversational pointer), velvety texture, photosensitive to sudden brightness',
+    job:'Professional jellyfisher — self-licensed, self-certified, extraordinarily gifted; her net technique has been described as "accidental ballet"',
+    trope:'The Gifted Sleepwalker — achieves remarkable things in a state of profound, cheerful cluelessness',
+    mbti:'ESFP | Type 9w8 — The Peaceful Performer; does everything at her own pace; the pace is somehow correct',
+    eyes:'Wide, round, warm-amber — the lights are on, someone is home, they are having a wonderful time in there',
+    body:'Broad, flat five-armed starfish form in bubblegum pink with a slightly velvet surface; the lower-left arm is visibly longer than the others; she regenerated it three years ago and it came back enthusiastic',
+    outfit:'A single enormous sun hat, a polka-dot swimsuit in coral and white, sandals she found and has never questioned',
+    house:'A large smooth river rock — two rooms, both used for sitting; the "kitchen" is wherever she last put something edible; has no alarm clock and does not require one',
+    decor:'One enormous nest of found objects — interesting rocks, a wheel, a spoon — arranged with unconscious artistry; the arrangement changes when she rolls over in her sleep',
+    sigItem:'A jellyfish net repaired so thoroughly with different-colored thread that it is now technically a patchwork quilt that also catches jellyfish',
+    hobbies:'Competitive cloud-naming (underwater version: bubble-shape naming), sleeping in interesting locations, inexplicably finding things people have lost',
+    vices:'Wanders mid-sentence; Soft spot: anyone who doesn\'t make her feel slow',
+    rep:'"That pink one who\'s surprisingly good at things" — Bikini Bottom respects results even when confused by process',
+    friend:'The Lucky Charm — doesn\'t plan anything but somehow every hangout she\'s at goes memorably well',
+    romantic:'Falls in love slowly and completely — by the time she realizes it she\'s been in love for six months and considers this efficient',
+    symbol:'A five-pointed chalk star drawn on the sidewalk — slightly lopsided, perfectly intentional',
+    palette:['#FF9EB5','#FFB6C1','#FFFACD','#87CEEB'],
+    flaw:'Mistake-prone in proportion to how unaware she is of the mistake — which is completely',
+    virtue:'Joy so unconditional and undirected that it functions like sunlight — improves everything it falls on'
+  },
+
+  {
+    icon:'&#11088;', gender:'male',
+    name:'Stanley Asteroidus',
+    tagline:'"He broke six things today and fixed seven. Net positive."',
+    species:'Mustard-yellow brittle star — thinner and more angular than a cushion star, five jointed arms that move independently and often in disagreement with each other',
+    job:'Bikini Bottom maintenance and repair — unofficial, self-appointed, surprisingly effective; carries a toolbelt that weighs more than he does',
+    trope:'The Cheerful Disaster Who Fixes Everything — causes minor problems while solving larger ones',
+    mbti:'ENTP | Type 7w6 — The Enthusiast-Debater; improvises solutions no one else would attempt; they work more often than not',
+    eyes:'Small, bright, acorn-brown, always scanning the nearest object for structural weakness or improvement opportunity',
+    body:'Thin, angular brittle-star frame in mustard yellow; five independently mobile jointed arms that regularly have minor disagreements about direction; has regenerated at least two of them from overuse',
+    outfit:'Denim overalls patched at both knees, a backwards cap, boots with actual boot-laces replaced by kelp twine',
+    house:'A converted anchor embedded in the seafloor — three levels, each accessible by a ladder he built himself; the second rung of the middle ladder is unreliable and he keeps forgetting to fix it',
+    decor:'Tools on every surface in a system that looks like chaos but produces the right wrench in twelve seconds; one photo on the wall: a boat engine he once fixed that he still describes as his proudest moment',
+    sigItem:'A multi-tool with 47 attachments, three of which he invented himself; the handle is held on with electrical tape and deep faith',
+    hobbies:'Taking apart things to see how they work, reassembling them mostly correctly, competitive kelp-knotting',
+    vices:'Fixes things nobody asked him to fix; Soft spot: anything broken that everyone else gave up on',
+    rep:'"The guy who shows up" — Bikini Bottom calls him for emergencies; he arrives before they finish the sentence',
+    friend:'The Fixer — does not ask if you want help; assesses the situation; begins helping; the help is usually welcome',
+    romantic:'Expresses affection by repairing things in the vicinity of his crush — her faucet, her fence, her wobbly chair; has never said a word about it',
+    symbol:'A wrench balanced on its open end — could fall either way; hasn\'t yet',
+    palette:['#FFD700','#CC8800','#8B4513','#87CEEB'],
+    flaw:'Believes every problem is a mechanical one — emotional situations get handed a metaphorical wrench',
+    virtue:'Follow-through so complete that "Stanley said he\'d fix it" has replaced "the warranty" as a local trust unit'
+  },
+
+  // ── OCTOPUSES ────────────────────────────────────────────────
+  {
+    icon:'&#129418;', gender:'male',
+    name:'Cephalon J. Maestro',
+    tagline:'"Unappreciated in his time. His time is every moment. He will tell you."',
+    species:'Steel-blue octopus — six tentacles (he maintains there are eight; two are "resting"), elongated dome head ideal for projecting audio, can change skin tone slightly when embarrassed but insists this is a trick of the light',
+    job:'Freelance clarinet soloist and reluctant Krusty Krab cashier — considers the cashier position his "day job" with the specific disdain of someone who has given the phrase "day job" its full meaning',
+    trope:'The Misunderstood Artist — technically correct that he has talent; socially incorrect about everything else',
+    mbti:'INTJ | Type 4w3 — The Aesthetic Architect; has a five-year art plan; it has never required revision in his opinion',
+    eyes:'Half-lidded, silvery-gray, perpetually projecting mild disdain at whatever is currently in front of them',
+    body:'Tall, elegant steel-blue octopus build with an elongated dome cranium he insists amplifies his musical genius; six visible tentacles that move expressively during performances and irritably during cashier shifts',
+    outfit:'A black turtleneck, a beret tilted at the mathematically correct angle for artistic credibility, tentacle extensions woven through the sleeves',
+    house:'An Easter Island head — appropriately monumental; the inside is painted gallery-white; there are exactly three pieces of art on the walls, all his own, all framed dramatically',
+    decor:'A single spotlight over the clarinet stand; everything else in the room exists in service to that light; his reading chair faces the stand as though in attendance',
+    sigItem:'His clarinet — a 1947 deep-sea kelp-wood model with mother-of-pearl keys he polishes nightly whether it needs it or not',
+    hobbies:'Clarinet practice (private), painting self-portraits (numerous), writing reviews of his own performances (glowing)',
+    vices:'Critiques everything including silence; Soft spot: any genuine, unprompted compliment about the clarinet',
+    rep:'"Squidward\'s cousin, probably" — Bikini Bottom has decided this without evidence; he is not Squidward\'s cousin; he is deeply offended',
+    friend:'The Critic — delivers precise, unsolicited assessments of everything; occasionally useful; mostly exhausting; oddly reliable in a crisis',
+    romantic:'Attracted exclusively to people who understand his art — the list is short; he has annotated it',
+    symbol:'A single clarinet reed, still in the wrapper — perfect potential, deliberately preserved',
+    palette:['#708090','#4682B4','#E0E0E0','#FFD700'],
+    flaw:'Confuses aesthetic sensitivity with emotional intelligence — they are not the same; he has not discovered this',
+    virtue:'Craftsmanship so painstaking and sincere that even his critics pause before they critique'
+  },
+
+  {
+    icon:'&#129418;', gender:'female',
+    name:'Octavia Chromatica',
+    tagline:'"She changes color when she lies. She has never successfully lied."',
+    species:'Rose-gold octopus — eight fully functional tentacles used simultaneously for eight different tasks; chromatophores respond to emotional state making poker faces physically impossible; dome head houses a memory described by locals as "unfair"',
+    job:'Bikini Bottom private investigator — unlicensed; solves things anyway; the police department has complex feelings',
+    trope:'The Compulsively Honest Detective — cannot deceive; compensates with relentless competence',
+    mbti:'ENTJ | Type 8w9 — The Commander-Observer; strategically dominant in all situations she has information about; she always has information',
+    eyes:'Sharp copper-gold, slightly asymmetric, scanning constantly — the right eye tracks facts, the left tracks people, she has never confirmed this theory but it is correct',
+    body:'Medium-build rose-gold octopus; eight tentacles all independently active at once; the chromatophores are completely involuntary and display mood in full colour — bright red for embarrassment, deep purple for suspicion, pale yellow for happiness',
+    outfit:'A trench coat with exactly ten pockets, each labeled internally; sensible shoes; one tentacle always holding a small notebook',
+    house:'A converted treasure chest — brass hardware polished to function as mirrors; one wall covered in a case board connected by red thread; the thread is colour-coded',
+    decor:'Organized by case number on one half, personal life on the other — the case half is immaculate; the personal half has one plant and a takeout box from last Tuesday',
+    sigItem:'A small magnifying glass on a wrist-strap — technically decorative since her eyes need no assistance; she wears it anyway for "establishing authority"',
+    hobbies:'Cold case review, competitive memory exercises, eavesdropping she describes as "passive investigation"',
+    vices:'Cannot stop noticing things; Soft spot: anyone who is clearly hiding something for kind reasons',
+    rep:'"Knows too much" — the general civic consensus; they still call her when something goes missing',
+    friend:'The One Who Figured It Out — has known what happened since Tuesday; letting events play out; ready to confirm when asked',
+    romantic:'Knows when someone has a crush on her approximately twelve days before they do; finds this more awkward than useful',
+    symbol:'A magnifying glass catching light — everything under examination eventually becomes clear',
+    palette:['#E8A0BF','#C47DBF','#FFD700','#2C3E50'],
+    flaw:'Knows so much that she occasionally forgets people need to reach conclusions themselves, at their own pace, through their own feelings',
+    virtue:'Integrity so total her involuntary honesty has paradoxically made her the most trusted voice in Bikini Bottom'
+  },
+
+  // ── CRABS ────────────────────────────────────────────────────
+  {
+    icon:'&#129408;', gender:'male',
+    name:'Cornelius Pinchworth',
+    tagline:'"He found a nickel last Tuesday. He hasn\'t stopped smiling."',
+    species:'Brick-red king crab — wide domed carapace, two primary claws used for emphasis and eating in that priority order, three smaller walking legs per side, eyestalks with independent movement for monitoring two conversations simultaneously',
+    job:'Owner and operator of a small general goods shop called "Pinchworth\'s Provisions" — prices are not negotiable; he has a laminated sign that says so; the sign cost more than his first day\'s revenue',
+    trope:'The Frugal Entrepreneur — every decision is a financial calculation including whether to laugh',
+    mbti:'ESTJ | Type 1w2 — The Organized Executive; has a ledger for the ledger; the meta-ledger is balanced',
+    eyes:'Small, bright, celadon-green on independent eyestalks — right stalk monitors customers, left stalk monitors the cash register, both capable of projecting profound suspicion',
+    body:'Wide, dome-shelled brick-red king crab; carapace spans impressively; two primary claws that click when calculating; six walking legs moving in perfect economic efficiency — no wasted motion, no unnecessary steps',
+    outfit:'A shopkeeper\'s apron with a pen holder containing exactly three pens (one for writing, one backup, one for show), reading spectacles on a chain, sensible rubber boots',
+    house:'A converted old boat hull embedded in the seafloor — structurally sound, rent-free since 1987; this is his proudest financial achievement, mentioned in every conversation',
+    decor:'Every surface holds either inventory or profit documentation; one framed photograph of his first earned coin; the coin is still in his possession, in a different frame, across the room',
+    sigItem:'A coin purse with a combination lock — contains three coins and his grandmother\'s recipe for kelp stew',
+    hobbies:'Price comparison research, competitive coupon organization, writing strongly-worded letters about receipts',
+    vices:'Cannot watch money change hands without tracking it; Soft spot: a good deal struck honestly',
+    rep:'"Drives a hard bargain but keeps his word" — the town respects this even while actively haggling against it',
+    friend:'The Reliable Vendor — brings exactly the right thing at a fair price and maintains the transaction was mutual',
+    romantic:'Has budgeted for romance but has not found a compatible return-on-investment arrangement; still looking',
+    symbol:'A balanced scale — equal weights on both sides; he checks daily',
+    palette:['#C1440E','#FF6B35','#FFD700','#F5DEB3'],
+    flaw:'Quantifies everything — has accidentally missed moments that had no dollar value and cannot calculate what he lost',
+    virtue:'Fairness so rigorous it has accidentally become a form of justice — he keeps his word to the penny and expects the same'
+  },
+
+  {
+    icon:'&#129408;', gender:'female',
+    name:'Clawdia Chelicerae',
+    tagline:'"Her crab claws are the fastest pair of knitting needles in Bikini Bottom."',
+    species:'Teal-blue fiddler crab — one primary oversized left claw (dominant, expressive, occasionally weaponized in arguments) and one smaller right claw used for delicate work; carapace has a naturally iridescent sheen that intensifies when proud',
+    job:'Bikini Bottom\'s premier textile artist and custom garment maker — "Clawdia\'s Carapace Couture"; wait list is six months; she pretends this distresses her',
+    trope:'The Artisan Perfectionist — believes anything worth making is worth making until it\'s right, then making slightly better',
+    mbti:'ISFP | Type 1w9 — The Gentle Architect; very clear internal standards; does not impose them; the work does it for her',
+    eyes:'Deep teal, medium-sized, set at a thoughtful angle — the expression permanently reads "I see exactly what you should be wearing"',
+    body:'Compact teal-blue fiddler crab; left claw is dramatically oversized and used for everything from textile work to punctuating arguments; carapace shimmers gently when she\'s proud of something, which is frequently',
+    outfit:'Whatever she\'s currently testing on herself — today\'s garment is tomorrow\'s client sample; has never worn the same thing twice in recorded Bikini Bottom history',
+    house:'A large sea-glass atelier — walls are fused sea-glass panels that cast the interior in jewel-toned light depending on the sun\'s position; the light determines her colour palette for the day',
+    decor:'Fabric samples on every surface; a dress form in the center of each room; a single large work table with seventeen ongoing projects in various states; the chaos is navigable only by her',
+    sigItem:'A set of custom oversized knitting needles made from polished whale bone — the left needle is specially fitted for her larger claw',
+    hobbies:'Competitive textile exhibition, foraging for natural dyes from coral and sea plants, redesigning garments she sees on strangers (in her head)',
+    vices:'Redesigns other people\'s outfits internally and sometimes externally; Soft spot: natural fiber and good light',
+    rep:'"The one with the waiting list" — Bikini Bottom residents consider being on her list a social status indicator',
+    friend:'The Discerning One — observes, assesses, offers one precise and useful opinion; does not repeat it',
+    romantic:'Attracted to people who appreciate the craft — has walked away from two relationships over unsolicited opinions about polyester',
+    symbol:'A spool of thread with the end trailing — begun, ongoing, not yet finished',
+    palette:['#008B8B','#40E0D0','#FFD700','#FFDDD2'],
+    flaw:'Applies her perfectionism to people — notices the unfinished edge in everyone and, occasionally, says so',
+    virtue:'Craft so patient and so excellent that even her rivals commission work from her under assumed names'
+  },
+
+  // ── SQUIRREL / LAND CREATURE ─────────────────────────────────
+  {
+    icon:'&#129437;', gender:'female',
+    name:'Pecan Sandy Nut-Helmsley',
+    tagline:'"She once out-scienced an entire university. She was not invited back. She considers this a compliment."',
+    species:'Russet-brown squirrel in a custom-fitted acorn-shaped glass dome helmet — tail used as a counterbalance during zero-current conditions; dome helmet equipped with an emergency air reserve and a small flag of Texas that deploys when she\'s proved right',
+    job:'Independent marine biologist and inventor at her personal treedome laboratory — not affiliated with Sandy Cheeks; they have a productive rivalry and a shared grant application from 2019 neither will discuss',
+    trope:'The Enthusiastic Scientist Who Has No Indoor Voice for Discoveries',
+    mbti:'ENTP | Type 7w8 — The Explosive Theorist; hypothesizes before breakfast, tests before lunch, publishes before dinner',
+    eyes:'Bright hazel with gold flecks, magnified slightly by her dome helmet glass, always focused on something three conceptual steps ahead of the current conversation',
+    body:'Athletic russet-brown squirrel build in a sealed glass dome helmet; tail is fully functional as a gyroscopic stabilizer in still water; the Texas flag on the helmet deploys automatically when she makes a correct prediction',
+    outfit:'A silver research jumpsuit with patch pockets on every available surface, magnetic boots for seafloor grip, dome helmet with internal HUD she built herself during a lunch break',
+    house:'A chrome-and-glass treedome dome — her tree is a post oak, non-negotiable; there\'s a second smaller dome attached for experiments that "got too big for the kitchen"',
+    decor:'Whiteboards covering three walls with active equations; a corkboard with 47 pinned theories in various states of proof; exactly one personal photograph: herself at age 8 with a telescope',
+    sigItem:'A hypothesis notebook with a waterproof cover — every page numbered, dated, cross-referenced; she is on Volume 12',
+    hobbies:'Inventing things, testing things she invented, writing papers about things she tested, arguing peer review',
+    vices:'Monologues about discoveries; Soft spot: a genuinely interesting question she hasn\'t considered',
+    rep:'"The science one" — distinct from Sandy Cheeks in ways she will specify in detail if you have a few hours',
+    friend:'The Explainer — brings data, diagrams, and a presentation; the presentation has slides',
+    romantic:'Has considered romance from a behavioral science perspective and filed a detailed internal report; the report\'s conclusion is "complicated"',
+    symbol:'An acorn split open — the inside is more complex than the outside suggested',
+    palette:['#8B4513','#D2691E','#C0C0C0','#87CEEB'],
+    flaw:'Intellectualizes everything — emotional situations get a hypothesis when they needed a hug',
+    virtue:'Curiosity so genuine and so powerful that it makes everyone around her more interested in the world'
+  },
+
+  // ── FISH (various) ───────────────────────────────────────────
+  {
+    icon:'&#128032;', gender:'male',
+    name:'Finn Anchovy-Bass',
+    tagline:'"He has an opinion about everything. Most of them are correct. All of them will be shared."',
+    species:'Metallic-silver anchovy — small, quick-moving, naturally schools (has been trying to break this habit for years with partial success); scales catch light at an angle that makes him difficult to keep track of visually',
+    job:'Sports commentator for Bikini Bottom\'s local underwater radio station KBBS — covers jellyfishing leagues, the Fry Cook Games, and occasionally narrates events that are not sports but benefit from dramatic narration',
+    trope:'The Confident Commentator — has an opinion, a microphone (metaphorical), and no filter between the two',
+    mbti:'ESTP | Type 7w8 — The Kinetic Enthusiast; processes the world in real-time narration; uncomfortable with silence',
+    eyes:'Quick, bright silver, scanning constantly — miss nothing, process everything, output immediately',
+    body:'Classic small anchovy silhouette in metallic silver with subtle blue-green iridescence; naturally moves in brief school formations when walking through crowds before catching himself; scales catch light at angle that makes him look like a moving highlight',
+    outfit:'A sports jersey with his own name and number on it (he assigned himself #1), a headset worn even when not broadcasting, press credentials lanyard with his photo, taken himself',
+    house:'A hollowed-out megaphone large enough to live in — acoustically extraordinary; every sound in the house arrives at full volume; he prefers this',
+    decor:'A broadcast desk facing a framed photo of every major Bikini Bottom sporting event; sound foam on the ceiling; one trophy for "Best Dramatic Narration of a Non-Sporting Event" he gave himself',
+    sigItem:'A microphone — technically unplugged in most social settings; he treats this as a minor technical detail',
+    hobbies:'Commentary on sports, commentary on non-sports, competitive talking, listening only as preparation for more commentary',
+    vices:'Cannot observe without narrating; Soft spot: anyone who wants to hear the analysis',
+    rep:'"That loud silver one" — known by voice citywide; the voice has been described as "omnipresent" and "somehow always right"',
+    friend:'The Commentator — narrates the group\'s events in real time; the group has mixed feelings; he is still invited everywhere because the narration is genuinely excellent',
+    romantic:'Fell in love mid-commentary and narrated the fall in second person — "and he finds himself unexpectedly charmed"; she heard the broadcast; she thought it was charming',
+    symbol:'A microphone on a stand — switched on, pointed outward, ready',
+    palette:['#C0C0C0','#4682B4','#FF6B35','#FFFACD'],
+    flaw:'Cannot stop narrating long enough to be in the moment — documents everything, experiences somewhat less',
+    virtue:'Enthusiasm so genuine and so contagious it turns ordinary events into occasions people talk about for years'
+  },
+
+  {
+    icon:'&#128032;', gender:'female',
+    name:'Marina Bluefinnigan',
+    tagline:'"She\'s been everywhere. She has opinions about the currents."',
+    species:'Deep-blue surgeonfish — oval disc-shaped body, bright yellow tail fin, retractable spine near the tail she\'s never actually used but considers a useful deterrent; horizontal pupils that give her an unusually wide field of view',
+    job:'Bikini Bottom travel correspondent and columnist for the Gazette — "Beyond the Reef" column runs every other Tuesday; she once spent a month at Goo Lagoon for research and filed 800 words of complaint',
+    trope:'The Worldly Cynic with Wonder in Reserve — claims to be unimpressed by everything; the column reveals otherwise',
+    mbti:'INTP | Type 5w4 — The Curious Detacher; experiences the world at slight remove, then writes about it so vividly people feel they\'ve been there',
+    eyes:'Horizontal-pupiled, deep navy, wide field of view — she sees things in peripheral vision that others miss completely and drops these observations into sentences like anchors',
+    body:'Elegant surgeonfish disc form in deep vivid blue with a bright yellow caudal fin; horizontal pupils span impressively wide; moves through water with a flat efficiency that reads as effortless and is not',
+    outfit:'A linen travel vest with twelve pockets, a wide-brimmed sun hat for surfaces (she owns two; one is in her bag right now), small notebook in the breast pocket always',
+    house:'A sunken catamaran converted to a studio apartment — exposed beams, porthole windows, hammock instead of a bed for "authentic maritime rest"',
+    decor:'A world map of the ocean floor pinned with locations visited, locations planned, locations visited and found wanting; one shelf of souvenirs described in her notes as "evidence"',
+    sigItem:'A salt-worn travel journal with a leather cover and a brass clasp — Volume 7; the previous six are in a waterproof crate under the hammock',
+    hobbies:'Current-charting for pleasure, disappearing for a week without notice, returning with strong opinions',
+    vices:'Compares everywhere to everywhere else; Soft spot: somewhere genuinely new to her',
+    rep:'"The writer" — Bikini Bottom reads her column with the specific pleasure of visiting places they won\'t go through someone who went and complained beautifully',
+    friend:'The One Who Has Been There — shares exactly the right information in exactly the right amount; never more, never less',
+    romantic:'Falls for people who tell her about somewhere she hasn\'t been — the information is the courtship',
+    symbol:'A compass rose with seventeen points — more directions than you need, all of them accurate',
+    palette:['#00008B','#4169E1','#FFD700','#E0F7FA'],
+    flaw:'Keeps the world at travel distance — comfortable observing, less comfortable arriving',
+    virtue:'Prose so precise and so specific it makes readers feel they have been somewhere they haven\'t and miss it anyway'
+  },
+
+  {
+    icon:'&#128032;', gender:'male',
+    name:'Guppington Floate',
+    tagline:'"He once fell asleep standing up and won a staring contest."',
+    species:'Pale-green pufferfish — smooth when relaxed (which is his default state), inflates to triple size when startled (which happens at moderate volume), deflates with a long musical wheeze; naturally buoyant to a degree that makes furniture negotiable',
+    job:'Professional nap demonstrator at Goo Lagoon — hired to demonstrate the premium reclining loungers; universally considered the most effective advertisement they\'ve ever employed',
+    trope:'The Lovable Slacker — the minimum viable effort is always exactly enough; this should statistically be impossible',
+    mbti:'ISTP | Type 9w8 — The Unflappable Observer; processes the world slowly and correctly; urgency is a setting he doesn\'t have',
+    eyes:'Pale seafoam green, heavy-lidded, permanently at half-mast — not tired, or not only tired; also deeply at peace with whatever is happening',
+    body:'Round pale-green pufferfish — smooth spheroid when calm, which is most of the time; inflates to a spiky ball three times his resting size when startled, deflates with a long descending wheeze that locals have started humming along with; passively floats upward in still water',
+    outfit:'A single enormously comfortable sweater several sizes too large, swim shorts, rubber sandals worn until the shape is custom; does not wear socks because he considers this a commitment',
+    house:'A bubble made solid — technically a giant translucent sphere on the seafloor; the interior is all soft surfaces and horizontal opportunities; there are no chairs, only various grades of lying down',
+    decor:'A hammock in the center, two bean-bag equivalents near the single porthole, one small shelf holding three meaningful objects he cannot currently identify but considers important',
+    sigItem:'A pillow — brought to all locations; custom embroidered with the phrase "IN A MOMENT" on one side',
+    hobbies:'Napping in novel locations, competitive cloud observation (the underwater bubble-shape variant), Watching things happen',
+    vices:'Falls asleep in important situations; Soft spot: any comfortable surface in any weather',
+    rep:'"He\'s probably somewhere nearby" — the town finds him by checking all horizontal surfaces in the vicinity',
+    friend:'The Steady One — always calm, never reactive, the emotional anchor everyone attaches to during storms they did not predict',
+    romantic:'Has been in love for three years and is waiting for the right moment to mention it — the moment keeps presenting itself, he keeps noting it for later',
+    symbol:'A bubble at rest — round, stable, containing something quiet',
+    palette:['#90EE90','#B0E0E6','#FFFACD','#DDA0DD'],
+    flaw:'Mistakes "peace with circumstances" for "engagement with life" — calm on the surface, drifting underneath',
+    virtue:'Presence so stable and so warm that people arrive to vent and leave inexplicably calmer without knowing how'
+  },
+
+  {
+    icon:'&#128032;', gender:'female',
+    name:'Coraline Anemonides',
+    tagline:'"She decorates everything. Including conversations. Especially conversations."',
+    species:'Clownfish — vivid orange with a single crisp white stripe bordered in black, naturally theatrical in movement (everything she does reads as choreographed), cannot help performing even while doing mundane tasks',
+    job:'Interior decorator and party designer — "Coraline\'s Reef Designs"; has decorated the Krusty Krab for seven special events; Mr. Krabs paid for one of them; she considers this broadly acceptable',
+    trope:'The Maximalist Creative — believes blank space is an accusation; more is the answer to every design question',
+    mbti:'ENFP | Type 7w6 — The Abundant Enthusiast; ideas arrive faster than she can execute them; she executes them anyway, simultaneously',
+    eyes:'Wide, bright tangerine-orange, enormous relative to her face, and sparkle — literally catch nearby light and redirect it outward; she is slightly bioluminescent when excited',
+    body:'Vivid orange clownfish with one wide white stripe bordered precisely in black; movements are inherently theatrical — she swims in loops where others swim in lines; cannot exist in a room without eventually becoming the visual focal point',
+    outfit:'A ruffled apron covered in paint and glitter that serves as both work uniform and signature look; coral earrings; a headband with a tiny starfish on it that she insists is "architectural"',
+    house:'A sea anemone converted to a home — each tentacle-room a different colour scheme; the entrance is through the main column and is considered Bikini Bottom\'s most dramatic foyer',
+    decor:'Every surface holds an object that is beautiful, interesting, or both; the walls are gallery-hung with her own designs; there is one intentionally empty wall that she calls "the negative space" and looks at for inspiration',
+    sigItem:'A colour wheel mounted on a tambourine — for spinning to random inspiration; she spins it at the start of every project',
+    hobbies:'Decorating things that have not asked to be decorated, competitive floral arrangement (coral division), designing hypothetical rooms for buildings that don\'t exist',
+    vices:'Over-decorates; Soft spot: a blank wall, a blank face, any canvas that hasn\'t been touched yet',
+    rep:'"The one who makes everything look like a party" — Bikini Bottom residents hire her, are overwhelmed, and hire her again',
+    friend:'The Transformer — arrives at your house, looks at it once, and within forty minutes has made it better; whether asked or not is a detail she considers minor',
+    romantic:'Falls in love with people who have "a great energy" — she cannot define this precisely but identifies it accurately',
+    symbol:'A paint swatch with twenty gradients — all shades of the same colour, all slightly different, all beautiful',
+    palette:['#FF6600','#FF8C00','#FFFFFF','#FF1493'],
+    flaw:'Cannot leave well enough alone — "good" always becomes a question about whether it could be great',
+    virtue:'Generosity of aesthetic vision — genuinely believes everything deserves to be beautiful and acts on this belief daily'
+  },
+
+  // ── JELLYFISH ────────────────────────────────────────────────
+  {
+    icon:'&#128125;', gender:'female',
+    name:'Jelly Mae Stingsworth',
+    tagline:'"She hums constantly. Nobody minds. That\'s the strange part."',
+    species:'Translucent lavender jellyfish — bioluminescent dome that pulses in rhythm with her mood, four trailing stingers she has named and is careful about where she places them; can read electrical currents in the water which she describes as "vibes"',
+    job:'Jellyfish Fields park ranger and unofficial mediator — keeps the peace between jellyfish schools; the jellyfish respect her authority which she finds as surprising as anyone',
+    trope:'The Gentle Presence — the one who doesn\'t fix problems so much as make them feel smaller by being nearby',
+    mbti:'INFJ | Type 2w1 — The Quiet Advocate; sees what people need before they do; delivers it without announcement',
+    eyes:'Soft violet, deeply set in the dome, with a warm steadiness — they communicate something between empathy and ancient wisdom and nobody is sure which',
+    body:'Translucent lavender jellyfish with a gently pulsing bioluminescent dome; her glow shifts from lavender to warm gold when she\'s content, to cool blue when concerned; four stingers trail behind her, each named (Gerald, Patricia, Finn, and Winifred)',
+    outfit:'She wears no clothes because she\'s a jellyfish, but her dome always somehow has exactly one piece of kelp draped across it that looks deliberate and is — she picks it fresh every morning',
+    house:'A natural tide pool large enough to curl her dome in — she\'s added sea-glass edges and kelp-drape curtains; at night her bioluminescence illuminates it from inside',
+    decor:'Smooth river stones arranged in gentle spirals; a small collection of interesting shells gathered by friends; one driftwood piece she describes as "architectural"; everything is at floor level because she\'s a jellyfish',
+    sigItem:'A piece of sea-glass, bottle-green, worn smooth — she carries it in the fold of her dome and produces it when thinking',
+    hobbies:'Drift-meditation (letting the current take her wherever it goes), translating jellyfish electrical patterns, humming',
+    vices:'Picks up other people\'s emotional static from the water and carries it home; Soft spot: anyone humming off-key',
+    rep:'"The one who calmed down the jellyfish migration of \'09" — the town considers her a hero; she considers it "just listening"',
+    friend:'The Anchor — doesn\'t say much; being near her makes everything feel more manageable than it was thirty seconds ago',
+    romantic:'Falls for people who can sit comfortably in quiet — has never explained this criterion; applies it with precision',
+    symbol:'A single glowing point in the dark — small, steady, enough',
+    palette:['#DDA0DD','#E6E6FA','#7DF9FF','#FFD700'],
+    flaw:'Absorbs too much of others\' emotional static — occasionally disappears without warning to process what isn\'t hers',
+    virtue:'Presence so calming and so genuine that distressed sea creatures have been documented swimming toward her from significant distances'
+  },
+
+  // ── SNAILS ───────────────────────────────────────────────────
+  {
+    icon:'&#128012;', gender:'male',
+    name:'Sheldon Gastropodius',
+    tagline:'"He\'s on his way. He\'ll be there. Time is subjective."',
+    species:'Pearlescent moon snail — opalescent spiral shell that shifts colour in different light, moves at the biologically maximal speed for his species which is nonetheless very slow, leaves a faint iridescent trail on surfaces',
+    job:'Bikini Bottom\'s slowest but most thorough mail carrier — every letter arrives eventually; the town has adjusted its deadline expectations accordingly and now considers this "reliable"',
+    trope:'The Philosophical Slowpoke — moves at one speed, thinks at another, and has concluded things worth thinking about',
+    mbti:'INTP | Type 5w9 — The Measured Thinker; slow to start, slow to stop, exceptionally correct in between',
+    eyes:'Small, soft, lavender-grey on short eyestalks — move independently; they share information; the overall impression is of calm, thorough observation',
+    body:'Pearl-cream snail body with an opalescent spiral shell in shifting lavender, pink, and green iridescence; leaves a faint iridescent trail; moves 2 inches per minute at full speed; has never been in a hurry and considers this a solved problem',
+    outfit:'A small mail bag strapped to his shell, a visor that is technically for sun but functions as an identity piece, tiny boots that make no difference to his speed but he likes them',
+    house:'A converted lighthouse — he does not use the stairs; he uses a purpose-built spiral ramp he installed himself over the course of eight months',
+    decor:'Slow-gathered collection of things found along the mail route: interesting pebbles, lost buttons, one coin he considers significant; all arranged on a low shelf he can reach easily',
+    sigItem:'A mail bag with all the letters currently on their way to their destinations — he knows each one\'s story, which is why he reads all the postcards',
+    hobbies:'Philosophy (has time to think on long routes), collecting things found along the way, competitive stillness',
+    vices:'Takes the scenic route always; Soft spot: anyone who is also moving at their own pace',
+    rep:'"He\'ll get there" — the town\'s relationship with his delivery schedule has evolved from frustration to philosophy to a kind of peace',
+    friend:'The Long View — processes slowly, concludes correctly; every opinion he delivers has been fully considered and is always worth hearing',
+    romantic:'Has been courting someone for three years via handwritten letters delivered by himself — the letters are extraordinary; the courtship continues',
+    symbol:'A spiral shell — the path is longer than it appears; the center is worth reaching',
+    palette:['#DDA0DD','#E8D5F5','#C8F0FF','#FFFACD'],
+    flaw:'Mistakes thoroughness for timelessness — some things needed the quick answer and he was still composing the considered one',
+    virtue:'Constancy so complete and so quiet that people forget to take it for granted, which is itself the rarest form of being appreciated'
+  },
+
+  // ── EELS ─────────────────────────────────────────────────────
+  {
+    icon:'&#9889;', gender:'female',
+    name:'Electra Voltsworth-Eele',
+    tagline:'"She is technically a safety hazard. The warning signs are hand-lettered and charming."',
+    species:'Electric moray eel — deep jade-green with natural electric organ running the full body length, generates ambient static that makes nearby hair stand up and nearby electronics glitch; cannot shake hands without full grounding protocol',
+    job:'Bikini Bottom electrical contractor — only qualified electrician in the area; also the only one who caused the 2021 Bikini Bottom Power Incident she does not discuss; her prices are fair and her results are excellent',
+    trope:'The Powerful One Who Has Learned Proportion — immense capacity for disruption; uses it for assembly',
+    mbti:'ENTJ | Type 8w7 — The Charged Commander; decisive, fast, slightly staticky when opinions are challenged',
+    eyes:'Vivid amber-yellow, vertical slit pupils, slightly luminous in low light — they track all moving objects automatically and assess them for electrical compatibility',
+    body:'Sleek jade-green moray eel, long and sinuous; a faint electrical corona is visible around her in dim light; she crackles faintly when she\'s excited or frustrated; her hair — all three strands — are permanently electrostatic and stand perpendicular to her head',
+    outfit:'A full rubber-insulated work suit in bright yellow with her company logo (a lightning bolt wearing sunglasses), rubber-grip gloves, rubber-soled boots; the outfit works; she has tested this the hard way',
+    house:'A converted electrical substation — fully grounded, copper-lined walls, every switch she installed herself and can identify blind; the safest building in Bikini Bottom',
+    decor:'Exposed copper wiring arranged aesthetically on all walls (insulated; she learned); a workbench taking up one quarter of the living space; everything else is furniture chosen for electrical neutrality',
+    sigItem:'A multimeter — carried at all times; used both professionally and personally; she has checked the electrical output of several social situations',
+    hobbies:'Rewiring things, competitive electrician speed tests she runs against herself, reading technical manuals for pleasure',
+    vices:'Cannot be near something poorly wired without fixing it; Soft spot: anything that just needs the right connection',
+    rep:'"Don\'t stand too close during a storm but call her when the power\'s out" — Bikini Bottom\'s full civic stance on Electra Voltsworth-Eele',
+    friend:'The Problem Solver — identifies the root cause, bypasses the symptoms, fixes it directly; occasionally sparks during this process',
+    romantic:'Attracted to people who are "grounded" — uses this word in both the electrical and emotional sense and cannot always tell them apart',
+    symbol:'A lightning bolt — directed, purposeful, illuminating wherever it lands',
+    palette:['#006400','#7FFF00','#FFD700','#1E90FF'],
+    flaw:'Runs at high voltage constantly — intimate moments often feel like getting too close to something live',
+    virtue:'Competence so complete and so useful that the town has written her number on the wall of every public building'
+  },
+
+  // ── WORMS ────────────────────────────────────────────────────
+  {
+    icon:'&#128027;', gender:'male',
+    name:'Wentworth Annelide Jr.',
+    tagline:'"He is longer than he appears. He is always longer than he appears."',
+    species:'Crimson ribbon worm — extraordinarily long (exact length unknown even to him; estimates vary by up to six feet depending on how relaxed he is), moves by elegant wave propagation, can extend a proboscis for tasks requiring reach which he deploys discreetly',
+    job:'Bikini Bottom\'s only professional measurer — hired for situations requiring precise length, distance, or depth assessment; uses himself as the measuring instrument; he is accurate to the half-inch',
+    trope:'The Underestimated Specialist — appears to have one very narrow skill; the skill is actually indispensable',
+    mbti:'ISTJ | Type 6w5 — The Precise Steward; measures twice, measures again, confirms; comfortable with this process',
+    eyes:'Small, round, warm-brown, located further forward on his head than expected — good binocular vision for precise measurement; squint when concentrating, which is often',
+    body:'Brilliant crimson ribbon worm of indeterminate total length — he coils efficiently when socializing; when extended for work he can span impressive distances; his proboscis (retractable) is used for precision work and is deployed with great discretion',
+    outfit:'A small tool vest strapped around the anterior third of his body; a tiny hard hat; measurement notation tattooed along his interior side that only he can read',
+    house:'A long, thin, tunnel dwelling he excavated himself — the length is exactly 47 feet and 3 inches; he measured it',
+    decor:'A ruler mounted on every wall — different scales; all calibrated; one decorative ruler from his childhood in a frame',
+    sigItem:'A small leather-bound measurement logbook recording every professional measurement he has ever made — Volume 8',
+    hobbies:'Competitive precision measurement, learning new unit systems, mapping the seafloor on foot using himself as scale',
+    vices:'Cannot estimate; will not estimate; measurement required; Soft spot: someone who appreciates accuracy',
+    rep:'"The measuring one" — Bikini Bottom calls him before any construction, any dispute involving distance, any situation where "roughly" isn\'t good enough',
+    friend:'The Calibrator — arrives, assesses, gives the correct number; a service the group uses more than they anticipated they would',
+    romantic:'Has measured every approach to romantic expression and found them all slightly imprecise; is working on a better method',
+    symbol:'A measuring tape extended to its full length — honest, specific, exactly as long as it is',
+    palette:['#8B0000','#DC143C','#F5DEB3','#90EE90'],
+    flaw:'Cannot function in estimation territory — life has ranges, not values, and this causes him measurable distress',
+    virtue:'Precision so reliable and so useful that "Wentworth says it\'s fine" has become a building code-equivalent assurance'
+  },
+
+  // ── SEA URCHINS ──────────────────────────────────────────────
+  {
+    icon:'&#129296;', gender:'female',
+    name:'Ursula Echinoidia',
+    tagline:'"She gives the best hugs in Bikini Bottom. Everyone has to decide that for themselves first."',
+    species:'Spiny purple sea urchin — spherical body covered in retractable spines (they retract fully during trusted interactions; she has seven people who qualify), moves on hundreds of tiny tube feet in smooth silent circles',
+    job:'Bikini Bottom tactile therapist and sea-spa masseuse — "Spindrift Spa"; the waiting list does not exist because nobody expects a sea urchin to be a masseuse; this is an error in their thinking she is quietly correcting',
+    trope:'The Prickly Exterior, Absolute Softest Interior — the transition from prickly to soft is the entire character arc, available on request',
+    mbti:'INFJ | Type 2w1 — The Thorned Caregiver; the spines are a door; she opens it for the right people',
+    eyes:'Deep plum-purple, soft and round, with a settled warmth that contradicts the rest of her exterior completely — the eyes are the tell',
+    body:'Round, medium-sized purple sea urchin with a full complement of dark purple spines; the spines are technically retractable; she retracts them in the presence of people she trusts; the list of people who have caused a full retraction is short and important to her; she moves on tube feet silently',
+    outfit:'A soft terrycloth headband that reads "OPEN" on one side and "PLEASE READ THE ROOM" on the other; a small apron with the spa logo (a spine with a bow on it)',
+    house:'A converted sea-urchin shell many times her size — the exterior looks exactly like her; the interior is the softest space in all of Bikini Bottom: moss walls, cushioned floors, very low lighting',
+    decor:'Everything rounded, nothing sharp, every surface upholstered; one enormous bean-bag chair she saves for genuinely difficult days; a collection of smooth river stones she uses during sessions',
+    sigItem:'A pair of custom gloves she wears during sessions that interface perfectly with her spines to allow safe therapeutic touch',
+    hobbies:'Stone-smoothing (collecting rough stones and returning them smooth), competitive relaxation techniques, befriending nervous animals',
+    vices:'Takes too long to trust and too long to un-trust; Soft spot: anyone willing to stay long enough for the spines to go down',
+    rep:'"Probably don\'t touch her" transitioning slowly to "actually she\'s the best" — a reputation arc five years in progress; accelerating',
+    friend:'The One Worth Getting To Know — takes sustained patience to reach; what\'s on the other side is worth every moment of the approach',
+    romantic:'Falls in love so slowly and so completely that by the time she acknowledges it she has been in love for two years; the two-year figure is consistent',
+    symbol:'A sea urchin spine with a single small flower growing around the base — prickly above, tender below',
+    palette:['#6A0DAD','#9B59B6','#FFDDD2','#FFD700'],
+    flaw:'The protective mechanism occasionally protects her from things she wanted — the spines don\'t always know the difference',
+    virtue:'When Ursula lets you in, you have reached a place that required real trust and real time — and the warmth inside is worth absolutely every spine'
+  }
+
+]; // end CITIZENS
+
+// ══════════════════════════════════
+//  TAGLINES for the loading splash
+// ══════════════════════════════════
+var LOAD_MSGS = [
+  'Checking the Citizen Registry...',
+  'Filing through the documentation...',
+  'Waking up the Bureau clerk...',
+  'Swimming through the records...',
+  'Consulting the Krabby Patty files...',
+  'Asking around at the Krusty Krab...',
+  'Searching Jellyfish Fields...',
+  'Reviewing the dossiers...',
+  'Stamping the paperwork...',
+  'Opening the filing cabinet...'
+];
+
+// ══════════════════════════════════
+//  STATE
+// ══════════════════════════════════
+var fileCounter = Math.floor(Math.random()*40000)+10000;
+var generated = 0;
+
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+window.onload = function(){
+  document.getElementById('combCount').textContent =
+    CITIZENS.length + ' unique canon citizens in the registry';
+};
+
+// ══════════════════════════════════
+//  GENERATE
+// ══════════════════════════════════
+function generate(){
+  var btn=document.getElementById('genBtn');
+  var loader=document.getElementById('loader');
+  var card=document.getElementById('card');
+
+  card.style.display='none';
+  loader.style.display='block';
+  document.getElementById('loaderMsg').textContent = pick(LOAD_MSGS);
+  btn.disabled=true; btn.style.opacity='0.65';
+
+  fileCounter++;
+  generated++;
+
+  // Cycle through citizens in random order
+  var citizen = CITIZENS[generated % CITIZENS.length];
+  // Also truly randomize
+  citizen = CITIZENS[Math.floor(Math.random()*CITIZENS.length)];
+
+  setTimeout(function(){
+    render(citizen);
+    loader.style.display='none';
+    card.style.display='block';
+    // reset animation
+    card.style.animation='none';
+    card.offsetHeight;
+    card.style.animation='popin 0.4s cubic-bezier(0.175,0.885,0.32,1.275)';
+    btn.disabled=false; btn.style.opacity='1';
+    document.getElementById('combCount').textContent =
+      CITIZENS.length+' unique canon citizens · Dossier #'+fileCounter+' issued';
+  }, 900);
+}
+
+// ══════════════════════════════════
+//  RENDER
+// ══════════════════════════════════
+function render(c){
+  // Header
+  document.getElementById('citizenIcon').innerHTML = c.icon;
+  document.getElementById('citizenName').textContent = c.name;
+  document.getElementById('citizenTagline').textContent = c.tagline;
+  document.getElementById('fileNum').textContent = String(fileCounter).padStart(5,'0');
+
+  // Palette
+  var pd = document.getElementById('paletteDots');
+  pd.innerHTML='';
+  for(var i=0;i<c.palette.length;i++){
+    var dot=document.createElement('div');
+    dot.className='pdot';
+    dot.style.background=c.palette[i];
+    dot.title=c.palette[i];
+    pd.appendChild(dot);
+  }
+
+  // Build sections
+  var sections=[
+    { icon:'&#128032;', title:'CORE IDENTITY', fields:[
+      {l:'Species', v:c.species},
+      {l:'Job', v:c.job},
+      {l:'Archetype', v:c.trope},
+      {l:'MBTI | Enneagram', v:c.mbti}
+    ], layout:'single'},
+    { icon:'&#128065;', title:'APPEARANCE', fields:[
+      {l:'Eyes', v:c.eyes},
+      {l:'Body & Species Features', v:c.body},
+      {l:'Signature Outfit', v:c.outfit}
+    ], layout:'single'},
+    { icon:'&#127968;', title:'HOME', fields:[
+      {l:'House Type', v:c.house},
+      {l:'Vibe, Decor & Key Details', v:c.decor}
+    ], layout:'single'},
+    { icon:'&#129408;', title:'HABITS', fields:[
+      {l:'Signature Item', v:c.sigItem},
+      {l:'Hobbies', v:c.hobbies},
+      {l:'Vices & Soft Spots', v:c.vices}
+    ], layout:'single'},
+    { icon:'&#128172;', title:'SOCIAL', fields:[
+      {l:'Town Reputation', v:c.rep},
+      {l:'Friend Dynamic', v:c.friend},
+      {l:'Romantic Style', v:c.romantic}
+    ], layout:'single'},
+    { icon:'&#10024;', title:'META', special:true,
+      symbol:c.symbol, palette:c.palette,
+      flaw:c.flaw, virtue:c.virtue }
+  ];
+
+  var secEl=document.getElementById('sections');
+  secEl.innerHTML='';
+
+  for(var s=0;s<sections.length;s++){
+    var sec=sections[s];
+    var sdiv=document.createElement('div');
+    sdiv.className='section';
+
+    // Header
+    var sh=document.createElement('div');
+    sh.className='sec-header';
+    sh.innerHTML='<div class="sec-icon">'+sec.icon+'</div><div class="sec-title">'+sec.title+'</div>';
+    sdiv.appendChild(sh);
+
+    if(sec.special){
+      // META section — special layout
+      var mr=document.createElement('div');
+      mr.className='meta-row';
+
+      var sym=document.createElement('div');
+      sym.className='meta-symbol field';
+      sym.innerHTML='<div class="field-lbl">Symbol</div><div class="sym-text">'+sec.symbol+'</div>';
+      mr.appendChild(sym);
+
+      var fv=document.createElement('div');
+      fv.className='flaw-virtue';
+
+      var fl=document.createElement('div');
+      fl.className='flaw-pill';
+      fl.innerHTML='<div class="field-lbl">Fatal Flaw</div><div class="field-val">'+sec.flaw+'</div>';
+      fv.appendChild(fl);
+
+      var vt=document.createElement('div');
+      vt.className='virtue-pill';
+      vt.innerHTML='<div class="field-lbl">Core Virtue</div><div class="field-val">'+sec.virtue+'</div>';
+      fv.appendChild(vt);
+
+      mr.appendChild(fv);
+      sdiv.appendChild(mr);
+    } else {
+      var fdiv=document.createElement('div');
+      fdiv.className='fields';
+      for(var f=0;f<sec.fields.length;f++){
+        var fi=document.createElement('div');
+        fi.className='field';
+        fi.innerHTML='<div class="field-lbl">'+sec.fields[f].l+'</div><div class="field-val">'+sec.fields[f].v+'</div>';
+        fdiv.appendChild(fi);
+      }
+      sdiv.appendChild(fdiv);
+    }
+
+    secEl.appendChild(sdiv);
+  }
+}
+</script>
+</body>
+</html>
