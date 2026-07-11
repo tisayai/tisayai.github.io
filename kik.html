@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17101f">
+  <meta name="description" content="A mobile-first fantasy RPG codex, world guide, character archive, and printable CYOA worksheet.">
+  <title>The Gilded Realms — Fantasy Codex</title>
+
+  <style>
+    /* =========================================================
+       THE GILDED REALMS — NEOCITIES FANTASY CODEX
+       ---------------------------------------------------------
+       COLOR EDITING:
+       Change the CSS variables below to retheme the entire page.
+       ========================================================= */
+
+    :root {
+      color-scheme: dark;
+
+      --bg-deep: #0d0912;
+      --bg-main: #17101f;
+      --bg-elevated: #21162c;
+      --bg-soft: #2a1c35;
+
+      --panel: rgba(31, 21, 41, 0.96);
+      --panel-alt: rgba(43, 29, 52, 0.97);
+      --panel-light: #eee3ce;
+
+      --text-main: #f4ead7;
+      --text-muted: #cbbba8;
+      --text-dark: #211724;
+      --text-faint: #9d8ca3;
+
+      --gold: #d7b66a;
+      --gold-bright: #f0d58c;
+      --gold-dark: #7e5e2e;
+      --border: #a17e45;
+      --border-soft: rgba(215, 182, 106, 0.45);
+
+      --wine: #6a2949;
+      --plum: #4d255f;
+      --ruby: #96394f;
+      --emerald: #39745f;
+      --sapphire: #365f85;
+      --amber: #9b6835;
+      --ivory: #eadfc9;
+
+      --kingdom-north: #6b82ad;
+      --kingdom-east: #8a476f;
+      --kingdom-south: #b37b42;
+      --kingdom-west: #4e826f;
+      --kingdom-center: #765d9d;
+
+      --space-1: clamp(0.4rem, 1.4vw, 0.65rem);
+      --space-2: clamp(0.7rem, 2.2vw, 1rem);
+      --space-3: clamp(1rem, 3vw, 1.5rem);
+      --space-4: clamp(1.4rem, 4vw, 2.25rem);
+      --space-5: clamp(2rem, 6vw, 4rem);
+
+      --radius-sm: 0.4rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+
+      --shadow-soft: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.24);
+      --shadow-deep: 0 0.9rem 2rem rgba(0, 0, 0, 0.34);
+
+      --font-display: Georgia, "Times New Roman", serif;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --content-width: 78rem;
+      --nav-height: 3.5rem;
+
+      /* Replace this Catbox placeholder with a seamless dark parchment or brocade texture. */
+      --background-texture: url("https://files.catbox.moe/background-texture.jpg");
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      scroll-padding-top: calc(var(--nav-height) + 1rem);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.7vw, 1.08rem);
+      line-height: 1.6;
+      background:
+        linear-gradient(rgba(13, 9, 18, 0.91), rgba(13, 9, 18, 0.96)),
+        var(--background-texture),
+        var(--bg-deep);
+      background-size: auto, 40rem 40rem, auto;
+      background-attachment: scroll;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: var(--gold-bright);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover {
+      color: #fff1bc;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--gold-bright);
+      outline-offset: 3px;
+      border-radius: 0.25rem;
+    }
+
+    ::selection {
+      color: var(--text-dark);
+      background: var(--gold-bright);
+    }
+
+    .site-shell {
+      width: min(100%, var(--content-width));
+      margin-inline: auto;
+      padding-inline: clamp(0.75rem, 3vw, 1.5rem);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.5rem;
+      left: 0.5rem;
+      z-index: 9999;
+      padding: 0.75rem 1rem;
+      color: var(--text-dark);
+      background: var(--gold-bright);
+      border-radius: var(--radius-sm);
+      transform: translateY(-160%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       REUSABLE ORNATE PANELS
+       ========================================================= */
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(1rem, 3vw, 1.45rem);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.025), transparent 35%),
+        var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow:
+        inset 0 0 0 3px rgba(10, 6, 15, 0.75),
+        inset 0 0 0 4px var(--border-soft),
+        var(--shadow-soft);
+    }
+
+    .panel::before,
+    .panel::after {
+      position: absolute;
+      width: 2.2rem;
+      height: 2.2rem;
+      pointer-events: none;
+      content: "";
+      opacity: 0.75;
+    }
+
+    .panel::before {
+      top: 0.35rem;
+      left: 0.35rem;
+      border-top: 2px solid var(--gold);
+      border-left: 2px solid var(--gold);
+    }
+
+    .panel::after {
+      right: 0.35rem;
+      bottom: 0.35rem;
+      border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .panel-light {
+      color: var(--text-dark);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05)),
+        var(--panel-light);
+      border-color: #8f6a37;
+    }
+
+    .panel-light .muted {
+      color: #584a56;
+    }
+
+    .section {
+      margin-block: var(--space-4);
+      scroll-margin-top: calc(var(--nav-height) + 1rem);
+    }
+
+    .section-header {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      margin: 0 0 var(--space-2);
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5.6vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .section-header::before,
+    .section-header::after {
+      flex: 1;
+      min-width: 1rem;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .section-header span {
+      flex: 0 1 auto;
+      text-align: center;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      gap: 0.45rem;
+      align-items: center;
+      margin-bottom: 0.35rem;
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      width: 1.4rem;
+      height: 1px;
+      content: "";
+      background: currentColor;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-block: var(--space-3);
+      color: var(--gold);
+    }
+
+    .divider::before,
+    .divider::after {
+      flex: 1;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider::selection {
+      background: transparent;
+    }
+
+    .muted {
+      color: var(--text-muted);
+    }
+
+    .small {
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      min-height: 2rem;
+      align-items: center;
+      padding: 0.3rem 0.7rem;
+      color: var(--gold-bright);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.27);
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.7rem 1rem;
+      color: #1b1320;
+      font-family: var(--font-ui);
+      font-weight: 850;
+      line-height: 1.15;
+      text-align: center;
+      text-decoration: none;
+      background: linear-gradient(#f0d58c, #c99e50);
+      border: 1px solid #ffe8ad;
+      border-radius: var(--radius-sm);
+      box-shadow:
+        inset 0 -2px 0 rgba(74, 44, 11, 0.32),
+        0 0.25rem 0.65rem rgba(0, 0, 0, 0.25);
+      transition:
+        transform 140ms ease,
+        filter 140ms ease;
+    }
+
+    .button:hover {
+      color: #160e19;
+      filter: brightness(1.08);
+    }
+
+    .button:active {
+      transform: translateY(2px) scale(0.99);
+    }
+
+    .button-secondary {
+      color: var(--text-main);
+      background: linear-gradient(#4c3158, #2e1b39);
+      border-color: var(--border);
+    }
+
+    .button-secondary:hover {
+      color: #fff;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .card {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--panel-alt);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .card-title {
+      margin: 0 0 0.3rem;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 4vw, 1.35rem);
+      line-height: 1.2;
+    }
+
+    /* =========================================================
+       HERO / TITLE AREA
+       ========================================================= */
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 27rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-bg {
+      position: absolute;
+      z-index: -3;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero::before {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(to bottom, rgba(14, 8, 18, 0.18), rgba(14, 8, 18, 0.86)),
+        linear-gradient(90deg, rgba(14, 8, 18, 0.83), rgba(14, 8, 18, 0.15));
+    }
+
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0.75rem;
+      pointer-events: none;
+      content: "";
+      border: 1px solid rgba(240, 213, 140, 0.53);
+      box-shadow:
+        inset 0 0 0 0.2rem rgba(18, 10, 24, 0.65),
+        inset 0 0 2.2rem rgba(0, 0, 0, 0.48);
+    }
+
+    .hero-inner {
+      display: grid;
+      min-height: 27rem;
+      align-content: end;
+      padding-block: clamp(5rem, 22vw, 9rem) clamp(2rem, 8vw, 4.2rem);
+    }
+
+    .logo-lockup {
+      max-width: 48rem;
+    }
+
+    .crest {
+      width: clamp(4.2rem, 16vw, 6.5rem);
+      aspect-ratio: 1;
+      margin-bottom: 0.8rem;
+      object-fit: cover;
+      background: rgba(20, 12, 25, 0.75);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 0.3rem rgba(12, 8, 16, 0.72),
+        0 0 1.5rem rgba(215, 182, 106, 0.26);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.2rem;
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: clamp(0.72rem, 2.8vw, 0.9rem);
+      font-weight: 850;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 14ch;
+      margin: 0;
+      color: #f5df9d;
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 11vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: 0.025em;
+      text-wrap: balance;
+      text-shadow:
+        0 2px 0 #563c20,
+        0 0.35rem 1rem rgba(0, 0, 0, 0.75);
+    }
+
+    .hero-subtitle {
+      max-width: 42rem;
+      margin: 1rem 0 1.25rem;
+      color: #f3e8d6;
+      font-size: clamp(1.02rem, 3.7vw, 1.35rem);
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    /* =========================================================
+       STICKY NAVIGATION
+       ========================================================= */
+
+    .site-nav {
+      position: sticky;
+      z-index: 1000;
+      top: 0;
+      min-height: var(--nav-height);
+      overflow: hidden;
+      background: rgba(17, 10, 23, 0.97);
+      border-bottom: 1px solid var(--gold-dark);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(0.5rem);
+    }
+
+    .nav-scroll {
+      display: flex;
+      min-height: var(--nav-height);
+      gap: 0.35rem;
+      align-items: center;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-dark) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-scroll a {
+      display: inline-flex;
+      flex: 0 0 auto;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.8rem;
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      font-size: 0.83rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      border-radius: 999px;
+    }
+
+    .nav-scroll a:hover,
+    .nav-scroll a:focus-visible {
+      color: var(--gold-bright);
+      background: rgba(215, 182, 106, 0.1);
+      border-color: var(--border-soft);
+    }
+
+    /* =========================================================
+       OVERVIEW
+       ========================================================= */
+
+    .overview-grid {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .overview-copy h2 {
+      margin: 0 0 0.75rem;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 6vw, 2.6rem);
+      line-height: 1.1;
+      text-wrap: balance;
+    }
+
+    .overview-stats {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(215, 182, 106, 0.22);
+      border-radius: var(--radius-sm);
+    }
+
+    .stat-row dt {
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 750;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .stat-row dd {
+      margin: 0;
+      color: var(--gold-bright);
+      font-weight: 800;
+      text-align: right;
+    }
+
+    /* =========================================================
+       WORLD MAP
+       ========================================================= */
+
+    .map-panel {
+      padding: 0.55rem;
+    }
+
+    .map-stage {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(29rem, 138vw, 44rem);
+      overflow: hidden;
+      background: #18232b;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius-md) - 0.25rem);
+    }
+
+    .world-map {
+      position: absolute;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .map-stage::after {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        linear-gradient(to bottom, rgba(18, 10, 20, 0.05), rgba(18, 10, 20, 0.35)),
+        radial-gradient(circle at center, transparent 48%, rgba(6, 5, 10, 0.56) 100%);
+    }
+
+    .map-marker {
+      position: absolute;
+      display: flex;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: #1f1621;
+      font-family: var(--font-ui);
+      font-weight: 900;
+      background: var(--gold-bright);
+      border: 2px solid #fff1b6;
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 0.25rem rgba(18, 11, 22, 0.78),
+        0 0.5rem 1rem rgba(0, 0, 0, 0.36);
+      transform: translate(-50%, -50%);
+      transition:
+        transform 140ms ease,
+        filter 140ms ease;
+    }
+
+    .map-marker:hover,
+    .map-marker:focus-visible {
+      filter: brightness(1.12);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    /* EDIT MAP LABEL POSITIONS HERE.
+       Each marker uses left/top percentages so it scales responsively. */
+    .marker-1 { left: 31%; top: 26%; }
+    .marker-2 { left: 69%; top: 22%; }
+    .marker-3 { left: 47%; top: 52%; }
+    .marker-4 { left: 76%; top: 67%; }
+    .marker-5 { left: 24%; top: 73%; }
+
+    .map-label {
+      position: absolute;
+      z-index: 2;
+      max-width: min(10rem, 42vw);
+      padding: 0.45rem 0.6rem;
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      font-size: clamp(0.72rem, 2.5vw, 0.83rem);
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      background: rgba(18, 11, 24, 0.9);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.3);
+      transform: translate(-50%, -50%);
+    }
+
+    /* EDIT MAP LABEL POSITIONS HERE. */
+    .label-1 { left: 31%; top: 35%; }
+    .label-2 { left: 69%; top: 31%; }
+    .label-3 { left: 47%; top: 60%; }
+    .label-4 { left: 69%; top: 76%; }
+    .label-5 { left: 26%; top: 82%; }
+
+    .map-caption {
+      display: grid;
+      gap: 0.6rem;
+      padding: 0.9rem 0.6rem 0.35rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .map-status {
+      display: flex;
+      min-height: 44px;
+      align-items: center;
+      padding: 0.55rem 0.75rem;
+      color: var(--gold-bright);
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      font-weight: 750;
+      background: rgba(0, 0, 0, 0.24);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    .legend-grid {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: var(--space-2);
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 1rem minmax(0, 1fr);
+      gap: 0.7rem;
+      align-items: start;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.16);
+      border: 1px solid rgba(215, 182, 106, 0.2
