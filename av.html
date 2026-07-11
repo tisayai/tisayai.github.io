@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Avalon Codex — World Map & Social Guide</title>
+  <meta name="description" content="A fantasy world-map and social-guide layout for Neocities." />
+
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #14171c;
+      --panel-2: #1b1d22;
+      --paper: #d8cbb7;
+      --ink: #ebe2d4;
+      --muted: #b7ab9b;
+      --gold: #bca26d;
+      --gold-soft: #746345;
+      --line: #5e5448;
+      --blue: #5d8198;
+      --purple: #76598f;
+      --red: #9b5a4c;
+      --shadow: 0 10px 28px rgba(0, 0, 0, .42);
+      --radius: 8px;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background:
+        radial-gradient(circle at 50% -10%, rgba(120, 99, 63, .14), transparent 35%),
+        #080a0d;
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      background:
+        linear-gradient(rgba(255,255,255,.015), rgba(255,255,255,.015)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.008) 0,
+          rgba(255,255,255,.008) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+    }
+
+    a { color: inherit; }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .site-shell {
+      width: min(1500px, calc(100% - 24px));
+      margin: 12px auto;
+      border: 1px solid var(--line);
+      background: rgba(10, 12, 15, .96);
+      box-shadow: 0 18px 60px rgba(0,0,0,.58);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .site-shell::before,
+    .site-shell::after {
+      content: "✦";
+      position: absolute;
+      z-index: 5;
+      color: var(--gold);
+      font-size: 18px;
+      opacity: .8;
+      pointer-events: none;
+    }
+
+    .site-shell::before { top: 8px; left: 10px; }
+    .site-shell::after { right: 10px; bottom: 8px; }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr .9fr;
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .brand,
+    .overview,
+    .controls,
+    .panel,
+    .map-card {
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
+        var(--panel);
+      box-shadow: inset 0 0 0 1px rgba(188, 162, 109, .08);
+    }
+
+    .brand {
+      min-height: 170px;
+      padding: 26px 28px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 80% 25%, rgba(188,162,109,.16), transparent 28%),
+        var(--panel);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 5vw, 5.2rem);
+      line-height: .8;
+      letter-spacing: -.06em;
+      font-weight: 400;
+      text-transform: uppercase;
+      text-shadow: 0 2px 0 #000;
+    }
+
+    .brand h1 span {
+      display: block;
+      margin-left: 12%;
+    }
+
+    .brand p {
+      margin: 18px 0 0;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: .95rem;
+    }
+
+    .section-title {
+      margin: 0;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 1.18rem;
+      background: rgba(255,255,255,.02);
+    }
+
+    .overview p {
+      margin: 0;
+      padding: 22px;
+      color: #ddd2c4;
+      line-height: 1.62;
+      font-size: 1.05rem;
+    }
+
+    .controls {
+      padding-bottom: 12px;
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 5px 16px;
+      font-family: var(--sans);
+      color: #eee5da;
+    }
+
+    kbd {
+      justify-self: center;
+      min-width: 30px;
+      padding: 4px 7px;
+      border: 1px solid #8e8372;
+      border-radius: 4px;
+      background: #26292d;
+      color: white;
+      font: 700 .72rem var(--sans);
+      text-align: center;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,.45);
+    }
+
+    .map-wrap {
+      padding: 0 12px 12px;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 650px;
+      overflow: hidden;
+      background: #1d2421;
+    }
+
+    .map-card > img {
+      width: 100%;
+      height: 650px;
+      object-fit: cover;
+      filter: saturate(.82) contrast(1.05) brightness(.83);
+    }
+
+    .map-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.05), rgba(0,0,0,.22)),
+        radial-gradient(circle at center, transparent 40%, rgba(0,0,0,.35));
+    }
+
+    .map-label {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      padding: 6px 10px;
+      border: 1px solid rgba(213,197,164,.62);
+      border-radius: 5px;
+      background: rgba(10,11,12,.88);
+      color: #f0e6d6;
+      font-size: .83rem;
+      white-space: nowrap;
+      box-shadow: var(--shadow);
+    }
+
+    .map-label.big {
+      border: 0;
+      background: transparent;
+      font-size: clamp(1.2rem, 2vw, 2.15rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow:
+        0 2px 0 #000,
+        0 0 8px #000,
+        0 0 14px #000;
+    }
+
+    .map-label.blue { color: #d7eef8; }
+    .map-label.purple { color: #eed8ff; }
+    .map-label.red { color: #ffd4cb; }
+
+    .legend {
+      position: absolute;
+      z-index: 3;
+      left: 18px;
+      bottom: 18px;
+      width: 240px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: rgba(13,15,18,.92);
+      box-shadow: var(--shadow);
+    }
+
+    .legend strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gold);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0;
+      font-family: var(--sans);
+      font-size: .82rem;
+    }
+
+    .sigil {
+      width: 14px;
+      height: 14px;
+      transform: rotate(45deg);
+      border: 1px solid #ddd;
+    }
+
+    .sigil.blue { background: var(--blue); }
+    .sigil.purple { background: var(--purple); }
+    .sigil.red { background: var(--red); }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2.05fr .95fr;
+      gap: 10px;
+      padding: 0 12px 12px;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .social-grid {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .location-card {
+      border: 1px solid var(--gold-soft);
+      background: #111419;
+      min-width: 0;
+    }
+
+    .location-card h3 {
+      margin: 0;
+      padding: 7px 8px;
+      text-align: center;
+      font-size: .84rem;
+      font-weight: 400;
+      border-bottom: 1px solid var(--gold-soft);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .location-card img {
+      width: 100%;
+      aspect-ratio: 4 / 2.7;
+      object-fit: cover;
+      filter: sepia(.14) saturate(.8);
+    }
+
+    .location-card p {
+      margin: 0;
+      padding: 8px;
+      min-height: 58px;
+      color: #ddd3c4;
+      font: .78rem/1.35 var(--sans);
+    }
+
+    .system-list {
+      margin: 0;
+      padding: 18px 18px 22px 46px;
+      display: grid;
+      gap: 10px;
+      color: #ded5c8;
+      font-family: var(--sans);
+      line-height: 1.35;
+    }
+
+    .system-list li::marker {
+      color: var(--gold);
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .7fr 1.28fr;
+      gap: 10px;
+      padding: 0 12px 12px;
+    }
+
+    .travel-tree {
+      padding: 12px;
+      text-align: center;
+      font-family: var(--sans);
+    }
+
+    .node {
+      width: fit-content;
+      max-width: 92%;
+      margin: 6px auto;
+      padding: 5px 12px;
+      border: 1px solid var(--gold-soft);
+      border-radius: 4px;
+      background: #191b21;
+      font-size: .78rem;
+    }
+
+    .node.accent {
+      background: #36203c;
+      border-color: #76598f;
+    }
+
+    .tree-line {
+      width: 1px;
+      height: 12px;
+      margin: 0 auto;
+      background: var(--gold);
+      opacity: .8;
+    }
+
+    .branch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .key-list {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .key-item {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .key-item img {
+      width: 88px;
+      height: 70px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+    }
+
+    .key-item h3 {
+      margin: 2px 0 5px;
+      font-size: .9rem;
+      font-weight: 400;
+    }
+
+    .key-item p {
+      margin: 0;
+      color: var(--muted);
+      font: .72rem/1.35 var(--sans);
+    }
+
+    .characters {
+      padding: 12px;
+    }
+
+    .portrait-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .portrait {
+      text-align: center;
+      min-width: 0;
+    }
+
+    .portrait img {
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      object-fit: cover;
+      border: 1px solid var(--gold-soft);
+      background: #25282e;
+    }
+
+    .portrait span {
+      display: block;
+      padding-top: 4px;
+      font: .65rem var(--sans);
+      letter-spacing: .07em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .prophecy {
+      margin-top: 12px;
+      border: 1px solid var(--gold-soft);
+      background: #111318;
+    }
+
+    .prophecy-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--gold-soft);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .prophecy-body {
+      display: grid;
+      grid-template-columns: 120px 1fr 100px;
+      gap: 12px;
+      padding: 12px;
+      align-items: start;
+    }
+
+    .prophecy-body img {
+      width: 120px;
+      aspect-ratio: .78;
+      object-fit: cover;
+      border: 1px solid var(--gold-soft);
+    }
+
+    .prophecy h3 {
+      margin: 0 0 8px;
+      font-weight: 400;
+      font-size: 1.05rem;
+    }
+
+    .stats {
+      font: .76rem/1.5 var(--sans);
+      color: #d8cfc2;
+    }
+
+    .hearts { color: #d97983; }
+    .stars { color: #d6ad56; letter-spacing: .08em; }
+
+    .crest-placeholder {
+      min-height: 160px;
+      border: 1px solid var(--gold-soft);
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-size: 2.5rem;
+      background:
+        radial-gradient(circle, rgba(188,162,109,.13), transparent 55%);
+    }
+
+    .footer {
+      margin: 0 12px 12px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      text-align: center;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      background: var(--panel);
+    }
+
+    .tiny-note {
+      margin: 0 12px 12px;
+      color: #8d857b;
+      font: .72rem/1.4 var(--sans);
+      text-align: center;
+    }
+
+    @media (max-width: 1100px) {
+      .top-grid { grid-template-columns: 1fr 1fr; }
+      .controls { grid-column: 1 / -1; }
+      .content-grid,
+      .lower-grid { grid-template-columns: 1fr; }
+      .social-grid { grid-template-columns: repeat(3, 1fr); }
+      .portrait-grid { grid-template-columns: repeat(7, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .site-shell {
+        width: min(100%, calc(100% - 10px));
+        margin: 5px auto;
+      }
+
+      .top-grid { grid-template-columns: 1fr; }
+      .controls { grid-column: auto; }
+
+      .brand { min-height: 140px; }
+      .brand h1 { font-size: 3.15rem; }
+
+      .map-card,
+      .map-card > img { min-height: 510px; height: 510px; }
+
+      .legend {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: auto;
+        margin: 12px;
+      }
+
+      .social-grid { grid-template-columns: repeat(2, 1fr); }
+      .portrait-grid { grid-template-columns: repeat(4, 1fr); }
+
+      .prophecy-body {
+        grid-template-columns: 90px 1fr;
+      }
+
+      .prophecy-body img { width: 90px; }
+      .crest-placeholder { grid-column: 1 / -1; min-height: 90px; }
+    }
+
+    @media (max-width: 460px) {
+      .social-grid { grid-template-columns: 1fr; }
+      .portrait-grid { grid-template-columns: repeat(3, 1fr); }
+      .key-item { grid-template-columns: 72px 1fr; }
+      .key-item img { width: 72px; height: 62px; }
+      .footer { letter-spacing: .08em; font-size: .78rem; }
+    }
+
+
+    /* Fast section navigation on phones */
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 6px;
+      padding: 8px 10px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      border-bottom: 1px solid var(--line);
+      background: rgba(10, 12, 15, .96);
+      backdrop-filter: blur(8px);
+    }
+
+    .quick-nav a,
+    .quick-nav button {
+      flex: 0 0 auto;
+      min-height: 40px;
+      padding: 9px 13px;
+      border: 1px solid var(--gold-soft);
+      border-radius: 999px;
+      background: #171a20;
+      color: var(--ink);
+      text-decoration: none;
+      font: .78rem var(--sans);
+      cursor: pointer;
+    }
+
+    .quick-nav a:focus-visible,
+    .quick-nav button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .print-worksheet {
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        font-size: 16px;
+      }
+
+      .site-shell {
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .top-grid,
+      .content-grid,
+      .lower-grid,
+      .map-wrap {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .top-grid {
+        gap: 8px;
+      }
+
+      .brand,
+      .overview,
+      .controls,
+      .panel {
+        border-radius: 6px;
+      }
+
+      .brand {
+        padding: 20px 18px;
+      }
+
+      .brand h1 {
+        font-size: clamp(2.6rem, 15vw, 4rem);
+      }
+
+      .brand p {
+        letter-spacing: .12em;
+        font-size: .78rem;
+      }
+
+      .section-title {
+        padding: 11px 13px;
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+      .overview p {
+        padding: 16px;
+        font-size: .98rem;
+      }
+
+      .control-row {
+        min-height: 44px;
+      }
+
+      .map-card,
+      .map-card > img {
+        min-height: 420px;
+        height: 420px;
+      }
+
+      .map-card > img {
+        object-position: center;
+      }
+
+      .map-label {
+        font-size: .68rem;
+        padding: 4px 6px;
+      }
+
+      .map-label.big {
+        font-size: clamp(.9rem, 4vw, 1.35rem);
+      }
+
+      .legend {
+        font-size: .8rem;
+      }
+
+      .social-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 10px;
+        padding-bottom: 16px;
+      }
+
+      .location-card {
+        flex: 0 0 min(82vw, 330px);
+        scroll-snap-align: start;
+      }
+
+      .location-card h3 {
+        font-size: .95rem;
+      }
+
+      .location-card p {
+        min-height: auto;
+        font-size: .88rem;
+      }
+
+      .system-list {
+        padding: 16px 18px 18px 38px;
+      }
+
+      .travel-tree {
+        overflow-x: auto;
+      }
+
+      .portrait-grid {
+        gap: 10px;
+      }
+
+      .portrait span {
+        font-size: .7rem;
+      }
+
+      .prophecy-body {
+        grid-template-columns: 88px 1fr;
+        gap: 10px;
+      }
+
+      .stats {
+        font-size: .82rem;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .quick-nav {
+        padding-inline: 6px;
+      }
+
+      .quick-nav a,
+      .quick-nav button {
+        min-height: 38px;
+        padding: 8px 11px;
+      }
+
+      .map-card,
+      .map-card > img {
+        min-height: 360px;
+        height: 360px;
+      }
+
+      .map-label:not(.big) {
+        display: none;
+      }
+
+      .legend {
+        margin: 8px;
+        padding: 9px;
+      }
+
+      .portrait-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .prophecy-body {
+        grid-template-columns: 1fr;
+      }
+
+      .prophecy-body img {
+        width: min(180px, 70%);
+        margin: 0 auto;
+      }
+
+      .crest-placeholder {
+        grid-column: auto;
+      }
+    }
+
+    /* CYOA print mode */
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    @media print {
+      :root {
+        --ink: #111;
+        --muted: #333;
+        --line: #777;
+        --gold: #222;
+        --gold-soft: #777;
+      }
+
+      html,
+      body {
+        background: #fff !important;
+        color: #111 !important;
+      }
+
+      body {
+        font-size: 9.5pt;
+      }
+
+      .site-shell {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        background: #fff;
+        overflow: visible;
+      }
+
+      .site-shell::before,
+      .site-shell::after,
+      .quick-nav,
+      .controls,
+      .tiny-note {
+        display: none !important;
+      }
+
+      .top-grid,
+      .content-grid,
+      .lower-grid {
+        display: block;
+        padding: 0;
+      }
+
+      .brand,
+      .overview,
+      .panel,
+      .map-card,
+      .location-card,
+      .prophecy {
+        background: #fff !important;
+        color: #111 !important;
+        box-shadow: none !important;
+        border-color: #777 !important;
+      }
+
+      .brand {
+        min-height: auto;
+        padding: 8mm 5mm 5mm;
+        text-align: center;
+      }
+
+      .brand h1 {
+        font-size: 32pt;
+        color: #111;
+        text-shadow: none;
+      }
+
+      .brand p,
+      .section-title,
+      .footer {
+        color: #111 !important;
+      }
+
+      .overview p {
+        padding: 5mm;
+      }
+
+      .map-wrap {
+        padding: 0;
+      }
+
+      .map-card,
+      .map-card > img {
+        width: 100%;
+        min-height: 0;
+        height: 118mm;
+      }
+
+      .map-card > img {
+        object-fit: cover;
+        filter: grayscale(1) contrast(1.08);
+      }
+
+      .map-card::after {
+        display: none;
+      }
+
+      .map-label {
+        border-color: #333;
+        background: rgba(255,255,255,.9);
+        color: #111 !important;
+        box-shadow: none;
+      }
+
+      .map-label.big {
+        background: rgba(255,255,255,.7);
+        text-shadow: none;
+      }
+
+      .legend {
+        left: 4mm;
+        bottom: 4mm;
+        width: 52mm;
+        color: #111;
+        background: rgba(255,255,255,.94);
+        box-shadow: none;
+      }
+
+      .panel {
+        margin-top: 5mm;
+        break-inside: avoid-page;
+      }
+
+      .section-title {
+        padding: 3mm 4mm;
+        font-size: 12pt;
+      }
+
+      .social-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2mm;
+        padding: 3mm;
+      }
+
+      .location-card {
+        break-inside: avoid;
+      }
+
+      .location-card img {
+        filter: grayscale(1);
+      }
+
+      .location-card h3 {
+        font-size: 7.5pt;
+        padding: 1.5mm;
+      }
+
+      .location-card p {
+        min-height: 0;
+        padding: 1.5mm;
+        font-size: 6.5pt;
+        color: #111;
+      }
+
+      .system-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2mm 8mm;
+        padding: 4mm 8mm;
+        color: #111;
+        font-size: 8pt;
+      }
+
+      .lower-grid > .panel {
+        break-before: page;
+      }
+
+      .lower-grid > .panel + .panel {
+        break-before: auto;
+      }
+
+      .travel-tree {
+        padding: 3mm;
+      }
+
+      .node {
+        background: #fff;
+        border-color: #555;
+        color: #111;
+      }
+
+      .key-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .key-item img,
+      .portrait img,
+      .prophecy-body img {
+        filter: grayscale(1);
+      }
+
+      .portrait-grid {
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      .portrait span,
+      .stats,
+      .key-item p {
+        color: #111;
+      }
+
+      .prophecy-body {
+        grid-template-columns: 30mm 1fr 25mm;
+      }
+
+      .crest-placeholder {
+        color: #111;
+        background: #fff;
+      }
+
+      .print-worksheet {
+        display: block;
+        break-before: page;
+        color: #111;
+      }
+
+      .print-worksheet h2 {
+        margin: 0 0 5mm;
+        padding-bottom: 3mm;
+        border-bottom: 2px solid #111;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: .12em;
+      }
+
+      .worksheet-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5mm;
+      }
+
+      .worksheet-grid section {
+        min-height: 48mm;
+        padding: 4mm;
+        border: 1px solid #555;
+        break-inside: avoid;
+      }
+
+      .worksheet-grid h3 {
+        margin: 0 0 4mm;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+      }
+
+      .worksheet-grid p {
+        margin: 0 0 4mm;
+      }
+
+      .worksheet-wide {
+        grid-column: 1 / -1;
+      }
+
+      .writing-lines {
+        min-height: 55mm;
+        background:
+          repeating-linear-gradient(
+            to bottom,
+            transparent 0,
+            transparent 7mm,
+            #999 7.2mm,
+            transparent 7.4mm
+          );
+      }
+
+      .footer {
+        margin: 5mm 0 0;
+        padding: 3mm;
+        background: #fff;
+        border-color: #777;
+      }
+
+      a {
+        color: #111;
+        text-decoration: none;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="site-shell">
+    <nav class="quick-nav" aria-label="Page sections">
+      <a href="#world-map">Map</a>
+      <a href="#locations">Locations</a>
+      <a href="#travel">Travel</a>
+      <a href="#characters">Characters</a>
+      <button type="button" onclick="window.print()">Print CYOA</button>
+    </nav>
+    <header class="top-grid">
+      <section class="brand">
+        <h1>Avalon <span>Code</span></h1>
+        <p>World Map &amp; Social Guide</p>
+      </section>
+
+      <section class="overview">
+        <h2 class="section-title">Overview</h2>
+        <p>
+          The continent is divided among three great powers. Your journey begins
+          in Rhoan, at the Crossroads of the World, where every path can shape your fate.
+        </p>
+      </section>
+
+      <aside class="controls">
+        <h2 class="section-title">Map Mode</h2>
+        <div class="control-row"><kbd>X</kbd><span>Code Scanning</span></div>
+        <div class="control-row"><kbd>Y</kbd><span>Book of Prophecy</span></div>
+        <div class="control-row"><kbd>START</kbd><span>Map Warp</span></div>
+        <div class="control-row"><kbd>R</kbd><span>View Character</span></div>
+      </aside>
+    </header>
+
+    <section class="map-wrap" id="world-map">
+      <div class="map-card">
+        <!-- Replace this with your own Catbox map image URL -->
+        <img
+          loading="eager"
+          decoding="async"
+          src="https://files.catbox.moe/your-map-image.jpg"
+          alt="Fantasy world map placeholder"
+        />
+
+        <div class="map-label big purple" style="left:15%;top:29%;">Waisen<br>Empire</div>
+        <div class="map-label big blue" style="left:50%;top:43%;">Kingdom<br>of Kaleila</div>
+        <div class="map-label big red" style="left:86%;top:42%;">Samiad<br>Kingdom</div>
+
+        <div class="map-label" style="left:45%;top:59%;">Rhoan</div>
+        <div class="map-label" style="left:45%;top:79%;">Frannelle Castle</div>
+        <div class="map-label" style="left:31%;top:45%;">Northern Battlefield</div>
+        <div class="map-label" style="left:64%;top:46%;">Granatum Forest</div>
+        <div class="map-label" style="left:84%;top:64%;">Desert Town</div>
+        <div class="map-label" style="left:89%;top:81%;">Desert Witch's Palace</div>
+
+        <aside class="legend">
+          <strong>Kingdoms</strong>
+          <div class="legend-row"><span class="sigil blue"></span>Kingdom of Kaleila</div>
+          <div class="legend-row"><span class="sigil purple"></span>Waisen Empire</div>
+          <div class="legend-row"><span class="sigil red"></span>Samiad Kingdom</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content-grid" id="locations">
+      <section class="panel">
+        <h2 class="section-title">Social Interest Locations (Rhoan)</h2>
+
+        <div class="social-grid">
+          <!-- Duplicate or rename these cards as needed -->
+          <article class="location-card">
+            <h3>Center of Town</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-01.jpg" alt="" />
+            <p>Marketplace and daily life.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Central Park</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-02.jpg" alt="" />
+            <p>Meet, talk, and give gifts.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Fortune-Teller Alley</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-03.jpg" alt="" />
+            <p>Secrets, rumors, and strange predictions.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Training Hall</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-04.jpg" alt="" />
+            <p>Train, spar, and join tournaments.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Arena</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-05.jpg" alt="" />
+            <p>Battles, events, and competitions.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Back Alleys</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-06.jpg" alt="" />
+            <p>Underground deals and hidden encounters.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Road to Castle</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-07.jpg" alt="" />
+            <p>Nobles and soldiers pass this way.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Frannelle Castle</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-08.jpg" alt="" />
+            <p>Royal family, politics, and ceremonies.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Cemetery</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-09.jpg" alt="" />
+            <p>Memories and supernatural events.</p>
+          </article>
+
+          <article class="location-card">
+            <h3>Shark's Jaw</h3>
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-location-10.jpg" alt="" />
+            <p>A scenic spot visited by couples.</p>
+          </article>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <h2 class="section-title">Social System</h2>
+        <ul class="system-list">
+          <li>Scan characters to record them in your codex.</li>
+          <li>Each character has preferences, aspirations, and personal stories.</li>
+          <li>Give favorite gifts to raise Friendship Points.</li>
+          <li>Dialogue and events change as the story progresses.</li>
+          <li>Complete personal quests to unlock backstory.</li>
+          <li>Some characters support friendship paths; others support romance.</li>
+          <li>Use map warp to return to recorded locations.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="lower-grid" id="travel">
+      <section class="panel">
+        <h2 class="section-title">Main Travel Network</h2>
+        <div class="travel-tree">
+          <div class="node accent">Waisen Empire</div>
+          <div class="tree-line"></div>
+          <div class="node">Waisen Empire Camp</div>
+          <div class="tree-line"></div>
+          <div class="node">Northern Battlefield</div>
+          <div class="tree-line"></div>
+          <div class="node">Wargliss Fortress</div>
+          <div class="tree-line"></div>
+          <div class="node">Weld River</div>
+          <div class="tree-line"></div>
+          <div class="node">Crossroads of the World (Rhoan)</div>
+          <div class="tree-line"></div>
+
+          <div class="branch">
+            <div>
+              <div class="node">Rhoan Town</div>
+              <div class="tree-line"></div>
+              <div class="node">Frannelle Castle</div>
+            </div>
+            <div>
+              <div class="node">Grana Plains</div>
+              <div class="tree-line"></div>
+              <div class="node">Granatum Forest</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="section-title">Key Locations</h2>
+        <div class="key-list">
+          <article class="key-item">
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-key-location-01.jpg" alt="" />
+            <div>
+              <h3>Frannelle Castle</h3>
+              <p>Seat of the Kaleilan royal family.</p>
+            </div>
+          </article>
+
+          <article class="key-item">
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-key-location-02.jpg" alt="" />
+            <div>
+              <h3>Wargliss Fortress</h3>
+              <p>Frontline stronghold against the empire.</p>
+            </div>
+          </article>
+
+          <article class="key-item">
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-key-location-03.jpg" alt="" />
+            <div>
+              <h3>Granatum Forest</h3>
+              <p>Home to elves and ancient spirits.</p>
+            </div>
+          </article>
+
+          <article class="key-item">
+            <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-key-location-04.jpg" alt="" />
+            <div>
+              <h3>Desert Witch's Palace</h3>
+              <p>Hidden deep in the sands.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="characters">
+        <h2 class="section-title">Characters You Will Meet</h2>
+        <div class="characters">
+          <div class="portrait-grid">
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-01.jpg" alt="" /><span>FANA</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-02.jpg" alt="" /><span>VIS</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-03.jpg" alt="" /><span>GUSTAV</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-04.jpg" alt="" /><span>DURAN</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-05.jpg" alt="" /><span>ANWAR</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-06.jpg" alt="" /><span>HAOCHY</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-07.jpg" alt="" /><span>NANAI</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-08.jpg" alt="" /><span>REX</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-09.jpg" alt="" /><span>KAMUI</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-10.jpg" alt="" /><span>HELEN</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-11.jpg" alt="" /><span>FRO</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-12.jpg" alt="" /><span>LAUCA MEIA</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-13.jpg" alt="" /><span>VALDO</span></div>
+            <div class="portrait"><img loading="lazy" decoding="async" src="https://files.catbox.moe/your-character-14.jpg" alt="" /><span>???</span></div>
+          </div>
+
+          <article class="prophecy">
+            <div class="prophecy-head">
+              <span>Book of Prophecy</span>
+              <span>×</span>
+            </div>
+
+            <div class="prophecy-body">
+              <img loading="lazy" decoding="async" src="https://files.catbox.moe/your-featured-character.jpg" alt="Featured character" />
+
+              <div>
+                <h3>Gustav</h3>
+                <div class="stats">
+                  Friendship Points: <span class="hearts">♥♥♥♡♡</span><br />
+                  Affection Rank: <span class="stars">★★★★★</span><br /><br />
+                  <strong>Dream</strong><br />
+                  Become the strongest knight and protect his friends.<br /><br />
+                  <strong>Likes</strong><br />
+                  Training, swords, honesty.<br /><br />
+                  <strong>Dislikes</strong><br />
+                  Cowards, betrayal.
+                </div>
+              </div>
+
+              <div class="crest-placeholder" aria-label="Crest placeholder">✥</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+
+    <section class="print-worksheet" aria-label="CYOA player worksheet">
+      <h2>Player Journey Sheet</h2>
+
+      <div class="worksheet-grid">
+        <section>
+          <h3>Adventurer</h3>
+          <p>Name: __________________________________________</p>
+          <p>Origin: _________________________________________</p>
+          <p>Goal: ___________________________________________</p>
+        </section>
+
+        <section>
+          <h3>Current State</h3>
+          <p>Location: _______________________________________</p>
+          <p>Chapter / Scene: ________________________________</p>
+          <p>Health / Resolve: □ □ □ □ □ □ □ □ □ □</p>
+        </section>
+
+        <section>
+          <h3>Inventory</h3>
+          <p>1. ______________________________________________</p>
+          <p>2. ______________________________________________</p>
+          <p>3. ______________________________________________</p>
+          <p>4. ______________________________________________</p>
+        </section>
+
+        <section>
+          <h3>Relationships</h3>
+          <p>Character: __________________ Rank: □ □ □ □ □</p>
+          <p>Character: __________________ Rank: □ □ □ □ □</p>
+          <p>Character: __________________ Rank: □ □ □ □ □</p>
+        </section>
+
+        <section class="worksheet-wide">
+          <h3>Choices &amp; Consequences</h3>
+          <p>Choice: ________________________________________________________________</p>
+          <p>Result: _________________________________________________________________</p>
+          <p>Code / Flag gained: ____________________________________________________</p>
+        </section>
+
+        <section class="worksheet-wide">
+          <h3>Notes</h3>
+          <div class="writing-lines" aria-hidden="true"></div>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer">
+      ✦ Scan People. Build Bonds. Shape Your Destiny. ✦
+    </footer>
+
+    <p class="tiny-note">
+      Replace every <code>https://files.catbox.moe/your-....jpg</code> URL with your real Catbox image links.
+    </p>
+  </main>
+</body>
+</html>
