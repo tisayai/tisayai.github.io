@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Aetheria, a richly illustrated fantasy world of kingdoms, trade routes, ancient ruins, and magical destinations.">
+  <meta name="theme-color" content="#d7b879">
+  <title>Aetheria Online — World Atlas</title>
+
+  <style>
+    /* =========================================================
+       Editable design tokens
+       ========================================================= */
+    :root {
+      --ink: #2b2419;
+      --ink-soft: #534735;
+      --paper: #ead7ad;
+      --paper-light: #f7e8c5;
+      --paper-dark: #c99f63;
+      --paper-deep: #9f7040;
+      --navy: #173c62;
+      --navy-dark: #0e2945;
+      --sea: #4e7d91;
+      --sea-dark: #315c72;
+      --forest: #596f43;
+      --forest-dark: #31472d;
+      --sand: #ae7544;
+      --wine: #713d48;
+      --gold: #b98539;
+      --cream: #fff5d9;
+      --danger: #753e37;
+      --border: rgba(61, 42, 24, 0.72);
+      --border-soft: rgba(61, 42, 24, 0.36);
+      --shadow: 0 0.75rem 2rem rgba(43, 30, 16, 0.2);
+      --shadow-small: 0 0.3rem 0.8rem rgba(43, 30, 16, 0.18);
+      --radius: 0.35rem;
+      --radius-large: 0.75rem;
+      --content-width: 92rem;
+      --space-1: clamp(0.4rem, 1vw, 0.65rem);
+      --space-2: clamp(0.7rem, 1.5vw, 1rem);
+      --space-3: clamp(1rem, 2vw, 1.5rem);
+      --space-4: clamp(1.4rem, 3vw, 2.25rem);
+      --space-5: clamp(2rem, 5vw, 4rem);
+      --title-font: Georgia, "Times New Roman", serif;
+      --body-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* =========================================================
+       Base
+       ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-width: 0;
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--body-font);
+      line-height: 1.55;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.34), transparent 25rem),
+        repeating-linear-gradient(
+          8deg,
+          rgba(90, 59, 28, 0.035) 0,
+          rgba(90, 59, 28, 0.035) 1px,
+          transparent 1px,
+          transparent 7px
+        ),
+        linear-gradient(135deg, #d0aa6d, #efdcb2 45%, #c79657);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+      opacity: 0.32;
+      background-image:
+        radial-gradient(circle at 14% 23%, rgba(70, 43, 17, 0.16) 0 1px, transparent 1.5px),
+        radial-gradient(circle at 84% 62%, rgba(70, 43, 17, 0.12) 0 1px, transparent 1.5px);
+      background-size: 18px 22px, 27px 31px;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    img {
+      height: auto;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(59, 39, 19, 0.12)),
+        var(--paper-dark);
+      color: var(--ink);
+      font-size: 0.8rem;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--navy);
+      outline-offset: 3px;
+    }
+
+    .site-shell {
+      width: min(calc(100% - 1rem), var(--content-width));
+      margin: 0.5rem auto;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(255, 248, 224, 0.66), rgba(255, 248, 224, 0.66)),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          transparent 11px,
+          rgba(89, 57, 28, 0.025) 12px
+        ),
+        var(--paper);
+      border: 2px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .ornate-frame {
+      position: relative;
+    }
+
+    .ornate-frame::before,
+    .ornate-frame::after {
+      position: absolute;
+      z-index: 3;
+      width: 1.15rem;
+      height: 1.15rem;
+      pointer-events: none;
+      content: "";
+      border: 2px solid var(--border);
+      transform: rotate(45deg);
+      background: var(--paper);
+    }
+
+    .ornate-frame::before {
+      top: 0.45rem;
+      left: 0.45rem;
+    }
+
+    .ornate-frame::after {
+      right: 0.45rem;
+      bottom: 0.45rem;
+    }
+
+    .section-heading {
+      margin: 0 0 0.25rem;
+      color: var(--navy-dark);
+      font-family: var(--title-font);
+      font-size: clamp(1.55rem, 4vw, 2.5rem);
+      line-height: 1.05;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .section-kicker {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--wine);
+      font-family: var(--title-font);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .section-intro {
+      max-width: 48rem;
+      margin: 0 auto var(--space-4);
+      color: var(--ink-soft);
+      text-align: center;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: var(--space-3);
+      background:
+        linear-gradient(145deg, rgba(255, 251, 234, 0.73), rgba(220, 184, 118, 0.18)),
+        var(--paper-light);
+      border: 1px solid var(--border);
+      box-shadow:
+        inset 0 0 0 4px rgba(112, 72, 34, 0.07),
+        var(--shadow-small);
+    }
+
+    .panel-title {
+      margin: 0 0 0.8rem;
+      font-family: var(--title-font);
+      font-size: 1rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================================================
+       Header and navigation
+       ========================================================= */
+    .site-header {
+      position: relative;
+      padding: var(--space-3);
+      border-bottom: 2px solid var(--border);
+      background:
+        linear-gradient(to bottom, rgba(255, 250, 231, 0.76), rgba(226, 195, 135, 0.44)),
+        var(--paper);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      max-width: 80rem;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      min-width: 0;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 2.8rem;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+      place-items: center;
+      color: var(--cream);
+      border: 2px solid #70451f;
+      border-radius: 50%;
+      background: var(--navy);
+      box-shadow: inset 0 0 0 4px var(--gold);
+    }
+
+    .brand-mark svg {
+      width: 1.45rem;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-name {
+      display: block;
+      overflow: hidden;
+      color: var(--navy-dark);
+      font-family: var(--title-font);
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      font-weight: 800;
+      line-height: 1;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--ink-soft);
+      font-family: var(--title-font);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    .menu-button {
+      display: inline-grid;
+      width: 2.8rem;
+      height: 2.8rem;
+      flex: 0 0 auto;
+      place-items: center;
+      color: var(--cream);
+      cursor: pointer;
+      border: 1px solid var(--navy-dark);
+      border-radius: var(--radius);
+      background: var(--navy);
+    }
+
+    .menu-button svg {
+      width: 1.4rem;
+    }
+
+    .site-nav {
+      display: none;
+      max-width: 80rem;
+      margin: 0.8rem auto 0;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .site-nav.is-open {
+      display: block;
+    }
+
+    .site-nav ul {
+      display: grid;
+      gap: 0.4rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .site-nav a {
+      display: block;
+      padding: 0.75rem 0.9rem;
+      font-family: var(--title-font);
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid transparent;
+    }
+
+    .site-nav a:hover {
+      color: var(--navy);
+      border-color: var(--border-soft);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* =========================================================
+       Hero
+       ========================================================= */
+    .hero {
+      position: relative;
+      padding: var(--space-5) var(--space-3) var(--space-4);
+      overflow: hidden;
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.62), transparent 25rem),
+        linear-gradient(to bottom, rgba(244, 224, 180, 0.85), rgba(223, 187, 121, 0.62));
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      top: 50%;
+      width: clamp(3rem, 18vw, 13rem);
+      height: 1px;
+      content: "";
+      background: linear-gradient(to right, transparent, var(--border));
+    }
+
+    .hero::before {
+      left: 0;
+    }
+
+    .hero::after {
+      right: 0;
+      transform: scaleX(-1);
+    }
+
+    .hero-logo {
+      width: min(100%, 32rem);
+      min-height: 5rem;
+      max-height: 9rem;
+      margin: 0 auto 0.5rem;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    .hero-fallback-title {
+      margin: 0;
+      color: var(--navy);
+      font-family: var(--title-font);
+      font-size: clamp(2.8rem, 12vw, 6.5rem);
+      font-style: italic;
+      line-height: 0.9;
+      text-shadow: 0.1rem 0.16rem 0 var(--gold);
+    }
+
+    .hero-logo:not([src]),
+    .hero-logo[src=""] {
+      display: none;
+    }
+
+    .hero-banner {
+      position: relative;
+      width: min(100%, 35rem);
+      margin: 1rem auto;
+      padding: 0.75rem 1rem;
+      color: var(--ink);
+      font-family: var(--title-font);
+      font-size: clamp(1rem, 4vw, 1.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 2px solid var(--border);
+      background: var(--paper-dark);
+      box-shadow: var(--shadow-small);
+    }
+
+    .hero-banner::before,
+    .hero-banner::after {
+      position: absolute;
+      top: 50%;
+      z-index: -1;
+      width: 2.2rem;
+      height: 70%;
+      content: "";
+      border: 2px solid var(--border);
+      background: #b9864c;
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .hero-banner::before {
+      left: -1rem;
+    }
+
+    .hero-banner::after {
+      right: -1rem;
+    }
+
+    .hero-copy {
+      max-width: 42rem;
+      margin: 0 auto;
+      color: var(--ink-soft);
+      font-family: var(--title-font);
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-top: 1.5rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 2.9rem;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.1rem;
+      color: var(--cream);
+      font-family: var(--title-font);
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--navy-dark);
+      border-radius: var(--radius);
+      background: var(--navy);
+      box-shadow: var(--shadow-small);
+    }
+
+    .button:hover {
+      background: var(--navy-dark);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      border-color: var(--border);
+      background: var(--paper-light);
+    }
+
+    .button.secondary:hover {
+      background: #fff3cf;
+    }
+
+    /* =========================================================
+       Atlas introduction
+       ========================================================= */
+    .atlas-intro {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .intro-list,
+    .travel-list,
+    .legend-list,
+    .facts-list {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .intro-item,
+    .travel-item,
+    .legend-item,
+    .fact-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      gap: 0.75rem;
+    }
+
+    .icon-seal {
+      display: grid;
+      width: 2.25rem;
+      aspect-ratio: 1;
+      flex: 0 0 auto;
+      place-items: center;
+      color: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--navy);
+      box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.18);
+    }
+
+    .icon-seal svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .item-label {
+      display: block;
+      font-family: var(--title-font);
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .item-copy {
+      margin: 0.12rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       Main map
+       ========================================================= */
+    .map-section {
+      padding: var(--space-3);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .map-layout {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .map-stage {
+      position: relative;
+      min-height: 34rem;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background:
+        radial-gradient(circle at 14% 33%, rgba(255, 255, 255, 0.2), transparent 10rem),
+        repeating-radial-gradient(circle at 60% 40%, transparent 0 12px, rgba(255, 255, 255, 0.018) 13px 14px),
+        var(--sea);
+      box-shadow:
+        inset 0 0 2.5rem rgba(14, 41, 69, 0.6),
+        var(--shadow-small);
+    }
+
+    .map-stage::before {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      content: "";
+      border: 0.55rem double rgba(42, 31, 20, 0.62);
+    }
+
+    .map-art {
+      width: 100%;
+      height: 100%;
+      min-height: 34rem;
+    }
+
+    .map-region {
+      transition: filter 180ms ease, transform 180ms ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .map-region:hover {
+      filter: brightness(1.1);
+      transform: scale(1.01);
+    }
+
+    .route-line {
+      fill: none;
+      stroke: rgba(255, 245, 211, 0.85);
+      stroke-width: 3;
+      stroke-dasharray: 8 9;
+      stroke-linecap: round;
+    }
+
+    .city-dot {
+      fill: var(--cream);
+      stroke: var(--ink);
+      stroke-width: 2;
+    }
+
+    .city-label rect {
+      fill: rgba(39, 31, 22, 0.9);
+      stroke: rgba(255, 240, 200, 0.72);
+      stroke-width: 1;
+    }
+
+    .city-label text {
+      fill: #fff4d7;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-anchor: middle;
+    }
+
+    .map-compass {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      display: grid;
+      width: 5.5rem;
+      aspect-ratio: 1;
+      place-items: center;
+      color: var(--ink);
+      border: 1px solid rgba(54, 38, 22, 0.65);
+      border-radius: 50%;
+      background: rgba(239, 216, 168, 0.88);
+      box-shadow: var(--shadow-small);
+    }
+
+    .map-compass svg {
+      width: 4.4rem;
+    }
+
+    .map-caption {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      max-width: min(70%, 18rem);
+      padding: 0.6rem 0.75rem;
+      color: var(--cream);
+      font-family: var(--title-font);
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 245, 211, 0.55);
+      background: rgba(31, 39, 35, 0.82);
+    }
+
+    .territories {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .territory-card {
+      position: relative;
+      overflow: hidden;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      background: var(--paper-light);
+      box-shadow: var(--shadow-small);
+    }
+
+    .territory-card::after {
+      position: absolute;
+      right: -1.5rem;
+      bottom: -2rem;
+      width: 6rem;
+      aspect-ratio: 1;
+      content: "";
+      opacity: 0.12;
+      border: 0.7rem double currentColor;
+      border-radius: 50%;
+    }
+
+    .territory-card.north {
+      color: #244b2e;
+      background: linear-gradient(145deg, #e6e1b4, #c7ce92);
+    }
+
+    .territory-card.west {
+      color: #572e43;
+      background: linear-gradient(145deg, #e6c8b5, #c79a91);
+    }
+
+    .territory-card.south {
+      color: #5c3a20;
+      background: linear-gradient(145deg, #ead7a8, #d3b371);
+    }
+
+    .territory-number {
+      display: inline-grid;
+      width: 2.5rem;
+      aspect-ratio: 1;
+      margin-bottom: 0.65rem;
+      place-items: center;
+      color: white;
+      font-family: var(--title-font);
+      font-size: 1.3rem;
+      font-weight: 800;
+      clip-path: polygon(50% 0, 92% 18%, 92% 72%, 50% 100%, 8% 72%, 8% 18%);
+      background: currentColor;
+    }
+
+    .territory-card h3 {
+      margin: 0;
+      color: currentColor;
+      font-family: var(--title-font);
+      font-size: 1.05rem;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .territory-card strong {
+      display: block;
+      margin: 0.2rem 0 0.5rem;
+      font-family: var(--title-font);
+      font-size: 0.82rem;
+    }
+
+    .territory-card p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 0.84rem;
+    }
+
+    /* =========================================================
+       Destinations
+       ========================================================= */
+    .destinations {
+      padding: var(--space-5) var(--space-3);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .destination-grid {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .destination-card {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--paper-light);
+      box-shadow: var(--shadow-small);
+    }
+
+    .destination-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .destination-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .destination-type {
+      color: var(--wine);
+      font-family: var(--title-font);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .destination-card h3 {
+      margin: 0.2rem 0 0.4rem;
+      color: var(--navy-dark);
+      font-family: var(--title-font);
+      font-size: 1.2rem;
+    }
+
+    .destination-card p {
+      margin: 0 0 1rem;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+
+    .destination-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tag {
+      display: inline-flex;
+      min-height: 1.8rem;
+      align-items: center;
+      padding: 0.3rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      background: rgba(190, 151, 88, 0.2);
+    }
+
+    /* =========================================================
+       Routes, hubs, facts
+       ========================================================= */
+    .guide-section {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .hub-grid {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .hub {
+      display: grid;
+      grid-template-columns: 3rem 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.55rem;
+      border-bottom: 1px dashed var(--border-soft);
+    }
+
+    .hub:last-child {
+      border-bottom: 0;
+    }
+
+    .hub img {
+      width: 3rem;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+    }
+
+    .hub h3 {
+      margin: 0;
+      font-family: var(--title-font);
+      font-size: 0.92rem;
+    }
+
+    .hub p {
+      margin: 0.1rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    .route-diagram {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .route-stop {
+      position: relative;
+      display: grid;
+      grid-template-columns: 2.8rem 1fr;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .route-stop:not(:last-child)::after {
+      position: absolute;
+      top: 2.8rem;
+      left: 1.35rem;
+      width: 2px;
+      height: 0.8rem;
+      content: "";
+      border-left: 2px dashed var(--border);
+    }
+
+    .route-icon {
+      display: grid;
+      width: 2.8rem;
+      aspect-ratio: 1;
+      place-items: center;
+      color: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--forest-dark);
+    }
+
+    .route-icon svg {
+      width: 1.35rem;
+    }
+
+    .route-stop strong {
+      display: block;
+      font-family: var(--title-font);
+      font-size: 0.9rem;
+    }
+
+    .route-stop span {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+    }
+
+    .fact-value {
+      color: var(--navy-dark);
+      font-family: var(--title-font);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       Service strip
+       ========================================================= */
+    .service-strip {
+      display: grid;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      background:
+        linear-gradient(rgba(240, 215, 165, 0.78), rgba(240, 215, 165, 0.78)),
+        repeating-linear-gradient(90deg, transparent 0 14px, rgba(65, 44, 23, 0.04) 15px);
+    }
+
+    .keeper {
+      display: grid;
+      grid-template-columns: 4rem 1fr;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .keeper img {
+      width: 4rem;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+    }
+
+    .speech {
+      position: relative;
+      padding: 0.7rem;
+      font-family: var(--title-font);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      background: var(--paper-light);
+    }
+
+    .speech::before {
+      position: absolute;
+      top: 50%;
+      left: -0.45rem;
+      width: 0.75rem;
+      height: 0.75rem;
+      content: "";
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      background: var(--paper-light);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin: 0;
+      padding: 0.8rem;
+      list-style: none;
+      border: 1px dashed var(--border);
+    }
+
+    .service-list li {
+      display: grid;
+      min-width: 0;
+      place-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 0.35rem;
+      text-align: center;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 247, 220, 0.52);
+    }
+
+    .service-list svg {
+      width: 2rem;
+      height: 2rem;
+      color: var(--navy);
+    }
+
+    .service-list span {
+      font-family: var(--title-font);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       Footer
+       ========================================================= */
+    .site-footer {
+      padding: var(--space-4) var(--space-3);
+      color: var(--cream);
+      text-align: center;
+      border-top: 2px solid var(--border);
+      background:
+        linear-gradient(rgba(14, 41, 69, 0.95), rgba(14, 41, 69, 0.95)),
+        var(--navy-dark);
+    }
+
+    .footer-mark {
+      display: inline-grid;
+      width: 3.4rem;
+      aspect-ratio: 1;
+      margin-bottom: 0.7rem;
+      place-items: center;
+      border: 1px solid rgba(255, 245, 217, 0.65);
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .footer-mark svg {
+      width: 1.8rem;
+    }
+
+    .site-footer h2 {
+      margin: 0;
+      font-family: var(--title-font);
+      font-size: 1.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .site-footer p {
+      max-width: 35rem;
+      margin: 0.55rem auto 0;
+      color: rgba(255, 245, 217, 0.82);
+      font-size: 0.8rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem 1rem;
+      margin-top: 1rem;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem;
+    }
+
+    /* =========================================================
+       Responsive layouts
+       ========================================================= */
+    @media (min-width: 36rem) {
+      .site-shell {
+        width: min(calc(100% - 2rem), var(--content-width));
+        margin: 1rem auto;
+      }
+
+      .atlas-intro {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .atlas-intro .about-panel {
+        grid-column: 1 / -1;
+      }
+
+      .destination-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .service-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 48rem) {
+      .site-header {
+        padding-inline: var(--space-4);
+      }
+
+      .menu-button {
+        display: none;
+      }
+
+      .site-nav {
+        display: block;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .site-nav ul {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+      }
+
+      .site-nav a {
+        padding: 0.65rem 0.7rem;
+      }
+
+      .header-row {
+        align-items: center;
+      }
+
+      .atlas-intro {
+        grid-template-columns: 1.05fr 1fr 1fr;
+      }
+
+      .atlas-intro .about-panel {
+        grid-column: auto;
+      }
+
+      .map-layout {
+        grid-template-columns: minmax(0, 2.4fr) minmax(15rem, 0.8fr);
+      }
+
+      .territories {
+        align-content: start;
+      }
+
+      .destination-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .guide-section {
+        grid-template-columns: 1.35fr 1fr 0.8fr;
+      }
+
+      .service-strip {
+        grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 2fr);
+        align-items: center;
+      }
+    }
+
+    @media (min-width: 70rem) {
+      .site-shell {
+        border-width: 3px;
+      }
+
+      .map-stage,
+      .map-art {
+        min-height: 47rem;
+      }
+
+      .hub-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .destination-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .destination-card:first-child,
+      .destination-card:nth-child(2) {
+        grid-column: span 2;
+      }
+
+      .destination-card:first-child .destination-image,
+      .destination-card:nth-child(2) .destination-image {
+        aspect-ratio: 2 / 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site-shell ornate-frame">
+    <!-- =======================================================
+         Header
+         ======================================================= -->
+    <header class="site-header">
+      <div class="header-row">
+        <a class="brand" href="#top" aria-label="Aetheria Online home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2 15 9l7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="currentColor"/>
+              <circle cx="12" cy="12" r="3" fill="#b98539"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-name">Aetheria</span>
+            <span class="brand-subtitle">Online World Atlas</span>
+          </span>
+        </a>
+
+        <button
+          class="menu-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-navigation"
+          aria-label="Open navigation"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+
+        <nav class="site-nav" id="site-navigation" aria-label="Primary navigation">
+          <ul>
+            <li><a href="#atlas">Atlas</a></li>
+            <li><a href="#regions">Regions</a></li>
+            <li><a href="#destinations">Destinations</a></li>
+            <li><a href="#travel">Travel</a></li>
+            <li><a href="#services">Services</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- =====================================================
+           Hero
+           Replace /images/aetheria-logo-placeholder.png
+           with the final transparent logo asset.
+           ===================================================== -->
+      <section class="hero" aria-labelledby="hero-title">
+        <img
+          class="hero-logo"
+          src="images/aetheria-logo-placeholder.png"
+          alt="Aetheria Online fantasy game logo"
+          onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+        >
+        <h1 class="hero-fallback-title" id="hero-title" hidden>Aetheria</h1>
+
+        <div class="hero-banner">World Atlas of the Shattered Realm</div>
+
+        <p class="hero-copy">
+          A continent divided by ancient crowns, connected by sky routes, sea lanes,
+          wandering heroes, and the promise of forgotten magic.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button" href="#atlas">Explore the map</a>
+          <a class="button secondary" href="#travel">Plan a journey</a>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           World overview
+           ===================================================== -->
+      <section class="atlas-intro" id="atlas" aria-label="World overview">
+        <article class="panel about-panel">
+          <h2 class="panel-title">About Aetheria</h2>
+          <p>
+            Aetheria lies between the Sapphire Expanse and the cloudbound northern
+            frontier. Its kingdoms were shaped by celestial storms, living forests,
+            merchant guilds, and the ruins of a civilization that vanished beneath
+            the mountains.
+          </p>
+          <ul class="intro-list">
+            <li class="intro-item">
+              <span class="icon-seal" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M4 17 9 7l3 6 3-9 5 13H4Z"/>
+                </svg>
+              </span>
+              <span>
+                <span class="item-label">A living world</span>
+                <span class="item-copy">Seasons, trade, and regional conflicts shape every expedition.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h2 class="panel-title">How to Travel</h2>
+          <ul class="travel-list">
+            <li class="travel-item">
+              <span class="icon-seal" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M7 4h7l1 6 4 5-2 4H7l-3-4 3-3V4Z"/>
+                </svg>
+              </span>
+              <span>
+                <span class="item-label">Road</span>
+                <span class="item-copy">Move freely between connected settlements.</span>
+              </span>
+            </li>
+            <li class="travel-item">
+              <span class="icon-seal" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M3 14h18M7 14l2-7h7l2 7M12 7V3M8 18h8"/>
+                </svg>
+              </span>
+              <span>
+                <span class="item-label">Skyship</span>
+                <span class="item-copy">Cross oceans and hostile terrain from major ports.</span>
+              </span>
+            </li>
+            <li class="travel-item">
+              <span class="icon-seal" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <circle cx="12" cy="12" r="8"/>
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 4v5M20 12h-5M12 20v-5M4 12h5"/>
+                </svg>
+              </span>
+              <span>
+                <span class="item-label">Waygate</span>
+                <span class="item-copy">Ancient portals link sanctuaries and dangerous ruins.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h2 class="panel-title">Map Legend</h2>
+          <ul class="legend-list">
+            <li class="legend-item">
+              <span class="icon-seal" aria-hidden="true">◆</span>
+              <span>
+                <span class="item-label">Capital</span>
+                <span class="item-copy">Political and cultural center.</span>
+              </span>
+            </li>
+            <li class="legend-item">
+              <span class="icon-seal" aria-hidden="true">●</span>
+              <span>
+                <span class="item-label">Settlement</span>
+                <span class="item-copy">Markets, lodging, and local quests.</span>
+              </span>
+            </li>
+            <li class="legend-item">
+              <span class="icon-seal" aria-hidden="true">✦</span>
+              <span>
+                <span class="item-label">Ancient site</span>
+                <span class="item-copy">Ruins, relics, and unstable magic.</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           Illustrated world map
+           All map content is inline SVG and remains visible
+           without JavaScript or external assets.
+           ===================================================== -->
+      <section class="map-section" id="regions" aria-labelledby="map-heading">
+        <span class="section-kicker">The known continent</span>
+        <h2 class="section-heading" id="map-heading">The Shattered Realm</h2>
+        <p class="section-intro">
+          Three great powers surround the central wildlands, each with its own
+          culture, architecture, dangers, and path to glory.
+        </p>
+
+        <div class="map-layout">
+          <div class="map-stage" aria-label="Illustrated map of Aetheria">
+            <svg class="map-art" viewBox="0 0 900 760" role="img" aria-labelledby="map-title map-description">
+              <title id="map-title">Map of the Aetherian continent</title>
+              <desc id="map-description">
+                A fantasy map showing the northern Verdant Concord, western Ashen Dominion,
+                southern Suncrest Kingdom, central mountains, cities, and travel routes.
+              </desc>
+
+              <defs>
+                <filter id="rough-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="7" stdDeviation="6" flood-color="#173141" flood-opacity=".55"/>
+                </filter>
+
+                <pattern id="forest-pattern" width="34" height="34" patternUnits="userSpaceOnUse">
+                  <path d="M17 5 9 18h5l-5 9h16l-5-9h5L17 5Z" fill="#31472d" opacity=".45"/>
+                </pattern>
+
+                <pattern id="desert-pattern" width="42" height="28" patternUnits="userSpaceOnUse">
+                  <path d="M2 20q10-12 20 0t20 0" fill="none" stroke="#704726" stroke-width="2" opacity=".28"/>
+                </pattern>
+
+                <linearGradient id="northland" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#87915a"/>
+                  <stop offset="1" stop-color="#4f6b3e"/>
+                </linearGradient>
+
+                <linearGradient id="westland" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#aa7357"/>
+                  <stop offset="1" stop-color="#7b4a43"/>
+                </linearGradient>
+
+                <linearGradient id="southland" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0" stop-color="#be9855"/>
+                  <stop offset="1" stop-color="#7e8447"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Sea texture -->
+              <g opacity=".25" fill="none" stroke="#d8e4d5" stroke-width="2">
+                <path d="M20 100q30-18 60 0t60 0t60 0"/>
+                <path d="M675 92q30-18 60 0t60 0t60 0"/>
+                <path d="M25 650q30-18 60 0t60 0"/>
+                <path d="M690 670q30-18 60 0t60 0t60 0"/>
+                <path d="M35 350q25-15 50 0t50 0"/>
+                <path d="M760 380q25-15 50 0t50 0"/>
+              </g>
+
+              <!-- Western territory -->
+              <path
+                class="map-region"
+                d="M75 155
+                   C120 95 245 70 330 120
+                   C366 142 374 190 356 228
+                   C338 266 301 281 283 318
+                   C259 367 215 381 160 362
+                   C103 342 51 305 47 249
+                   C44 214 55 180 75 155Z"
+                fill="url(#westland)"
+                stroke="#4f3329"
+                stroke-width="6"
+                filter="url(#rough-shadow)"
+              />
+              <path
+                d="M75 155 C120 95 245 70 330 120 C366 142 374 190 356 228 C338 266 301 281 283 318 C259 367 215 381 160 362 C103 342 51 305 47 249 C44 214 55 180 75 155Z"
+                fill="url(#desert-pattern)"
+              />
+
+              <!-- Northern territory -->
+              <path
+                class="map-region"
+                d="M386 80
+                   C447 30 565 27 646 65
+                   C730 104 823 151 842 236
+                   C859 311 806 373 732 392
+                   C669 408 633 365 584 356
+                   C526 345 451 388 395 345
+                   C354 314 349 261 367 217
+                   C387 169 356 111 386 80Z"
+                fill="url(#northland)"
+                stroke="#30422d"
+                stroke-width="6"
+                filter="url(#rough-shadow)"
+              />
+              <path
+                d="M386 80 C447 30 565 27 646 65 C730 104 823 151 842 236 C859 311 806 373 732 392 C669 408 633 365 584 356 C526 345 451 388 395 345 C354 314 349 261 367 217 C387 169 356 111 386 80Z"
+                fill="url(#forest-pattern)"
+              />
+
+              <!-- Southern territory -->
+              <path
+                class="map-region"
+                d="M258 365
+                   C318 317 390 342 445 363
+                   C505 386 552 370 608 393
+                   C674 419 747 455 758 526
+                   C769 596 717 679 638 702
+                   C568 722 520 679 456 695
+                   C383 713 295 694 242 645
+                   C188 595 173 513 199 447
+                   C215 407 230 386 258 365Z"
+                fill="url(#southland)"
+                stroke="#5f4928"
+                stroke-width="6"
+                filter="url(#rough-shadow)"
+              />
+              <path
+                d="M258 365 C318 317 390 342 445 363 C505 386 552 370 608 393 C674 419 747 455 758 526 C769 596 717 679 638 702 C568 722 520 679 456 695 C383 713 295 694 242 645 C188 595 173 513 199 447 C215 407 230 386 258 365Z"
+                fill="url(#forest-pattern)"
+                opacity=".55"
+              />
+
+              <!-- Island -->
+              <path
+                d="M65 505c32-38 82-25 103 10 17 29-3 69-38 79-39 11-84-12-85-50-1-15 7-29 20-39Z"
+                fill="#a6a15c"
+                stroke="#54472c"
+                stroke-width="5"
+                filter="url(#rough-shadow)"
+              />
+
+              <!-- Mountains -->
+              <g stroke="#4f4030" stroke-width="3" stroke-linejoin="round">
+                <path d="M355 248 413 118l50 130Z" fill="#86765d"/>
+                <path d="m413 118 17 47 16-20 17 103Z" fill="#eadfbe"/>
+                <path d="M420 265 488 129l57 136Z" fill="#75654f"/>
+                <path d="m488 129 21 50 17-18 19 104Z" fill="#eadfbe"/>
+                <path d="M494 281 552 167l53 114Z" fill="#8e7758"/>
+                <path d="m552 167 18 38 15-13 20 89Z" fill="#eadfbe"/>
+              </g>
+
+              <!-- Rivers -->
+              <g fill="none" stroke="#8eb9bf" stroke-width="6" stroke-linecap="round">
+                <path d="M470 265c-30 52-69 69-88 118-21 56-5 106-35 151"/>
+                <path d="M551 279c-8 42 16 72 49 93 35 23 46 59 31 105"/>
+              </g>
+
+              <!-- Routes -->
+              <path class="route-line" d="M155 228 C260 140 390 175 481 212 S690 221 766 272"/>
+              <path class="route-line" d="M291 502 C383 447 490 433 583 467 S684 542 650 614"/>
+              <path class="route-line" d="M129 540 C204 564 250 590 312 623"/>
+
+              <!-- City markers and labels -->
+              <g>
+                <circle class="city-dot" cx="151" cy="226" r="7"/>
+                <g class="city-label" transform="translate(151 202)">
+                  <rect x="-42" y="-14" width="84" height="25" rx="4"/>
+                  <text y="4">Vespera</text>
+                </g>
+
+                <circle class="city-dot" cx="261" cy="289" r="7"/>
+                <g class="city-label" transform="translate(261 266)">
+                  <rect x="-38" y="-14" width="76" height="25" rx="4"/>
+                  <text y="4">Cindervale</text>
+                </g>
+
+                <circle class="city-dot" cx="481" cy="212" r="7"/>
+                <g class="city-label" transform="translate(481 188)">
+                  <rect x="-39" y="-14" width="78" height="25" rx="4"/>
+                  <text y="4">Highspire</text>
+                </g>
+
+                <circle class="city-dot" cx="650" cy="169" r="7"/>
+                <g class="city-label" transform="translate(650 145)">
+                  <rect x="-37" y="-14" width="74" height="25" rx="4"/>
+                  <text y="4">Greymere</text>
+                </g>
+
+                <circle class="city-dot" cx="766" cy="272" r="7"/>
+                <g class="city-label" transform="translate(766 248)">
+                  <rect x="-42" y="-14" width="84" height="25" rx="4"/>
+                  <text y="4">Luminar</text>
+                </g>
+
+                <circle class="city-dot" cx="291" cy="502" r="7"/>
+                <g class="city-label" transform="translate(291 478)">
+                  <rect x="-36" y="-14" width="72" height="25" rx="4"/>
+                  <text y="4">Solhaven</text>
+                </g>
+
+                <circle class="city-dot" cx="454" cy="516" r="7"/>
+                <g class="city-label" transform="translate(454 492)">
+                  <rect x="-41" y="-14" width="82" height="25" rx="4"/>
+                  <text y="4">Goldreach</text>
+                </g>
+
+                <circle class="city-dot" cx="650" cy="614" r="7"/>
+                <g class="city-label" transform="translate(650 590)">
+                  <rect x="-39" y="-14" width="78" height="25" rx="4"/>
+                  <text y="4">Moonfall</text>
+                </g>
+
+                <circle class="city-dot" cx="129" cy="540" r="7"/>
+                <g class="city-label" transform="translate(129 516)">
+                  <rect x="-34" y="-14" width="68" height="25" rx="4"/>
+                  <text y="4">Seabreak</text>
+                </g>
+              </g>
+
+              <!-- Decorative ships -->
+              <g fill="#a56d32" stroke="#3f3023" stroke-width="2">
+                <path d="M72 410h75l-16 18H88Z"/>
+                <path d="M104 358v52"/>
+                <path d="M104 366q28 12 0 36Z" fill="#eee0b8"/>
+
+                <path d="M760 448h76l-16 18h-44Z"/>
+                <path d="M798 398v50"/>
+                <path d="M798 407q28 12 0 34Z" fill="#eee0b8"/>
+              </g>
+            </svg>
+
+            <div class="map-caption">
+              Dotted lines indicate established caravan and skyship routes.
+            </div>
+
+            <div class="map-compass" aria-hidden="true">
+              <svg viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="2"/>
+                <circle cx="50" cy="50" r="6" fill="currentColor"/>
+                <path d="M50 5 59 42 50 50 41 42 50 5Z" fill="currentColor"/>
+                <path d="M50 95 41 58 50 50 59 58 50 95Z" fill="#9f7040"/>
+                <path d="M5 50 42 41 50 50 42 59 5 50Z" fill="#9f7040"/>
+                <path d="M95 50 58 59 50 50 58 41 95 50Z" fill="#9f7040"/>
+                <text x="50" y="15" text-anchor="middle" fill="currentColor" font-family="Georgia" font-size="12">N</text>
+              </svg>
+            </div>
+          </div>
+
+          <aside class="territories" aria-label="Major territories">
+            <article class="territory-card north">
+              <span class="territory-number">2</span>
+              <h3>The Verdant Concord</h3>
+              <strong>Scholarly Commonwealth</strong>
+              <p>
+                The northern alliance is governed by guild councils, artificers,
+                and ancient forest houses. Its cities blend living stone with
+                arcane machinery.
+              </p>
+            </article>
+
+            <article class="territory-card west">
+              <span class="territory-number">3</span>
+              <h3>The Ashen Dominion</h3>
+              <strong>Crimson Theocracy</strong>
+              <p>
+                A harsh western realm of volcanic valleys, fortified monasteries,
+                and pilgrim roads watched by the masked Order of Embers.
+              </p>
+            </article>
+
+            <article class="territory-card south">
+              <span class="territory-number">1</span>
+              <h3>The Suncrest Kingdom</h3>
+              <strong>Hereditary Monarchy</strong>
+              <p>
+                The largest kingdom in Aetheria controls the fertile heartlands,
+                southern ports, royal highways, and the continent's busiest markets.
+              </p>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           Featured destinations
+           Replace the placeholder image paths below with
+           production artwork.
+           ===================================================== -->
+      <section class="destinations" id="destinations" aria-labelledby="destinations-heading">
+        <span class="section-kicker">Beyond the royal roads</span>
+        <h2 class="section-heading" id="destinations-heading">Independent Destinations</h2>
+        <p class="section-intro">
+          Remote islands, sacred enclaves, and frontier settlements offer rare
+          resources, unique stories, and challenges found nowhere else.
+        </p>
+
+        <div class="destination-grid">
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/moonfall-sanctuary-placeholder.jpg"
+              alt="Moonlit towers rising above a misty sacred forest"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Sacred enclave</span>
+              <h3>Moonfall Sanctuary</h3>
+              <p>
+                A secluded city where silver-leaf trees bloom beneath an eternal moon.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Spirit magic</span>
+                <span class="tag">Night market</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/seabreak-isles-placeholder.jpg"
+              alt="Colorful island harbor surrounded by clear blue water"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Island republic</span>
+              <h3>The Seabreak Isles</h3>
+              <p>
+                Merchant captains, pearl divers, and privateers share this busy tropical port.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Ocean trade</span>
+                <span class="tag">Treasure maps</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/ember-temple-placeholder.jpg"
+              alt="Ancient temple built into red volcanic cliffs"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Pilgrimage site</span>
+              <h3>Ember Temple</h3>
+              <p>
+                A cliffside monastery guarding a flame said to predate the sun.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Fire relics</span>
+                <span class="tag">Trial dungeon</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/cloudstep-village-placeholder.jpg"
+              alt="Mountain village connected by bridges above the clouds"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Mountain settlement</span>
+              <h3>Cloudstep Village</h3>
+              <p>
+                Rope bridges and wind shrines connect homes perched above the cloud line.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Sky mounts</span>
+                <span class="tag">Wind crafting</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/hollowwood-placeholder.jpg"
+              alt="Enormous ancient trees surrounding a hidden woodland settlement"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Wild frontier</span>
+              <h3>The Hollowwood</h3>
+              <p>
+                A sentient forest whose paths shift whenever its oldest trees awaken.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Rare herbs</span>
+                <span class="tag">Living maze</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="destination-card">
+            <img
+              class="destination-image"
+              src="images/nocturne-ruins-placeholder.jpg"
+              alt="Dark gothic ruins beneath a violet storm"
+              loading="lazy"
+            >
+            <div class="destination-body">
+              <span class="destination-type">Forbidden ruins</span>
+              <h3>Nocturne Citadel</h3>
+              <p>
+                An abandoned fortress where time fractures around the central tower.
+              </p>
+              <div class="destination-meta">
+                <span class="tag">Endgame zone</span>
+                <span class="tag">Void creatures</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           Travel guide
+           ===================================================== -->
+      <section class="guide-section" id="travel" aria-label="Travel guide">
+        <article class="panel">
+          <h2 class="panel-title">Major Social Hubs</h2>
+          <div class="hub-grid">
+            <div class="hub">
+              <img src="images/solhaven-icon-placeholder.png" alt="Solhaven city crest">
+              <div>
+                <h3>Solhaven</h3>
+                <p>Royal market, guild halls, tournaments, and public crafting.</p>
+              </div>
+            </div>
+
+            <div class="hub">
+              <img src="images/highspire-icon-placeholder.png" alt="Highspire city crest">
+              <div>
+                <h3>Highspire</h3>
+                <p>Academies, research houses, observatories, and artificer workshops.</p>
+              </div>
+            </div>
+
+            <div class="hub">
+              <img src="images/seabreak-icon-placeholder.png" alt="Seabreak city crest">
+              <div>
+                <h3>Seabreak</h3>
+                <p>Shipping, auctions, maritime contracts, and island expeditions.</p>
+              </div>
+            </div>
+
+            <div class="hub">
+              <img src="images/vespera-icon-placeholder.png" alt="Vespera city crest">
+              <div>
+                <h3>Vespera</h3>
+                <p>Pilgrim quarter, relic exchange, dueling courts, and desert caravans.</p>
+              </div>
+            </div>
+
+            <div class="hub">
+              <img src="images/goldreach-icon-placeholder.png" alt="Goldreach city crest">
+              <div>
+                <h3>Goldreach</h3>
+                <p>Merchant houses, banks, trading companies, and luxury vendors.</p>
+              </div>
+            </div>
+
+            <div class="hub">
+              <img src="images/moonfall-icon-placeholder.png" alt="Moonfall city crest">
+              <div>
+                <h3>Moonfall</h3>
+                <p>Spirit gardens, night festivals, divination, and rare enchantments.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2 class="panel-title">Skyship Route</h2>
+          <p class="item-copy">
+            The Crown Circuit links the continent's most important cities.
+          </p>
+
+          <div class="route-diagram">
+            <div class="route-stop">
+              <span class="route-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M4 17h16M7 17V8l5-4 5 4v9M10 17v-5h4v5"/>
+                </svg>
+              </span>
+              <span>
+                <strong>Solhaven</strong>
+                <span>Royal departure terminal</span>
+              </span>
+            </div>
+
+            <div class="route-stop">
+              <span class="route-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M3 14h18M7 14l2-7h7l2 7M12 7V3M8 18h8"/>
+                </svg>
+              </span>
+              <span>
+                <strong>Highspire</strong>
+                <span>Northern transfer station</span>
+              </span>
+            </div>
+
+            <div class="route-stop">
+              <span class="route-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M4 18c4-5 12-5 16 0M7 13l5-8 5 8M12 5v13"/>
+                </svg>
+              </span>
+              <span>
+                <strong>Vespera</strong>
+                <span>Western caravan connection</span>
+              </span>
+            </div>
+
+            <div class="route-stop">
+              <span class="route-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M3 17h18M5 17l2-9h10l2 9M9 8V4h6v4"/>
+                </svg>
+              </span>
+              <span>
+                <strong>Seabreak</strong>
+                <span>Southern sea terminal</span>
+              </span>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2 class="panel-title">Quick Facts</h2>
+          <ul class="facts-list">
+            <li class="fact-item">
+              <span class="icon-seal" aria-hidden="true">◈</span>
+              <span>
+                <span class="item-label">Continent</span>
+                <span class="fact-value">Aetheria</span>
+              </span>
+            </li>
+            <li class="fact-item">
+              <span class="icon-seal" aria-hidden="true">♜</span>
+              <span>
+                <span class="item-label">Major powers</span>
+                <span class="fact-value">3</span>
+              </span>
+            </li>
+            <li class="fact-item">
+              <span class="icon-seal" aria-hidden="true">⌂</span>
+              <span>
+                <span class="item-label">Known cities</span>
+                <span class="fact-value">24+</span>
+              </span>
+            </li>
+            <li class="fact-item">
+              <span class="icon-seal" aria-hidden="true">⚑</span>
+              <span>
+                <span class="item-label">Adventure zones</span>
+                <span class="fact-value">Hundreds</span>
+              </span>
+            </li>
+            <li class="fact-item">
+              <span class="icon-seal" aria-hidden="true">✦</span>
+              <span>
+                <span class="item-label">Current era</span>
+                <span class="fact-value">Age of Return</span>
+              </span>
+            </li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           Service strip
+           ===================================================== -->
+      <section class="service-strip" id="services" aria-labelledby="services-heading">
+        <div class="keeper">
+          <img
+            src="images/waykeeper-character-placeholder.png"
+            alt="Friendly Waykeeper travel attendant"
+            loading="lazy"
+          >
+          <div class="speech" id="services-heading">
+            Waykeeper service<br>
+            Ready for your journey
+          </div>
+        </div>
+
+        <ul class="service-list" aria-label="Waykeeper services">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+              <path d="M4 8h16v11H4zM7 8V5h10v3M4 12h16"/>
+            </svg>
+            <span>Storage</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+              <path d="M5 18h14V8l-7-4-7 4v10ZM9 18v-5h6v5"/>
+            </svg>
+            <span>Save Point</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+              <path d="M4 9h16v11H4zM7 9V6h10v3M8 14h8"/>
+            </svg>
+            <span>Item Market</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+              <circle cx="12" cy="12" r="8"/>
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 4v5M20 12h-5M12 20v-5M4 12h5"/>
+            </svg>
+            <span>Waygate</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- =======================================================
+         Footer
+         ======================================================= -->
+    <footer class="site-footer">
+      <span class="footer-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2 15 9l7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="currentColor"/>
+        </svg>
+      </span>
+      <h2>Aetheria Online</h2>
+      <p>
+        An original fantasy atlas interface designed for games, worldbuilding projects,
+        role-playing communities, and interactive lore archives.
+      </p>
+      <div class="footer-links">
+        <a href="#atlas">World Atlas</a>
+        <a href="#regions">Regions</a>
+        <a href="#destinations">Destinations</a>
+        <a href="#travel">Travel Guide</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    /* Optional mobile navigation enhancement. */
+    (() => {
+      const button = document.querySelector(".menu-button");
+      const navigation = document.querySelector(".site-nav");
+
+      if (!button || !navigation) return;
+
+      button.addEventListener("click", () => {
+        const isOpen = navigation.classList.toggle("is-open");
+        button.setAttribute("aria-expanded", String(isOpen));
+        button.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+      });
+
+      navigation.addEventListener("click", (event) => {
+        if (!event.target.closest("a")) return;
+
+        navigation.classList.remove("is-open");
+        button.setAttribute("aria-expanded", "false");
+        button.setAttribute("aria-label", "Open navigation");
+      });
+    })();
+  </script>
+</body>
+</html>
