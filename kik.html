@@ -721,4 +721,2211 @@
       align-items: start;
       padding: 0.75rem;
       background: rgba(0, 0, 0, 0.16);
-      border: 1px solid rgba(215, 182, 106, 0.2
+      border: 1px solid rgba(215, 182, 106, 0.2);
+      border-radius: var(--radius-sm);
+    }
+
+    .legend-swatch {
+      width: 1rem;
+      height: 1rem;
+      margin-top: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.22);
+    }
+
+    .legend-item strong {
+      display: block;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      line-height: 1.2;
+    }
+
+    .legend-item p {
+      margin: 0.2rem 0 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* =========================================================
+       LOCATION CARDS
+       ========================================================= */
+
+    .swipe-row {
+      display: grid;
+      grid-auto-columns: minmax(82%, 20rem);
+      grid-auto-flow: column;
+      gap: 0.9rem;
+      overflow-x: auto;
+      padding: 0.2rem 0.1rem 0.9rem;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-dark) transparent;
+      overscroll-behavior-inline: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .swipe-row > * {
+      scroll-snap-align: start;
+    }
+
+    .location-card {
+      position: relative;
+    }
+
+    .location-card img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .location-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+    }
+
+    .location-card ul {
+      padding-left: 1.15rem;
+      margin-bottom: 0;
+    }
+
+    /* =========================================================
+       SOCIAL / RELATIONSHIP SYSTEM
+       ========================================================= */
+
+    .mechanics-grid {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .mechanic-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .mechanic-item {
+      display: grid;
+      grid-template-columns: 2.7rem minmax(0, 1fr);
+      gap: 0.8rem;
+      align-items: start;
+      padding: 0.8rem;
+      background: rgba(0, 0, 0, 0.17);
+      border: 1px solid rgba(215, 182, 106, 0.2);
+      border-radius: var(--radius-sm);
+    }
+
+    .mechanic-icon {
+      display: grid;
+      width: 2.7rem;
+      aspect-ratio: 1;
+      place-items: center;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      background: var(--plum);
+      border: 1px solid var(--gold-dark);
+      border-radius: 50%;
+    }
+
+    .mechanic-item h3 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-size: 1rem;
+    }
+
+    .mechanic-item p {
+      margin: 0.15rem 0 0;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .affection-scale {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .meter-wrap {
+      padding: 0.85rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    .meter-label {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .meter {
+      position: relative;
+      height: 0.95rem;
+      overflow: hidden;
+      background: #150e1b;
+      border: 1px solid var(--gold-dark);
+      border-radius: 999px;
+    }
+
+    .meter > span {
+      display: block;
+      height: 100%;
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.08) 0 0.35rem,
+          transparent 0.35rem 0.7rem
+        ),
+        linear-gradient(90deg, var(--wine), var(--ruby), var(--gold));
+      border-radius: inherit;
+    }
+
+    /* =========================================================
+       TRAVEL NETWORK
+       ========================================================= */
+
+    .travel-network {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .travel-node {
+      position: relative;
+      display: grid;
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      gap: 0.8rem;
+      align-items: center;
+      min-height: 6rem;
+      padding: 0.75rem;
+      color: var(--text-dark);
+      background: linear-gradient(135deg, #f0e2c9, #d8c5a8);
+      border: 1px solid #7e623b;
+      border-radius: var(--radius-sm);
+    }
+
+    .travel-node:not(:last-child)::after {
+      position: absolute;
+      z-index: 3;
+      bottom: -1.05rem;
+      left: 50%;
+      width: 0;
+      height: 0;
+      content: "";
+      border-top: 0.65rem solid var(--gold);
+      border-right: 0.5rem solid transparent;
+      border-left: 0.5rem solid transparent;
+      transform: translateX(-50%);
+    }
+
+    .travel-node img {
+      width: 4.5rem;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 1px solid #705636;
+      border-radius: 0.25rem;
+    }
+
+    .travel-node h3 {
+      margin: 0 0 0.2rem;
+      font-size: 1rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .travel-node p {
+      margin: 0;
+      font-size: 0.87rem;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       KEY LOCATIONS
+       ========================================================= */
+
+    .key-location-grid {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .key-location {
+      display: grid;
+      overflow: hidden;
+      background: var(--panel-alt);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+    }
+
+    .key-location img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    .key-location-content {
+      padding: 1rem;
+    }
+
+    .key-location-content h3 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+    }
+
+    .key-location-content p {
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       CHARACTER GALLERY
+       ========================================================= */
+
+    .portrait-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .portrait-tile {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+      background: #1e1526;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .portrait-tile img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .portrait-overlay {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 2.2rem 0.75rem 0.7rem;
+      background: linear-gradient(transparent, rgba(8, 5, 11, 0.94));
+    }
+
+    .portrait-overlay strong {
+      display: block;
+      color: var(--gold-bright);
+      font-size: clamp(0.95rem, 3.7vw, 1.1rem);
+      line-height: 1.1;
+    }
+
+    .portrait-overlay span {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.72rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       FEATURED CHARACTER
+       ========================================================= */
+
+    .featured-profile {
+      display: grid;
+      gap: var(--space-2);
+    }
+
+    .featured-art-wrap {
+      position: relative;
+      min-height: 24rem;
+      overflow: hidden;
+      background: #17101f;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .featured-art {
+      width: 100%;
+      height: 100%;
+      min-height: 24rem;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .featured-art-wrap::after {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background: linear-gradient(to top, rgba(9, 5, 13, 0.7), transparent 48%);
+    }
+
+    .featured-nameplate {
+      position: absolute;
+      z-index: 2;
+      right: 0.8rem;
+      bottom: 0.8rem;
+      left: 0.8rem;
+      padding: 0.85rem;
+      text-align: center;
+      background: rgba(19, 11, 25, 0.89);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .featured-nameplate h3 {
+      margin: 0;
+      color: var(--gold-bright);
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      line-height: 1.1;
+    }
+
+    .featured-nameplate p {
+      margin: 0.2rem 0 0;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .profile-data {
+      display: grid;
+      gap: 0.7rem;
+      margin: 0;
+    }
+
+    .profile-data div {
+      display: grid;
+      grid-template-columns: minmax(6rem, 0.8fr) minmax(0, 1.2fr);
+      gap: 0.75rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid rgba(215, 182, 106, 0.2);
+    }
+
+    .profile-data dt {
+      color: var(--text-faint);
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .profile-data dd {
+      margin: 0;
+      color: var(--text-main);
+    }
+
+    /* =========================================================
+       CODEX / PROPHECY
+       ========================================================= */
+
+    .codex {
+      color: var(--text-dark);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.05)),
+        #e8d9bf;
+      border-color: #87683c;
+    }
+
+    .codex h3 {
+      margin-top: 0;
+      color: #553249;
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      text-align: center;
+    }
+
+    .codex blockquote {
+      position: relative;
+      margin: 1rem 0;
+      padding: 1rem 1rem 1rem 1.25rem;
+      color: #33252e;
+      font-size: clamp(1.05rem, 3.8vw, 1.25rem);
+      font-style: italic;
+      line-height: 1.7;
+      background: rgba(91, 54, 74, 0.06);
+      border-left: 4px solid #765066;
+    }
+
+    .codex-seal {
+      width: 5.5rem;
+      aspect-ratio: 1;
+      margin: 0 auto 1rem;
+      object-fit: cover;
+      border: 2px solid #87683c;
+      border-radius: 50%;
+    }
+
+    /* =========================================================
+       QUEST TRACKER / DETAILS
+       ========================================================= */
+
+    details {
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    details + details {
+      margin-top: 0.7rem;
+    }
+
+    summary {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      color: var(--gold-bright);
+      font-family: var(--font-ui);
+      font-weight: 850;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      margin-right: 0.65rem;
+      content: "✦";
+      color: var(--gold);
+      transition: transform 140ms ease;
+    }
+
+    details[open] summary::before {
+      transform: rotate(45deg);
+    }
+
+    .details-content {
+      padding: 0 1rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .quest-list {
+      display: grid;
+      gap: 0.65rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .quest-list li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.65rem;
+      align-items: start;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(215, 182, 106, 0.18);
+      border-radius: var(--radius-sm);
+    }
+
+    .quest-status {
+      display: inline-grid;
+      width: 1.7rem;
+      aspect-ratio: 1;
+      place-items: center;
+      color: var(--text-dark);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 900;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .inventory-slot {
+      min-height: 5rem;
+      padding: 0.75rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px dashed var(--border-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    .inventory-slot strong {
+      display: block;
+      color: var(--gold-bright);
+    }
+
+    .inventory-slot span {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* =========================================================
+       PRINTABLE CYOA WORKSHEET
+       ========================================================= */
+
+    .worksheet {
+      color: var(--text-dark);
+      background: #f2eadc;
+      border: 2px solid #69543a;
+    }
+
+    .worksheet h2,
+    .worksheet h3 {
+      color: #3d2936;
+    }
+
+    .worksheet-intro {
+      color: #554855;
+    }
+
+    .worksheet-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      color: #3e303c;
+      font-family: var(--font-ui);
+      font-size: 0.78rem;
+      font-weight: 850;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 0.7rem;
+      color: #211724;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid #7f6b50;
+      border-radius: 0.25rem;
+    }
+
+    .field textarea {
+      min-height: 7rem;
+      resize: vertical;
+    }
+
+    .worksheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #211724;
+      font-size: 0.9rem;
+    }
+
+    .worksheet-table th,
+    .worksheet-table td {
+      padding: 0.55rem;
+      text-align: left;
+      vertical-align: top;
+      border: 1px solid #82705a;
+    }
+
+    .worksheet-table th {
+      background: rgba(73, 50, 64, 0.1);
+    }
+
+    .write-lines {
+      min-height: 8rem;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0 1.7rem,
+          rgba(65, 50, 60, 0.4) 1.7rem 1.75rem
+        );
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .site-footer {
+      position: relative;
+      overflow: hidden;
+      margin-top: var(--space-5);
+      padding-block: var(--space-4);
+      text-align: center;
+      background: rgba(9, 6, 12, 0.92);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-crest {
+      width: 4rem;
+      aspect-ratio: 1;
+      margin: 0 auto 0.8rem;
+      object-fit: cover;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+    }
+
+    .site-footer p {
+      max-width: 42rem;
+      margin: 0.5rem auto;
+      color: var(--text-muted);
+    }
+
+    .footer-flourish {
+      color: var(--gold);
+      font-size: 1.5rem;
+      letter-spacing: 0.35em;
+    }
+
+    /* =========================================================
+       TABLET ENHANCEMENTS
+       Adjust this breakpoint to change where multi-column layouts begin.
+       ========================================================= */
+
+    @media (min-width: 42rem) {
+      .overview-grid,
+      .mechanics-grid,
+      .featured-profile {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+      }
+
+      .legend-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .key-location {
+        grid-template-columns: minmax(14rem, 0.9fr) minmax(0, 1.1fr);
+      }
+
+      .key-location img {
+        height: 100%;
+        aspect-ratio: auto;
+      }
+
+      .portrait-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .worksheet-grid.two-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .inventory-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .map-stage {
+        min-height: 42rem;
+      }
+    }
+
+    /* =========================================================
+       DESKTOP ENHANCEMENTS
+       Adjust this breakpoint for wider desktop layouts.
+       ========================================================= */
+
+    @media (min-width: 64rem) {
+      body {
+        background-attachment: fixed;
+      }
+
+      .hero-inner {
+        min-height: 35rem;
+      }
+
+      .hero {
+        min-height: 35rem;
+      }
+
+      .site-nav .nav-scroll {
+        justify-content: center;
+      }
+
+      .swipe-row {
+        grid-auto-columns: unset;
+        grid-auto-flow: initial;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: visible;
+      }
+
+      .key-location-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .key-location {
+        grid-template-columns: 1fr;
+      }
+
+      .key-location img {
+        aspect-ratio: 16 / 9;
+      }
+
+      .portrait-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .travel-network {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        align-items: stretch;
+      }
+
+      .travel-node {
+        grid-template-columns: 1fr;
+        align-content: start;
+        text-align: center;
+      }
+
+      .travel-node img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+      }
+
+      .travel-node:not(:last-child)::after {
+        top: 50%;
+        right: -1.05rem;
+        bottom: auto;
+        left: auto;
+        border-top: 0.5rem solid transparent;
+        border-bottom: 0.5rem solid transparent;
+        border-left: 0.65rem solid var(--gold);
+        transform: translateY(-50%);
+      }
+
+      .card,
+      .key-location,
+      .portrait-tile {
+        transition:
+          transform 170ms ease,
+          border-color 170ms ease,
+          box-shadow 170ms ease;
+      }
+
+      .card:hover,
+      .key-location:hover,
+      .portrait-tile:hover {
+        border-color: var(--gold);
+        box-shadow: var(--shadow-deep);
+        transform: translateY(-0.25rem);
+      }
+    }
+
+    /* =========================================================
+       VERY SMALL PHONES
+       Simplifies map labels to prevent overlap at 320–359px.
+       ========================================================= */
+
+    @media (max-width: 22.5rem) {
+      .site-shell {
+        padding-inline: 0.6rem;
+      }
+
+      .panel {
+        padding: 0.85rem;
+      }
+
+      .map-label {
+        max-width: 6.5rem;
+        padding: 0.3rem;
+        font-size: 0.66rem;
+      }
+
+      .map-label span {
+        display: none;
+      }
+
+      .portrait-grid {
+        gap: 0.55rem;
+      }
+
+      .portrait-overlay {
+        padding-inline: 0.5rem;
+      }
+
+      .profile-data div {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+    }
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    /* =========================================================
+       PRINT STYLES — A4 CYOA / CODEX EDITION
+       ========================================================= */
+
+    @page {
+      size: A4;
+      margin: 14mm;
+    }
+
+    @media print {
+      :root {
+        color-scheme: light;
+      }
+
+      html,
+      body {
+        overflow: visible;
+      }
+
+      body {
+        color: #222;
+        font-size: 10.5pt;
+        line-height: 1.35;
+        background: #fff !important;
+      }
+
+      .site-shell {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+      }
+
+      .site-nav,
+      .skip-link,
+      .button-row,
+      .map-marker,
+      .map-status,
+      summary::before,
+      .screen-only {
+        display: none !important;
+      }
+
+      .hero {
+        min-height: 0;
+        color: #111;
+        background: #fff;
+        border: 2px solid #555;
+        break-after: avoid-page;
+      }
+
+      .hero-bg {
+        position: relative;
+        max-height: 100mm;
+        opacity: 0.42;
+      }
+
+      .hero::before {
+        background: rgba(255, 255, 255, 0.55);
+      }
+
+      .hero::after {
+        inset: 4mm;
+        border-color: #555;
+        box-shadow: none;
+      }
+
+      .hero-inner {
+        position: absolute;
+        inset: 0;
+        min-height: 0;
+        align-content: end;
+        padding: 15mm;
+      }
+
+      h1,
+      .hero-subtitle,
+      .eyebrow {
+        color: #111;
+        text-shadow: none;
+      }
+
+      .crest {
+        box-shadow: none;
+      }
+
+      .section {
+        margin-block: 8mm;
+      }
+
+      .panel,
+      .card,
+      .key-location,
+      .portrait-tile,
+      details {
+        color: #222 !important;
+        background: #fff !important;
+        border: 1px solid #555 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+
+      .panel::before,
+      .panel::after {
+        border-color: #555;
+      }
+
+      .section-header,
+      .card-title,
+      .key-location-content h3,
+      .portrait-overlay strong,
+      .featured-nameplate h3,
+      .mechanic-item h3,
+      .legend-item strong {
+        color: #222 !important;
+      }
+
+      .muted,
+      .location-card p,
+      .location-card li,
+      .key-location-content p,
+      .mechanic-item p,
+      .legend-item p,
+      .profile-data dt,
+      .profile-data dd,
+      .details-content,
+      .site-footer p {
+        color: #333 !important;
+      }
+
+      .badge {
+        color: #111;
+        background: #eee;
+        border-color: #555;
+      }
+
+      .world-map,
+      .location-card img,
+      .key-location img,
+      .portrait-tile img,
+      .featured-art,
+      .travel-node img,
+      .crest,
+      .codex-seal,
+      .footer-crest {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .map-stage {
+        min-height: 150mm;
+        border-color: #555;
+        break-inside: avoid;
+      }
+
+      .map-label {
+        color: #111;
+        background: rgba(255, 255, 255, 0.88);
+        border-color: #555;
+        box-shadow: none;
+      }
+
+      .legend-swatch,
+      .meter > span {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .swipe-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: visible;
+      }
+
+      .portrait-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .portrait-overlay,
+      .featured-nameplate {
+        position: static;
+        color: #111;
+        background: #fff;
+        border: 0;
+      }
+
+      .featured-art-wrap {
+        min-height: 0;
+        border-color: #555;
+      }
+
+      .featured-art {
+        min-height: 0;
+        max-height: 150mm;
+      }
+
+      .featured-art-wrap::after {
+        display: none;
+      }
+
+      .travel-network {
+        grid-template-columns: 1fr;
+      }
+
+      .travel-node {
+        color: #111;
+        background: #fff;
+        border-color: #555;
+        break-inside: avoid;
+      }
+
+      .travel-node:not(:last-child)::after {
+        display: none;
+      }
+
+      details {
+        display: block;
+      }
+
+      details > summary {
+        color: #111;
+      }
+
+      details > .details-content {
+        display: block !important;
+      }
+
+      .worksheet {
+        display: block !important;
+        page-break-before: always;
+        color: #111 !important;
+        background: #fff !important;
+        border: 2px solid #333 !important;
+      }
+
+      .worksheet input,
+      .worksheet textarea {
+        color: #111;
+        background: #fff;
+        border-color: #555;
+      }
+
+      .site-footer {
+        color: #111;
+        background: #fff;
+        border-color: #555;
+      }
+
+      a {
+        color: #111;
+        text-decoration: none;
+      }
+
+      a[href]::after {
+        content: none;
+      }
+
+      h2,
+      h3,
+      .section-header {
+        break-after: avoid;
+      }
+
+      img,
+      table,
+      blockquote,
+      .meter-wrap,
+      .stat-row,
+      .mechanic-item,
+      .legend-item,
+      .quest-list li,
+      .inventory-slot {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- =======================================================
+       1. FANTASY TITLE AND LOGO AREA
+       Edit the title, subtitle, and hero copy below.
+       ======================================================= -->
+  <header class="hero" id="top">
+    <!-- Replace with a wide fantasy kingdom, palace, or painted world panorama. -->
+    <img
+      class="hero-bg"
+      src="https://files.catbox.moe/hero-kingdom-background.jpg"
+      alt="Painted fantasy kingdom beneath a twilight sky"
+      width="1920"
+      height="1080"
+      decoding="async"
+    >
+
+    <div class="site-shell hero-inner">
+      <div class="logo-lockup">
+        <!-- Replace with your game crest, house sigil, or circular logo. -->
+        <img
+          class="crest"
+          src="https://files.catbox.moe/gilded-realms-crest.jpg"
+          alt="Crest of the Gilded Realms"
+          width="240"
+          height="240"
+          decoding="async"
+        >
+
+        <p class="eyebrow">An Illustrated World Codex</p>
+        <h1>The Gilded Realms</h1>
+        <p class="hero-subtitle">
+          Five rival kingdoms, one fractured prophecy, and a network of loyalties
+          that can reshape the fate of the continent.
+        </p>
+
+        <div class="button-row">
+          <a class="button" href="#world-map">Enter the Atlas</a>
+          <button class="button button-secondary" type="button" onclick="window.print()">
+            Print CYOA
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================
+       3. STICKY MOBILE NAVIGATION
+       Add, remove, or reorder anchor links here.
+       ======================================================= -->
+  <nav class="site-nav" aria-label="Primary codex navigation">
+    <div class="site-shell nav-scroll">
+      <a href="#overview">Overview</a>
+      <a href="#world-map">World Map</a>
+      <a href="#social-locations">Social</a>
+      <a href="#mechanics">Mechanics</a>
+      <a href="#travel">Travel</a>
+      <a href="#locations">Locations</a>
+      <a href="#characters">Characters</a>
+      <a href="#featured">Profile</a>
+      <a href="#codex">Prophecy</a>
+      <a href="#quests">Quests</a>
+      <a href="#worksheet">Worksheet</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <div class="site-shell">
+
+      <!-- =====================================================
+           2. SHORT OVERVIEW PANEL
+           ===================================================== -->
+      <section class="section panel overview-grid" id="overview" aria-labelledby="overview-title">
+        <div class="overview-copy">
+          <p class="section-kicker">Realm Record 001</p>
+          <h2 id="overview-title">A continent held together by fragile vows.</h2>
+          <p>
+            The Gilded Realms were once governed by a single celestial court.
+            After the Starfall War, the old empire divided into five kingdoms,
+            each preserving a different fragment of the original covenant.
+          </p>
+          <p class="muted">
+            Trade routes remain open, but spies, pilgrims, noble envoys, and
+            wandering adventurers now move through a world where every alliance
+            carries a hidden cost.
+          </p>
+        </div>
+
+        <dl class="overview-stats" aria-label="World overview statistics">
+          <div class="stat-row">
+            <dt>Known Kingdoms</dt>
+            <dd>5</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Capital City</dt>
+            <dd>Aurelia</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Current Era</dt>
+            <dd>Year 312</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Primary Conflict</dt>
+            <dd>Succession Crisis</dd>
+          </div>
+          <div class="stat-row">
+            <dt>Player Role</dt>
+            <dd>Oathbearer</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- =====================================================
+           4–6. WORLD MAP, LABELS, REGION MARKERS, LEGEND
+           ===================================================== -->
+      <section class="section" id="world-map" aria-labelledby="map-title">
+        <h2 class="section-header" id="map-title">
+          <span>Atlas of the Five Kingdoms</span>
+        </h2>
+
+        <div class="panel map-panel">
+          <div class="map-stage" aria-label="Interactive fantasy world map">
+            <!-- Replace with your illustrated fantasy world map. -->
+            <img
+              class="world-map"
+              src="https://files.catbox.moe/world-map.jpg"
+              alt="Illustrated map of five fantasy kingdoms surrounding the Inner Sea"
+              width="1600"
+              height="1200"
+              decoding="async"
+            >
+
+            <!-- Edit button labels, data-region values, and positions in CSS. -->
+            <button class="map-marker marker-1" type="button" data-region="Valedorn" aria-label="Show Valedorn region information">1</button>
+            <button class="map-marker marker-2" type="button" data-region="Elaris" aria-label="Show Elaris region information">2</button>
+            <button class="map-marker marker-3" type="button" data-region="Aurelia" aria-label="Show Aurelia region information">3</button>
+            <button class="map-marker marker-4" type="button" data-region="Solmara" aria-label="Show Solmara region information">4</button>
+            <button class="map-marker marker-5" type="button" data-region="Thornmere" aria-label="Show Thornmere region information">5</button>
+
+            <!-- Simplified labels hide their descriptions on very small screens. -->
+            <div class="map-label label-1">Valedorn <span>— Frostbound North</span></div>
+            <div class="map-label label-2">Elaris <span>— Moonlit East</span></div>
+            <div class="map-label label-3">Aurelia <span>— Crownlands</span></div>
+            <div class="map-label label-4">Solmara <span>— Sun Coast</span></div>
+            <div class="map-label label-5">Thornmere <span>— Verdant West</span></div>
+          </div>
+
+          <div class="map-caption">
+            <div class="map-status" id="map-status" role="status" aria-live="polite">
+              Select a numbered marker to reveal a regional note.
+            </div>
+            <span>
+              Dashed roads indicate seasonal passage. Sea lanes remain open year-round
+              unless blocked by royal decree.
+            </span>
+          </div>
+        </div>
+
+        <div class="legend-grid" aria-label="Kingdom legend">
+          <article class="legend-item">
+            <span class="legend-swatch" style="background: var(--kingdom-north);"></span>
+            <div>
+              <strong>Valedorn</strong>
+              <p>Mountain fortresses, oathbound knights, silver mines, and ancient observatories.</p>
+            </div>
+          </article>
+
+          <article class="legend-item">
+            <span class="legend-swatch" style="background: var(--kingdom-east);"></span>
+            <div>
+              <strong>Elaris</strong>
+              <p>Moon temples, illusion schools, masked courts, and secret diplomatic houses.</p>
+            </div>
+          </article>
+
+          <article class="legend-item">
+            <span class="legend-swatch" style="background: var(--kingdom-center);"></span>
+            <div>
+              <strong>Aurelia</strong>
+              <p>The imperial heartland, seat of the divided crown and the Golden Archive.</p>
+            </div>
+          </article>
+
+          <article class="legend-item">
+            <span class="legend-swatch" style="background: var(--kingdom-south);"></span>
+            <div>
+              <strong>Solmara</strong>
+              <p>Sunlit ports, merchant dynasties, dueling academies, and desert caravans.</p>
+            </div>
+          </article>
+
+          <article class="legend-item">
+            <span class="legend-swatch" style="background: var(--kingdom-west);"></span>
+            <div>
+              <strong>Thornmere</strong>
+              <p>Forest sanctuaries, living ruins, herbalist guilds, and guarded fae crossings.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           7. SOCIAL INTEREST LOCATION CARDS
+           Duplicate any article to add more cards.
+           ===================================================== -->
+      <section class="section" id="social-locations" aria-labelledby="social-title">
+        <h2 class="section-header" id="social-title">
+          <span>Places of Social Interest</span>
+        </h2>
+
+        <div class="swipe-row" aria-label="Swipeable social location cards">
+          <article class="card location-card">
+            <!-- Replace with an elegant fantasy ballroom or royal salon. -->
+            <img
+              src="https://files.catbox.moe/location-moonlit-salon.jpg"
+              alt="Lavish moonlit salon filled with nobles and chandeliers"
+              width="900"
+              height="560"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="card-body">
+              <p class="section-kicker">Aurelia</p>
+              <h3 class="card-title">The Moonlit Salon</h3>
+              <p>
+                A neutral gathering place where nobles exchange rumors beneath mirrored
+                ceilings and enchanted lanterns.
+              </p>
+              <div class="location-meta">
+                <span class="badge">Romance</span>
+                <span class="badge">Intrigue</span>
+                <span class="badge">Formal</span>
+              </div>
+              <ul>
+                <li>Unlocks diplomatic introductions.</li>
+                <li>High reputation grants private invitations.</li>
+                <li>Masked nights conceal identity checks.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card location-card">
+            <!-- Replace with a fantasy teahouse, tavern, or riverside inn. -->
+            <img
+              src="https://files.catbox.moe/location-riverside-teahouse.jpg"
+              alt="Warm riverside teahouse with lanterns and flower-covered balconies"
+              width="900"
+              height="560"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="card-body">
+              <p class="section-kicker">Elaris</p>
+              <h3 class="card-title">The Silver Kettle</h3>
+              <p>
+                A quiet teahouse favored by scholars, couriers, and travelers seeking
+                conversations away from court.
+              </p>
+              <div class="location-meta">
+                <span class="badge">Friendship</span>
+                <span class="badge">Rumors</span>
+                <span class="badge">Casual</span>
+              </div>
+              <ul>
+                <li>Companions reveal personal history here.</li>
+                <li>Rare teas improve negotiation checks.</li>
+                <li>Night visits can trigger secret meetings.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card location-card">
+            <!-- Replace with a fantasy market, guild square, or festival street. -->
+            <img
+              src="https://files.catbox.moe/location-gilded-market.jpg"
+              alt="Crowded fantasy market with colorful awnings and golden banners"
+              width="900"
+              height="560"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="card-body">
+              <p class="section-kicker">Solmara</p>
+              <h3 class="card-title">The Gilded Market</h3>
+              <p>
+                Merchants, performers, spies, and pilgrims converge in a sprawling maze
+                of shops beneath the old aqueduct.
+              </p>
+              <div class="location-meta">
+                <span class="badge">Commerce</span>
+                <span class="badge">Events</span>
+                <span class="badge">Crowded</span>
+              </div>
+              <ul>
+                <li>Purchase gifts that alter affection gains.</li>
+                <li>Festival days introduce temporary quests.</li>
+                <li>Pickpockets may steal unguarded relics.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           8. SOCIAL SYSTEM / RELATIONSHIP MECHANICS
+           ===================================================== -->
+      <section class="section" id="mechanics" aria-labelledby="mechanics-title">
+        <h2 class="section-header" id="mechanics-title">
+          <span>Bonds, Vows, and Reputation</span>
+        </h2>
+
+        <div class="mechanics-grid">
+          <div class="panel">
+            <p class="section-kicker">Core Social Systems</p>
+            <div class="mechanic-list">
+              <article class="mechanic-item">
+                <span class="mechanic-icon" aria-hidden="true">I</span>
+                <div>
+                  <h3>First Impression</h3>
+                  <p>Opening dialogue choices establish your visible temperament and courtly reputation.</p>
+                </div>
+              </article>
+
+              <article class="mechanic-item">
+                <span class="mechanic-icon" aria-hidden="true">II</span>
+                <div>
+                  <h3>Trust</h3>
+                  <p>Trust rises through consistency, fulfilled promises, and protecting a character's interests.</p>
+                </div>
+              </article>
+
+              <article class="mechanic-item">
+                <span class="mechanic-icon" aria-hidden="true">III</span>
+                <div>
+                  <h3>Affection</h3>
+                  <p>Affection measures emotional attachment and can diverge sharply from political loyalty.</p>
+                </div>
+              </article>
+
+              <article class="mechanic-item">
+                <span class="mechanic-icon" aria-hidden="true">IV</span>
+                <div>
+                  <h3>Route Flags</h3>
+                  <p>Hidden choices determine exclusive scenes, confessions, rivalries, betrayals, and endings.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="panel">
+            <p class="section-kicker">Current Relationship Ledger</p>
+            <div class="affection-scale">
+              <div class="meter-wrap">
+                <div class="meter-label">
+                  <span>Lucien — Trust</span>
+                  <span>72 / 100</span>
+                </div>
+                <div class="meter" role="meter" aria-label="Lucien trust" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72">
+                  <span style="width: 72%;"></span>
+                </div>
+              </div>
+
+              <div class="meter-wrap">
+                <div class="meter-label">
+                  <span>Seraphine — Affection</span>
+                  <span>58 / 100</span>
+                </div>
+                <div class="meter" role="meter" aria-label="Seraphine affection" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                  <span style="width: 58%;"></span>
+                </div>
+              </div>
+
+              <div class="meter-wrap">
+                <div class="meter-label">
+                  <span>Kael — Loyalty</span>
+                  <span>84 / 100</span>
+                </div>
+                <div class="meter" role="meter" aria-label="Kael loyalty" aria-valuemin="0" aria-valuemax="100" aria-valuenow="84">
+                  <span style="width: 84%;"></span>
+                </div>
+              </div>
+
+              <div class="meter-wrap">
+                <div class="meter-label">
+                  <span>Nyra — Suspicion</span>
+                  <span>39 / 100</span>
+                </div>
+                <div class="meter" role="meter" aria-label="Nyra suspicion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="39">
+                  <span style="width: 39%;"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider" aria-hidden="true">✦</div>
+
+            <p class="muted small">
+              Relationship values are not moral scores. High affection can coexist
+              with betrayal, obsession, rivalry, or incompatible political goals.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           9. MAIN TRAVEL NETWORK
+           ===================================================== -->
+      <section class="section" id="travel" aria-labelledby="travel-title">
+        <h2 class="section-header" id="travel-title">
+          <span>Main Travel Network</span>
+        </h2>
+
+        <div class="panel">
+          <div class="travel-network">
+            <article class="travel-node">
+              <!-- Replace with an image of a royal capital. -->
+              <img
+                src="https://files.catbox.moe/travel-aurelia-capital.jpg"
+                alt="Golden capital city of Aurelia"
+                width="480"
+                height="320"
+                loading="lazy"
+                decoding="async"
+              >
+              <div>
+                <h3>Aurelia</h3>
+                <p>Imperial roads begin at the Crown Gate.</p>
+              </div>
+            </article>
+
+            <article class="travel-node">
+              <!-- Replace with a ship, harbor, or canal route image. -->
+              <img
+                src="https://files.catbox.moe/travel-inner-sea.jpg"
+                alt="Merchant vessel crossing the Inner Sea"
+                width="480"
+                height="320"
+                loading="lazy"
+                decoding="async"
+              >
+              <div>
+                <h3>Inner Sea</h3>
+                <p>Fast passage for travelers with sealed papers.</p>
+              </div>
+            </article>
+
+            <article class="travel-node">
+              <!-- Replace with a mountain pass image. -->
+              <img
+                src="https://files.catbox.moe/travel-frost-pass.jpg"
+                alt="Snowy mountain pass through Valedorn"
+                width="480"
+                height="320"
+                loading="lazy"
+                decoding="async"
+              >
+              <div>
+                <h3>Frost Pass</h3>
+                <p>Closed during storms and border disputes.</p>
+              </div>
+            </article>
+
+            <article class="travel-node">
+              <!-- Replace with a forest road or enchanted woodland. -->
+              <img
+                src="https://files.catbox.moe/travel-verdant-road.jpg"
+                alt="Ancient forest road beneath glowing trees"
+                width="480"
+                height="320"
+                loading="lazy"
+                decoding="async"
+              >
+              <div>
+                <h3>Verdant Road</h3>
+                <p>Safe only when guided by a Thornmere warden.</p>
+              </div>
+            </article>
+
+            <article class="travel-node">
+              <!-- Replace with a desert caravan or coastal road image. -->
+              <img
+                src="https://files.catbox.moe/travel-sun-coast.jpg"
+                alt="Caravan moving along the bright Solmaran coast"
+                width="480"
+                height="320"
+                loading="lazy"
+                decoding="async"
+              >
+              <div>
+                <h3>Sun Coast</h3>
+                <p>Busy trade route connecting southern ports.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           10. KEY LOCATIONS
+           Duplicate .key-location articles to add more entries.
+           ===================================================== -->
+      <section class="section" id="locations" aria-labelledby="locations-title">
+        <h2 class="section-header" id="locations-title">
+          <span>Key Locations</span>
+        </h2>
+
+        <div class="key-location-grid">
+          <article class="key-location">
+            <!-- Replace with an ornate royal archive, palace library, or codex hall. -->
+            <img
+              src="https://files.catbox.moe/location-golden-archive.jpg"
+              alt="Vast royal archive illuminated by suspended golden lamps"
+              width="1000"
+              height="650"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="key-location-content">
+              <p class="section-kicker">Aurelia</p>
+              <h3>The Golden Archive</h3>
+              <p>
+                The official repository of imperial law, dynastic records, sealed
+                prophecies, and censored histories.
+              </p>
+              <ul>
+                <li>Primary source of historical evidence.</li>
+                <li>Restricted vaults require royal authorization.</li>
+                <li>Archivists remember every visitor.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="key-location">
+            <!-- Replace with a cliffside observatory or mountain citadel. -->
+            <img
+              src="https://files.catbox.moe/location-starwatch-citadel.jpg"
+              alt="Ancient observatory built into a snow-covered mountain"
+              width="1000"
+              height="650"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="key-location-content">
+              <p class="section-kicker">Valedorn</p>
+              <h3>Starwatch Citadel</h3>
+              <p>
+                A fortified observatory where astronomer-knights track celestial
+                omens and maintain the northern beacon network.
+              </p>
+              <ul>
+                <li>Reveals prophecy-related route flags.</li>
+                <li>Home of the Order of the White Stag.</li>
+                <li>Accessible after surviving Frost Pass.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="key-location">
+            <!-- Replace with an enchanted forest shrine or glowing ruin. -->
+            <img
+              src="https://files.catbox.moe/location-echoing-grove.jpg"
+              alt="Ancient forest shrine surrounded by luminous flowers"
+              width="1000"
+              height="650"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="key-location-content">
+              <p class="section-kicker">Thornmere</p>
+              <h3>The Echoing Grove</h3>
+              <p>
+                A living sanctuary said to preserve memories spoken beneath its
+                silver-leafed trees.
+              </p>
+              <ul>
+                <li>Restores lost memories at a personal cost.</li>
+                <li>Changes based on the player's past choices.</li>
+                <li>Fae witnesses may repeat earlier dialogue.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="key-location">
+            <!-- Replace with a grand seaside palace or merchant council hall. -->
+            <img
+              src="https://files.catbox.moe/location-sun-court.jpg"
+              alt="White stone palace overlooking a bright southern harbor"
+              width="1000"
+              height="650"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="key-location-content">
+              <p class="section-kicker">Solmara</p>
+              <h3>The Sun Court</h3>
+              <p>
+                A merchant parliament disguised as a royal palace, governed by
+                contracts, favors, and public spectacle.
+              </p>
+              <ul>
+                <li>Hosts trade negotiations and formal duels.</li>
+                <li>Gold can substitute for reputation.</li>
+                <li>Public failures carry permanent consequences.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           11. CHARACTER PORTRAIT GALLERY
+           Edit names, roles, image URLs, and alt text below.
+           Duplicate .portrait-tile elements to add characters.
+           ===================================================== -->
+      <section class="section" id="characters" aria-labelledby="characters-title">
+        <h2 class="section-header" id="characters-title">
+          <span>Principal Characters</span>
+        </h2>
+
+        <div class="portrait-grid">
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 01. -->
+            <img
+              src="https://files.catbox.moe/character-lucien.jpg"
+              alt="Portrait of Lucien, a silver-haired royal advisor"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Lucien Vale</strong>
+              <span>Royal Advisor</span>
+            </div>
+          </article>
+
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 02. -->
+            <img
+              src="https://files.catbox.moe/character-seraphine.jpg"
+              alt="Portrait of Seraphine, a noblewoman in moonlit ceremonial dress"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Seraphine Noct</strong>
+              <span>Moon Court Envoy</span>
+            </div>
+          </article>
+
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 03. -->
+            <img
+              src="https://files.catbox.moe/character-kael.jpg"
+              alt="Portrait of Kael, a stern knight wearing dark armor"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Kael Arden</strong>
+              <span>Oathbound Knight</span>
+            </div>
+          </article>
+
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 04. -->
+            <img
+              src="https://files.catbox.moe/character-nyra.jpg"
+              alt="Portrait of Nyra, a masked court spy with dark hair"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Nyra Vey</strong>
+              <span>Veiled Informant</span>
+            </div>
+          </article>
+
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 05. -->
+            <img
+              src="https://files.catbox.moe/character-orian.jpg"
+              alt="Portrait of Orian, a scholarly prince in embroidered robes"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Orian Sol</strong>
+              <span>Merchant Prince</span>
+            </div>
+          </article>
+
+          <article class="portrait-tile">
+            <!-- Replace with character portrait 06. -->
+            <img
+              src="https://files.catbox.moe/character-elowen.jpg"
+              alt="Portrait of Elowen, a forest warden wearing green ceremonial armor"
+              width="600"
+              height="800"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="portrait-overlay">
+              <strong>Elowen Thorne</strong>
+              <span>Grove Warden</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           12–13. FEATURED CHARACTER PROFILE AND AFFECTION METER
+           Edit all profile data in this section.
+           ===================================================== -->
+      <section class="section" id="featured" aria-labelledby="featured-title">
+        <h2 class="section-header" id="featured-title">
+          <span>Featured Character</span>
+        </h2>
+
+        <div class="featured-profile">
+          <div class="featured-art-wrap">
+            <!-- Replace with a full or three-quarter featured character illustration. -->
+            <img
+              class="featured-art"
+              src="https://files.catbox.moe/featured-character.jpg"
+              alt="Full portrait of Lucien Vale standing in an ornate royal library"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="featured-nameplate">
+              <h3>Lucien Vale</h3>
+              <p>The Crown's Silent Hand</p>
+            </div>
+          </div>
+
+          <article class="panel">
+            <p class="section-kicker">Confidential Dossier</p>
+            <h3 class="card-title">A strategist who never wastes a promise.</h3>
+            <p class="muted">
+              Lucien is the youngest royal advisor in modern Aurellian history.
+              Calm, observant, and relentlessly pragmatic, he appears loyal to the
+              crown while quietly investigating the disappearance of its true heir.
+            </p>
+
+            <dl class="profile-data">
+              <div>
+                <dt>Kingdom</dt>
+                <dd>Aurelia</dd>
+              </div>
+              <div>
+                <dt>Role</dt>
+                <dd>Royal Advisor and Intelligence Keeper</dd>
+              </div>
+              <div>
+                <dt>Temperament</dt>
+                <dd>Reserved, analytical, unexpectedly protective</dd>
+              </div>
+              <div>
+                <dt>Gift Preference</dt>
+                <dd>Rare books, black tea, coded correspondence</dd>
+              </div>
+              <div>
+                <dt>Route Requirement</dt>
+                <dd>Trust 65+, Archive Key, refuse the false coronation</dd>
+              </div>
+            </dl>
+
+            <div class="divider" aria-hidden="true">✦</div>
+
+            <div class="meter-wrap">
+              <div class="meter-label">
+                <span>Friendship / Affection</span>
+                <span>72%</span>
+              </div>
+              <div class="meter" role="meter" aria-label="Lucien friendship and affection" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72">
+                <span style="width: 72%;"></span>
+              </div>
+            </div>
+
+            <p class="small muted">
+              Current state: <strong style="color: var(--gold-bright);">Trusted Confidant</strong>.
+              Next threshold unlocks “The Unsent Letter.”
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           14. PROPHECY / CODEX PANEL
+           ===================================================== -->
+      <section class="section" id="codex" aria-labelledby="codex-title">
+        <h2 class="section-header" id="codex-title">
+          <span>The Sealed Prophecy</span>
+        </h2>
+
+        <article class="panel codex">
+          <!-- Replace with an ancient seal, sigil, or prophetic emblem. -->
+          <img
+            class="codex-seal"
+            src="https://files.catbox.moe/prophecy-seal.jpg"
+            alt="Ancient golden seal marked with a divided star"
+            width="300"
+            height="300"
+            loading="lazy"
+            decoding="async"
+          >
+
+          <h3>The Testament of the Divided Star</h3>
+
+          <blockquote>
+            When five crowns gather beneath a sunless dawn, the heir without a
+            kingdom shall choose whether the old world is restored, remade, or
+            permitted to vanish.
+          </blockquote>
+
+          <p>
+            The prophecy survives in five incomplete translations. Each kingdom
+            interprets the “heir without a kingdom” differently, and every court
+            has built policy around its preferred reading.
+          </p>
+
+          <div class="divider" aria-hidden="true">◆</div>
+
+          <p>
+            <strong>Known fragments:</strong> the northern verse speaks of blood,
+            the eastern verse of memory, the western verse of sacrifice, the
+            southern verse of debt, and the central verse of choice.
+          </p>
+        </article>
+      </section>
+
+      <!-- =====================================================
+           15. OPTIONAL INVENTORY, ROUTE, AND QUEST TRACKER
+           Details elements remain usable without JavaScript.
+           ===================================================== -->
+      <section class="section" id="quests" aria-labelledby="quests-title">
+        <h2 class="section-header" id="quests-title">
+          <span>Traveler's Ledger</span>
+        </h2>
+
+        <div class="panel">
+          <details open>
+            <summary>Active Quests</summary>
+            <div class="details-content">
+              <ul class="quest-list">
+                <li>
+                  <span class="quest-status" aria-hidden="true">1</span>
+                  <div>
+                    <strong>The Empty Throne</strong><br>
+                    Investigate the sealed succession record in the Golden Archive.
+                  </div>
+                </li>
+                <li>
+                  <span class="quest-status" aria-hidden="true">2</span>
+                  <div>
+                    <strong>A Letter in Silver Ink</strong><br>
+                    Deliver Lucien's unsigned message to the Moonlit Salon.
+                  </div>
+                </li>
+                <li>
+                  <span class="quest-status" aria-hidden="true">3</span>
+                  <div>
+                    <strong>The Grove Remembers</strong><br>
+                    Recover the memory taken from Elowen during the Starfall War.
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details>
+            <summary>Inventory</summary>
+            <div class="details-content">
+              <div class="inventory-grid">
+                <div class="inventory-slot">
+                  <strong>Archive Key</strong>
+                  <span>Quest Item</span>
+                </div>
+                <div class="inventory-slot">
+                  <strong>Silver Letter</strong>
+                  <span>Unopened</span>
+                </div>
+                <div class="inventory-slot">
+                  <strong>Moon Tea</strong>
+                  <span>Gift Item</span>
+                </div>
+                <div class="inventory-slot">
+                  <strong>Fae Token</strong>
+                  <span>Route Flag</span>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Known Route Flags</summary>
+            <div class="details-content">
+              <ul>
+                <li><strong>ARCHIVE_TRUTH:</strong> Discovered the original succession ledger.</li>
+                <li><strong>LUCIEN_CONFIDES:</strong> Lucien revealed the hidden heir theory.</li>
+                <li><strong>NYRA_WATCHING:</strong> Nyra suspects your alliance with the crown.</li>
+                <li><strong>GROVE_DEBT:</strong> The Echoing Grove expects a future sacrifice.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           PRINTABLE CYOA PLAYER WORKSHEET
+           This section is interactive on screen and optimized for A4 print.
+           ===================================================== -->
+      <section class="section panel worksheet" id="worksheet" aria-labelledby="worksheet-title">
+        <p class="section-kicker">Printable Campaign Record</p>
+        <h2 id="worksheet-title">CYOA Player Worksheet</h2>
+        <p class="worksheet-intro">
+          Use this sheet to track your current route, relationships, important
+          decisions, and unresolved story threads.
+        </p>
+
+        <div class="button-row screen-only" style="margin-bottom: 1rem;">
+          <button class="button" type="button" onclick="window.print()">Print CYOA</button>
+        </div>
+
+        <div class="worksheet-grid two-column">
+          <div class="field">
+            <label for="player-name">Player Name</label>
+            <input id="player-name" name="player-name" type="text">
+          </div>
+
+          <div class="field">
+            <label for="origin">Origin</label>
+            <input id="origin" name="origin" type="text">
+          </div>
+
+          <div class="field">
+            <label for="current-location">Current Location</label>
+            <input id="current-location" name="current-location" type="text">
+          </div>
+
+          <div class="field">
+            <label for="chapter">Chapter or Scene</label>
+            <input id="chapter" name="chapter" type="text">
+          </div>
+        </div>
+
+        <div class="divider" aria-hidden="true">✦</div>
+
+        <h3>Inventory</h3>
+        <table class="worksheet-table">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Notes / Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <div class="divider" aria-hidden="true">✦</div>
+
+        <h3>Relationship Tracking</h3>
+        <table class="worksheet-table">
+          <thead>
+            <tr>
+              <th scope="col">Character</th>
+              <th scope="col">Trust</th>
+              <th scope="col">Affection</th>
+              <th scope="col">Status / Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <div class="divider" aria-hidden="true">✦</div>
+
+        <div class="worksheet-grid two-column">
+          <div class="field">
+            <label for="important-choices">Important Choices</label>
+            <textarea id="important-choices" name="important-choices"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="route-flags">Route Flags</label>
+            <textarea id="route-flags" name="route-flags"></textarea>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top: 1rem;">
+          <label for="campaign-notes">Notes</label>
+          <textarea id="campaign-notes" name="campaign-notes" class="write-lines"></textarea>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- =======================================================
+       16. DECORATIVE FOOTER
+       ======================================================= -->
+  <footer class="site-footer">
+    <div class="site-shell">
+      <!-- Replace with a small footer crest or kingdom insignia. -->
+      <img
+        class="footer-crest"
+        src="https://files.catbox.moe/footer-crest.jpg"
+        alt="Small crest of the divided star"
+        width="220"
+        height="220"
+        loading="lazy"
+        decoding="async"
+      >
+      <div class="footer-flourish" aria-hidden="true">✦ ◆ ✦</div>
+      <p>
+        The crown remembers every oath. The archive remembers every lie.
+      </p>
+      <p class="small">
+        The Gilded Realms Codex · Designed for Neocities
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       LIGHTWEIGHT MAP INTERACTION
+       Edit region descriptions below.
+       The page remains fully usable without JavaScript.
+       ========================================================= */
+
+    const regionNotes = {
+      Valedorn:
+        "Valedorn: A frostbound northern kingdom protected by mountain citadels and knightly orders.",
+      Elaris:
+        "Elaris: The moonlit eastern court, renowned for illusion magic, diplomacy, and masked intrigue.",
+      Aurelia:
+        "Aurelia: The central crownlands and seat of the disputed imperial throne.",
+      Solmara:
+        "Solmara: A wealthy southern trade kingdom shaped by merchant dynasties, harbors, and formal duels.",
+      Thornmere:
+        "Thornmere: A verdant western realm of forest sanctuaries, old magic, and guarded fae crossings."
+    };
+
+    const mapStatus = document.getElementById("map-status");
+    const mapMarkers = document.querySelectorAll(".map-marker");
+
+    mapMarkers.forEach((marker) => {
+      marker.addEventListener("click", () => {
+        const region = marker.dataset.region;
+        mapStatus.textContent = regionNotes[region] || "No regional record is available.";
+      });
+    });
+  </script>
+</body>
+</html>
