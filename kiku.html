@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#201020">
+  <meta name="description" content="An illustrated world guide for the fictional island realm of Kikuya.">
+  <title>The Realm of Kikuya</title>
+
+  <style>
+    /* =========================================================
+       Editable theme variables
+       ========================================================= */
+    :root {
+      --color-ink: #2d1d2c;
+      --color-wine: #421c3b;
+      --color-plum: #5d2852;
+      --color-plum-deep: #21101f;
+      --color-rose: #b85e79;
+      --color-blush: #f2d8d7;
+      --color-parchment: #f6ead8;
+      --color-parchment-deep: #ead3b5;
+      --color-gold: #d8b56c;
+      --color-gold-bright: #f0d39a;
+      --color-blue: #31566a;
+      --color-text: #2a2025;
+      --color-muted: #6b5960;
+      --color-white: #fffaf2;
+
+      --font-display: Georgia, "Times New Roman", serif;
+      --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --space-1: 0.35rem;
+      --space-2: 0.65rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2.25rem;
+      --space-6: 3.5rem;
+
+      --radius-sm: 0.45rem;
+      --radius-md: 0.8rem;
+      --radius-lg: 1.2rem;
+
+      --border-gold: 1px solid rgba(216, 181, 108, 0.78);
+      --shadow-soft: 0 0.7rem 2rem rgba(24, 8, 21, 0.2);
+      --shadow-card: 0 0.5rem 1.3rem rgba(48, 20, 43, 0.18);
+      --content-width: 76rem;
+    }
+
+    /* =========================================================
+       Base
+       ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-width: 0;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at 10% 4%, rgba(184, 94, 121, 0.16), transparent 25rem),
+        radial-gradient(circle at 90% 3%, rgba(216, 181, 108, 0.11), transparent 24rem),
+        linear-gradient(180deg, #1b0d1a 0 26rem, #2e172b 26rem 100%);
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      content: "";
+      pointer-events: none;
+      opacity: 0.24;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px);
+      background-size: 1.25rem 1.25rem;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      color: var(--color-muted);
+      background:
+        linear-gradient(135deg, rgba(93, 40, 82, 0.12), rgba(216, 181, 108, 0.15)),
+        var(--color-parchment-deep);
+      object-fit: cover;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--color-gold-bright);
+      outline-offset: 3px;
+    }
+
+    .site-shell {
+      width: min(100%, var(--content-width));
+      margin-inline: auto;
+      padding-inline: clamp(0.75rem, 3vw, 1.75rem);
+    }
+
+    .ornamental-frame {
+      border: var(--border-gold);
+      border-radius: var(--radius-md);
+      box-shadow:
+        inset 0 0 0 3px rgba(55, 18, 48, 0.85),
+        inset 0 0 0 4px rgba(216, 181, 108, 0.38),
+        var(--shadow-card);
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-2);
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(0.76rem, 2vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--color-white);
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 5vw, 2.1rem);
+      font-weight: 500;
+      letter-spacing: 0.055em;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.75rem 1rem;
+      color: var(--color-white);
+      background:
+        linear-gradient(90deg, rgba(91, 36, 79, 0.98), rgba(42, 17, 39, 0.98));
+      border-bottom: var(--border-gold);
+    }
+
+    .section-number {
+      display: grid;
+      flex: 0 0 auto;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      color: var(--color-plum-deep);
+      font-family: var(--font-display);
+      font-weight: 700;
+      background: var(--color-gold-bright);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 2px rgba(66, 28, 59, 0.25);
+    }
+
+    .section-heading h2,
+    .section-heading h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 3.8vw, 1.45rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .paper-panel {
+      overflow: hidden;
+      color: var(--color-text);
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.08)),
+        repeating-linear-gradient(
+          0deg,
+          rgba(77, 41, 60, 0.025) 0,
+          rgba(77, 41, 60, 0.025) 1px,
+          transparent 1px,
+          transparent 5px
+        ),
+        var(--color-parchment);
+    }
+
+    .floral-mark {
+      width: 2rem;
+      height: 2rem;
+      flex: 0 0 auto;
+      color: var(--color-plum);
+    }
+
+    /* =========================================================
+       Header and navigation
+       ========================================================= */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      padding: 1.1rem 0 3rem;
+      color: var(--color-white);
+      background:
+        linear-gradient(180deg, rgba(20, 7, 18, 0.16), rgba(20, 7, 18, 0.9)),
+        url("images/hero-kikuya-night.jpg") center / cover no-repeat,
+        linear-gradient(135deg, #4a1f41, #130913 72%);
+      border-bottom: 1px solid rgba(216, 181, 108, 0.7);
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .hero::before {
+      top: 1.1rem;
+      left: -2.5rem;
+      width: 12rem;
+      height: 7rem;
+      background:
+        radial-gradient(circle at 75% 32%, #cf6681 0 0.22rem, transparent 0.25rem),
+        radial-gradient(circle at 64% 46%, #a84466 0 0.24rem, transparent 0.27rem),
+        radial-gradient(circle at 51% 24%, #d5748d 0 0.2rem, transparent 0.24rem),
+        radial-gradient(circle at 43% 56%, #7e3158 0 0.26rem, transparent 0.29rem),
+        linear-gradient(24deg, transparent 49%, rgba(216, 181, 108, 0.6) 50% 51%, transparent 52%);
+      background-size: 2.7rem 2.7rem, 3rem 3rem, 3.3rem 3.3rem, 3.8rem 3.8rem, 100% 100%;
+      transform: rotate(-7deg);
+    }
+
+    .hero::after {
+      top: 1.2rem;
+      right: -1rem;
+      width: 7.5rem;
+      height: 10rem;
+      border: 1px solid rgba(216, 181, 108, 0.75);
+      background:
+        radial-gradient(circle, rgba(255, 235, 179, 0.95), rgba(197, 103, 121, 0.28) 38%, transparent 65%),
+        linear-gradient(135deg, rgba(98, 34, 80, 0.8), rgba(34, 14, 31, 0.8));
+      clip-path: polygon(50% 0, 88% 14%, 100% 80%, 50% 100%, 0 80%, 12% 14%);
+      box-shadow: 0 0 2rem rgba(226, 155, 122, 0.24);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: clamp(2rem, 8vw, 5rem);
+    }
+
+    .brand {
+      display: inline-flex;
+      min-width: 0;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+
+    .brand-seal {
+      display: grid;
+      width: 2.75rem;
+      height: 2.75rem;
+      flex: 0 0 auto;
+      place-items: center;
+      color: var(--color-gold-bright);
+      background: rgba(61, 22, 52, 0.85);
+      border: 1px solid rgba(216, 181, 108, 0.78);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 4px rgba(216, 181, 108, 0.09);
+    }
+
+    .brand-seal svg {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+
+    .brand-text {
+      min-width: 0;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .nav-toggle {
+      display: inline-grid;
+      width: 2.9rem;
+      height: 2.9rem;
+      place-items: center;
+      color: var(--color-white);
+      cursor: pointer;
+      background: rgba(54, 20, 47, 0.82);
+      border: var(--border-gold);
+      border-radius: var(--radius-sm);
+    }
+
+    .nav-toggle svg {
+      width: 1.35rem;
+      height: 1.35rem;
+    }
+
+    .primary-nav {
+      position: absolute;
+      top: 4.8rem;
+      right: clamp(0.75rem, 3vw, 1.75rem);
+      left: clamp(0.75rem, 3vw, 1.75rem);
+      z-index: 10;
+      display: none;
+      padding: 0.65rem;
+      background: rgba(28, 11, 26, 0.97);
+      border: var(--border-gold);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .primary-nav[data-open="true"] {
+      display: block;
+    }
+
+    .primary-nav ul {
+      display: grid;
+      gap: 0.2rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .primary-nav a {
+      display: block;
+      min-height: 2.75rem;
+      padding: 0.72rem 0.85rem;
+      color: var(--color-white);
+      font-family: var(--font-display);
+      letter-spacing: 0.07em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+    }
+
+    .primary-nav a:hover {
+      color: var(--color-plum-deep);
+      background: var(--color-gold-bright);
+    }
+
+    .hero-content {
+      width: min(100%, 58rem);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .hero-title {
+      margin: 0;
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(2.25rem, 10vw, 5.8rem);
+      font-weight: 500;
+      letter-spacing: 0.045em;
+      line-height: 0.95;
+      text-wrap: balance;
+      text-shadow: 0 0.15rem 1.2rem rgba(0, 0, 0, 0.45);
+      text-transform: uppercase;
+    }
+
+    .hero-title span {
+      display: block;
+      margin-bottom: 0.35em;
+      color: var(--color-white);
+      font-size: 0.42em;
+      letter-spacing: 0.18em;
+    }
+
+    .hero-subtitle {
+      max-width: 46rem;
+      margin: 1.2rem auto 0;
+      color: #f0c9cc;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 3.5vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.5;
+      text-wrap: balance;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.7rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 2.9rem;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.15rem;
+      color: var(--color-plum-deep);
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      background: var(--color-gold-bright);
+      border: 1px solid var(--color-gold);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.18);
+    }
+
+    .button:hover {
+      background: #ffe5ad;
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      color: var(--color-white);
+      background: rgba(50, 18, 44, 0.72);
+    }
+
+    .button-secondary:hover {
+      color: var(--color-plum-deep);
+      background: var(--color-blush);
+    }
+
+    /* =========================================================
+       Main content
+       ========================================================= */
+    main {
+      padding-block: clamp(1rem, 4vw, 2.4rem) 3rem;
+    }
+
+    .content-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .overview-grid {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 22rem;
+      overflow: hidden;
+      background: var(--color-blue);
+      border-radius: var(--radius-sm);
+    }
+
+    .map-card img {
+      height: 100%;
+      min-height: 22rem;
+      filter: saturate(0.86) sepia(0.1);
+    }
+
+    .map-card::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(20, 13, 20, 0.08), rgba(20, 13, 20, 0.2)),
+        radial-gradient(circle at center, transparent 50%, rgba(33, 16, 31, 0.3));
+    }
+
+    .map-caption {
+      position: absolute;
+      right: 0.75rem;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      z-index: 1;
+      padding: 0.85rem;
+      color: var(--color-white);
+      text-align: center;
+      background: rgba(29, 17, 27, 0.78);
+      border: 1px solid rgba(240, 211, 154, 0.55);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(6px);
+    }
+
+    .map-caption strong {
+      display: block;
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .fact-card {
+      padding: 1rem;
+      background: rgba(255, 250, 242, 0.62);
+      border: 1px solid rgba(93, 40, 82, 0.24);
+      border-radius: var(--radius-sm);
+    }
+
+    .fact-card h3 {
+      margin: 0 0 0.65rem;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .diamond-list,
+    .society-list,
+    .location-details,
+    .named-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .diamond-list {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .diamond-list li {
+      position: relative;
+      padding-left: 1.1rem;
+    }
+
+    .diamond-list li::before {
+      position: absolute;
+      top: 0.62em;
+      left: 0;
+      width: 0.42rem;
+      height: 0.42rem;
+      content: "";
+      background: var(--color-plum);
+      transform: rotate(45deg);
+    }
+
+    .society-list {
+      display: grid;
+    }
+
+    .society-list li {
+      display: grid;
+      grid-template-columns: 2.8rem 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(93, 40, 82, 0.2);
+    }
+
+    .society-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .society-icon {
+      display: grid;
+      width: 2.7rem;
+      height: 2.7rem;
+      place-items: center;
+      color: var(--color-white);
+      background: var(--color-plum);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 3px rgba(240, 211, 154, 0.32);
+    }
+
+    .society-icon svg {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    /* =========================================================
+       Locations
+       ========================================================= */
+    .locations-grid {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .location-card {
+      overflow: hidden;
+      background: rgba(255, 250, 242, 0.55);
+      border: 1px solid rgba(93, 40, 82, 0.22);
+      border-radius: var(--radius-sm);
+    }
+
+    .location-card header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.9rem 1rem;
+    }
+
+    .location-card h3 {
+      margin: 0;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .location-card header p {
+      margin: 0.1rem 0 0;
+      color: var(--color-muted);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+    }
+
+    .location-card img {
+      aspect-ratio: 16 / 8;
+    }
+
+    .location-details {
+      display: grid;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+
+    .location-details li {
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .location-details li::before {
+      position: absolute;
+      top: 0.68em;
+      left: 0;
+      width: 0.32rem;
+      height: 0.32rem;
+      content: "";
+      background: var(--color-rose);
+      border-radius: 50%;
+    }
+
+    .courtesan-banner {
+      margin: 0 1rem 1rem;
+      padding: 0.8rem;
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      text-align: center;
+      background: var(--color-plum-deep);
+      border: var(--border-gold);
+      border-radius: var(--radius-sm);
+    }
+
+    .courtesan-banner span {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--color-white);
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       Journey and economy
+       ========================================================= */
+    .journey {
+      display: grid;
+      gap: 0.7rem;
+      padding: 1rem;
+    }
+
+    .journey-step {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      min-width: 0;
+      padding: 0.65rem;
+      background: rgba(255, 250, 242, 0.57);
+      border: 1px solid rgba(93, 40, 82, 0.22);
+      border-radius: var(--radius-sm);
+    }
+
+    .journey-step img {
+      aspect-ratio: 4 / 3;
+      height: 100%;
+      min-height: 4.1rem;
+      border-radius: 0.3rem;
+    }
+
+    .journey-step h3 {
+      margin: 0;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .journey-step p {
+      margin: 0.18rem 0 0;
+      color: var(--color-muted);
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+
+    .journey-arrow {
+      display: grid;
+      height: 1rem;
+      place-items: center;
+      color: var(--color-plum);
+    }
+
+    .journey-arrow svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .economy-flow {
+      display: grid;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .flow-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 3.2rem 1fr;
+      gap: 0.8rem;
+      align-items: center;
+      padding: 0.8rem;
+      background: rgba(255, 250, 242, 0.57);
+      border: 1px solid rgba(93, 40, 82, 0.2);
+      border-radius: var(--radius-sm);
+    }
+
+    .flow-step:not(:last-child)::after {
+      position: absolute;
+      bottom: -0.72rem;
+      left: 1.45rem;
+      width: 0.45rem;
+      height: 0.45rem;
+      content: "";
+      border-right: 2px solid var(--color-plum);
+      border-bottom: 2px solid var(--color-plum);
+      transform: rotate(45deg);
+    }
+
+    .flow-icon {
+      display: grid;
+      width: 3rem;
+      height: 3rem;
+      place-items: center;
+      color: var(--color-plum);
+      background: var(--color-parchment-deep);
+      border: 1px solid rgba(93, 40, 82, 0.35);
+      border-radius: 50%;
+    }
+
+    .flow-icon svg {
+      width: 1.7rem;
+      height: 1.7rem;
+    }
+
+    .flow-step h3 {
+      margin: 0;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      font-size: 1rem;
+    }
+
+    .flow-step p {
+      margin: 0.15rem 0 0;
+      color: var(--color-muted);
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       Named places and closing summary
+       ========================================================= */
+    .named-grid {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .named-box {
+      padding: 1rem;
+      background: rgba(255, 250, 242, 0.58);
+      border: 1px solid rgba(93, 40, 82, 0.2);
+      border-radius: var(--radius-sm);
+    }
+
+    .named-box h3 {
+      margin: 0 0 0.75rem;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .named-list {
+      display: grid;
+      gap: 0.72rem;
+    }
+
+    .named-list li {
+      display: grid;
+      grid-template-columns: 2.2rem 1fr;
+      gap: 0.65rem;
+      align-items: start;
+    }
+
+    .mini-seal {
+      display: grid;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      color: var(--color-gold-bright);
+      background: var(--color-plum);
+      border-radius: 50%;
+    }
+
+    .mini-seal svg {
+      width: 1.15rem;
+      height: 1.15rem;
+    }
+
+    .named-list strong {
+      display: block;
+      color: var(--color-plum);
+      font-family: var(--font-display);
+      text-transform: uppercase;
+    }
+
+    .summary {
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+      padding: clamp(1.5rem, 5vw, 2.5rem);
+      color: var(--color-white);
+      text-align: center;
+      background:
+        radial-gradient(circle at 10% 50%, rgba(184, 94, 121, 0.16), transparent 13rem),
+        radial-gradient(circle at 90% 50%, rgba(216, 181, 108, 0.12), transparent 13rem),
+        var(--color-plum-deep);
+    }
+
+    .summary::before,
+    .summary::after {
+      position: absolute;
+      top: 50%;
+      width: min(18vw, 10rem);
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--color-gold));
+    }
+
+    .summary::before {
+      left: 1rem;
+    }
+
+    .summary::after {
+      right: 1rem;
+      transform: rotate(180deg);
+    }
+
+    .summary h2 {
+      margin: 0;
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .summary p {
+      max-width: 51rem;
+      margin: 0.9rem auto 0;
+      color: #f2ddd9;
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.8vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       Footer
+       ========================================================= */
+    .site-footer {
+      padding: 2rem 0;
+      color: #ddc4ce;
+      text-align: center;
+      background: #140a13;
+      border-top: 1px solid rgba(216, 181, 108, 0.42);
+    }
+
+    .site-footer p {
+      margin: 0.4rem 0;
+    }
+
+    .footer-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--color-gold-bright);
+      font-family: var(--font-display);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-mark svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    /* =========================================================
+       Tablet and desktop
+       ========================================================= */
+    @media (min-width: 42rem) {
+      .overview-grid {
+        grid-template-columns: minmax(0, 1.35fr) minmax(15rem, 0.65fr);
+      }
+
+      .map-card {
+        grid-row: span 2;
+      }
+
+      .locations-grid,
+      .named-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .economy-flow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .flow-step {
+        grid-template-columns: 1fr;
+        align-content: start;
+        text-align: center;
+      }
+
+      .flow-icon {
+        margin-inline: auto;
+      }
+
+      .flow-step:not(:last-child)::after {
+        top: 50%;
+        right: -0.55rem;
+        bottom: auto;
+        left: auto;
+        transform: translateY(-50%) rotate(-45deg);
+      }
+    }
+
+    @media (min-width: 62rem) {
+      .hero {
+        min-height: 37rem;
+      }
+
+      .topbar {
+        margin-bottom: 5.5rem;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+
+      .primary-nav {
+        position: static;
+        display: block;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .primary-nav ul {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .primary-nav a {
+        min-height: auto;
+        padding: 0.55rem 0.72rem;
+        font-size: 0.82rem;
+      }
+
+      .content-grid {
+        grid-template-columns: minmax(0, 1.45fr) minmax(19rem, 0.65fr);
+      }
+
+      .content-grid > .overview-panel {
+        grid-column: 1;
+      }
+
+      .content-grid > .society-panel {
+        grid-column: 2;
+      }
+
+      .locations-panel,
+      .named-panel,
+      .summary {
+        grid-column: 1 / -1;
+      }
+
+      .lower-grid {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+        gap: 1rem;
+      }
+
+      .journey-step {
+        grid-template-columns: 5.4rem 1fr;
+      }
+
+      .economy-flow {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        height: 100%;
+        align-items: stretch;
+      }
+
+      .flow-step {
+        padding: 0.7rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Reusable inline symbol library -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="icon-flower" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="5" fill="currentColor"/>
+        <ellipse cx="24" cy="10" rx="7" ry="10" fill="currentColor" opacity=".9"/>
+        <ellipse cx="24" cy="38" rx="7" ry="10" fill="currentColor" opacity=".9"/>
+        <ellipse cx="10" cy="24" rx="10" ry="7" fill="currentColor" opacity=".9"/>
+        <ellipse cx="38" cy="24" rx="10" ry="7" fill="currentColor" opacity=".9"/>
+        <ellipse cx="14" cy="14" rx="7" ry="9" fill="currentColor" opacity=".65" transform="rotate(-45 14 14)"/>
+        <ellipse cx="34" cy="14" rx="7" ry="9" fill="currentColor" opacity=".65" transform="rotate(45 34 14)"/>
+        <ellipse cx="14" cy="34" rx="7" ry="9" fill="currentColor" opacity=".65" transform="rotate(45 14 34)"/>
+        <ellipse cx="34" cy="34" rx="7" ry="9" fill="currentColor" opacity=".65" transform="rotate(-45 34 34)"/>
+      </symbol>
+
+      <symbol id="icon-menu" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-close" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-person" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/>
+        <path d="M5 21c.4-5 2.8-8 7-8s6.6 3 7 8" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      </symbol>
+
+      <symbol id="icon-scales" viewBox="0 0 24 24">
+        <path d="M12 3v18M6 6h12M4 6l-3 6h6L4 6Zm16 0-3 6h6l-3-6ZM7 21h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="icon-butterfly" viewBox="0 0 24 24">
+        <path d="M11 12C8 5 2 4 2 8c0 3 3 5 9 5m2-1c3-7 9-8 9-4 0 3-3 5-9 5M11 12c-4 2-6 6-3 8 2 1 4-2 4-6m1-2c4 2 6 6 3 8-2 1-4-2-4-6m0-5v11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-knot" viewBox="0 0 24 24">
+        <path d="M5 8c-3-3-5 2-2 4 4 3 7-3 9-5 2-2 5-1 6 1 2 4-3 5-6 4-4-1-7 2-5 5 2 3 6 0 7-3 2-5 7-7 8-3 1 3-4 4-7 2-4-3-5-8-1-10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-ship" viewBox="0 0 24 24">
+        <path d="M12 3v10M12 4 5 12h7M13 5l6 7h-6M3 14h18l-3 5H6l-3-5Zm1 7c2 1 4 1 6 0 2 1 4 1 6 0 2 1 4 1 6 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="icon-coin" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M14.8 8.5c-.7-.8-1.6-1.2-2.8-1.2-1.6 0-2.8.8-2.8 2 0 3 5.9 1.5 5.9 4.8 0 1.4-1.2 2.4-3.1 2.4-1.3 0-2.5-.5-3.3-1.4M12 5.5v13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-fan" viewBox="0 0 24 24">
+        <path d="M12 19 3 8c6-4 12-4 18 0l-9 11Zm0 0V6M12 19 7 7M12 19l5-12M12 19l-8-8M12 19l8-8" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="icon-arrow" viewBox="0 0 24 24">
+        <path d="M12 3v16m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Hero -->
+  <header class="hero" id="top">
+    <div class="site-shell">
+      <div class="topbar">
+        <a class="brand" href="#top" aria-label="The Realm of Kikuya home">
+          <span class="brand-seal" aria-hidden="true">
+            <svg><use href="#icon-flower"></use></svg>
+          </span>
+          <span class="brand-text">The Realm<br>of Kikuya</span>
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+          <span class="visually-hidden">Toggle navigation</span>
+          <svg aria-hidden="true"><use href="#icon-menu"></use></svg>
+        </button>
+
+        <nav class="primary-nav" id="primary-navigation" aria-label="Primary navigation" data-open="false">
+          <ul>
+            <li><a href="#overview">Realm</a></li>
+            <li><a href="#society">Society</a></li>
+            <li><a href="#locations">Locations</a></li>
+            <li><a href="#journey">Journey</a></li>
+            <li><a href="#chronicle">Chronicle</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="hero-content">
+        <p class="eyebrow">An illustrated world chronicle</p>
+        <h1 class="hero-title">
+          <span>The hidden island of</span>
+          Kikuya
+        </h1>
+        <p class="hero-subtitle">
+          Beyond the mainland lies a secluded realm where women govern, ancient houses prosper,
+          and the island’s rarest sons are guarded like living treasures.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button" href="#overview">Enter the Realm</a>
+          <a class="button button-secondary" href="#locations">Explore Kikuya</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-shell">
+    <div class="content-grid">
+      <!-- Overview -->
+      <section class="paper-panel ornamental-frame overview-panel" id="overview">
+        <div class="section-heading">
+          <span class="section-number" aria-hidden="true">1</span>
+          <h2>Island and Mainland</h2>
+        </div>
+
+        <div class="overview-grid">
+          <figure class="map-card">
+            <!-- Replace with your own illustrated map -->
+            <img
+              src="images/kikuya-island-map.jpg"
+              alt="Illustrated map showing a mainland coast, open sea, merchant vessels, and the island of Kikuya"
+              loading="eager"
+            >
+            <figcaption class="map-caption">
+              <strong>The Sapphire Passage</strong>
+              Merchant vessels cross the guarded strait carrying silk, spices, letters, and carefully chosen visitors.
+            </figcaption>
+          </figure>
+
+          <article class="fact-card">
+            <h3>The Mainland</h3>
+            <ul class="diamond-list">
+              <li>A vast continent of ordinary kingdoms, ports, and provincial cities.</li>
+              <li>Its customs follow familiar social traditions and hereditary rule.</li>
+              <li>Most trade goods and nearly all foreign-born men arrive from its shores.</li>
+              <li>Only licensed ships may approach Kikuya’s waters.</li>
+            </ul>
+          </article>
+
+          <article class="fact-card">
+            <h3>The Island</h3>
+            <ul class="diamond-list">
+              <li>A mountainous sanctuary separated from the outer world.</li>
+              <li>Births of boys are exceptionally rare and closely recorded.</li>
+              <li>Local law, inheritance, and ceremony developed in isolation.</li>
+              <li>Visitors are watched from arrival until departure.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Society -->
+      <section class="paper-panel ornamental-frame society-panel" id="society">
+        <div class="section-heading">
+          <span class="section-number" aria-hidden="true">2</span>
+          <h2>Society of the Island</h2>
+        </div>
+
+        <ul class="society-list">
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-flower"></use></svg>
+            </span>
+            <span>Only a small number of boys are born in each generation.</span>
+          </li>
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-person"></use></svg>
+            </span>
+            <span>Women inherit property, businesses, titles, and political authority.</span>
+          </li>
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-scales"></use></svg>
+            </span>
+            <span>Men are protected by strict law and considered vital to the island’s future.</span>
+          </li>
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-butterfly"></use></svg>
+            </span>
+            <span>Many eligible men are educated within the refined houses of Yoshiwara.</span>
+          </li>
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-knot"></use></svg>
+            </span>
+            <span>Private arrangements unite romance, prestige, duty, and political influence.</span>
+          </li>
+          <li>
+            <span class="society-icon" aria-hidden="true">
+              <svg><use href="#icon-flower"></use></svg>
+            </span>
+            <span>Family survival often outweighs personal desire, though the two frequently collide.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Key locations -->
+      <section class="paper-panel ornamental-frame locations-panel" id="locations">
+        <div class="section-heading">
+          <span class="section-number" aria-hidden="true">3</span>
+          <h2>Key Locations</h2>
+        </div>
+
+        <div class="locations-grid">
+          <article class="location-card">
+            <header>
+              <svg class="floral-mark" aria-hidden="true"><use href="#icon-flower"></use></svg>
+              <div>
+                <h3>Yoshiwara</h3>
+                <p>The lantern district at the island’s heart</p>
+              </div>
+            </header>
+
+            <!-- Replace with your own district illustration -->
+            <img
+              src="images/yoshiwara-lantern-district.jpg"
+              alt="Lantern-lit traditional district beside a canal under flowering trees"
+              loading="lazy"
+            >
+
+            <ul class="location-details">
+              <li>A ceremonial quarter, pleasure district, and commercial center.</li>
+              <li>Visitors arrive seeking companionship, heirs, alliances, or social prestige.</li>
+              <li>Its gates, bridges, tea houses, and gardens are governed by old custom.</li>
+              <li>Many celebrated courtesans spend most of their adult lives within its walls.</li>
+            </ul>
+          </article>
+
+          <article class="location-card">
+            <header>
+              <svg class="floral-mark" aria-hidden="true"><use href="#icon-flower"></use></svg>
+              <div>
+                <h3>The House of Kikuya</h3>
+                <p>A prestigious residence of music and ceremony</p>
+              </div>
+            </header>
+
+            <!-- Replace with your own house illustration -->
+            <img
+              src="images/house-of-kikuya.jpg"
+              alt="Grand traditional wooden residence illuminated by warm lanterns at dusk"
+              loading="lazy"
+            >
+
+            <ul class="location-details">
+              <li>The principal setting of the chronicle.</li>
+              <li>A high-ranking house known for refined male courtesans.</li>
+              <li>Managed through careful discipline, etiquette, and political discretion.</li>
+              <li>Its inner rooms conceal rivalries, loyalties, debts, and forbidden affection.</li>
+            </ul>
+
+            <div class="courtesan-banner">
+              Honored Names of Kikuya
+              <span>Takao · Kagura · Tokiwa · Kagerou · Hayabusa · Iroha</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="lower-grid">
+        <!-- Journey -->
+        <section class="paper-panel ornamental-frame" id="journey">
+          <div class="section-heading">
+            <span class="section-number" aria-hidden="true">4</span>
+            <h2>Journey to Kikuya</h2>
+          </div>
+
+          <div class="journey">
+            <article class="journey-step">
+              <img
+                src="images/mainland-capital.jpg"
+                alt="Busy mainland port city with tiled rooftops and distant towers"
+                loading="lazy"
+              >
+              <div>
+                <h3>Mainland Capital</h3>
+                <p>Travelers receive documents, sponsorship, and passage permits.</p>
+              </div>
+            </article>
+
+            <div class="journey-arrow" aria-hidden="true">
+              <svg><use href="#icon-arrow"></use></svg>
+            </div>
+
+            <article class="journey-step">
+              <img
+                src="images/merchant-ship.jpg"
+                alt="Traditional merchant vessel sailing across a blue strait"
+                loading="lazy"
+              >
+              <div>
+                <h3>Merchant Passage</h3>
+                <p>Licensed ships carry passengers and luxury goods across the strait.</p>
+              </div>
+            </article>
+
+            <div class="journey-arrow" aria-hidden="true">
+              <svg><use href="#icon-arrow"></use></svg>
+            </div>
+
+            <article class="journey-step">
+              <img
+                src="images/kikuya-harbor.jpg"
+                alt="Island harbor surrounded by wooden buildings and forested hills"
+                loading="lazy"
+              >
+              <div>
+                <h3>Island Harbor</h3>
+                <p>Officials inspect cargo, identities, invitations, and personal seals.</p>
+              </div>
+            </article>
+
+            <div class="journey-arrow" aria-hidden="true">
+              <svg><use href="#icon-arrow"></use></svg>
+            </div>
+
+            <article class="journey-step">
+              <img
+                src="images/island-market-town.jpg"
+                alt="Traditional island market street lined with shops and hanging signs"
+                loading="lazy"
+              >
+              <div>
+                <h3>Market Towns</h3>
+                <p>Farms, workshops, inns, and guilds support the island’s daily life.</p>
+              </div>
+            </article>
+
+            <div class="journey-arrow" aria-hidden="true">
+              <svg><use href="#icon-arrow"></use></svg>
+            </div>
+
+            <article class="journey-step">
+              <img
+                src="images/yoshiwara-gate.jpg"
+                alt="Grand lantern-lit gate leading into the Yoshiwara district"
+                loading="lazy"
+              >
+              <div>
+                <h3>Yoshiwara Gate</h3>
+                <p>The final threshold before entering the island’s most guarded quarter.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Economy -->
+        <section class="paper-panel ornamental-frame">
+          <div class="section-heading">
+            <span class="section-number" aria-hidden="true">5</span>
+            <h2>Economy and Influence</h2>
+          </div>
+
+          <div class="economy-flow">
+            <article class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg><use href="#icon-ship"></use></svg>
+              </span>
+              <div>
+                <h3>Foreign Trade</h3>
+                <p>Ships bring grain, medicine, paper, silk, metals, and rare luxuries.</p>
+              </div>
+            </article>
+
+            <article class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg><use href="#icon-coin"></use></svg>
+              </span>
+              <div>
+                <h3>Yoshiwara</h3>
+                <p>The pleasure district anchors hospitality, fashion, and ceremonial commerce.</p>
+              </div>
+            </article>
+
+            <article class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg><use href="#icon-fan"></use></svg>
+              </span>
+              <div>
+                <h3>Patronage</h3>
+                <p>Influential women commission performances, banquets, garments, and private meetings.</p>
+              </div>
+            </article>
+
+            <article class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg><use href="#icon-knot"></use></svg>
+              </span>
+              <div>
+                <h3>Alliances</h3>
+                <p>Personal favor can become commercial leverage or political obligation.</p>
+              </div>
+            </article>
+
+            <article class="flow-step">
+              <span class="flow-icon" aria-hidden="true">
+                <svg><use href="#icon-flower"></use></svg>
+              </span>
+              <div>
+                <h3>Continuity</h3>
+                <p>Wealth circulates through women-led households and sustains island society.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <!-- Chronicle -->
+      <section class="paper-panel ornamental-frame named-panel" id="chronicle">
+        <div class="section-heading">
+          <span class="section-number" aria-hidden="true">6</span>
+          <h2>The Known Chronicle</h2>
+        </div>
+
+        <div class="named-grid">
+          <article class="named-box">
+            <h3>Recorded by Name</h3>
+            <ul class="named-list">
+              <li>
+                <span class="mini-seal" aria-hidden="true">
+                  <svg><use href="#icon-flower"></use></svg>
+                </span>
+                <span>
+                  <strong>Yoshiwara</strong>
+                  The central district of pleasure, ceremony, and social exchange.
+                </span>
+              </li>
+              <li>
+                <span class="mini-seal" aria-hidden="true">
+                  <svg><use href="#icon-flower"></use></svg>
+                </span>
+                <span>
+                  <strong>Kikuya</strong>
+                  The celebrated house in which the principal story unfolds.
+                </span>
+              </li>
+              <li>
+                <span class="mini-seal" aria-hidden="true">
+                  <svg><use href="#icon-flower"></use></svg>
+                </span>
+                <span>
+                  <strong>The Sapphire Passage</strong>
+                  The guarded sea route connecting the island to the mainland.
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="named-box">
+            <h3>Deliberately Unnamed</h3>
+            <ul class="diamond-list">
+              <li>The island’s formal political name.</li>
+              <li>The mainland kingdom and ruling dynasty.</li>
+              <li>The capital city, provinces, and noble territories.</li>
+              <li>Most ordinary towns, villages, shrines, and estates.</li>
+              <li>The exact location of the island within the outer world.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section class="summary ornamental-frame" aria-labelledby="summary-title">
+        <h2 id="summary-title">A Realm Behind the Mist</h2>
+        <p>
+          Kikuya is shaped by scarcity, ritual, desire, and inherited power. Its women command
+          commerce and law, while its rare men stand at the center of family ambition and private
+          longing. Beyond the guarded harbor, the wider world remains vast, unnamed, and full of possibility.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-shell">
+      <div class="footer-mark">
+        <svg aria-hidden="true"><use href="#icon-flower"></use></svg>
+        The Realm of Kikuya
+        <svg aria-hidden="true"><use href="#icon-flower"></use></svg>
+      </div>
+      <p>An original fictional world-guide interface inspired by illustrated historical chronicles.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Optional mobile navigation enhancement */
+    const navToggle = document.querySelector(".nav-toggle");
+    const navigation = document.querySelector(".primary-nav");
+    const navIcon = navToggle?.querySelector("use");
+
+    if (navToggle && navigation && navIcon) {
+      navToggle.addEventListener("click", () => {
+        const isOpen = navigation.dataset.open === "true";
+        navigation.dataset.open = String(!isOpen);
+        navToggle.setAttribute("aria-expanded", String(!isOpen));
+        navIcon.setAttribute("href", isOpen ? "#icon-menu" : "#icon-close");
+      });
+
+      navigation.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navigation.dataset.open = "false";
+          navToggle.setAttribute("aria-expanded", "false");
+          navIcon.setAttribute("href", "#icon-menu");
+        });
+      });
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 992) {
+          navigation.dataset.open = "false";
+          navToggle.setAttribute("aria-expanded", "false");
+          navIcon.setAttribute("href", "#icon-menu");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
