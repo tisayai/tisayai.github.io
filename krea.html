@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100e0d">
+<meta name="description" content="Tisay's Character Atelier — a customizable Krea 2 character prompt creator.">
+<title>TISAY'S CHARACTER ATELIER</title>
+<style>
+:root{color-scheme:dark;--bg:#100e0d;--panel:#211e1b;--raised:#302a24;--line:#66553d;--edge:#887353;--gold:#dfcfa8;--muted:#b3a08b;--cream:#f2e5c5;--danger:#ffb8aa;--ok:#bfe2bc}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -5%,#30261e,#18130f 31%,#100e0d 70%);color:var(--gold);font:13px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-wrap:anywhere}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+a{color:var(--cream)}
+.wrap{width:min(1190px,calc(100% - 26px));margin:auto;padding:22px 0 110px}
+.hero,.panel,.tile,.variation{position:relative;border:1px solid var(--line);border-radius:16px;background:linear-gradient(155deg,#292420,#211e1b 56%,#171513);box-shadow:0 18px 44px #0009,inset 0 1px #f7d99e16}
+.hero:before,.panel:before{position:absolute;content:"";inset:5px;pointer-events:none;border:1px solid #b6996630;border-radius:12px}
+.hero{padding:29px 16px 32px;text-align:center;border:2px solid var(--edge);box-shadow:0 14px 65px #000b,0 0 30px #c6a26a16}
+.hero h1{font:normal small-caps clamp(27px,5vw,44px)/1.2 Georgia,serif;letter-spacing:.075em;margin:5px 0}
+.hero h1 span{display:block}
+.sigil,.ornament,.ribbon{font-family:Georgia,serif;color:var(--cream);text-shadow:0 0 22px #f0d19a40}
+.sigil{font-size:42px;margin:5px 0}
+.subtitle{font:italic 14px Georgia,serif;letter-spacing:.04em;color:#c9b69e;margin:12px 0 0}
+.byline{font:italic 12px Georgia,serif;color:var(--muted);margin:12px 0}
+.toolbar{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.toolbar a{text-decoration:none;border:1px solid #6e593b;background:#171411a8;padding:6px 13px;border-radius:30px;font-size:11px}
+.toolbar a:hover{background:#3c3022}
+.ornament{display:flex;align-items:center;justify-content:center;gap:16px;margin:29px 0 23px;font-size:21px}
+.ornament:before,.ornament:after{content:"";width:min(14%,90px);height:1px;background:linear-gradient(90deg,transparent,var(--edge))}
+.ornament:after{transform:rotate(180deg)}
+.section-head{text-align:center;margin:0 0 17px}
+.section-head h2{font:normal clamp(22px,3vw,29px) Georgia,serif;letter-spacing:.04em;margin:0}
+.section-head p{font-size:12px;color:var(--muted);margin:5px 0}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.panel{padding:clamp(16px,2.5vw,25px)}
+.stack{display:grid;gap:16px}
+.ribbon{text-align:center;font-size:15px;letter-spacing:.09em;margin:5px 0}
+.label{display:block;margin-bottom:6px;font-size:12px;letter-spacing:.035em}
+.hint{font-size:11px;color:var(--muted);margin:6px 0 0;line-height:1.6}
+.micro{font-size:11px;color:var(--muted)}
+select,input[type=text],textarea{display:block;width:100%;min-width:0;border:1px solid var(--edge);border-radius:9px;background:#12110f;color:var(--cream);padding:11px 12px;box-shadow:inset 0 2px 8px #0006}
+select{min-height:42px}
+textarea{resize:vertical;min-height:83px;line-height:1.65}
+textarea::placeholder,input::placeholder{color:#8d7b67}
+.row2,.row3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.row3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.fold{padding:6px 0;border-top:1px solid #6e593d}
+.fold summary{list-style:none;font:normal 15px Georgia,serif;color:var(--cream);cursor:pointer;padding:10px 4px}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary:before{content:"▸";font:12px system-ui;display:inline-block;margin-right:11px;transition:transform .18s}
+.fold[open] summary:before{transform:rotate(90deg)}
+.fold-body{padding:9px 3px 16px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+.field{min-width:0;border:1px solid #514434;border-radius:11px;background:#1a1816;padding:10px}
+.field label{display:block;font-size:11px;color:#d5c39f;margin-bottom:5px}
+.fieldline{display:grid;grid-template-columns:minmax(0,1fr) 38px 38px;gap:6px}
+.fieldline select{font-size:12px;height:39px;min-height:39px;padding:7px}
+.field .custom-value{margin-top:7px;padding:8px 10px;font-size:12px}
+.tiny,.btn,.primary{background:linear-gradient(150deg,#39312a,#221f1b);color:var(--gold);border:1px solid var(--edge);box-shadow:inset 0 1px #f4d59a15,0 3px 9px #0007;transition:border-color .18s,background .18s,transform .18s,box-shadow .18s}
+.tiny{min-width:0;width:38px;height:39px;border-radius:8px;font-size:17px}
+.tiny.locked{background:#665034;border-color:#dfc28a;color:#fff2d0}
+.tiny:hover,.btn:hover,.primary:hover{border-color:var(--cream);box-shadow:0 0 17px #e0b97531}
+.btn:active,.tiny:active,.primary:active{transform:scale(.98)}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.btn{border-radius:9px;min-height:42px;padding:9px 10px;font:13px Georgia,serif}
+.primary{width:100%;border:2px solid #bd9d69;border-radius:12px;min-height:55px;padding:12px;font:normal small-caps 20px Georgia,serif;letter-spacing:.06em;background:linear-gradient(150deg,#4b3827,#271f1a);color:#f3e5bf}
+.control-card{padding:12px 13px;border:1px solid #5c4a33;border-radius:12px;background:#181614}
+.control-card p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.checkrow{display:flex;flex-wrap:wrap;gap:10px 17px}
+.checkrow label{font-size:12px;cursor:pointer}
+input[type=checkbox],input[type=range]{accent-color:#c7a978}
+.slider{padding:10px;background:#1d1a18;border:1px solid #544634;border-radius:10px}
+.sliderhead{display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px}
+.slider input{width:100%}
+.quiet{border-left:2px solid #99794c;padding:9px 12px;background:#be9b5e0b;color:#d0bda0;font-size:12px;line-height:1.65}
+.status{min-height:21px;margin:12px 0 0;color:var(--cream);font-size:12px}
+.status.bad{color:var(--danger)}
+.status.good{color:var(--ok)}
+.hidden{display:none!important}
+.designation{font:18px Georgia,serif!important}
+.prompt{min-height:350px;max-height:75vh;font-size:13px;line-height:1.72;padding:15px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-block;padding:4px 9px;border:1px solid #6b563a;border-radius:100px;background:#352c22;color:#edd8aa;font-size:11px}
+.concept{font-size:12px;line-height:1.75;color:#c8b9a4}
+.archive,.variations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile,.variation{padding:16px;border-radius:12px}
+.tile h3,.variation h3{font:normal 17px Georgia,serif;margin:0}
+.tile p,.variation p{color:var(--muted);font-size:11px;margin:7px 0}
+.variation textarea{height:225px;margin:10px 0}
+.swatches{display:flex;gap:4px}
+.swatches i{width:17px;height:17px;border:1px solid #f3deb75a;border-radius:50%;display:inline-block}
+.count,.meta-label{font-size:11px;color:var(--muted)}
+.mini-bar{display:flex;justify-content:space-between;align-items:center;gap:9px;flex-wrap:wrap}
+.help-list{margin:4px 0;padding-left:17px;color:var(--muted);font-size:12px;line-height:1.8}
+footer{margin-top:42px;border-top:1px solid var(--line);padding:24px 0;text-align:center;font:13px Georgia,serif}
+footer p{margin:8px}
+.coffee{position:fixed;right:max(13px,env(safe-area-inset-right));bottom:calc(15px + env(safe-area-inset-bottom));display:grid;place-items:center;width:55px;height:55px;border:2px solid var(--edge);border-radius:50%;background:radial-gradient(circle at 35% 25%,#554636,#1c1917 80%);box-shadow:0 6px 20px #000c,0 0 19px #c6ab6655;color:var(--cream);z-index:8}
+.coffee svg{width:27px;height:27px}
+.copy-overlay{position:fixed;inset:0;z-index:30;background:#000d;display:grid;place-items:center;padding:16px;overflow:auto}
+.copy-modal{width:min(720px,100%);max-height:calc(100dvh - 32px);overflow:auto}
+.copy-modal .prompt{height:min(45dvh,340px);width:100%}
+.copy-modal .mini-bar{margin-bottom:8px}
+@media(min-width:850px){.layout{grid-template-columns:minmax(0,1.25fr) minmax(290px,.75fr)}.side{align-self:start;position:sticky;top:12px}}
+@media(max-width:680px){.fields{grid-template-columns:1fr}.archive,.variations{grid-template-columns:1fr}.row3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.wrap{width:calc(100% - 20px);padding-top:12px}.hero{padding:24px 11px}.panel{padding:15px}.row2,.row3{grid-template-columns:1fr}.btn{font-size:12px}.coffee{width:48px;height:48px}.actions{gap:6px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1><span>TISAY'S</span><span>CHARACTER ATELIER</span></h1>
+<div class="sigil" aria-hidden="true">《𒌐》</div>
+<p class="subtitle">An Atelier of Infinite Characters · Krea 2 Edition</p>
+<p class="byline">crafted by TisayAI</p>
+<nav class="toolbar" aria-label="Jump to section">
+<a href="#design">Design</a>
+<a href="#summon">Summon</a>
+<a href="#result">Prompt</a>
+<a href="#archive-section">Archive</a>
+</nav>
+</header>
+<div class="ornament" aria-hidden="true">《𒌐》</div>
+<main>
+<section id="design">
+<div class="section-head"><h2>I · The Character Grimoire</h2><p>Craft adult men, women, and gender-diverse characters across worlds and species.</p></div>
+<div class="layout">
+<div class="panel stack">
+<div>
+<label class="label" for="genre">✦ World &amp; genre</label>
+<select id="genre"></select>
+<p class="hint">Intuitive mode interprets your seedwords. A selected genre guides randomized traits without overriding manually chosen details.</p>
+</div>
+<div class="row2">
+<div>
+<label class="label" for="gender">✦ Gender identity</label>
+<select id="gender">
+<option>Woman</option><option>Man</option><option>Nonbinary</option><option>Genderfluid</option><option>Custom</option>
+</select>
+<input class="hidden" id="genderCustom" type="text" maxlength="90" placeholder="Custom gender or presentation">
+</div>
+<div>
+<label class="label" for="style">✦ Illustration aesthetic</label>
+<select id="style"></select>
+</div>
+</div>
+<div>
+<label class="label" for="seed">✦ Seedwords / story hook</label>
+<textarea id="seed" maxlength="3500" placeholder="obsessive vampire countess, black silk, winter roses, moonlit conservatory"></textarea>
+<p class="hint">Add roles, personality, lore, relationships, powers, settings, and character motifs.</p>
+</div>
+<div>
+<label class="label" for="custom">✦ Must-have character details</label>
+<textarea id="custom" maxlength="3500" placeholder="Porcelain half-mask, white fox ears and one fluffy tail, ornate jade hairpin, heirloom ring..."></textarea>
+<p class="hint">Your personal details are included in the complete prompt and prioritized over randomized suggestions.</p>
+</div>
+<div>
+<label class="label" for="customStyle">✦ Extra visual direction</label>
+<textarea id="customStyle" maxlength="2500" placeholder="Polished fine linework, soft dimensional rendering, painterly velvet, editorial close-up..."></textarea>
+</div>
+<div class="ribbon">《𒌐》 CHOOSE THE DETAILS</div>
+<details class="fold" open>
+<summary>01 · Identity, anatomy &amp; face</summary>
+<div class="fold-body fields" id="identityFields"></div>
+</details>
+<details class="fold">
+<summary>02 · Couture &amp; character props</summary>
+<div class="fold-body fields" id="costumeFields"></div>
+</details>
+<details class="fold">
+<summary>03 · Pose, lens &amp; environment</summary>
+<div class="fold-body fields" id="sceneFields"></div>
+</details>
+<details class="fold">
+<summary>04 · Krea 2 art direction &amp; controls</summary>
+<div class="fold-body stack">
+<div class="row2">
+<div><label class="label" for="ratio">Canvas aspect ratio</label>
+<select id="ratio"><option>1:1</option><option selected>4:5</option><option>3:4</option><option>2:3</option><option>9:16</option><option>4:3</option><option>3:2</option><option>16:9</option><option>2.35:1</option></select></div>
+<div><label class="label" for="length">Prompt density</label>
+<select id="length"><option>Exploratory</option><option>Balanced</option><option selected>Detailed</option><option>Art Director</option></select></div>
+</div>
+<p class="hint">Set the actual canvas dimensions in Krea. The selected ratio here provides composition guidance.</p>
+<div class="row3" id="sliders"></div>
+<div class="checkrow">
+<label><input id="identityLock" type="checkbox"> Preserve core identity on rerolls</label>
+<label><input id="preserveLocks" type="checkbox" checked> Keep individual locks on Full Randomize</label>
+</div>
+<div class="control-card"><strong>Selection priority</strong><p>Locked trait → custom details → manually chosen trait → seedword interpretation → genre → random trait. Use “Custom entry…” to define your own value in any field.</p></div>
+<button class="btn" id="clearLocks" type="button">Unlock All Individual Fields</button>
+</div>
+</details>
+</div>
+<aside class="panel stack side">
+<div class="ribbon">《𒌐》 ATELIER METHOD</div>
+<p class="concept">Create recognizable adult characters with expressive faces, thoughtful species anatomy, culture-aware fashion, intentional hand gestures, carefully layered lighting, and cinematic environments.</p>
+<div class="control-card">
+<strong>Quick directions</strong>
+<p>Choose a direction to generate a starting character, then customize it freely.</p>
+<div class="actions" style="margin-top:10px">
+<button class="btn" id="quickFemale" type="button">✧ Female Lead</button>
+<button class="btn" id="quickMale" type="button">✦ Male Lead</button>
+<button class="btn" id="quickMonster" type="button">☾ Monsterkin</button>
+<button class="btn" id="quickKemono" type="button">✿ Kemonomimi</button>
+</div>
+</div>
+<details class="fold" open><summary>How the atelier works</summary>
+<div class="fold-body concept">Character creation happens locally in your browser without an API key. The output is an editable written prompt for Krea 2.</div></details>
+<details class="fold"><summary>Tips for using Krea 2</summary>
+<div class="fold-body">
+<ul class="help-list">
+<li>Begin with clear subject identity and species anatomy.</li>
+<li>Use meaningful visual anchors, clothing construction, composition, and lighting.</li>
+<li>Choose Exploratory for variety or Art Director for deliberate styling.</li>
+<li>Use a reference image inside Krea for stronger appearance consistency.</li>
+<li>Reroll targeted details instead of replacing an established character.</li>
+</ul>
+</div></details>
+<p class="quiet">Species-aware design supports catkin, foxkin, wolfkin, angels, demons, vampires, merfolk, yokai, and more.</p>
+</aside>
+</div>
+</section>
+<div class="ornament" aria-hidden="true">《𒌐》</div>
+<section id="summon">
+<div class="section-head"><h2>II · Summon &amp; Reimagine</h2><p>Create an identity, or reinterpret the character you already have.</p></div>
+<div class="panel">
+<button class="primary" id="generate" type="button">《𒌐》 GENERATE CHARACTER</button>
+<div class="actions" style="margin-top:12px">
+<button class="btn" id="reroll" type="button">↻ Reroll Unselected</button>
+<button class="btn" id="full" type="button">✦ Full Randomize</button>
+<button class="btn" id="outfit" type="button">✧ Reroll Outfit</button>
+<button class="btn" id="scene" type="button">☾ Reroll Scene</button>
+<button class="btn" id="palette" type="button">✧ Reroll Palette</button>
+<button class="btn" id="pose" type="button">✧ Reroll Pose &amp; Prop</button>
+<button class="btn" id="triple" type="button">✦ Create 3 Variations</button>
+<button class="btn" id="reset" type="button">↺ Reset Studio</button>
+</div>
+<p id="status" class="status" role="status" aria-live="polite">The atelier is ready.</p>
+<div id="warnings" class="quiet hidden"></div>
+</div>
+</section>
+<div class="ornament" aria-hidden="true">《𒌐》</div>
+<section id="result">
+<div class="section-head"><h2>III · The Finished Character</h2><p>Your editable Krea 2 character illustration prompt.</p></div>
+<div class="panel stack">
+<div class="ribbon">《𒌐》 YOUR CREATION</div>
+<div><label class="label" for="title">Character designation</label><input class="designation" id="title" type="text" maxlength="140" placeholder="Awaiting your first character"></div>
+<div id="meta" class="chips"></div>
+<div>
+<div class="mini-bar"><label class="label" for="prompt">Complete Krea 2 prompt · editable</label><span class="meta-label" id="wordCount">0 words</span></div>
+<textarea class="prompt" id="prompt" placeholder="Generate a character to reveal the finished image prompt."></textarea>
+</div>
+<div class="actions">
+<button class="btn" id="copyPrompt" type="button">Copy Prompt</button>
+<button class="btn" id="copySheet" type="button">Copy Character Sheet</button>
+<button class="btn" id="save" type="button">Save Character</button>
+<button class="btn" id="export" type="button">Export Archive JSON</button>
+</div>
+<details class="fold"><summary>Visual concept &amp; design rationale</summary><div class="fold-body concept" id="concept">The atelier awaits a character.</div></details>
+<div id="variations" class="variations"></div>
+</div>
+</section>
+<div class="ornament" aria-hidden="true">《𒌐》</div>
+<section id="archive-section">
+<div class="section-head"><h2>IV · The Private Archive</h2><p>Preserve your favorite original bot characters in this browser.</p></div>
+<div class="panel stack">
+<div class="actions">
+<button class="btn" id="loadLast" type="button">Load Most Recent</button>
+<button class="btn" id="importBtn" type="button">Import Archive JSON</button>
+</div>
+<input id="importFile" class="hidden" type="file" accept=".json,application/json">
+<p class="hint">Local browser storage keeps characters when available. Export JSON backups before switching devices or clearing browser data.</p>
+<div class="mini-bar"><strong>Saved characters</strong><span id="archiveCount" class="count">0 / 100</span></div>
+<div id="archive" class="archive"></div>
+</div>
+</section>
+</main>
+<div id="copyFallback" class="copy-overlay hidden" role="dialog" aria-modal="true" aria-label="Copy text">
+<div class="copy-modal panel">
+<div class="mini-bar"><strong>Copy text</strong><button class="btn" type="button" id="closeFallback">Close</button></div>
+<p class="hint">Your browser restricts automatic clipboard access. The text below is selected. Press Ctrl+C / Command+C, or long-press and choose Copy on mobile.</p>
+<textarea id="fallbackText" class="prompt" aria-label="Text to copy"></textarea>
+<div class="actions">
+<button class="btn" type="button" id="retryCopy">Try Copy Again</button>
+<button class="btn" type="button" id="selectFallback">Select All</button>
+</div>
+</div>
+</div>
+<footer>
+<p>✦ Crafted by <strong><a href="https://TisayAI.com" target="_blank" rel="noopener noreferrer">TisayAI.com</a></strong> ✦</p>
+<p><a href="https://ko-fi.com/tisay" target="_blank" rel="noopener noreferrer">Support the Atelier</a></p>
+<p class="micro">Character Atelier · Krea 2 Edition · Created by TisayAI</p>
+</footer>
+</div>
+<a class="coffee" href="https://ko-fi.com/tisay" target="_blank" rel="noopener noreferrer" aria-label="Support Tisay on Ko-fi">
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h15v8a7 7 0 0 1-14 0V5zm15 1h2a4 4 0 0 1 0 8h-3v-2h3a2 2 0 0 0 0-4h-2V6zM3 19h16v2H3v-2zm7.8-3.3C9.5 14.4 7 12.8 7 10.8a2.2 2.2 0 0 1 4-1.2 2.2 2.2 0 0 1 4 1.2c0 2-2.5 3.6-3.8 4.9l-.2.2-.2-.2z"/></svg>
+</a>
+<script>
+(()=>{
+'use strict';
+
+const $=id=>document.getElementById(id);
+const list=s=>s.split('|').map(x=>x.trim()).filter(Boolean);
+const rand=()=>{try{let a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296}catch{return Math.random()}};
+const pick=a=>a[Math.floor(rand()*a.length)];
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const tidy=s=>String(s??'').replace(/\s+/g,' ').trim();
+const period=s=>{s=tidy(s).replace(/[.?!,;:\s]+$/,'');return s?s+'.':''};
+const freshId=()=>Date.now().toString(36)+'-'+Math.floor(rand()*1e9).toString(36);
+function node(tag,cls,text){let e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+
+const F={},GROUP={identity:[],costume:[],scene:[]};
+function field(k,label,g,values){F[k]={label,values:list(values),group:g};GROUP[g].push(k)}
+
+field('species','Species / lineage','identity','Human|Monsterkin · Vampire|Monsterkin · Demon|Monsterkin · Fallen angel|Monsterkin · Celestial angel|Monsterkin · Dragonkin|Monsterkin · Oni|Monsterkin · Werewolf|Monsterkin · Ghost|Monsterkin · Gargoyle|Monsterkin · Succubus / Incubus|Kemonomimi · Catkin|Kemonomimi · Foxkin|Kemonomimi · Wolfkin|Kemonomimi · Bunnykin|Kemonomimi · Dogkin|Kemonomimi · Deerkin|Kemonomimi · Tigerkin|Kemonomimi · Bearkin|Kemonomimi · Birdkin|Fae · High elf|Fae · Dark elf|Fae · Fairy|Fae · Dryad|Yokai · Kitsune|Yokai · Tengu|Yokai · Snow spirit|Mythic · Naga|Mythic · Centaur|Aquatic · Merfolk (koi)|Aquatic · Merfolk (lionfish)|Aquatic · Merfolk (betta)|Aquatic · Merfolk (shark)|Aquatic · Merfolk (sea dragon)|Aquatic · Selkie|Artificial · Android|Artificial · Cyborg|Cosmic · Starborn immortal');
+field('archetype','Character archetype','identity','Royal heir|Crown prince / princess|Vampire count / countess|Demon monarch|Haunted noble|Royal guard|Knight commander|Rebellious heir|Elegant villain|Court sorcerer|Temple oracle|Forest guardian|Monster hunter|Mysterious librarian|Palace physician|Court musician|Samurai retainer|Shinobi operative|Clan strategist|Ronin wanderer|Joseon scholar|Joseon court lady|Joseon noble|Royal consort|Martial-arts wanderer|Xianxia cultivator|Jianghu sect leader|Celestial immortal|Mafia underboss|Corporate executive|Private detective|Fashion designer|Idol performer|College professor|Cafe owner|Street racer|Cybernetic agent|Underwater sovereign|Sea guardian|Witch / warlock|Haunted bride / groom|Superhero|Supervillain|Space diplomat|Post-apocalyptic scavenger');
+field('age','Adult age','identity','21 years old|24 years old|27 years old|30 years old|33 years old|36 years old|40 years old|45 years old|50 years old|55 years old');
+field('build','Body build','identity','Petite and delicate build|Slender elegant build|Long-limbed model build|Lean athletic build|Toned dancer build|Broad-shouldered strong build|Compact powerful build|Soft curvy build|Full-figured statuesque build|Muscular athletic build|Tall willowy build|Stocky powerful build|Mature full-bodied build');
+field('height','Stature','identity','Petite|Short and poised|Average height|Tall and statuesque|Very tall and imposing');
+field('skin','Skin / complexion','identity','Porcelain ivory|Warm ivory|Peach beige|Golden beige|Warm olive|Sun-kissed tan|Copper brown|Deep umber|Rich espresso brown|Cool deep brown|Freckled fair skin|Moonlit pale skin|Pale lavender fantasy skin|Cool blue-gray fantasy skin|Warm rose fantasy skin');
+field('face','Facial structure','identity','Soft heart-shaped face|Refined oval face|Sharp angular face|Sculpted cheekbones|Full cheeks and soft jaw|Defined square jaw|Elegant aquiline profile|High cheekbones and pointed chin|Mature refined bone structure');
+field('features','Signature facial detail','identity','Long lashes and full lips|Defined cupid bow and delicate nose|Strong brows and sculpted lips|Beauty mark beneath one eye|Light freckles across the nose|Subtle cheek dimples|Faint scar along one eyebrow|Gentle smile lines|Slightly arched brows and high nose bridge|Full brows and softly rounded lips');
+field('hairStyle','Hairstyle','identity','Sleek side-part|Soft curtain fringe|Long flowing waves|Straight layered hair|Elegant low bun|Twin braided loops|Long braided ponytail|Half-up ribbon-tied hair|Elaborate braided updo|High traditional topknot|Short textured crop|Tight defined curls|Shoulder-length loose curls|Sleek blunt bob|Hime cut|Intricate bridal updo|Low tied ponytail|Pinned ceremonial chignon|Braided crown');
+field('hairLength','Hair length','identity','Pixie-short|Ear-length|Chin-length|Shoulder-length|Mid-back|Waist-length|Hip-length');
+field('hairColor','Hair color','identity','Jet black|Soft black|Espresso brown|Chestnut brown|Copper auburn|Burnished ginger|Honey blond|Ash blond|Silver-gray|Snow white|Midnight blue|Muted lavender|Rose pink|Deep burgundy|Forest green|Dark teal');
+field('eyeShape','Eye shape','identity','Large expressive almond eyes|Upturned almond eyes|Monolid eyes|Deep-set eyes|Soft rounded eyes|Wide luminous eyes|Narrow catlike eyes|Hooded eyes');
+field('eyeColor','Eye color','identity','Dark brown|Warm brown|Honey amber|Pale hazel|Jade green|Emerald green|Storm gray|Icy blue|Sapphire blue|Violet|Crimson red|Molten gold|Sea-glass teal');
+field('expression','Expression','identity','Playful knowing smile|Warm welcoming smile|Cool calculating gaze|Tender longing|Resolute focus|Quiet confidence|Melancholic gentleness|Wickedly amused smile|Distant contemplation|Watchful suspicion|Shy affection|Regal restraint');
+field('aura','Character aura','identity','Tender and protective|Dangerously alluring|Regal and composed|Mischievous and clever|Brooding and loyal|Obsessive romantic intensity|Quietly intimidating|Warm and empathetic|Dreamy and ethereal|Proud and commanding|Shy but perceptive|Cool and ambitious|Secretly vulnerable');
+field('mark','Distinctive identity item','identity','Antique signet ring|Porcelain half-mask|Delicate hairpin|Black silk gloves|Jade pendant|Moonstone circlet|Leather wrist wraps|Fine chain necklace|Silver ear cuff|Antique pocket watch|Velvet choker|Pearl ear drops|Talisman necklace|Family crest brooch|Silk hair ribbon|Ornate hair comb');
+
+field('silhouette','Outfit silhouette','costume','Tailored high-collar ensemble|Flowing layered robes|Fitted waist and voluminous skirts|Corseted bodice and sweeping gown|Structured military jacket|Elegant long overcoat|Fitted crop jacket and wide trousers|Modern oversized tailoring|Light draped ceremonial layers|Wrapped martial tunic and trousers|Traditional jeogori and chima|Traditional jeogori and baji|Sculptural futuristic armor layers|Asymmetric gothic drapery|Sea-inspired jewelry harness');
+field('clothing','Couture / garment','costume','Goryeo short jeogori and long chima|Goryeo layered po robes|Goryeo wide-sleeved court robes|Contemporary Seoul street-luxury outfit|High-fashion editorial suit|Tailored turtleneck and overcoat|Soft knitwear and pleated trousers|Silk blouse and high-waisted skirt|Satin slip dress and tailored coat|Modern black evening gown|Mafia-inspired formal tailoring|Regency-inspired court gown|Regency tailcoat and waistcoat|Victorian mourning gown|Victorian frock coat|Gothic lace and velvet gown|Gothic velvet suit|Royal embroidered ballgown|Royal brocade court suit|Fantasy sorceress dress|Fantasy mage ceremonial robes|Elegant knight armor|Practical leather adventurer outfit|Demon aristocrat couture|Celestial embroidered robes|Sengoku kosode and hakama|Sengoku layered uchikake and kosode|Samurai hitatare|Shinobi dark indigo fieldwear|Heian layered junihitoe robes|Heian court sokutai|Joseon jeogori and chima|Joseon dangui and chima|Joseon royal wonsam|Joseon jeogori and baji|Joseon dopo and gat|Joseon cheollik and trousers|Joseon durumagi and hanbok|Wuxia martial robes|Wuxia traveling attire|Xianxia immortal silk robes|Xianxia ethereal layered dress|Jianghu sect uniform|Cinematic western duster|Futurist techwear|Structured sci-fi uniform|Post-apocalyptic layered survival clothing|Pearl-studded merfolk regalia|Aquatic ceremonial harness|Modern idol stagewear|Pastel romantic casual outfit|Dark academia library fashion|Military fantasy regalia');
+field('fabric','Fabric / material','costume','Heavy silk satin|Matte black silk|Cut velvet|Light linen|Soft cotton gauze|Damask brocade|Translucent organza|Fine embroidered tulle|Weathered indigo hemp|Soft napped wool|Supple leather|Pearlescent scale textile|Polished lacquered armor|Layered chiffon|Fine lace|Brushed technical textile');
+field('pattern','Embroidery / motif','costume','Antique gold vines|Delicate silver constellations|Crane-and-pine needlework|Bamboo embroidery|Cherry blossom petals|Red maple leaves|Blackthorn floral lace|Ocean wave filigree|Dragon-and-cloud brocade|Lotus embroidery|Moon and star embroidery|Geometric metallic stitching|Minimal tonal stitching|Peony flower embroidery|Pearl bead constellations|Subtle plain weave');
+field('jewelry','Jewelry','costume','Small pearl earrings|Jade drop earrings|Antique signet ring|Silver filigree ear cuffs|Layered court necklaces|Gold chain necklace|Garnet choker|Traditional jade norigae|Coral and pearl strings|Obsidian cuff bracelet|Minimal fine jewelry|Sapphire hair ornaments|Crescent moon headpiece');
+field('headwear','Hair ornament / headwear','costume','Minimal pin accessories|Antique gold hair comb|Ornate jade hairpin|Silk ribbon in the hair|Gat with tied strings|Decorated jokduri headdress|Elaborate Korean binyeo|Delicate tiara|Silver laurel crown|Traditional Japanese kanzashi|Fur-trimmed hood|Lace veil|Leather circlet|Soft knitted beret|Small horn adornments|Pearl hair chains');
+field('prop','Held object','costume','A sheathed jian sword|An antique key|A handwritten letter|A winter rose|An ornate folding fan|A lacquered scroll case|A calligraphy brush|A jade flute|A paper lantern|A ceremonial dagger|A sheathed katana|A silk parasol|A bouquet of peonies|A small perfume vial|A carved chess piece|A glowing talisman|A leatherbound book|A silver pocket watch|An iridescent seashell|A pearl necklace|A compact mirror|An elegant teacup|A crystal orb|A small fishing spear|Kunai and tiger-claw weapons|A silver feather|An ornate hand mirror');
+field('gesture','Hand interaction','costume','Holding the object lightly at chest height|Raising the object into the light|One hand presenting the object toward the viewer|Resting one hand at the collar while holding the object|Cradling the object with both hands|Holding the object casually beside the hip|Holding the object near the face|One hand adjusting a sleeve while displaying the object|Turning the object delicately between the fingers');
+
+field('pose','Body pose','scene','Three-quarter turn toward the viewer|Looking back over one shoulder|Leaning on a carved balustrade|Sitting upright with regal posture|Walking forward through the scene|Resting one elbow on a table|Standing beneath an ornate arch|Turning mid-step with flowing clothing|Seated on a window ledge|Kneeling gracefully on a tatami mat|Standing with one hip angled to the side');
+field('gaze','Gaze direction','scene','Direct eye contact with the viewer|Gazing to the side|Looking down at the held object|Looking past the camera|An over-the-shoulder glance|Looking toward distant lights');
+field('framing','Framing / crop','scene','Close-up portrait|Chest-up portrait|Waist-up portrait|Three-quarter body|Full body|Wide environmental portrait');
+field('angle','Camera viewpoint','scene','Eye-level editorial angle|Slightly low cinematic angle|Soft three-quarter viewpoint|Intimate close camera angle|Slightly elevated viewpoint');
+field('setting','Environment','scene','Moonlit greenhouse conservatory|Candlelit gothic library|Ancient ruined abbey|Vampire manor ballroom|Snow-covered rose garden|Royal palace throne room|Cobbled European city street|Regency drawing room|Victorian botanical garden|Sunlit fantasy forest|Moonlit forest shrine|Sengoku castle courtyard|Sengoku battlefield camp|Lantern-lit Kyoto street|Heian palace veranda|Japanese onsen garden|Joseon palace veranda|Traditional Korean scholar residence|Joseon court garden|Hanok courtyard in snowfall|Misty bamboo mountain|Wuxia riverside inn|Jianghu martial-arts courtyard|Celestial xianxia pavilion|Floating immortal mountain|Lotus lake at dusk|Rainy neon alley|Seoul rooftop at blue hour|Modern luxury penthouse|Fashion studio with neutral backdrop|Nighttime cafe interior|Elegant university library|Mafia executive office|Industrial cyberpunk street|Orbital spacecraft observatory|Post-apocalyptic overgrown city|Bioluminescent coral palace|Open underwater canyon|Moonlit ocean shore|Desert oasis at sunset|Dark castle balcony');
+field('atmosphere','Atmospheric detail','scene','Suspended golden dust motes|Floating flower petals|Gentle wisps of incense|Drifting snowflakes|Fine rain droplets|Rising candle smoke|Luminous moon haze|Subtle spectral glimmers|Underwater floating particles|Soft sea spray|Rustling autumn leaves|Scattered firefly lights|Light fabric flutter|Soft volumetric haze');
+field('time','Time of day','scene','Early morning|Sunlit afternoon|Golden hour|Blue hour|Twilight|Moonlit night|Deep midnight');
+field('season','Season','scene','Spring|Summer|Autumn|Winter');
+field('lighting','Lighting design','scene','Golden-hour side lighting|Soft diffused window light|Warm candlelight and cool moonlight|Lantern light against blue dusk|Silver moonlight through branches|Elegant low-key chiaroscuro|Soft studio beauty lighting|Rain-soaked neon reflections|Pearlescent underwater caustics|Warm palace ambient lighting|Gentle overcast natural light|Luminous celestial backlight');
+field('palette','Color story','scene','Ivory, champagne and antique gold|Ink black, burgundy and muted gold|Deep teal, pearl and sea glass|Midnight blue and silver|Indigo, clay and pale cream|Jade green, umber and ivory|Rosewood, cocoa and copper|Slate blue, ash gray and pale gold|Soft lilac, pearl and cool gray|Forest green and old bronze|Pearl white, onyx and dusty rose|Crimson, charcoal and amber|Powder pink, ivory and pale gold|Lavender, peach and muted plum|Black, silver and electric cyan');
+field('mood','Emotional mood','scene','Romantic and wistful|Haunting and ethereal|Regal and composed|Warm and comforting|Mysterious and reserved|Dangerous and magnetic|Serene and contemplative|Triumphant and graceful|Dreamy and sweet|Bittersweet and cinematic|Darkly seductive|Playful and flirtatious');
+
+const GENRE_GROUPS={
+'Modern & romance':list('Modern Slice of Life|Contemporary Romance|Office Romance|Mafia Noir|Dark Academia|Modern Korean Fashion|Urban Fantasy|Superhero / Supervillain'),
+'Fantasy & supernatural':list('High Fantasy|Dark Fantasy|Gothic Fantasy|Royal Fantasy|Monster Romance|Vampire Gothic|Demon Court|Fae Court|Mythological Fantasy|Aquatic Fantasy'),
+'Historical & East Asian':list('Sengoku Japan|Heian Japan|Edo Japan|Joseon Korea|Goryeo Korea|Wuxia / Jianghu|Xianxia / Cultivation|Regency Romance|Victorian Gothic|Medieval Europe'),
+'Action & speculative':list('JRPG Adventure|Cyberpunk|Science Fiction|Post-Apocalyptic|Western Fantasy|Mystery / Thriller|Horror Romance')
+};
+const GENRES=Object.values(GENRE_GROUPS).flat();
+const STYLES=list('Polished 2.5D Korean anime illustration|Semi-realistic anime illustration|Premium otome game key visual|Elegant manhwa / webtoon illustration|Soft shoujo anime illustration|Refined AICG character illustration|Cinematic dark fantasy illustration|Painterly fantasy illustration|Ornate gothic oil painting|Watercolor storybook illustration|High-fashion character editorial|Cinematic photorealism|Stylized 3D character rendering');
+const P={};
+function preset(name,data){P[name]={};for(let k in data)P[name][k]=list(data[k])}
+function mergePreset(name,base,extra={}){P[name]={...(P[base]||{})};for(let k in extra)P[name][k]=list(extra[k])}
+
+preset('Modern Slice of Life',{species:'Human|Kemonomimi · Catkin|Kemonomimi · Dogkin',archetype:'Cafe owner|College professor|Fashion designer|Idol performer',clothing:'Soft knitwear and pleated trousers|Silk blouse and high-waisted skirt|Pastel romantic casual outfit|Contemporary Seoul street-luxury outfit',setting:'Nighttime cafe interior|Seoul rooftop at blue hour|Elegant university library',lighting:'Soft diffused window light|Soft studio beauty lighting'});
+mergePreset('Contemporary Romance','Modern Slice of Life',{archetype:'Cafe owner|Corporate executive|Fashion designer|Idol performer',mood:'Romantic and wistful|Warm and comforting|Playful and flirtatious'});
+mergePreset('Office Romance','Modern Slice of Life',{archetype:'Corporate executive|Private detective|Fashion designer',clothing:'High-fashion editorial suit|Silk blouse and high-waisted skirt|Tailored turtleneck and overcoat',setting:'Modern luxury penthouse|Mafia executive office|Seoul rooftop at blue hour'});
+mergePreset('Mafia Noir','Office Romance',{archetype:'Mafia underboss|Private detective|Elegant villain',clothing:'Mafia-inspired formal tailoring|Modern black evening gown|Gothic velvet suit',setting:'Mafia executive office|Rainy neon alley|Modern luxury penthouse',palette:'Ink black, burgundy and muted gold|Crimson, charcoal and amber',lighting:'Elegant low-key chiaroscuro|Rain-soaked neon reflections'});
+mergePreset('Dark Academia','Modern Slice of Life',{archetype:'Mysterious librarian|College professor|Haunted noble',clothing:'Dark academia library fashion|Victorian frock coat|Victorian mourning gown',setting:'Elegant university library|Candlelit gothic library'});
+mergePreset('Modern Korean Fashion','Modern Slice of Life',{clothing:'Contemporary Seoul street-luxury outfit|High-fashion editorial suit|Modern idol stagewear|Silk blouse and high-waisted skirt',setting:'Seoul rooftop at blue hour|Fashion studio with neutral backdrop'});
+mergePreset('Urban Fantasy','Modern Slice of Life',{species:'Human|Monsterkin · Vampire|Kemonomimi · Wolfkin|Monsterkin · Demon|Fae · Fairy',clothing:'Tailored turtleneck and overcoat|Gothic velvet suit|Modern black evening gown',setting:'Rainy neon alley|Modern luxury penthouse|Moonlit greenhouse conservatory'});
+mergePreset('Superhero / Supervillain','Urban Fantasy',{archetype:'Superhero|Supervillain|Elegant villain',clothing:'Futurist techwear|Elegant knight armor|Structured sci-fi uniform'});
+
+preset('High Fantasy',{species:'Human|Fae · High elf|Fae · Fairy|Monsterkin · Dragonkin',archetype:'Royal heir|Court sorcerer|Forest guardian|Knight commander|Temple oracle',clothing:'Fantasy mage ceremonial robes|Royal embroidered ballgown|Royal brocade court suit|Practical leather adventurer outfit|Fantasy sorceress dress',setting:'Sunlit fantasy forest|Royal palace throne room|Floating immortal mountain',palette:'Ivory, champagne and antique gold|Forest green and old bronze'});
+mergePreset('Dark Fantasy','High Fantasy',{species:'Human|Monsterkin · Demon|Monsterkin · Ghost|Fae · Dark elf|Monsterkin · Dragonkin',archetype:'Elegant villain|Haunted noble|Demon monarch|Monster hunter',clothing:'Demon aristocrat couture|Gothic velvet suit|Gothic lace and velvet gown|Elegant knight armor',setting:'Ancient ruined abbey|Dark castle balcony|Moonlit forest shrine',palette:'Ink black, burgundy and muted gold|Crimson, charcoal and amber'});
+mergePreset('Gothic Fantasy','Dark Fantasy',{species:'Human|Monsterkin · Vampire|Monsterkin · Ghost|Monsterkin · Fallen angel',archetype:'Vampire count / countess|Haunted noble|Haunted bride / groom',clothing:'Gothic velvet suit|Gothic lace and velvet gown|Victorian mourning gown|Victorian frock coat',setting:'Candlelit gothic library|Vampire manor ballroom|Moonlit greenhouse conservatory'});
+mergePreset('Royal Fantasy','High Fantasy',{archetype:'Royal heir|Crown prince / princess|Royal consort',clothing:'Royal embroidered ballgown|Royal brocade court suit|Regency-inspired court gown|Regency tailcoat and waistcoat'});
+mergePreset('Monster Romance','Dark Fantasy',{species:'Monsterkin · Vampire|Monsterkin · Demon|Monsterkin · Werewolf|Monsterkin · Dragonkin|Kemonomimi · Wolfkin|Kemonomimi · Catkin',mood:'Dangerous and magnetic|Romantic and wistful|Darkly seductive'});
+mergePreset('Vampire Gothic','Gothic Fantasy',{species:'Monsterkin · Vampire',archetype:'Vampire count / countess|Haunted noble'});
+mergePreset('Demon Court','Dark Fantasy',{species:'Monsterkin · Demon|Monsterkin · Succubus / Incubus|Monsterkin · Fallen angel',archetype:'Demon monarch|Elegant villain|Royal consort'});
+mergePreset('Fae Court','High Fantasy',{species:'Fae · High elf|Fae · Dark elf|Fae · Fairy|Fae · Dryad'});
+mergePreset('Mythological Fantasy','High Fantasy',{species:'Mythic · Naga|Mythic · Centaur|Monsterkin · Celestial angel|Monsterkin · Dragonkin|Yokai · Kitsune'});
+
+preset('Aquatic Fantasy',{species:'Aquatic · Merfolk (koi)|Aquatic · Merfolk (lionfish)|Aquatic · Merfolk (betta)|Aquatic · Merfolk (shark)|Aquatic · Merfolk (sea dragon)|Aquatic · Selkie',archetype:'Underwater sovereign|Sea guardian|Royal heir',clothing:'Pearl-studded merfolk regalia|Aquatic ceremonial harness',silhouette:'Sea-inspired jewelry harness|Light draped ceremonial layers',setting:'Bioluminescent coral palace|Open underwater canyon|Moonlit ocean shore',prop:'An iridescent seashell|A pearl necklace|A small fishing spear',palette:'Deep teal, pearl and sea glass|Midnight blue and silver',lighting:'Pearlescent underwater caustics'});
+
+preset('Sengoku Japan',{species:'Human|Yokai · Kitsune|Monsterkin · Oni',archetype:'Samurai retainer|Shinobi operative|Clan strategist|Ronin wanderer',clothing:'Sengoku kosode and hakama|Sengoku layered uchikake and kosode|Samurai hitatare|Shinobi dark indigo fieldwear',setting:'Sengoku castle courtyard|Sengoku battlefield camp|Moonlit forest shrine',prop:'A sheathed katana|A paper lantern|An ornate folding fan|Kunai and tiger-claw weapons',palette:'Indigo, clay and pale cream|Forest green and old bronze'});
+mergePreset('Heian Japan','Sengoku Japan',{archetype:'Royal consort|Court musician|Temple oracle',clothing:'Heian layered junihitoe robes|Heian court sokutai',setting:'Heian palace veranda|Moonlit forest shrine'});
+mergePreset('Edo Japan','Sengoku Japan',{archetype:'Ronin wanderer|Court musician|Samurai retainer',setting:'Lantern-lit Kyoto street|Japanese onsen garden|Moonlit forest shrine'});
+
+preset('Joseon Korea',{species:'Human|Yokai · Snow spirit|Yokai · Kitsune',archetype:'Joseon scholar|Joseon court lady|Joseon noble|Royal consort|Palace physician',clothing:'Joseon jeogori and chima|Joseon dangui and chima|Joseon royal wonsam|Joseon jeogori and baji|Joseon dopo and gat|Joseon cheollik and trousers|Joseon durumagi and hanbok',setting:'Joseon palace veranda|Traditional Korean scholar residence|Joseon court garden|Hanok courtyard in snowfall',prop:'A calligraphy brush|A lacquered scroll case|An ornate folding fan|A handwritten letter',headwear:'Elaborate Korean binyeo|Decorated jokduri headdress|Gat with tied strings',palette:'Jade green, umber and ivory|Indigo, clay and pale cream'});
+mergePreset('Goryeo Korea','Joseon Korea',{clothing:'Goryeo short jeogori and long chima|Goryeo layered po robes|Goryeo wide-sleeved court robes'});
+preset('Wuxia / Jianghu',{species:'Human',archetype:'Martial-arts wanderer|Jianghu sect leader|Royal guard',clothing:'Wuxia martial robes|Wuxia traveling attire|Jianghu sect uniform',setting:'Wuxia riverside inn|Jianghu martial-arts courtyard|Misty bamboo mountain',prop:'A jade flute|A sheathed jian sword|A calligraphy brush',palette:'Jade green, umber and ivory|Indigo, clay and pale cream'});
+mergePreset('Xianxia / Cultivation','Wuxia / Jianghu',{species:'Human|Fae · High elf|Monsterkin · Dragonkin|Cosmic · Starborn immortal',archetype:'Xianxia cultivator|Celestial immortal|Temple oracle',clothing:'Xianxia immortal silk robes|Xianxia ethereal layered dress|Celestial embroidered robes',setting:'Celestial xianxia pavilion|Floating immortal mountain|Lotus lake at dusk',palette:'Soft lilac, pearl and cool gray|Midnight blue and silver'});
+preset('Regency Romance',{species:'Human',archetype:'Haunted noble|Royal heir|Royal consort',clothing:'Regency-inspired court gown|Regency tailcoat and waistcoat',setting:'Regency drawing room|Cobbled European city street'});
+mergePreset('Victorian Gothic','Gothic Fantasy',{species:'Human|Monsterkin · Vampire|Monsterkin · Ghost',clothing:'Victorian mourning gown|Victorian frock coat|Gothic velvet suit|Gothic lace and velvet gown'});
+mergePreset('Medieval Europe','High Fantasy',{species:'Human',clothing:'Elegant knight armor|Royal embroidered ballgown|Royal brocade court suit'});
+mergePreset('JRPG Adventure','High Fantasy',{species:'Human|Fae · High elf|Monsterkin · Dragonkin|Kemonomimi · Catkin',clothing:'Elegant knight armor|Practical leather adventurer outfit|Fantasy mage ceremonial robes'});
+preset('Cyberpunk',{species:'Human|Artificial · Cyborg|Artificial · Android|Kemonomimi · Catkin',archetype:'Cybernetic agent|Private detective|Street racer|Supervillain',clothing:'Futurist techwear|Structured sci-fi uniform|Contemporary Seoul street-luxury outfit',setting:'Industrial cyberpunk street|Rainy neon alley|Orbital spacecraft observatory',palette:'Black, silver and electric cyan|Crimson, charcoal and amber'});
+mergePreset('Science Fiction','Cyberpunk',{species:'Human|Artificial · Android|Artificial · Cyborg|Cosmic · Starborn immortal',archetype:'Space diplomat|Cybernetic agent|Royal heir',setting:'Orbital spacecraft observatory'});
+mergePreset('Post-Apocalyptic','Cyberpunk',{species:'Human|Artificial · Cyborg|Monsterkin · Werewolf',archetype:'Post-apocalyptic scavenger|Monster hunter|Private detective',clothing:'Post-apocalyptic layered survival clothing'});
+mergePreset('Western Fantasy','High Fantasy',{clothing:'Cinematic western duster|Practical leather adventurer outfit',setting:'Desert oasis at sunset|Cobbled European city street'});
+mergePreset('Mystery / Thriller','Mafia Noir',{species:'Human',archetype:'Private detective|Elegant villain|Mysterious librarian'});
+mergePreset('Horror Romance','Gothic Fantasy',{species:'Human|Monsterkin · Vampire|Monsterkin · Ghost|Monsterkin · Gargoyle'});
+
+const FEMALE_CLOTHES=list('Royal embroidered ballgown|Gothic lace and velvet gown|Fantasy sorceress dress|Silk blouse and high-waisted skirt|Satin slip dress and tailored coat|Modern black evening gown|Regency-inspired court gown|Victorian mourning gown|Joseon jeogori and chima|Joseon dangui and chima|Joseon royal wonsam|Sengoku layered uchikake and kosode|Heian layered junihitoe robes|Xianxia ethereal layered dress');
+const MALE_CLOTHES=list('Royal brocade court suit|Gothic velvet suit|Regency tailcoat and waistcoat|High-fashion editorial suit|Tailored turtleneck and overcoat|Victorian frock coat|Joseon jeogori and baji|Joseon dopo and gat|Joseon cheollik and trousers|Sengoku kosode and hakama|Samurai hitatare|Shinobi dark indigo fieldwear|Heian court sokutai|Wuxia martial robes|Xianxia immortal silk robes');
+const NEUTRAL_CLOTHES=list('Celestial embroidered robes|Demon aristocrat couture|Elegant knight armor|Practical leather adventurer outfit|Fantasy mage ceremonial robes|Wuxia traveling attire|Jianghu sect uniform|Futurist techwear|Structured sci-fi uniform|Contemporary Seoul street-luxury outfit|Modern idol stagewear|Pearl-studded merfolk regalia|Aquatic ceremonial harness|Dark academia library fashion');
+
+const COLORS={
+'Ivory, champagne and antique gold':['#eadfca','#ceb486','#847050'],
+'Ink black, burgundy and muted gold':['#1c1a21','#753447','#b39a6d'],
+'Deep teal, pearl and sea glass':['#1a5556','#d4dacf','#78b2ac'],
+'Midnight blue and silver':['#172a48','#768aa4','#d8d8dc'],
+'Indigo, clay and pale cream':['#323653','#a86e60','#e9d8c0'],
+'Jade green, umber and ivory':['#417064','#694735','#e9dfc9'],
+'Rosewood, cocoa and copper':['#874d5a','#5c3e37','#bd8158'],
+'Slate blue, ash gray and pale gold':['#5d7789','#a5a7a8','#d7c998'],
+'Soft lilac, pearl and cool gray':['#ac9ab7','#eee7de','#939ba9'],
+'Forest green and old bronze':['#294c3a','#735b43','#b89c60'],
+'Pearl white, onyx and dusty rose':['#e2d8d0','#272528','#ae8295'],
+'Crimson, charcoal and amber':['#84363b','#303033','#bc9468'],
+'Powder pink, ivory and pale gold':['#d89fb8','#e7ddd2','#d6bf8d'],
+'Lavender, peach and muted plum':['#a78ba9','#e4ac90','#79536f'],
+'Black, silver and electric cyan':['#151b23','#a7b0b9','#36bfd1']
+};
+
+const SEEDS=[
+[/\b(vampire|nosferatu|bloodsucker)\b/i,{genre:'Vampire Gothic',species:'Monsterkin · Vampire'}],
+[/\b(demon|devil|infernal)\b/i,{genre:'Demon Court',species:'Monsterkin · Demon'}],
+[/\b(fallen angel)\b/i,{species:'Monsterkin · Fallen angel'}],
+[/\b(angel|seraph)\b/i,{species:'Monsterkin · Celestial angel'}],
+[/\b(catgirl|catboy|catkin|nekomimi)\b/i,{species:'Kemonomimi · Catkin'}],
+[/\b(foxgirl|foxboy|foxkin)\b/i,{species:'Kemonomimi · Foxkin'}],
+[/\b(wolfgirl|wolfboy|wolfkin)\b/i,{species:'Kemonomimi · Wolfkin'}],
+[/\b(bunnygirl|bunnyboy|bunnykin)\b/i,{species:'Kemonomimi · Bunnykin'}],
+[/\b(kitsune|fox spirit)\b/i,{species:'Yokai · Kitsune'}],
+[/\b(oni|ogre)\b/i,{species:'Monsterkin · Oni'}],
+[/\b(mermaid|merman|merfolk|siren)\b/i,{genre:'Aquatic Fantasy',species:'Aquatic · Merfolk (koi)'}],
+[/\b(lionfish)\b/i,{species:'Aquatic · Merfolk (lionfish)'}],
+[/\b(sea dragon)\b/i,{species:'Aquatic · Merfolk (sea dragon)'}],
+[/\b(shark)\b/i,{species:'Aquatic · Merfolk (shark)'}],
+[/\b(sengoku|shogun|samurai|ronin|shinobi|ninja)\b/i,{genre:'Sengoku Japan'}],
+[/\b(joseon|hanbok|jeogori|gat|binyeo|cheollik)\b/i,{genre:'Joseon Korea'}],
+[/\b(wuxia|jianghu|martial sect)\b/i,{genre:'Wuxia / Jianghu'}],
+[/\b(xianxia|cultivator|immortal sect)\b/i,{genre:'Xianxia / Cultivation'}],
+[/\b(cyberpunk|neon metropolis)\b/i,{genre:'Cyberpunk'}],
+[/\b(gothic|haunted manor)\b/i,{genre:'Gothic Fantasy'}],
+[/\b(mafia|mob boss|yakuza)\b/i,{genre:'Mafia Noir'}],
+[/\b(office romance|ceo|business tycoon)\b/i,{genre:'Office Romance'}],
+[/\b(royal fantasy|kingdom|throne)\b/i,{genre:'Royal Fantasy'}],
+[/\b(obsessive|possessive|yandere)\b/i,{aura:'Obsessive romantic intensity'}],
+[/\b(winter rose|roses|rose garden)\b/i,{prop:'A winter rose'}],
+[/\b(mask|masked)\b/i,{mark:'Porcelain half-mask'}],
+[/\b(black hair|raven hair)\b/i,{hairColor:'Jet black'}],
+[/\b(white hair)\b/i,{hairColor:'Snow white'}],
+[/\b(silver hair)\b/i,{hairColor:'Silver-gray'}],
+[/\b(red hair|auburn hair)\b/i,{hairColor:'Copper auburn'}],
+[/\b(pink hair)\b/i,{hairColor:'Rose pink'}],
+[/\b(blue eyes)\b/i,{eyeColor:'Sapphire blue'}],
+[/\b(green eyes)\b/i,{eyeColor:'Emerald green'}],
+[/\b(crimson eyes|red eyes)\b/i,{eyeColor:'Crimson red'}],
+[/\b(golden eyes|gold eyes)\b/i,{eyeColor:'Molten gold'}],
+[/\b(black silk)\b/i,{fabric:'Matte black silk'}],
+[/\b(velvet)\b/i,{fabric:'Cut velvet'}],
+[/\b(folding fan)\b/i,{prop:'An ornate folding fan'}],
+[/\b(lantern)\b/i,{prop:'A paper lantern'}],
+[/\b(kunai)\b/i,{prop:'Kunai and tiger-claw weapons'}],
+[/\b(conservatory|greenhouse)\b/i,{setting:'Moonlit greenhouse conservatory'}],
+[/\b(library|bookshelves)\b/i,{setting:'Candlelit gothic library'}],
+[/\b(coral reef|underwater palace)\b/i,{setting:'Bioluminescent coral palace'}],
+[/\b(snow|winter|frost)\b/i,{season:'Winter',atmosphere:'Drifting snowflakes'}],
+[/\b(autumn|maple leaves)\b/i,{season:'Autumn',atmosphere:'Rustling autumn leaves'}],
+[/\b(spring|cherry blossom|sakura)\b/i,{season:'Spring',atmosphere:'Floating flower petals'}],
+[/\b(rain|storm)\b/i,{atmosphere:'Fine rain droplets'}],
+[/\b(moonlight|moonlit)\b/i,{lighting:'Silver moonlight through branches'}]
+];
+
+const LEVELS=[['Detail',85],['Ornament',58],['Fantasy',60],['Romance',55],['Lighting',75],['Environment',65]];
+const KEY='tisay-character-atelier-v3';
+let chosen={},locks={},current=null,archive=[],variations=[],saveTimer=null;
+
+const IDENTITY_KEYS=list('species|age|build|height|skin|face|features|hairStyle|hairLength|hairColor|eyeShape|eyeColor|mark');
+const valueOf=k=>chosen[k]?.mode==='value'?tidy(chosen[k].value):'Random';
+const isFixed=k=>chosen[k]?.mode==='value'&&!!tidy(chosen[k].value);
+
+function status(message,type=''){
+let el=$('status');el.textContent=message;el.className='status '+type;
+}
+function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(persist,200)}
+function persist(){
+try{
+localStorage.setItem(KEY,JSON.stringify({
+version:3,chosen,locks,genre:$('genre').value,gender:$('gender').value,
+genderCustom:$('genderCustom').value,style:$('style').value,
+seed:$('seed').value,custom:$('custom').value,customStyle:$('customStyle').value,
+ratio:$('ratio').value,length:$('length').value,
+identityLock:$('identityLock').checked,preserveLocks:$('preserveLocks').checked,
+levels:LEVELS.map((_,i)=>Number($('lev'+i).value)),current,archive
+}));
+}catch(e){status('Browser storage unavailable. Export JSON to preserve your archive.','bad')}
+}
+
+function renderField(k){
+let sel=$('f_'+k),custom=$('c_'+k);
+if(!sel)return;
+let value=valueOf(k);
+if(isFixed(k)&&F[k].values.includes(value)){
+sel.value=value;custom.classList.add('hidden');
+}else if(isFixed(k)){
+sel.value='__custom';custom.value=value;custom.classList.remove('hidden');
+}else{
+sel.value='Random';custom.classList.add('hidden');
+}
+let b=$('lock_'+k);
+b.classList.toggle('locked',!!locks[k]);
+b.textContent=locks[k]?'🔒':'♧';
+b.title=(locks[k]?'Unlock ':'Lock ')+F[k].label;
+b.setAttribute('aria-pressed',String(!!locks[k]));
+}
+
+function fieldsUI(){
+for(let group of Object.keys(GROUP)){
+let root=$(group+'Fields');
+for(let k of GROUP[group]){
+let def=F[k],outer=node('div','field'),label=node('label','',def.label),
+line=node('div','fieldline'),sel=node('select'),
+lock=node('button','tiny','♧'),roll=node('button','tiny','↻'),
+custom=node('input','custom-value hidden');
+sel.id='f_'+k;label.htmlFor=sel.id;
+sel.add(new Option('✦ Random / genre guided','Random'));
+for(let option of def.values)sel.add(new Option(option,option));
+sel.add(new Option('✎ Custom entry…','__custom'));
+lock.id='lock_'+k;lock.type='button';roll.type='button';
+lock.setAttribute('aria-label','Toggle lock for '+def.label);
+roll.setAttribute('aria-label','Reroll '+def.label);
+custom.id='c_'+k;custom.type='text';custom.maxLength=180;
+custom.placeholder='Enter custom '+def.label.toLowerCase();
+sel.addEventListener('change',()=>{
+chosen[k]=sel.value==='Random'?{mode:'random'}:{mode:'value',value:sel.value==='__custom'?tidy(custom.value):sel.value};
+custom.classList.toggle('hidden',sel.value!=='__custom');
+scheduleSave();
+});
+custom.addEventListener('input',()=>{chosen[k]={mode:'value',value:custom.value};scheduleSave()});
+lock.addEventListener('click',()=>{
+if(!locks[k]){
+let value=valueOf(k);
+if(value==='Random')value=current?.traits?.[k]||pick(F[k].values);
+chosen[k]={mode:'value',value};locks[k]=true;
+}else locks[k]=false;
+renderField(k);scheduleSave();
+status(locks[k]?def.label+' locked.':def.label+' unlocked.');
+});
+roll.addEventListener('click',()=>{
+if(locks[k])return status(def.label+' is locked.','bad');
+chosen[k]={mode:'random'};renderField(k);generate([k]);
+status(def.label+' rerolled.','good');
+});
+line.append(sel,lock,roll);outer.append(label,line,custom);
+root.append(outer);renderField(k);
+}
+}
+}
+
+function slidersUI(){
+LEVELS.forEach(([name,def],i)=>{
+let box=node('div','slider'),head=node('div','sliderhead'),
+label=node('span','',name),out=node('span','',String(def)),
+input=node('input');
+input.type='range';input.id='lev'+i;input.min=0;input.max=100;input.value=def;
+input.setAttribute('aria-label',name);
+input.addEventListener('input',()=>{out.textContent=input.value;scheduleSave()});
+head.append(label,out);box.append(head,input);$('sliders').append(box);
+});
+}
+
+function parseSeed(){
+let text=tidy($('seed').value),traits={},genre=null;
+for(let [regex,data] of SEEDS)if(regex.test(text)){
+for(let k in data)if(k==='genre'){if(!genre)genre=data.genre}else traits[k]=data[k];
+}
+return {genre,traits};
+}
+
+function customHits(){
+let text=tidy($('custom').value).toLowerCase(),out={};
+if(!text)return out;
+for(let k in F){
+for(let v of [...F[k].values].sort((a,b)=>b.length-a.length)){
+if(v.length>=7&&text.includes(v.toLowerCase())){out[k]=v;break}
+}
+}
+for(let [re,data] of SEEDS)if(re.test(text))
+for(let k in data)if(k!=='genre'&&F[k]&&!out[k])out[k]=data[k];
+return out;
+}
+
+function genderValue(){
+return $('gender').value==='Custom'?tidy($('genderCustom').value)||'gender-diverse':$('gender').value;
+}
+function activeGenre(seed){
+return $('genre').value==='Intuitive'?seed.genre||pick(GENRES):$('genre').value;
+}
+function different(pool,old){
+let candidates=pool.filter(x=>x!==old);
+return pick(candidates.length?candidates:pool);
+}
+
+function clothingPool(genre,gender){
+let pool=P[genre]?.clothing||F.clothing.values;
+if(genre==='Joseon Korea'){
+if(gender==='Woman')return list('Joseon jeogori and chima|Joseon dangui and chima|Joseon royal wonsam');
+if(gender==='Man')return list('Joseon jeogori and baji|Joseon dopo and gat|Joseon cheollik and trousers');
+}
+if(genre==='Goryeo Korea'){
+if(gender==='Woman')return list('Goryeo short jeogori and long chima|Goryeo wide-sleeved court robes');
+if(gender==='Man')return list('Goryeo layered po robes|Goryeo wide-sleeved court robes');
+}
+if(genre==='Heian Japan'){
+if(gender==='Woman')return ['Heian layered junihitoe robes'];
+if(gender==='Man')return ['Heian court sokutai'];
+}
+if(genre==='Sengoku Japan'||genre==='Edo Japan'){
+if(gender==='Woman')return list('Sengoku layered uchikake and kosode|Sengoku kosode and hakama');
+if(gender==='Man')return list('Sengoku kosode and hakama|Samurai hitatare|Shinobi dark indigo fieldwear');
+}
+if(genre==='Regency Romance')return gender==='Woman'?['Regency-inspired court gown']:gender==='Man'?['Regency tailcoat and waistcoat']:pool;
+if(genre==='Victorian Gothic')return gender==='Woman'?list('Victorian mourning gown|Gothic lace and velvet gown'):gender==='Man'?list('Victorian frock coat|Gothic velvet suit'):pool;
+if(genre==='Wuxia / Jianghu')return P[genre].clothing;
+if(genre==='Xianxia / Cultivation')return gender==='Woman'?list('Xianxia ethereal layered dress|Xianxia immortal silk robes'):list('Xianxia immortal silk robes|Celestial embroidered robes');
+if(genre==='Aquatic Fantasy')return P[genre].clothing;
+if(gender==='Woman'){
+let preferred=pool.filter(v=>FEMALE_CLOTHES.includes(v)||NEUTRAL_CLOTHES.includes(v));
+return preferred.length?preferred:pool;
+}
+if(gender==='Man'){
+let preferred=pool.filter(v=>MALE_CLOTHES.includes(v)||NEUTRAL_CLOTHES.includes(v));
+return preferred.length?preferred:pool;
+}
+return pool;
+}
+
+function buildTraits(keys,base){
+let seed=parseSeed(),genre=activeGenre(seed),custom=customHits(),
+old=base?.traits||{},traits={},gender=genderValue(),warnings=[];
+if(base&&$('genre').value==='Intuitive'&&!seed.genre)genre=base.genre;
+if(base&&$('identityLock').checked)genre=base.genre;
+
+for(let k of Object.keys(F)){
+let prev=old[k],change=!keys||keys.includes(k);
+if(base&&!change){traits[k]=prev||pick(F[k].values);continue}
+if(base&&$('identityLock').checked&&IDENTITY_KEYS.includes(k)){
+traits[k]=prev||pick(F[k].values);continue;
+}
+if(locks[k]){traits[k]=isFixed(k)?valueOf(k):prev||pick(F[k].values);continue}
+if(custom[k]){traits[k]=custom[k];continue}
+if(isFixed(k)){traits[k]=valueOf(k);continue}
+if(seed.traits[k]&&F[k].values.includes(seed.traits[k])){traits[k]=seed.traits[k];continue}
+let pool=k==='clothing'?clothingPool(genre,gender):(P[genre]?.[k]||F[k].values);
+traits[k]=different(pool,base?prev:null);
+}
+
+if(/^Aquatic · Merfolk/.test(traits.species)&&!isFixed('framing')&&!locks.framing&&!custom.framing&&(!base||!keys||keys.includes('framing')))
+traits.framing=pick(list('Three-quarter body|Full body'));
+if(/angel/i.test(traits.species)&&!isFixed('framing')&&!locks.framing&&!custom.framing&&(!base||!keys||keys.includes('framing')))
+traits.framing=pick(list('Three-quarter body|Full body'));
+
+if(genre==='Joseon Korea'&&gender==='Woman'&&traits.headwear==='Gat with tied strings'&&!isFixed('headwear'))traits.headwear='Elaborate Korean binyeo';
+
+for(let k in custom)if(locks[k]&&traits[k]!==custom[k])warnings.push('A custom detail conflicts with the locked '+F[k].label.toLowerCase()+'.');
+
+return {
+genre,traits,conflicts:warnings,gender,
+style:$('style').value,ratio:$('ratio').value,length:$('length').value,
+seedText:tidy($('seed').value),customText:tidy($('custom').value),
+customStyle:tidy($('customStyle').value),
+levels:LEVELS.map((_,i)=>Number($('lev'+i).value))
+};
+}
+
+function anatomyFor(t,gender){
+let s=t.species,desc='';
+if(/^Aquatic · Merfolk/.test(s)){
+let species=s.match(/\((.*?)\)/)?.[1]||'fantasy fish';
+let noun=gender==='Woman'?'mermaid':gender==='Man'?'merman':'merperson';
+desc=`An anatomically coherent ${noun} with a human upper torso transitioning into one long, proportionally substantial ${species}-inspired fish tail. Species-faithful scale patterns, expressive fins, powerful tail musculature, and a visually balanced swimming silhouette create one continuous aquatic body.`;
+}else if(s==='Aquatic · Selkie'){
+desc='A sea-touched selkie with refined seal-inspired features and a coherent coastal identity.';
+}else if(s.startsWith('Kemonomimi · ')){
+let kind=s.split(' · ')[1].toLowerCase();
+let animal={catkin:'cat',foxkin:'fox',wolfkin:'wolf',bunnykin:'rabbit',dogkin:'dog',deerkin:'deer',tigerkin:'tiger',bearkin:'bear',birdkin:'bird'}[kind]||'animal';
+desc=animal==='bird'?
+'An expressive humanoid with feathered ear tufts and elegantly integrated avian details.':
+`A ${kind} humanoid with a fully expressive human face, a naturally attached pair of ${animal} ears and one distinctly recognizable ${animal} tail growing from the base of the spine. Fur coloration harmonizes with the hairstyle and costume.`;
+if(animal==='deer')desc+=' Delicate deer antlers complement the head silhouette.';
+}else if(s==='Monsterkin · Celestial angel'||s==='Monsterkin · Fallen angel'){
+desc=`A pair of large, anatomically connected ${s.includes('Fallen')?'dark':'luminous'} feathered wings emerges naturally from the shoulder blades, with carefully structured feathers and convincing volume.`;
+}else if(s==='Monsterkin · Demon'){
+desc='Elegant organic demon horns rise naturally from the skull, with coherent infernal features.';
+}else if(s==='Monsterkin · Oni'){
+desc='Distinct oni horns grow from the forehead, integrated naturally with the hairline.';
+}else if(s==='Monsterkin · Dragonkin'){
+desc='Natural dragon horns, selectively placed scales and one connected reptilian tail establish distinct dragonkin anatomy.';
+}else if(s==='Monsterkin · Vampire'){
+desc='Refined vampiric features include subtle elongated canine teeth and an alluring supernatural presence.';
+}else if(s==='Monsterkin · Werewolf'){
+desc='Lupine ears, elongated canine teeth, and strong animal-inspired anatomy evoke a transformed werewolf lineage.';
+}else if(s==='Monsterkin · Gargoyle'){
+desc='Stone-like skin texture and broad architectural wings establish an elegant gargoyle lineage.';
+}else if(s==='Monsterkin · Succubus / Incubus'){
+desc='Refined infernal horns and a slender pointed tail form coherent supernatural anatomy.';
+}else if(s.startsWith('Fae · ')){
+desc='Fine elfin ears and delicate supernatural features emphasize the fae lineage.';
+}else if(s==='Yokai · Kitsune'){
+desc='Vulpine ears and distinct fox tails emphasize the kitsune spiritual identity.';
+}else if(s==='Yokai · Tengu'){
+desc='Traditional tengu-inspired avian features shape the supernatural silhouette.';
+}else if(s==='Yokai · Snow spirit'){
+desc='Translucent frostlike details and soft wintry luminosity establish a snow-spirit identity.';
+}else if(s==='Mythic · Naga'){
+desc='One substantial serpentine lower body extends naturally from the waist, featuring believable scales and coiled anatomy.';
+}else if(s==='Mythic · Centaur'){
+desc='A complete four-legged horse body connects seamlessly with the humanoid torso.';
+}else if(s==='Artificial · Android'){
+desc='Clean engineered seams and precisely designed synthetic components reveal an elegant android body.';
+}else if(s==='Artificial · Cyborg'){
+desc='Functional cybernetic components integrate naturally with organic anatomy.';
+}else if(s==='Cosmic · Starborn immortal'){
+desc='Restrained astral luminosity and finely placed celestial ornament emphasize a starborn identity.';
+}else if(s==='Monsterkin · Ghost'){
+desc='Delicate spectral translucence and atmospheric edge lighting create an ethereal presence.';
+}
+return desc;
+}
+
+function describeSubject(o){
+let g=o.gender,sp=o.traits.species,s=sp.split(' · ').pop();
+let noun=g==='Woman'?'woman':g==='Man'?'man':g==='Nonbinary'?'nonbinary adult':g==='Genderfluid'?'genderfluid adult':`adult character with ${g} presentation`;
+let modifier=sp==='Human'?'human':/^Aquatic · Merfolk/.test(sp)?'merfolk':s.toLowerCase();
+let age=o.traits.age.replace(/ years old$/,'-year-old');
+return `An original ${age} ${modifier} ${noun}, portrayed as ${o.traits.archetype.toLowerCase()} in ${o.style.toLowerCase()}.`;
+}
+
+function promptFor(o){
+let t=o.traits,levels=o.levels||[85,58,60,55,75,65],mode=o.length||'Detailed',parts=[],genre=o.genre;
+let [detail,orn,fant,rom,light,env]=levels;
+parts.push(describeSubject(o));
+parts.push(`${cap(t.height.toLowerCase())} with a ${t.build.toLowerCase()}, ${t.skin.toLowerCase()}, and a ${t.face.toLowerCase()}. ${cap(t.features)} are defining facial details. ${cap(t.hairLength.toLowerCase())} ${t.hairColor.toLowerCase()} hair is arranged in ${t.hairStyle.toLowerCase()}; ${t.eyeShape.toLowerCase()} with ${t.eyeColor.toLowerCase()} irises carry ${t.expression.toLowerCase()} and suggest ${t.aura.toLowerCase()}.`);
+let anatomy=anatomyFor(t,o.gender);if(anatomy)parts.push(anatomy);
+parts.push(`The outfit uses ${t.clothing.toLowerCase()}, shaped into ${t.silhouette.toLowerCase()}. ${cap(t.fabric.toLowerCase())} has convincing weight and folds, featuring ${t.pattern.toLowerCase()}, ${t.jewelry.toLowerCase()}, and ${t.headwear.toLowerCase()}. The character's distinctive ${t.mark.toLowerCase()} remains clearly recognizable.`);
+parts.push(`The character is ${t.pose.toLowerCase()}, ${t.gaze.toLowerCase()}, ${t.gesture.toLowerCase()} with ${t.prop.toLowerCase()}. The hand gesture is natural and purposeful, with clear finger placement around the object.`);
+parts.push(`${cap(t.framing.toLowerCase())}, ${t.angle.toLowerCase()}, visually balanced focal placement and sufficient room to display the defining character silhouette. Compose for a ${o.ratio} canvas with the character as the principal subject.`);
+parts.push(`Set in ${t.setting.toLowerCase()} at ${t.time.toLowerCase()} during ${t.season.toLowerCase()}, with ${t.atmosphere.toLowerCase()}. ${cap(t.lighting)} describes the primary light source, and the color story centers on ${t.palette.toLowerCase()}. The emotional tone is ${t.mood.toLowerCase()}.`);
+
+if(mode!=='Exploratory'){
+if(detail>=58)parts.push('Refined eyes, individual hair strands, precise lashes and lip planes, clean fine linework, luminous dimensional skin shading, and elegant face-focused rendering give the character a distinctive likeness.');
+if(orn>=60)parts.push('Closely observed garment construction, textile texture, embroidery placement, metallic fastenings and delicate jewelry give the design tactile credibility.');
+if(fant>=67)parts.push('Supernatural features integrate into the material world through believable light response, thoughtfully designed anatomy and restrained luminous accents.');
+if(rom>=64)parts.push('The expression, intimate visual distance and body language suggest alluring romantic emotional storytelling.');
+if(light>=55)parts.push('Dimensional cinematic key lighting, complementary ambient fill and controlled rim highlights shape the face, hands and fabric folds.');
+if(env>=55)parts.push('Foreground accents, midground structural details and softly receding background layers create environmental depth and a gentle shallow-depth-of-field finish.');
+if(genre==='Joseon Korea')parts.push('Recognizable Joseon-era Korean garment construction, appropriate jeogori closures, draped sleeves and culturally coherent accessories anchor the historical styling.');
+if(genre==='Goryeo Korea')parts.push('Goryeo-inspired silhouettes and decorative traditions establish historical Korean fashion distinct from later Joseon-era court dress.');
+if(genre==='Sengoku Japan')parts.push('Purposeful Sengoku-period clothing layers and functional tied fastenings support the character’s role in the warring-states setting.');
+if(genre==='Wuxia / Jianghu')parts.push('Wuxia styling emphasizes a grounded human martial world, believable fabric movement and practical jianghu details.');
+if(genre==='Xianxia / Cultivation')parts.push('Xianxia cultivation styling features flowing immortal robes, spiritual ornament and celestial architectural depth.');
+if(/^Aquatic · Merfolk/.test(t.species))parts.push('Reflective underwater caustics follow the coherent fish tail; the fins and scales remain faithful to the chosen species.');
+if(genre==='Cyberpunk'||genre==='Science Fiction')parts.push('Engineered garment surfaces and attachments have plausible functional construction with coordinated futuristic details.');
+}
+if(mode==='Art Director')parts.push('Finish as a premium editorial-quality character key visual with expressive eyes, deliberate silhouette hierarchy, clear fabric separation, carefully observed hands, atmospheric depth, polished refined illustration rendering, and cinematic visual coherence.');
+if(o.customText)parts.push('Additional defining character requirements: '+period(o.customText));
+if(o.seedText&&mode!=='Exploratory')parts.push('Narrative motifs and emotional inspiration: '+period(o.seedText));
+if(o.customStyle)parts.push('Further art direction: '+period(o.customStyle));
+
+parts.push('Add subtle, legible text reading "tisay ai" in refined, elegant lettering along a quiet edge of the composition, harmonized with the color palette and integrated naturally into the artwork while keeping the character as the primary focal point.');
+
+return parts.join(' ').replace(/\s+/g,' ').trim();
+}
+
+const TITLES1=list('Velvet|Moonbound|Gilded|Ashen|Silent|Amber|Winterborne|Pearlbound|Crimson|Celestial|Thorn-Crowned|Enchanted|Silver|Jade|Rosebound|Obsidian|Twilight|Starfallen');
+const TITLES2=list('Sovereign|Oracle|Wanderer|Sentinel|Enigma|Courtier|Reverie|Guardian|Heir|Muse|Nocturne|Envoy|Alchemist|Regent|Phantom|Knight');
+
+function conceptFor(o){
+let t=o.traits;
+return `${o.gender} · ${o.genre} · ${t.species}. The ${t.clothing.toLowerCase()} harmonizes with ${t.palette.toLowerCase()} in ${t.setting.toLowerCase()}. ${cap(t.aura.toLowerCase())} drives the expression, while ${t.prop.toLowerCase()} provides a purposeful hand interaction. Species-specific anatomy and ${t.lighting.toLowerCase()} reinforce a coherent visual identity.`;
+}
+
+function generate(keys=null,asVariation=false){
+let base=current,config=buildTraits(keys,base);
+let o={
+...config,
+title:keys&&base?base.title:'The '+pick(TITLES1)+' '+pick(TITLES2),
+created:new Date().toISOString(),id:freshId(),
+designChoices:Object.fromEntries(Object.keys(F).filter(isFixed).map(k=>[k,valueOf(k)])),
+designLocks:Object.keys(F).filter(k=>locks[k]),
+designGenre:$('genre').value
+};
+o.prompt=promptFor(o);
+o.concept=conceptFor(o);
+if(asVariation)return o;
+current=o;variations=[];
+renderCurrent();renderVariations();renderWarnings(o.conflicts);persist();
+status(o.title+' is ready.','good');
+return o;
+}
+
+function renderWarnings(messages){
+let x=$('warnings');
+if(messages?.length){x.classList.remove('hidden');x.textContent=messages.join(' ')}
+else{x.classList.add('hidden');x.textContent=''}
+}
+function updateCount(){
+let text=$('prompt').value.trim();
+$('wordCount').textContent=(text?text.split(/\s+/).length:0)+' words';
+}
+function renderCurrent(){
+if(!current)return;
+$('title').value=current.title||'';
+$('prompt').value=current.prompt||'';
+$('concept').textContent=current.concept||'';
+let root=$('meta');root.replaceChildren();
+for(let txt of [current.genre,current.gender,current.traits.species,current.traits.hairColor,current.ratio])root.append(node('span','chip',txt));
+let n=Object.values(locks).filter(Boolean).length;
+if(n)root.append(node('span','chip','🔒 '+n+' locked'));
+updateCount();
+}
+function renderVariations(){
+let root=$('variations');root.replaceChildren();
+for(let [i,o] of variations.entries()){
+let card=node('article','variation'),heading=node('h3','',`Variation ${i+1} · ${o.title}`),
+subtitle=node('p','',`${o.gender} · ${o.genre} · ${o.traits.species}`),
+ta=node('textarea','prompt'),actions=node('div','actions'),
+copy=node('button','btn','Copy Variation'),
+save=node('button','btn','Save Variation'),
+use=node('button','btn','Use as Main');
+ta.value=o.prompt;ta.setAttribute('aria-label','Variation '+(i+1)+' prompt');
+ta.addEventListener('input',()=>o.prompt=ta.value);
+copy.type=save.type=use.type='button';
+copy.onclick=()=>copyText(ta.value,'Variation copied.',ta);
+save.onclick=()=>saveCharacter({...o,prompt:ta.value});
+use.onclick=()=>{current={...o,prompt:ta.value};variations=[];renderCurrent();renderVariations();persist();status('Variation is now the main character.','good')};
+actions.append(copy,save,use);card.append(heading,subtitle,ta,actions);root.append(card);
+}
+}
+
+/* Reliable clipboard handling with synchronous fallback and browser-permission recovery. */
+
+function legacyCopy(value){
+const previous=document.activeElement;
+const box=document.createElement('textarea');
+box.value=value;
+box.readOnly=true;
+box.setAttribute('aria-label','Temporary copy content');
+box.style.cssText='position:fixed;left:0;top:0;width:2px;height:2px;padding:0;border:0;opacity:0;z-index:-1;pointer-events:none';
+document.body.append(box);
+let success=false;
+try{
+box.focus({preventScroll:true});
+box.select();
+box.setSelectionRange(0,box.value.length);
+success=document.execCommand('copy');
+}catch(e){}
+finally{
+box.remove();
+if(previous&&typeof previous.focus==='function'){
+try{previous.focus({preventScroll:true})}catch(e){}
+}
+}
+return success;
+}
+
+async function copyText(value,message,source){
+if(!value){status('There is nothing to copy yet.','bad');return false}
+
+/* Try the synchronous browser copy operation while the click gesture is active. */
+if(legacyCopy(value)){
+status(message||'Copied to clipboard.','good');
+return true;
+}
+
+/* Modern HTTPS clipboard API fallback. */
+try{
+if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'&&window.isSecureContext){
+await navigator.clipboard.writeText(value);
+status(message||'Copied to clipboard.','good');
+return true;
+}
+}catch(e){}
+
+/* Permission-restricted browsers receive selectable text. */
+let target=source||$('prompt');
+if(target&&typeof target.select==='function'&&target.value===value){
+target.focus({preventScroll:true});
+target.select();
+target.setSelectionRange(0,target.value.length);
+status('Browser clipboard permission is restricted. Text selected — press Ctrl+C or Command+C.','bad');
+}else{
+showCopyFallback(value);
+}
+return false;
+}
+
+function showCopyFallback(value){
+let overlay=$('copyFallback'),area=$('fallbackText');
+area.value=value;
+overlay.classList.remove('hidden');
+area.focus({preventScroll:true});
+area.select();
+area.setSelectionRange(0,area.value.length);
+status('Text selected in the copy panel.','bad');
+}
+
+function sheet(o){
+let lines=['TISAY’S CHARACTER ATELIER',o.title,o.gender+' · '+o.genre,'Visual style: '+o.style,'Canvas: '+o.ratio,''];
+for(let k of Object.keys(F))lines.push(F[k].label+': '+o.traits[k]);
+lines.push('','CREATIVE SEEDS',o.seedText||'(none)','MUST-HAVE DETAILS',o.customText||'(none)','VISUAL DIRECTION',o.customStyle||'(none)','FULL IMAGE PROMPT',o.prompt);
+return lines.join('\n');
+}
+
+function saveCharacter(o){
+if(!o)return status('Generate a character first.','bad');
+let rec=JSON.parse(JSON.stringify(o));rec.id=freshId();rec.created=new Date().toISOString();
+archive.unshift(rec);archive=archive.slice(0,100);
+persist();renderArchive();status('Saved '+rec.title+' to your private archive.','good');
+}
+
+function loadCharacter(o){
+current=JSON.parse(JSON.stringify(o));variations=[];
+if(GENRES.includes(o.genre))$('genre').value=o.designGenre==='Intuitive'?'Intuitive':o.genre;
+if(['Woman','Man','Nonbinary','Genderfluid'].includes(o.gender))$('gender').value=o.gender;
+else{$('gender').value='Custom';$('genderCustom').value=o.gender||''}
+syncCustomGender();
+if(STYLES.includes(o.style))$('style').value=o.style;
+if(Array.from($('ratio').options).some(v=>v.value===o.ratio))$('ratio').value=o.ratio;
+if(['Exploratory','Balanced','Detailed','Art Director'].includes(o.length))$('length').value=o.length;
+for(let [id,value] of [['seed',o.seedText],['custom',o.customText],['customStyle',o.customStyle]])$(id).value=typeof value==='string'?value:'';
+if(Array.isArray(o.levels))o.levels.forEach((v,i)=>{
+if(i<6&&Number.isFinite(+v)){
+$('lev'+i).value=v;
+$('lev'+i).previousSibling.lastChild.textContent=v;
+}
+});
+for(let k of Object.keys(F)){
+chosen[k]=typeof o.designChoices?.[k]==='string'?{mode:'value',value:o.designChoices[k]}:{mode:'random'};
+locks[k]=Array.isArray(o.designLocks)&&o.designLocks.includes(k);
+renderField(k);
+}
+renderCurrent();renderVariations();renderWarnings([]);persist();
+$('result').scrollIntoView({behavior:'smooth',block:'start'});
+status('Loaded '+o.title+'.','good');
+}
+
+function renderArchive(){
+let root=$('archive');root.replaceChildren();
+$('archiveCount').textContent=archive.length+' / 100';
+if(!archive.length){root.append(node('p','hint','Nothing saved yet. Generate a character and select Save Character.'));return}
+for(let o of archive){
+let card=node('article','tile'),heading=node('h3','',o.title),
+subtitle=node('p','',`${o.gender} · ${o.genre} · ${o.traits.species}`),
+swatches=node('div','swatches'),description=node('p','',o.concept||''),
+actions=node('div','actions'),load=node('button','btn','Load'),
+copy=node('button','btn','Copy Prompt'),del=node('button','btn','Delete');
+for(let color of COLORS[o.traits.palette]||['#eadfca','#87745b','#26211e']){
+let dot=node('i');dot.style.background=color;swatches.append(dot);
+}
+load.type=copy.type=del.type='button';
+load.onclick=()=>loadCharacter(o);
+copy.onclick=()=>copyText(o.prompt,'Archived prompt copied.');
+del.onclick=()=>{
+if(confirm('Delete “'+o.title+'” from this browser archive?')){
+archive=archive.filter(x=>x.id!==o.id);persist();renderArchive();status('Archive entry deleted.','good');
+}
+};
+actions.append(load,copy,del);
+card.append(heading,subtitle,swatches,description,actions);
+root.append(card);
+}
+}
+
+function downloadArchive(){
+let blob=new Blob([JSON.stringify({format:'tisay-character-atelier',version:3,exported:new Date().toISOString(),characters:archive,current},null,2)],{type:'application/json'});
+let url=URL.createObjectURL(blob),link=node('a');
+link.href=url;link.download='tisay-character-atelier-archive.json';
+document.body.append(link);link.click();link.remove();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
+status('Character archive exported.','good');
+}
+
+function validCharacter(o){
+return !!(o&&typeof o==='object'&&typeof o.title==='string'&&o.title.length<=140&&typeof o.genre==='string'&&o.genre.length<=100&&o.traits&&typeof o.traits==='object'&&typeof o.prompt==='string'&&o.prompt.length<=50000&&Object.keys(F).every(k=>typeof o.traits[k]==='string'&&o.traits[k].length<=210));
+}
+
+function normalizeCharacter(o){
+let out=JSON.parse(JSON.stringify(o));
+if(!GENRES.includes(out.genre)){
+let map={
+'Vampire Aristocrat':'Vampire Gothic','Historical Hanbok':'Joseon Korea',
+'Samurai':'Sengoku Japan','Shinobi':'Sengoku Japan',
+'Wuxia':'Wuxia / Jianghu','Xianxia':'Xianxia / Cultivation',
+'Yokai':'Sengoku Japan','Merman':'Aquatic Fantasy',
+'Gothic Romance':'Gothic Fantasy','Demon':'Demon Court',
+'Angelic':'High Fantasy','Contemporary Editorial':'Modern Korean Fashion',
+'JRPG':'JRPG Adventure','Sci-Fi':'Science Fiction',
+'Mythological':'Mythological Fantasy','Elegant Villain':'Gothic Fantasy'
+};
+out.genre=map[out.genre]||'High Fantasy';
+}
+out.gender=typeof out.gender==='string'&&out.gender.length<100?out.gender:'Man';
+out.style=typeof out.style==='string'&&out.style.length<150?out.style:STYLES[0];
+out.ratio=typeof out.ratio==='string'&&out.ratio.length<12?out.ratio:'4:5';
+out.length=typeof out.length==='string'?out.length:'Detailed';
+out.seedText=typeof out.seedText==='string'?out.seedText.slice(0,3500):'';
+out.customText=typeof out.customText==='string'?out.customText.slice(0,3500):'';
+out.customStyle=typeof out.customStyle==='string'?out.customStyle.slice(0,2500):'';
+out.levels=Array.isArray(out.levels)?out.levels.slice(0,6):LEVELS.map(x=>x[1]);
+out.concept=typeof out.concept==='string'?out.concept.slice(0,3000):'';
+out.id=typeof out.id==='string'?out.id:freshId();
+out.created=typeof out.created==='string'&&Number.isFinite(Date.parse(out.created))?out.created:new Date().toISOString();
+return out;
+}
+
+function legacyConvert(o){
+if(!o||typeof o!=='object'||!o.traits||typeof o.prompt!=='string'||!o.title)return null;
+let out=JSON.parse(JSON.stringify(o)),old=out.traits;
+let conversion={body:'build',accessory:'mark',embroidery:'pattern',hand:'gesture',camera:'angle',composition:'framing',background:'setting',weather:'time'};
+for(let [oldKey,newKey] of Object.entries(conversion))if(!old[newKey]&&old[oldKey])old[newKey]=old[oldKey];
+for(let k of Object.keys(F))if(typeof old[k]!=='string')old[k]=F[k].values[0];
+out.gender='Man';out.style=STYLES[0];
+return validCharacter(out)?normalizeCharacter(out):null;
+}
+
+function importArchive(obj){
+if(!obj||obj.format!=='tisay-character-atelier'||![1,3].includes(obj.version)||!Array.isArray(obj.characters)||obj.characters.length>500)throw Error('Unsupported archive format');
+let items=[];
+for(let o of obj.characters){
+let rec=obj.version===1?legacyConvert(o):(validCharacter(o)?normalizeCharacter(o):null);
+if(!rec)throw Error('An archive entry is invalid or incomplete');
+rec.id=freshId();items.push(rec);
+}
+archive=[...items,...archive].slice(0,100);
+persist();renderArchive();
+status(`Imported ${items.length} character${items.length===1?'':'s'}.`,'good');
+}
+
+function restoreSaved(){
+let obj=null;
+try{
+for(let key of [KEY,'tisay-character-atelier-v2']){
+let raw=localStorage.getItem(key);
+if(raw){obj=JSON.parse(raw);break}
+}
+}catch(e){status('Saved preferences could not be read.','bad')}
+if(!obj)return;
+for(let k of Object.keys(F)){
+let v=obj.chosen?.[k];
+if(v&&typeof v==='object'&&v.mode==='value'&&typeof v.value==='string'&&v.value.length<=180)chosen[k]={mode:'value',value:v.value};
+else if(typeof v==='string'&&v!=='Random'&&v.length<=180)chosen[k]={mode:'value',value:v};
+locks[k]=obj.locks?.[k]===true;
+}
+if(GENRES.includes(obj.genre)||obj.genre==='Intuitive')$('genre').value=obj.genre;
+if(['Woman','Man','Nonbinary','Genderfluid','Custom'].includes(obj.gender))$('gender').value=obj.gender;
+else if(!obj.gender&&obj.current)$('gender').value='Man';
+if(typeof obj.genderCustom==='string')$('genderCustom').value=obj.genderCustom.slice(0,90);
+if(STYLES.includes(obj.style))$('style').value=obj.style;
+for(let k of ['seed','custom','customStyle'])if(typeof obj[k]==='string')$(k).value=obj[k].slice(0,k==='customStyle'?2500:3500);
+if(Array.from($('ratio').options).some(v=>v.value===obj.ratio))$('ratio').value=obj.ratio;
+if(['Exploratory','Balanced','Detailed','Art Director'].includes(obj.length))$('length').value=obj.length;
+else if(obj.length==='Concise')$('length').value='Exploratory';
+else if(obj.length==='Ultra Detailed')$('length').value='Art Director';
+$('identityLock').checked=obj.identityLock===true;
+$('preserveLocks').checked=obj.preserveLocks!==false;
+if(Array.isArray(obj.levels))obj.levels.slice(0,6).forEach((v,i)=>{
+if(Number.isFinite(Number(v))&&Number(v)>=0&&Number(v)<=100){
+$('lev'+i).value=v;
+$('lev'+i).previousSibling.lastChild.textContent=v;
+}
+});
+if(Array.isArray(obj.archive))archive=obj.archive.map(v=>validCharacter(v)?normalizeCharacter(v):legacyConvert(v)).filter(Boolean).slice(0,100);
+if(obj.current){
+let c=validCharacter(obj.current)?normalizeCharacter(obj.current):legacyConvert(obj.current);
+if(c)current=c;
+}
+for(let k of Object.keys(F))renderField(k);
+syncCustomGender();
+}
+
+function syncCustomGender(){
+$('genderCustom').classList.toggle('hidden',$('gender').value!=='Custom');
+}
+
+function quick(type){
+if(type==='female'){
+$('gender').value='Woman';$('genre').value='Gothic Fantasy';$('style').value=STYLES[0];
+}
+if(type==='male'){
+$('gender').value='Man';$('genre').value='High Fantasy';$('style').value=STYLES[0];
+}
+if(type==='monster'){
+$('gender').value='Woman';$('genre').value='Monster Romance';
+chosen.species={mode:'value',value:'Monsterkin · Demon'};
+renderField('species');
+}
+if(type==='kemono'){
+$('gender').value='Woman';$('genre').value='Modern Slice of Life';
+chosen.species={mode:'value',value:'Kemonomimi · Catkin'};
+renderField('species');
+}
+syncCustomGender();generate(null);
+status('Quick-start character created. Customize any field to refine it.','good');
+}
+
+function resetStudio(){
+if(!confirm('Reset creator preferences and the active prompt? Saved archive characters will remain.'))return;
+for(let k of Object.keys(F)){
+chosen[k]={mode:'random'};locks[k]=false;renderField(k);
+}
+$('genre').value='Intuitive';$('gender').value='Woman';$('genderCustom').value='';
+syncCustomGender();$('style').value=STYLES[0];
+for(let k of ['seed','custom','customStyle'])$(k).value='';
+$('ratio').value='4:5';$('length').value='Detailed';
+$('identityLock').checked=false;$('preserveLocks').checked=true;
+LEVELS.forEach(([_,value],i)=>{
+$('lev'+i).value=value;
+$('lev'+i).previousSibling.lastChild.textContent=value;
+});
+current=null;variations=[];
+$('title').value='';$('prompt').value='';
+$('concept').textContent='The atelier awaits a character.';
+$('meta').replaceChildren();
+renderVariations();renderWarnings([]);updateCount();persist();
+status('Studio reset. Archive preserved.','good');
+}
+
+function init(){
+let genre=$('genre');
+genre.add(new Option('✦ Intuitive · Follow seedwords','Intuitive'));
+for(let [group,values] of Object.entries(GENRE_GROUPS)){
+let optgroup=document.createElement('optgroup');optgroup.label=group;
+for(let v of values)optgroup.append(new Option(v,v));
+genre.append(optgroup);
+}
+for(let style of STYLES)$('style').add(new Option(style,style));
+slidersUI();
+for(let k of Object.keys(F)){chosen[k]={mode:'random'};locks[k]=false}
+fieldsUI();
+restoreSaved();
+renderCurrent();renderArchive();renderVariations();syncCustomGender();
+
+for(let id of ['genre','gender','genderCustom','style','seed','custom','customStyle','ratio','length','identityLock','preserveLocks']){
+let element=$(id);
+element.addEventListener('input',()=>{
+if(id==='gender')syncCustomGender();
+scheduleSave();
+});
+element.addEventListener('change',scheduleSave);
+}
+
+$('generate').onclick=()=>generate(null);
+$('reroll').onclick=()=>generate(Object.keys(F));
+
+$('full').onclick=()=>{
+if(!$('preserveLocks').checked)for(let k in locks)locks[k]=false;
+for(let k in chosen){
+if(!locks[k])chosen[k]={mode:'random'};
+renderField(k);
+}
+if(!$('identityLock').checked)current=null;
+generate(null);
+status('New randomized design ready.','good');
+};
+
+const modes={
+outfit:list('silhouette|clothing|fabric|pattern|jewelry|headwear'),
+scene:list('setting|atmosphere|time|season|lighting|angle'),
+palette:list('palette|fabric|pattern|lighting'),
+pose:list('pose|gaze|gesture|prop|angle')
+};
+for(let k in modes)$(k).onclick=()=>generate(modes[k]);
+
+$('triple').onclick=()=>{
+if(!current)generate(null);
+let base=current;variations=[];
+for(let i=0;i<3;i++){
+let o=generate(Object.keys(F),true);
+o.title=base.title+' · '+['Moonlight','Dawn','Twilight'][i];
+variations.push(o);
+}
+renderVariations();
+status('Three editable character variations created.','good');
+};
+
+$('reset').onclick=resetStudio;
+$('clearLocks').onclick=()=>{
+for(let k in locks){locks[k]=false;renderField(k)}
+scheduleSave();status('All individual field locks cleared.','good');
+};
+
+$('quickFemale').onclick=()=>quick('female');
+$('quickMale').onclick=()=>quick('male');
+$('quickMonster').onclick=()=>quick('monster');
+$('quickKemono').onclick=()=>quick('kemono');
+
+$('title').addEventListener('input',()=>{
+if(current)current.title=$('title').value;
+scheduleSave();
+});
+$('prompt').addEventListener('input',()=>{
+if(current)current.prompt=$('prompt').value;
+updateCount();scheduleSave();
+});
+
+/* Clipboard buttons */
+
+$('copyPrompt').onclick=()=>copyText($('prompt').value,'Prompt copied to clipboard.',$('prompt'));
+
+$('copySheet').onclick=()=>{
+if(!current)return status('Generate a character first.','bad');
+copyText(sheet({...current,title:$('title').value,prompt:$('prompt').value}),'Character sheet copied.');
+};
+
+$('closeFallback').onclick=()=>$('copyFallback').classList.add('hidden');
+
+$('selectFallback').onclick=()=>{
+let t=$('fallbackText');t.focus({preventScroll:true});
+t.select();t.setSelectionRange(0,t.value.length);
+};
+
+$('retryCopy').onclick=async()=>{
+if(await copyText($('fallbackText').value,'Text copied.',$('fallbackText')))
+$('copyFallback').classList.add('hidden');
+};
+
+$('copyFallback').addEventListener('click',e=>{
+if(e.target===$('copyFallback'))$('copyFallback').classList.add('hidden');
+});
+
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape')$('copyFallback').classList.add('hidden');
+});
+
+$('save').onclick=()=>{
+if(!current)return status('Generate a character first.','bad');
+current.title=$('title').value;
+current.prompt=$('prompt').value;
+saveCharacter(current);
+};
+
+$('export').onclick=downloadArchive;
+$('loadLast').onclick=()=>archive.length?loadCharacter(archive[0]):status('Your archive is empty.','bad');
+$('importBtn').onclick=()=>$('importFile').click();
+
+$('importFile').addEventListener('change',async e=>{
+let file=e.target.files?.[0];
+if(!file)return;
+try{
+if(file.size>6000000)throw Error('File exceeds 6 MB');
+importArchive(JSON.parse(await file.text()));
+}catch(err){
+status('Import failed: '+err.message,'bad');
+}finally{e.target.value=''}
+});
+
+if(current)status('Previous character and saved archive restored.','good');
+}
+
+init();
+})();
+</script>
+</body>
+</html>
