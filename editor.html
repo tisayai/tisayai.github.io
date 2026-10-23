@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080808">
+<title>Tisay AI — Character Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080808;
+  --panel:#111;
+  --panel2:#191919;
+  --gold:#cbb99b;
+  --bright:#ead8b8;
+  --text:#f2eee7;
+  --muted:#aaa198;
+  --border:rgba(203,185,155,.23);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:Inter,Arial,sans-serif;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,rgba(203,185,155,.09),transparent 40%),var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:14px;
+}
+button,input,textarea,select {font:inherit}
+button {cursor:pointer}
+a {color:var(--gold)}
+.header {
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:rgba(8,8,8,.95);
+  border-bottom:1px solid var(--border);
+  padding:17px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.logo {
+  font-family:var(--serif);
+  font-size:25px;
+  letter-spacing:.13em;
+  font-weight:700;
+}
+.logo span {color:var(--gold)}
+.header small {
+  font-size:10px;
+  letter-spacing:.14em;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.wrap {
+  max-width:1100px;
+  margin:auto;
+  padding:30px 16px 80px;
+}
+.eyebrow {
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  font-weight:600;
+}
+.heading {
+  font:600 clamp(36px,8vw,62px)/.95 var(--serif);
+  text-transform:uppercase;
+  margin:12px 0;
+}
+.intro {
+  color:var(--muted);
+  line-height:1.7;
+  max-width:700px;
+}
+.toolbar {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:24px 0;
+}
+.btn {
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--bright);
+  padding:12px 15px;
+  min-height:44px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.04em;
+}
+.btn.primary {
+  background:var(--gold);
+  color:#080808;
+  border-color:var(--gold);
+}
+.btn.danger {color:#e3a6a0}
+.btn:disabled {
+  opacity:.4;
+  cursor:not-allowed;
+}
+.layout {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+}
+.panel {
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:var(--panel);
+  padding:20px;
+}
+.panel h2 {
+  font:600 28px var(--serif);
+  margin:0 0 14px;
+  color:var(--bright);
+}
+.list {
+  display:grid;
+  gap:8px;
+  max-height:440px;
+  overflow:auto;
+}
+.item {
+  width:100%;
+  text-align:left;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:9px;
+  color:var(--text);
+}
+.item.selected {border-color:var(--gold)}
+.thumb {
+  height:54px;
+  width:42px;
+  object-fit:cover;
+  background:#292929;
+  border-radius:5px;
+}
+.item strong {
+  display:block;
+  font:600 19px var(--serif);
+}
+.item small {
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+}
+.group {
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+}
+.group h3 {
+  font:600 24px var(--serif);
+  color:var(--gold);
+  margin:0 0 12px;
+}
+.fields {
+  display:grid;
+  gap:13px;
+}
+.field {
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.field label {
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.field input,
+.field textarea,
+.field select {
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:#090909;
+  color:var(--text);
+  padding:12px;
+  outline:none;
+  min-height:44px;
+}
+.field textarea {
+  min-height:115px;
+  resize:vertical;
+  line-height:1.6;
+}
+.field input:focus,
+.field textarea:focus {border-color:var(--gold)}
+.help {
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.6;
+}
+.preview {
+  width:100%;
+  max-width:230px;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  background:#222;
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin-top:12px;
+}
+.check {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--bright);
+  margin:10px 0;
+}
+.check input {
+  accent-color:var(--gold);
+  width:18px;
+  height:18px;
+}
+.status {
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:16px;
+}
+.status.warn {color:#e8c18e}
+.status.good {color:#d4d0bd}
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:24px;
+}
+.hidden {display:none!important}
+input[type=file] {display:none}
+.foot {
+  margin-top:26px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+.badge {
+  font-size:11px;
+  color:var(--gold);
+}
+@media(min-width:780px) {
+  .layout {grid-template-columns:310px minmax(0,1fr)}
+  .fields.two {grid-template-columns:1fr 1fr}
+  .panel {padding:24px}
+}
+@media(max-width:450px) {
+  .header small {display:none}
+  .toolbar .btn {flex:1 1 42%}
+}
+:focus-visible {
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">𒌐 TISAY <span>AI</span></div>
+  <small>Character Manager · Private-use workspace</small>
+</header>
+
+<main class="wrap">
+  <div class="eyebrow">Archive Administration</div>
+  <h1 class="heading">Character Manager</h1>
+  <p class="intro">
+    Create and organize your character archive visually.
+    Import your current database, edit characters, then
+    download a new <strong>characters.json</strong> to upload to GitHub.
+  </p>
+
+  <div class="toolbar">
+    <button class="btn" id="reload">↻ Load GitHub Data</button>
+    <button class="btn" id="import">↑ Import JSON</button>
+    <button class="btn primary" id="export">↓ Export characters.json</button>
+    <input type="file" id="file" accept=".json,application/json">
+  </div>
+
+  <div id="status" class="status" role="status">
+    Loading character database…
+  </div>
+
+  <div class="layout">
+    <aside class="panel">
+      <h2>Your Characters <span class="badge" id="count">(0)</span></h2>
+      <button class="btn primary" id="add" style="width:100%;margin-bottom:14px">
+        + Add Character
+      </button>
+      <div id="list" class="list"></div>
+      <p class="help" id="listEmpty">
+        No characters yet. Tap Add Character to begin.
+      </p>
+
+      <div class="group">
+        <h3>Website Banner</h3>
+        <div class="field">
+          <label for="heroImage">Hero image URL</label>
+          <input id="heroImage" type="url" placeholder="https://...">
+          <div class="help">
+            Leave blank to use your featured character's image.
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="panel" id="editor">
+      <h2 id="editHeading">Select a Character</h2>
+      <p class="help" id="placeholder">
+        Tap Add Character or select an existing character
+        to edit its details.
+      </p>
+
+      <form id="form" class="hidden" autocomplete="off">
+        <div class="group" style="margin-top:0;padding-top:0;border-top:0">
+          <h3>Identity</h3>
+          <div class="fields two">
+            <div class="field">
+              <label for="name">Character name *</label>
+              <input id="name" required maxlength="160" placeholder="Character name">
+            </div>
+            <div class="field">
+              <label for="id">Unique character ID *</label>
+              <input id="id" required pattern="[A-Za-z0-9_-]+" placeholder="character-name">
+              <div class="help">
+                Used in share links. Keep unchanged after publishing.
+              </div>
+            </div>
+            <div class="field">
+              <label for="title">Character title</label>
+              <input id="title" placeholder="The Crimson Prince">
+            </div>
+            <div class="field">
+              <label for="world">World / universe</label>
+              <input id="world" placeholder="The Continent">
+            </div>
+            <div class="field">
+              <label for="species">Species</label>
+              <input id="species" placeholder="Human, vampire, yokai…">
+            </div>
+            <div class="field">
+              <label for="role">Role</label>
+              <input id="role" placeholder="Knight, sorcerer…">
+            </div>
+            <div class="field">
+              <label for="gender">Gender</label>
+              <input id="gender" placeholder="Male">
+            </div>
+            <div class="field">
+              <label for="tags">Tags</label>
+              <input id="tags" placeholder="Fantasy, Romance, Slow Burn">
+              <div class="help">Separate tags with commas.</div>
+            </div>
+          </div>
+          <label class="check">
+            <input id="featured" type="checkbox">
+            Featured character
+          </label>
+        </div>
+
+        <div class="group">
+          <h3>Portraits &amp; Lore</h3>
+          <div class="fields">
+            <div class="field">
+              <label for="image">Card portrait URL</label>
+              <input id="image" type="url" placeholder="https://cdn.imgchest.com/...">
+            </div>
+            <div class="field">
+              <label for="profileImage">Alternate profile portrait URL</label>
+              <input id="profileImage" type="url" placeholder="Optional larger image">
+            </div>
+            <div class="field">
+              <label for="description">Description / lore</label>
+              <textarea id="description" placeholder="Introduce your character…"></textarea>
+            </div>
+          </div>
+          <img class="preview" id="preview" alt="Portrait preview" src=""
+               onerror="this.onerror=null;this.style.visibility='hidden'">
+        </div>
+
+        <div class="group">
+          <h3>Chat Platforms</h3>
+          <p class="help">
+            Each character can have four independent links.
+            Blank links are hidden from visitors.
+          </p>
+          <div class="fields two">
+            <div class="field">
+              <label for="chub">Chub.ai URL</label>
+              <input id="chub" type="url" placeholder="https://chub.ai/characters/...">
+            </div>
+            <div class="field">
+              <label for="janitorai">JanitorAI URL</label>
+              <input id="janitorai" type="url" placeholder="https://janitorai.com/characters/...">
+            </div>
+            <div class="field">
+              <label for="saucepanai">SaucepanAI URL</label>
+              <input id="saucepanai" type="url" placeholder="https://...">
+            </div>
+            <div class="field">
+              <label for="wyvern">Wyvern.chat URL</label>
+              <input id="wyvern" type="url" placeholder="https://wyvern.chat/...">
+            </div>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>Downloads</h3>
+          <div class="fields two">
+            <div class="field">
+              <label for="png">Character PNG URL</label>
+              <input id="png" type="url" placeholder="https://...">
+            </div>
+            <div class="field">
+              <label for="json">Character JSON URL</label>
+              <input id="json" type="url" placeholder="https://...">
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="submit">✓ Save Character</button>
+          <button class="btn" id="duplicate" type="button">Duplicate</button>
+          <button class="btn danger" id="remove" type="button">Delete</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <p class="foot">
+    Your changes are held in this browser session until exported.
+    Upload the exported file to your GitHub repository to publish.
+    This editor cannot directly modify your GitHub repository.
+    Keep a backup of your previous JSON before replacing it.
+  </p>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+
+let data = {
+  site: {heroImage:''},
+  characters:[]
+};
+
+let selected = -1;
+let dirty = false;
+let loaded = false;
+
+const fields = [
+  'id','name','title','world','species','role','gender',
+  'image','profileImage','description','chub','janitorai',
+  'saucepanai','wyvern','png','json'
+];
+
+const safeUrl = s => {
+  if (!s || typeof s !== 'string') return '';
+  try {
+    let u = new URL(s.trim(),location.href);
+    return ['https:','http:'].includes(u.protocol) ? u.href : '';
+  } catch {
+    return '';
+  }
+};
+
+function notify(message,type='') {
+  const el = $('status');
+  el.textContent = message;
+  el.className = 'status ' + type;
+}
+
+function markDirty() {
+  dirty = true;
+  notify(
+    'You have changes that are not exported yet. Save the character, then export characters.json.',
+    'warn'
+  );
+}
+
+function normalize(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    throw Error('Invalid character entry');
+  }
+
+  const l = raw.links || {};
+  const d = raw.downloads || {};
+
+  return {
+    id:String(raw.id || ''),
+    name:String(raw.name || ''),
+    title:String(raw.title || ''),
+    image:String(raw.image || ''),
+    profileImage:String(raw.profileImage || ''),
+    world:String(raw.world || ''),
+    species:String(raw.species || ''),
+    role:String(raw.role || ''),
+    gender:String(raw.gender || ''),
+    description:String(raw.description || ''),
+    tags:Array.isArray(raw.tags) ? raw.tags.map(String) : [],
+    featured:raw.featured === true,
+    downloads:{
+      png:String(d.png || ''),
+      json:String(d.json || '')
+    },
+    links:{
+      chub:String(l.chub || ''),
+      janitorai:String(l.janitorai || ''),
+      saucepanai:String(l.saucepanai || ''),
+      wyvern:String(l.wyvern || '')
+    }
+  };
+}
+
+function acceptData(raw) {
+  if (!raw || !Array.isArray(raw.characters)) {
+    throw Error('File must contain a characters array');
+  }
+
+  const chars = raw.characters.map(normalize);
+  const ids = new Set();
+
+  for (const c of chars) {
+    if (!c.id || ids.has(c.id)) {
+      throw Error('Each character needs a unique, nonempty ID');
+    }
+    ids.add(c.id);
+  }
+
+  data = {
+    site:{heroImage:String(raw.site?.heroImage || '')},
+    characters:chars
+  };
+
+  selected = -1;
+  loaded = true;
+  dirty = false;
+  $('heroImage').value = data.site.heroImage;
+  render();
+
+  notify(
+    'Database loaded. ' + chars.length + ' character(s) ready.',
+    'good'
+  );
+}
+
+async function loadRemote() {
+  if ((dirty || formChanged()) &&
+      !confirm('Discard your unsaved changes and reload from GitHub?')) {
+    return;
+  }
+
+  try {
+    const r = await fetch('./characters.json',{cache:'no-store'});
+    if (!r.ok) throw Error('HTTP ' + r.status);
+    acceptData(await r.json());
+  } catch(e) {
+    if (!loaded) {
+      loaded = true;
+      render();
+    }
+    notify(
+      'Could not load characters.json automatically. You can use Import JSON to select the file on your phone. ' + e.message,
+      'warn'
+    );
+  }
+}
+
+function ensureSaved() {
+  if (selected < 0 || $('form').classList.contains('hidden')) {
+    return true;
+  }
+
+  if (!formChanged()) return true;
+
+  return confirm(
+    'This character has uncommitted form changes. Continue without saving them?'
+  );
+}
+
+function readForm() {
+  return {
+    id:$('id').value.trim(),
+    name:$('name').value.trim(),
+    title:$('title').value.trim(),
+    world:$('world').value.trim(),
+    species:$('species').value.trim(),
+    role:$('role').value.trim(),
+    gender:$('gender').value.trim(),
+    image:$('image').value.trim(),
+    profileImage:$('profileImage').value.trim(),
+    description:$('description').value,
+    tags:$('tags').value.split(',').map(x=>x.trim()).filter(Boolean),
+    featured:$('featured').checked,
+    downloads:{
+      png:$('png').value.trim(),
+      json:$('json').value.trim()
+    },
+    links:{
+      chub:$('chub').value.trim(),
+      janitorai:$('janitorai').value.trim(),
+      saucepanai:$('saucepanai').value.trim(),
+      wyvern:$('wyvern').value.trim()
+    }
+  };
+}
+
+function formChanged() {
+  return selected >= 0 &&
+    JSON.stringify(normalize(readForm())) !==
+    JSON.stringify(normalize(data.characters[selected]));
+}
+
+function render() {
+  const list = $('list');
+  list.replaceChildren();
+
+  $('count').textContent = '(' + data.characters.length + ')';
+  $('listEmpty').classList.toggle(
+    'hidden',
+    data.characters.length > 0
+  );
+
+  data.characters.forEach((c,i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'item' + (selected === i ? ' selected' : '');
+
+    const img = document.createElement('img');
+    img.className = 'thumb';
+    img.alt = '';
+    img.src = safeUrl(c.image || c.profileImage) || 'data:,';
+    img.onerror = () => {
+      img.onerror = null;
+      img.style.visibility = 'hidden';
+    };
+
+    const info = document.createElement('span');
+    const strong = document.createElement('strong');
+    strong.textContent = c.name || 'Unnamed character';
+
+    const small = document.createElement('small');
+    small.textContent = c.world || c.id;
+
+    info.append(strong,small);
+    b.append(img,info);
+    b.onclick = () => select(i);
+    list.append(b);
+  });
+
+  $('form').classList.toggle('hidden',selected < 0);
+  $('placeholder').classList.toggle('hidden',selected >= 0);
+  $('editHeading').textContent =
+    selected >= 0 ? 'Edit Character' : 'Select a Character';
+
+  if (selected >= 0) {
+    fillForm(data.characters[selected]);
+  }
+}
+
+function fillForm(c) {
+  for (const f of fields) {
+    let v = ['chub','janitorai','saucepanai','wyvern'].includes(f)
+      ? c.links[f]
+      : ['png','json'].includes(f)
+      ? c.downloads[f]
+      : c[f];
+
+    $(f).value = v || '';
+  }
+
+  $('tags').value = c.tags.join(', ');
+  $('featured').checked = c.featured;
+  preview();
+}
+
+function select(i) {
+  if (!ensureSaved()) return;
+  selected = i;
+  render();
+}
+
+function slug(s) {
+  return s.toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-|-$/g,'') || 'new-character';
+}
+
+function uniqueId(base) {
+  let id = base;
+  let n = 2;
+
+  while (data.characters.some(c => c.id === id)) {
+    id = base + '-' + n++;
+  }
+  return id;
+}
+
+function add() {
+  if (!ensureSaved()) return;
+
+  const id = uniqueId('new-character');
+  data.characters.push(normalize({
+    id,
+    name:'New Character'
+  }));
+
+  selected = data.characters.length - 1;
+  markDirty();
+  render();
+  $('name').focus();
+}
+
+function save() {
+  const c = readForm();
+
+  if (!c.name || !c.id) {
+    notify('Character name and ID are required.','warn');
+    return;
+  }
+
+  if (!/^[A-Za-z0-9_-]+$/.test(c.id)) {
+    notify(
+      'Use letters, numbers, hyphens or underscores in character IDs.',
+      'warn'
+    );
+    return;
+  }
+
+  if (data.characters.some((x,i) =>
+    i !== selected && x.id === c.id
+  )) {
+    notify('That character ID already exists. Choose another.','warn');
+    return;
+  }
+
+  for (const v of [
+    c.image,
+    c.profileImage,
+    c.downloads.png,
+    c.downloads.json,
+    ...Object.values(c.links)
+  ]) {
+    if (v && !safeUrl(v)) {
+      notify(
+        'Please enter complete http:// or https:// links.',
+        'warn'
+      );
+      return;
+    }
+  }
+
+  if (c.featured) {
+    data.characters.forEach((x,i) => {
+      if (i !== selected) x.featured = false;
+    });
+  }
+
+  data.characters[selected] = c;
+  markDirty();
+  render();
+
+  notify(
+    'Character saved in the editor. Export JSON to publish.',
+    'good'
+  );
+}
+
+function duplicate() {
+  if (!ensureSaved()) return;
+
+  const copy = JSON.parse(
+    JSON.stringify(data.characters[selected])
+  );
+
+  copy.id = uniqueId(copy.id + '-copy');
+  copy.name += ' (Copy)';
+  copy.featured = false;
+
+  data.characters.push(copy);
+  selected = data.characters.length - 1;
+
+  markDirty();
+  render();
+}
+
+function remove() {
+  if (!confirm(
+    'Delete this character from the editor? The deletion will be published only after exporting and uploading JSON.'
+  )) return;
+
+  data.characters.splice(selected,1);
+  selected = -1;
+  markDirty();
+  render();
+}
+
+function preview() {
+  const img = $('preview');
+  const u = safeUrl(
+    $('profileImage').value || $('image').value
+  );
+
+  img.style.visibility = u ? 'visible' : 'hidden';
+  if (u) img.src = u;
+}
+
+function exportData() {
+  if (selected >= 0 && formChanged()) {
+    notify(
+      'Save the character form before exporting, so your latest edits are included.',
+      'warn'
+    );
+    $('form').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+
+  data.site.heroImage = $('heroImage').value.trim();
+
+  if (data.site.heroImage && !safeUrl(data.site.heroImage)) {
+    notify(
+      'Hero image URL must start with http:// or https://',
+      'warn'
+    );
+    return;
+  }
+
+  const text = JSON.stringify(data,null,2) + '\n';
+  const blob = new Blob([text],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'characters.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url),30000);
+
+  dirty = false;
+  notify(
+    'Exported characters.json. Upload it to GitHub to publish your changes.',
+    'good'
+  );
+}
+
+$('add').onclick = add;
+$('reload').onclick = loadRemote;
+$('import').onclick = () => $('file').click();
+$('export').onclick = exportData;
+
+$('file').onchange = async e => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  if ((dirty || formChanged()) &&
+      !confirm('Replace your current editor data with the imported file?')) {
+    e.target.value = '';
+    return;
+  }
+
+  try {
+    acceptData(JSON.parse(await file.text()));
+  } catch(err) {
+    notify('Import failed: ' + err.message,'warn');
+  }
+
+  e.target.value = '';
+};
+
+$('form').onsubmit = e => {
+  e.preventDefault();
+  save();
+};
+
+$('duplicate').onclick = duplicate;
+$('remove').onclick = remove;
+
+$('heroImage').oninput = () => {
+  data.site.heroImage = $('heroImage').value;
+  markDirty();
+};
+
+$('image').oninput = preview;
+$('profileImage').oninput = preview;
+
+$('name').addEventListener('input',() => {
+  if (
+    selected >= 0 &&
+    data.characters[selected].name === 'New Character' &&
+    $('id').value === data.characters[selected].id
+  ) {
+    $('id').value = uniqueId(slug($('name').value));
+  }
+});
+
+window.addEventListener('beforeunload',e => {
+  if (dirty || formChanged()) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+loadRemote();
+</script>
+</body>
+</html>
