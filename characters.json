@@ -2,5 +2,32 @@
   "site": {
     "heroImage": ""
   },
-  "characters": []
+  "characters": [
+    {
+      "id": "Malak",
+      "name": "Malak",
+      "title": "The Archimp Demonlord",
+      "world": "Helter Skelter",
+      "species": "Demon",
+      "role": "Mage",
+      "gender": "",
+      "image": "https://cdn.imgchest.com/files/9a782c6b7f7f.png",
+      "profileImage": "",
+      "description": "Malak the Archimp",
+      "tags": [
+        "Fantasy"
+      ],
+      "featured": false,
+      "downloads": {
+        "png": "https://avatars.charhub.io/avatars/tisayai/king-malak-be044edeb036/chara_card_v2.png?nocache=2024-11-21T23:25:45Z",
+        "json": "https://chub.ai/characters/tisayai/king-malak-be044edeb036"
+      },
+      "links": {
+        "chub": "https://chub.ai/characters/tisayai/king-malak-be044edeb036",
+        "janitorai": "https://janitorai.com/characters/22768363-be06-4eb9-9ed1-04423ea954e4_character-malak-rente",
+        "saucepanai": "https://saucepan.ai/companion/da9dd0b8-298a-4ac3-a6e9-573c1f84a56f",
+        "wyvern": "https://app.wyvern.chat/profiles/tisay/characters/_VhTKR8X2C71pzr9TMabJN"
+      }
+    }
+  ]
 }
