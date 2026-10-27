@@ -1,0 +1,1623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#190f20">
+<title>Tisay's Aesthetic House | TisayAI</title>
+<style>
+:root{--bg:#170f1c;--panel:#281b2e;--panel2:#34243a;--line:#705368;--rose:#edb4c6;--gold:#efd3a1;--cream:#fff0e6;--muted:#c5acbc}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 18% 0%,#452b45,transparent 55%),radial-gradient(ellipse at 90% 0%,#34233b,transparent 45%),var(--bg);color:var(--cream);font:15px/1.6 Georgia,serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;background-image:linear-gradient(90deg,#fff 1px,transparent 1px),linear-gradient(#fff 1px,transparent 1px);background-size:65px 65px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+a{color:var(--gold)}
+.wrap{max-width:1370px;margin:auto;padding:0 24px}
+.top{border-bottom:1px solid #65475e;background:#160d1bc9}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:65px;gap:15px}
+.brand{font-size:12px;color:var(--gold);letter-spacing:.18em}
+.links{display:flex;gap:19px}
+.links a{font:11px Arial,sans-serif;letter-spacing:.08em;text-decoration:none;color:var(--muted)}
+.hero{text-align:center;padding:54px 12px 34px}
+.ornament{font-size:18px;letter-spacing:1em;color:var(--gold)}
+.overline{font:10px Arial,sans-serif;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin:17px 0}
+.hero h1{font-weight:400;font-size:clamp(39px,5.5vw,76px);line-height:1.1;margin:0;letter-spacing:-.035em}
+.hero h1 em{color:var(--rose);font-weight:400}
+.hero p{max-width:650px;margin:19px auto 0;color:var(--muted)}
+.pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:22px}
+.pills span{border:1px solid #785469;color:#eed1db;border-radius:50px;padding:5px 12px;font:10px Arial,sans-serif;letter-spacing:.07em}
+.layout{display:grid;grid-template-columns:1.04fr .96fr;gap:23px;align-items:start}
+.panel{background:linear-gradient(155deg,#2c2031,#211626);border:1px solid var(--line);border-radius:7px;overflow:hidden;box-shadow:0 20px 45px #08040c55}
+.heading{padding:24px 26px 18px;border-bottom:1px solid #64495d}
+.kicker{color:var(--gold);font:10px Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+h2{font-size:27px;font-weight:400;margin:6px 0}
+.desc{font-size:13px;color:var(--muted);margin:0}
+.content{padding:22px 26px 28px}
+.section{display:flex;gap:10px;align-items:center;color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.16em;margin:4px 0 15px}
+.section:after{content:"";height:1px;flex:1;background:#77596e}
+.section:not(:first-child){margin-top:25px}
+.field{margin-bottom:15px;min-width:0}
+.field label,.label{display:block;color:#f2dce6;font:12px/1.45 Arial,sans-serif;margin-bottom:7px}
+.control{display:block;width:100%;min-width:0;background:#1a1020;color:var(--cream);border:1px solid #73566c;border-radius:5px;padding:11px 12px;font:13px/1.4 Arial,sans-serif}
+.control option,.control optgroup{background:#201326;color:var(--cream)}
+.control:focus{border-color:var(--rose)}
+.control::placeholder{color:#958093}
+textarea.control{resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font:11px/1.5 Arial,sans-serif;color:#b9a0b4;margin-top:6px}
+.quick{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0 20px}
+.chip{background:#39283e;color:#eed3dd;border:1px solid #795669;border-radius:30px;padding:9px 12px;font:11px Arial,sans-serif}
+.chip:hover{background:#614252}
+.notice{border-left:2px solid var(--rose);padding:12px;background:#392638;color:#e6c8d4;font:12px/1.6 Arial,sans-serif;margin-bottom:18px}
+.lockline{display:flex;justify-content:space-between;align-items:center;gap:7px;margin-bottom:7px}
+.lockline label{margin:0}
+.lock{color:#cdb3c5;font:11px Arial,sans-serif;white-space:nowrap;cursor:pointer}
+input[type=checkbox]{accent-color:var(--rose)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
+.btn{background:#3c2941;color:#f9e6eb;border:1px solid #84657a;border-radius:5px;padding:12px 10px;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.045em;transition:background .15s,transform .15s}
+.btn:hover{background:#62445b;transform:translateY(-1px)}
+.btn.main{background:linear-gradient(120deg,#f4cbbf,#d99bb7);color:#251429;border-color:#f4d5c9}
+.btn.gold{background:#d5b180;color:#25172a;border-color:#f3d7ae}
+.btn.ghost{background:transparent}
+.btn.small{font-size:10px;padding:8px 10px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fine{font:11px/1.6 Arial,sans-serif;color:#ac92a5;margin-top:15px}
+.right{position:sticky;top:16px;display:flex;flex-direction:column;gap:18px}
+.muse{background:linear-gradient(120deg,#48324a,#35243c);border:1px solid #816176;padding:17px 18px;border-radius:5px;margin-bottom:16px}
+.muse small{color:var(--gold);letter-spacing:.17em;font:10px Arial,sans-serif}
+.muse h3{font-size:24px;font-weight:400;margin:6px 0}
+.muse p{margin:0;color:#e5c6d8;font-size:12px}
+.prompt{display:block;width:100%;min-height:420px;background:#130d18;color:#f6e8ed;border:1px solid #927187;border-radius:5px;resize:vertical;padding:17px;font:13px/1.8 Arial,sans-serif}
+.meta{display:flex;justify-content:space-between;gap:10px;color:#bca5b7;font:11px Arial,sans-serif;margin:9px 0}
+.copyrow{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:15px}
+.rationale{border-top:1px solid #695067;margin-top:21px;padding-top:16px;font:12px/1.7 Arial,sans-serif;color:#d4bcc9}
+.rationale strong{display:block;color:var(--gold);font-weight:400;margin-bottom:5px}
+.hidden{display:none!important}
+.variant{border:1px solid #654a60;background:#1a1120;padding:13px;border-radius:5px;margin-bottom:12px}
+.variantbar{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px;color:var(--gold);font:11px Arial,sans-serif}
+.variant textarea{min-height:130px;resize:vertical;width:100%;background:#120b17;color:#f3e4ea;border:1px solid #71556a;padding:10px;font:11px/1.6 Arial,sans-serif}
+.saved{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px;border:1px solid #654961;background:#1b1221;margin-top:8px;border-radius:4px}
+.saved strong{font:12px Arial,sans-serif}
+.saved small{display:block;color:#baa0b2;font:10px Arial,sans-serif;margin-top:5px}
+.savedbuttons{display:flex;gap:5px}
+.savedbuttons button{background:#483149;border:1px solid #75536b;border-radius:3px;color:var(--cream);padding:8px;font:10px Arial,sans-serif}
+.empty{border:1px dashed #725568;text-align:center;padding:25px 10px;color:#bca4b6;font:12px Arial,sans-serif;margin-top:13px}
+footer{text-align:center;margin-top:45px;padding:30px 10px 40px;border-top:1px solid #63475c;color:var(--muted);font:12px/1.9 Arial,sans-serif}
+footer .signature{font:25px Georgia,serif;color:var(--rose);margin:8px}
+footer a{text-decoration:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#f5d3c3;color:#261427;padding:12px 18px;border-radius:5px;font:12px Arial,sans-serif;transition:.2s;z-index:100;text-align:center}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.modal{position:fixed;inset:0;background:#08050bd9;display:none;place-items:center;padding:20px;z-index:99}
+.modal.open{display:grid}
+.dialog{background:#28192d;border:1px solid var(--rose);padding:23px;border-radius:7px;max-width:580px;width:100%}
+.dialog h3{font-weight:400;font-size:24px;margin:0 0 5px}
+.dialog p{font:12px/1.6 Arial,sans-serif;color:var(--muted)}
+.dialog textarea{min-height:180px;resize:vertical}
+@media(max-width:960px){.layout{grid-template-columns:1fr}.right{position:static}.prompt{min-height:320px}}
+@media(max-width:550px){.wrap{padding:0 13px}.hero{padding:39px 8px 27px}.hero h1{font-size:40px}.hero p{font-size:14px}.content{padding:18px}.heading{padding:20px 18px}.two{grid-template-columns:1fr}.links{gap:11px}.links a{font-size:10px}.copyrow{grid-template-columns:1fr 1fr}.copyrow .main{grid-column:span 2}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap nav">
+<div class="brand">✦ TISAYAI · PRIVATE ATELIER</div>
+<nav class="links"><a href="#design">DESIGN</a><a href="#result">PROMPT</a><a href="#archive">ARCHIVE</a></nav>
+</div>
+</header>
+
+<div class="wrap">
+<section class="hero">
+<div class="ornament">✧ ◈ ✧</div>
+<div class="overline">The House of Original Fashion Characters</div>
+<h1>Tisay's <em>Aesthetic House</em></h1>
+<p>A curated wardrobe of modern fashion subcultures. Dream up distinctive adult OCs, compose editorial anime portraits, and copy the complete illustration prompt in one click.</p>
+<div class="pills">
+<span id="styleCount">CURATED AESTHETICS</span>
+<span>ADULT OCs ONLY</span>
+<span>FASHION-TRUE WARDROBES</span>
+<span>BUILT FOR KREA 2</span>
+<span>NO API KEY</span>
+</div>
+</section>
+
+<main class="layout">
+<section class="panel" id="design">
+<div class="heading">
+<div class="kicker">I · THE DESIGN SALON</div>
+<h2>Dress your muse.</h2>
+<p class="desc">Choose one subculture. Its clothing, accessories, colors, and modern fashion setting stay coordinated.</p>
+</div>
+<div class="content">
+<div class="section">01 · Fashion direction</div>
+
+<div class="field">
+<label for="style">Fashion subculture / aesthetic</label>
+<select class="control" id="style"></select>
+<div class="hint" id="styleDescription"></div>
+</div>
+
+<div class="label">Quick fashion inspirations</div>
+<div class="quick">
+<button class="chip" data-quick="Gothic Lolita" data-gender="woman">☾ Gothic Doll</button>
+<button class="chip" data-quick="Ouji" data-gender="man">♛ Ouji Prince</button>
+<button class="chip" data-quick="Decora">✿ Decora Star</button>
+<button class="chip" data-quick="Visual Kei" data-gender="man">✦ Visual Kei</button>
+<button class="chip" data-quick="Techwear">◇ Techwear</button>
+<button class="chip" data-quick="Hime Gyaru" data-gender="woman">♡ Hime Gyaru</button>
+</div>
+
+<div class="two">
+<div class="field">
+<label for="gender">Character gender</label>
+<select id="gender" class="control">
+<option value="woman">Woman · petite adult</option>
+<option value="man">Man · tall adult</option>
+<option value="nonbinary">Nonbinary · adult</option>
+</select>
+</div>
+<div class="field hidden" id="presentationWrap">
+<label for="presentation">Wardrobe silhouette</label>
+<select id="presentation" class="control">
+<option value="m">Tailored / trouser-based</option>
+<option value="f">Feminine fashion cuts</option>
+</select>
+</div>
+</div>
+
+<div class="notice" id="genderMessage">Curated feminine fashion for petite adult women. Menswear has separate trouser-based coordinates, and feminine-only styles are filtered when you choose a man.</div>
+
+<div class="two">
+<div class="field"><label for="name">OC name / alias (optional)</label><input id="name" class="control" maxlength="80" placeholder="Name your original character"></div>
+<div class="field"><label for="age">Adult age</label>
+<select id="age" class="control">
+<option>24</option><option>21</option><option>27</option><option>30</option><option>35</option><option>40</option><option>45</option>
+</select></div>
+</div>
+
+<div class="two">
+<div class="field">
+<label for="heritage">Heritage / appearance</label>
+<select id="heritage" class="control">
+<option value="auto">Surprise me · diverse</option>
+<option>East Asian</option><option>Southeast Asian</option><option>South Asian</option><option>Black</option><option>Latina / Latino</option><option>Middle Eastern / North African</option><option>White / European</option><option>Indigenous</option><option>Mixed heritage</option>
+</select>
+</div>
+<div class="field">
+<label for="skin">Complexion</label>
+<select id="skin" class="control">
+<option value="auto">Harmonized surprise</option>
+<option>fair skin with cool undertones</option><option>light peach-toned skin</option><option>golden light-medium skin</option><option>medium warm olive skin</option><option>rich caramel-brown skin</option><option>deep brown skin with warm undertones</option><option>deep ebony skin with cool undertones</option>
+</select>
+</div>
+</div>
+
+<div class="two">
+<div class="field"><label for="hairColor">Hair color</label>
+<select id="hairColor" class="control">
+<option value="auto">Aesthetic-coordinated</option><option>jet black</option><option>espresso brown</option><option>chestnut brown</option><option>honey blonde</option><option>platinum blonde</option><option>copper auburn</option><option>silver-white</option><option>pastel pink</option><option>lavender</option><option>deep crimson</option><option>electric blue</option><option>emerald teal</option>
+</select></div>
+<div class="field"><label for="eyeColor">Eye color</label>
+<select id="eyeColor" class="control">
+<option value="auto">Surprise me</option><option>deep brown</option><option>warm amber</option><option>hazel</option><option>emerald green</option><option>steel grey</option><option>clear blue</option><option>violet</option>
+</select></div>
+</div>
+
+<div class="field"><label for="mood">Fashion mood / visual motif</label><input id="mood" class="control" maxlength="250" placeholder="Black roses, pop star, pearl princess, silver chains..."></div>
+<div class="field"><label for="must">Must-have original character details</label><textarea id="must" class="control" rows="2" maxlength="750" placeholder="Your specific hair, eyes, marks, accessories, clothing, or character identity. These instructions take priority."></textarea></div>
+
+<div class="section">02 · Couture coordination</div>
+
+<div class="two">
+<div class="field">
+<div class="lockline"><label for="outfit">Signature outfit</label><label class="lock"><input type="checkbox" data-lock="outfit"> Lock</label></div>
+<select id="outfit" class="control"></select>
+</div>
+<div class="field">
+<div class="lockline"><label for="palette">Coordinated palette</label><label class="lock"><input type="checkbox" data-lock="palette"> Lock</label></div>
+<select id="palette" class="control"></select>
+</div>
+</div>
+<div class="two">
+<div class="field"><label for="head">Hat / hair ornament</label><select id="head" class="control"></select></div>
+<div class="field"><label for="jewelry">Jewelry / finishing touch</label><select id="jewelry" class="control"></select></div>
+</div>
+<div class="two">
+<div class="field"><label for="prop">Fashion prop</label><select id="prop" class="control"></select></div>
+<div class="field"><label for="richness">Accessory richness</label>
+<select id="richness" class="control">
+<option value="signature">Signature · curated</option>
+<option value="minimal">Minimal · refined</option>
+<option value="maximal">Maximal · runway</option>
+</select></div>
+</div>
+
+<div class="section">03 · Portrait & anime finish</div>
+
+<div class="two">
+<div class="field"><label for="crop">Portrait composition</label>
+<select id="crop" class="control">
+<option value="waist">Waist-up · close half-body</option>
+<option value="face">Face close-up · beauty editorial</option>
+<option value="bust">Shoulder & bust · accessories</option>
+<option value="thigh">Mid-thigh · fashion silhouette</option>
+</select></div>
+<div class="field"><label for="pose">Pose / view</label>
+<select id="pose" class="control">
+<option value="auto">Expressive portrait poses</option>
+<option value="front">Front-facing editorial</option>
+<option value="three">Elegant three-quarter view</option>
+<option value="side">Subtle side angle</option>
+<option value="seated">Seated lookbook pose</option>
+</select></div>
+</div>
+<div class="two">
+<div class="field"><label for="art">Illustration art style</label>
+<select id="art" class="control">
+<option value="polished">Polished 2.5D anime illustration</option>
+<option value="lineart">Fine anime lineart</option>
+<option value="sketch">Expressive anime sketch</option>
+<option value="colorSketch">Colored anime fashion sketch</option>
+<option value="cel">Anime coloring / cel shading</option>
+<option value="josei">Shoujo / josei fashion art</option>
+<option value="watercolor">Watercolor anime illustration</option>
+<option value="manga">Manga ink & color accents</option>
+<option value="marker">Fashion marker anime concept</option>
+<option value="painterly">Painterly anime key visual</option>
+</select></div>
+<div class="field"><label for="light">Lighting treatment</label>
+<select id="light" class="control">
+<option value="auto">Subculture-coordinated</option>
+<option value="soft">Soft studio glow</option>
+<option value="window">Diffused window light</option>
+<option value="neon">Urban neon highlights</option>
+<option value="dramatic">Dramatic fashion lighting</option>
+<option value="golden">Golden-hour light</option>
+</select></div>
+</div>
+<div class="two">
+<div class="field">
+<div class="lockline"><label for="scene">Modern fashion setting</label><label class="lock"><input type="checkbox" data-lock="scene"> Lock</label></div>
+<select id="scene" class="control"></select>
+</div>
+<div class="field"><label for="density">Prompt detail</label>
+<select id="density" class="control">
+<option value="editorial">Editorial · rich detail</option>
+<option value="couture">Couture · extra detailed</option>
+<option value="compact">Compact · focused</option>
+</select></div>
+</div>
+<div class="field"><label for="extra">Additional art direction</label><textarea id="extra" class="control" rows="2" maxlength="650" placeholder="Hand adjusting a beret, intricate embroidery, elegant close-up composition..."></textarea></div>
+
+<div class="two">
+<label class="lock"><input id="preserve" type="checkbox" checked> Preserve face & hair on rerolls</label>
+<label class="lock"><input type="checkbox" data-lock="style"> Lock selected aesthetic</label>
+</div>
+
+<div class="actions">
+<button id="generate" class="btn main">✦ GENERATE FASHION OC</button>
+<button id="random" class="btn">✧ FULL RANDOMIZE</button>
+<button id="rollOutfit" class="btn">↻ REROLL OUTFIT</button>
+<button id="rollAccessory" class="btn">✧ REROLL ACCESSORIES</button>
+<button id="rollPalette" class="btn">☼ REROLL PALETTE</button>
+<button id="rollScene" class="btn">◇ REROLL SETTING</button>
+<button id="rollFace" class="btn">♧ NEW FACE & HAIR</button>
+<button id="rollPose" class="btn">✦ REROLL POSE</button>
+<button id="variations" class="btn gold">✧ CREATE 3 VARIATIONS</button>
+<button id="reset" class="btn ghost">↺ RESET SALON</button>
+</div>
+<p class="fine">Locks protect selected traits. A manually chosen outfit, palette, accessory, or setting remains selected until changed. Full Randomize keeps your chosen gender and personal details.</p>
+</div>
+</section>
+
+<div class="right">
+<section class="panel" id="result">
+<div class="heading"><div class="kicker">II · THE FINISHED LOOK</div><h2>Your couture prompt.</h2><p class="desc">Complete, editable, and ready for Krea 2.</p></div>
+<div class="content">
+<div class="muse"><small id="serial">MAISON TISAY · LOOK 001</small><h3 id="lookTitle">The salon awaits your muse.</h3><p id="lookMeta">Your custom fashion character appears here.</p></div>
+<label class="label" for="promptText">Complete Krea 2 illustration prompt · editable</label>
+<textarea class="prompt" id="promptText" spellcheck="true" placeholder="Your generated prompt will appear here..."></textarea>
+<div class="meta"><span id="wordCount">0 words</span><span>Edits are included when copied or saved.</span></div>
+<div class="copyrow">
+<button class="btn main" id="copyPrompt">✦ COPY PROMPT</button>
+<button class="btn" id="copySheet">COPY SHEET</button>
+<button class="btn" id="save">♡ SAVE OC</button>
+</div>
+<div class="rationale"><strong>Why this look works</strong><div id="reason">The outfit follows a single coordinated fashion subculture.</div></div>
+</div>
+</section>
+
+<section class="panel hidden" id="variationPanel">
+<div class="heading"><div class="kicker">III · THE FASHION TRIPTYCH</div><h2>Three new coordinates.</h2><p class="desc">Alternative outfits from the same aesthetic, each separately editable and copyable.</p></div>
+<div class="content" id="variationList"></div>
+</section>
+
+<section class="panel" id="archive">
+<div class="heading"><div class="kicker">IV · THE PRIVATE ARCHIVE</div><h2>Your saved muses.</h2><p class="desc">Local browser storage. Export your archive for safekeeping.</p></div>
+<div class="content">
+<div class="meta"><span id="archiveCount">0 / 100 saved</span><span>Private collection</span></div>
+<div class="actions">
+<button class="btn small" id="loadRecent">LOAD MOST RECENT</button>
+<button class="btn small" id="exportArchive">EXPORT JSON</button>
+<button class="btn small" id="importArchive">IMPORT JSON</button>
+<button class="btn small ghost" id="copyRecent">COPY LAST SAVED</button>
+</div>
+<input type="file" id="importFile" accept=".json,application/json" class="hidden">
+<div id="archiveList"></div>
+<p class="fine">Up to 100 OCs are saved on this browser. Export JSON backups before switching devices or clearing your browser data.</p>
+</div>
+</section>
+</div>
+</main>
+
+<footer>
+<div class="ornament">✧ ◈ ✧</div>
+<div class="signature">Tisay's Aesthetic House</div>
+<div>Created with love by <strong>TisayAI</strong></div>
+<div><a href="https://tisayai.github.io/" target="_blank" rel="noopener noreferrer">tisayai.github.io</a></div>
+<div>AN ORIGINAL TISAYAI FASHION CHARACTER ATELIER · MODERN AESTHETICS · ANIME PORTRAITS</div>
+</footer>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="copyModal" class="modal" role="dialog" aria-modal="true" aria-label="Manual copy">
+<div class="dialog">
+<h3>Copy your creation</h3>
+<p>Automatic clipboard access is restricted. Select the text below and press Ctrl+C / Command+C, or long-press and choose Copy on mobile.</p>
+<textarea id="fallback" class="control" rows="9"></textarea>
+<div class="actions">
+<button id="tryCopy" class="btn main">TRY COPY AGAIN</button>
+<button id="closeModal" class="btn">CLOSE</button>
+</div>
+</div>
+</div>
+
+<script>
+"use strict";
+
+/*
+ TISAY'S AESTHETIC HOUSE
+ Original fashion OC generator by TisayAI.
+ Standalone, local-browser application.
+
+ Wardrobe records:
+ name, category, hair mood, female outfits, male outfits,
+ female headwear, male headwear, jewelry, props, settings, palettes.
+
+ Each outfit is a complete coordinate, rather than a collection
+ of unrelated randomly assembled garments.
+*/
+
+const D=(name,group,mood,f,m,hf,hm,j,p,s,c)=>({
+ name,group,mood,
+ f:f?f.split("|"):[],
+ m:m?m.split("|"):[],
+ hf:hf?hf.split("|"):[],
+ hm:hm?hm.split("|"):[],
+ j:j.split("|"),
+ p:p.split("|"),
+ s:s.split("|"),
+ c:c.split("|")
+});
+
+const FASHIONS=[
+
+D("Sweet Lolita","Harajuku & Japanese","sweet",
+"powder-pink strawberry-print bell-shaped jumper skirt over an ivory puff-sleeve blouse, lace bib, fitted bow waist and voluminous petticoat|baby-blue dessert-print Lolita dress with scalloped lace collar, pearl buttons, ruffled sleeves and ornate bell-shaped skirt|butter-yellow bunny-print jumper skirt over a white Peter Pan collar blouse, ribbon corset lacing and decorative lace cuffs","",
+"wide lace-trimmed headbow|pastel ribbon bonnet|miniature cake-shaped hair clip with matching bows","",
+"heart-shaped pearl necklace and lace wrist cuffs|cameo brooch, frilly gloves and pastel charm bracelet",
+"heart-shaped handbag|strawberry-shaped mini purse|folded lace parasol",
+"pastel Harajuku fashion boutique|whimsical confectionery café|vintage-inspired fashion showroom",
+"baby pink, ivory and strawberry red|powder blue, white and butter yellow|lavender, milk white and pearl pink"),
+
+D("Gothic Lolita","Harajuku & Japanese","gothic",
+"black velvet bell-shaped jumper skirt over high-neck ivory lace blouse, corset ribbon lacing, black rose appliqués and lace cuffs|midnight-blue gothic cathedral-print dress with fitted bodice, high lace collar, velvet throat bow and full petticoat|oxblood jacquard Lolita dress with sculpted bell skirt, black lace overlay, ornate buttons and delicately gathered sleeves","",
+"rectangular black lace headdress adorned with roses|black velvet bonnet with delicate lace trim|ornate gothic ribbon headband","",
+"silver filigree pendant and lace wrist cuffs|garnet cameo choker and antique-style earrings|black lace gloves and dark jewel accessories",
+"closed black lace parasol|small coffin-shaped handbag|single crimson rose",
+"gothic-inspired modern fashion salon|velvet-curtained photography studio|dramatic boutique with stained-glass décor",
+"jet black, ivory and garnet|midnight navy, steel grey and silver|oxblood, antique black and bone white"),
+
+D("Classic Lolita","Harajuku & Japanese","classic",
+"sage-green antique rose-print A-line jumper skirt with ivory pintuck blouse and muted satin ribbons|burgundy botanical-print high-waist Lolita dress with demure A-line skirt, pearl buttons and elegant ivory lace|cornflower-blue tapestry-print A-line skirt with high-neck ivory blouse, fitted cardigan and antique cameo","",
+"fine felt beret with small ribbon|soft ivory lace bonnet|vintage-style velvet hair bow","",
+"oval cameo brooch and vintage wristwatch|pearl drop earrings and delicate lace gloves",
+"small structured vintage handbag|pocket-sized poetry book|single rose tied with silk ribbon",
+"sophisticated vintage clothing boutique|modern conservatory café with floral wallpaper|elegant bookstore with brass lamps",
+"sage, cream and dusty rose|wine red, ivory and faded gold|cornflower blue, cocoa and vanilla"),
+
+D("Ouji","Harajuku & Japanese","dandy",
+"ivory cropped prince jacket over ruffled high-neck shirt, brocade waistcoat, dark knee breeches and satin neck ribbon|navy double-breasted princely jacket with gold braid, tailored shorts, lace jabot and fitted vest|burgundy velvet waistcoat over a pintucked shirt, high-waisted black trousers and cropped tailored coat",
+"charcoal velvet cutaway jacket over brocade vest, crisp jabot shirt and high-waisted tailored trousers|navy military-inspired princely jacket with brass buttons, slim black trousers and satin cravat|wine-red swallowtail jacket over high-neck white shirt, fitted waistcoat and tailored black knee breeches",
+"miniature decorated top hat|fitted brocade newsboy cap|ribbon-trimmed tall top hat",
+"tailored black top hat|narrow-brim felt fedora|structured brocade newsboy cap",
+"ornate pocket-watch chain and cravat pin|embroidered gloves and vintage signet ring|antique filigree jewelry and silver collar chain",
+"pocket watch held near the chest|slim leather-bound notebook|single long-stemmed rose",
+"heritage menswear boutique|contemporary hotel library|fashion studio with velvet chair and damask backdrop",
+"midnight blue, ivory and brass|wine red, black and antique gold|charcoal, silver and cream"),
+
+D("Hime Gyaru","Harajuku & Japanese","gyaru",
+"fitted blush-pink floral minidress with ruched bodice, extravagant lace neckline, short puff sleeves and cascading ruffles|white-and-rose brocade fitted dress with pearl detailing, fur-trimmed cropped cardigan and dramatic satin bow|pastel-pink fitted floral dress with structured sweetheart neckline, lace hem and glamorous pearl-embellished bolero","",
+"sparkling miniature tiara nestled in voluminous curls|oversized pink satin side bow|pearl-studded rose hair corsage","",
+"pearl strands, rhinestone earrings and decorated nails|sparkling heart earrings and delicate bow necklace|crystal bracelet and rose-shaped ring",
+"quilted heart handbag|pearl-handled vanity purse|pink rhinestone compact mirror",
+"luxurious pink boutique fitting salon|marble hotel lobby with crystal chandelier|pastel high-fashion dressing room",
+"rose pink, pearl white and champagne|blush, ivory and pale gold|dusty rose, cream and peach"),
+
+D("Agejo Gyaru","Harajuku & Japanese","gyaru",
+"fitted black lace-trimmed mini dress with sweetheart bodice, ruched waist and satin bow under cropped faux-fur shrug|plum off-shoulder bodycon dress with lace overlay, ribbon corset detail and short tailored jacket|champagne-pink ruffled blouse tucked into high-waist fitted skirt with lace panels and rhinestone detailing","",
+"jewel-set velvet hair bow|rhinestone barrette above salon curls|delicate rose hairpin","",
+"crystal chandelier earrings and glossy decorated nails|sparkling choker and rhinestone shoulder bag|layered silver charms and ornate bracelet",
+"rhinestone clutch|silver compact mirror|quilted chain-strap purse",
+"glamorous Tokyo fashion lounge|upscale contemporary rooftop interior|mirrored beauty salon",
+"black, champagne and ruby|plum, silver and rose|blush, espresso and rhinestone silver"),
+
+D("Dark Girly / Jirai Fashion","Harajuku & Japanese","girly",
+"pale-pink bow-collar blouse with oversized black ribbon, lace-trimmed yoke, puff shoulders and black high-waisted pleated skirt|fitted black blouse with pearl buttons, white lace collar and ribbon cuffs paired with dusty-rose flared skirt|pink frill-front blouse with heart-shaped buttons beneath black cropped knit cardigan and ribbon-belt skirt","",
+"two black velvet bows beside curled twin tails|lace-trimmed black headband|matching small satin side bows","",
+"heart-buckle choker and delicate silver rings|lace wrist cuffs and heart-shaped handbag|tiny bow earrings and glossy ribbon chain bag",
+"plush heart-shaped handbag|ribbon-decorated smartphone|small heart compact mirror",
+"pink-and-black fashion boutique|city street outside fashion café at dusk|softly illuminated modern vanity studio",
+"black, dusty pink and ivory|rose grey, coal and pearl|black, white and mauve"),
+
+D("Ryousangata / Sweet Girly","Harajuku & Japanese","girly",
+"white lace-collar knit top with puff sleeves, pink ribbon bow and high-waisted blush tweed skirt with pearl buttons|pale-pink frilled blouse with gem-centered neck bow and ivory flared skirt beneath fitted cardigan|cream ruffle-front blouse with blush pleated skirt, ribbon belt and cropped bouclé jacket","",
+"large ivory organza hair bow|pearl-beaded ribbon headband|matching twin satin hair ribbons","",
+"pearl heart necklace and gem charm earrings|quilted miniature bow-clasp handbag|rhinestone bow brooch and glossy nails",
+"tiny pink top-handle handbag|pearl-handled compact mirror|pastel concert tote with decorative ribbons",
+"pastel department-store fashion floor|bright beauty café with cream booths|white fashion studio with pale-pink furnishings",
+"blush pink, white and pearl|cream, rose beige and soft gold|baby pink, ivory and champagne"),
+
+D("Fairy Kei","Harajuku & Japanese","sweet",
+"oversized lilac sweater with rainbow-and-star appliqués over pastel-pink tulle skirt and fluffy leg warmers|sky-blue retro character-print sweatshirt with pastel pleated skirt and striped socks|butter-yellow puff-sleeve top beneath aqua pinafore with pastel heart pockets",
+"oversized lavender retro graphic sweater with mint cropped jacket, straight white trousers and color-block trainers|baby-blue rainbow sweatshirt with pink windbreaker and relaxed lilac denim trousers|pastel-yellow cardigan over sky-blue graphic tee with cream trousers",
+"fluffy lavender earmuff-style headband|large translucent star hairclip|pastel bead hair barrettes",
+"soft lavender bucket hat|mint-and-pink baseball cap|pastel striped knit beanie",
+"plastic star-bead jewelry and rainbow rings|fluffy heart bag and cloud earrings|colorful toy-like bracelet stack",
+"translucent star handbag|pastel cassette player|small plush bunny charm",
+"pastel vintage shop with retro décor|colorful nostalgic room studio|softly illuminated pastel arcade",
+"lavender, mint and baby pink|butter yellow, sky blue and white|powder pink, lilac and periwinkle"),
+
+D("Decora","Harajuku & Japanese","maximal",
+"rainbow-striped long-sleeve top beneath oversized graphic tee with layered tulle miniskirt, colorful belts and leg warmers|pink oversized zip hoodie with playful patchwork, multicolor tiered skirt and cascading plastic bead chains|bright yellow graphic sweater vest over teal blouse with pink pleated skirt and pin-covered backpack",
+"neon color-block oversized hoodie with graphic print, checkerboard trousers and layered colorful belts|bright red zip jacket over striped graphic tee with relaxed turquoise cargo trousers and plastic chains|yellow oversized tee over pink-blue striped sleeves with cobalt trousers and rainbow suspenders",
+"dense rows of multicolored snap clips and star barrettes|cascade of rainbow bows and heart clips|bright character-themed cap covered in pins",
+"colorful beanie covered in pins|vivid flat-brim cap decorated with patches|bucket hat with rainbow badges",
+"stacked plastic bead bracelets and toy charm necklaces|large colorful toy earrings and plastic rings|rainbow kandi bracelets and dangling charms",
+"mini plush handbag|rainbow toy camera|sticker-covered compact camera",
+"busy Harajuku street-fashion crossing|bright accessories shop with walls of clips|color-saturated fashion studio",
+"hot pink, lemon yellow and electric blue|rainbow brights anchored by cherry red|lime, turquoise, tangerine and pink"),
+
+D("Mori Kei","Harajuku & Japanese","earthy",
+"moss-green knitted cardigan over cream pintucked linen tunic with layered cotton lace skirt|dusty-brown pinafore dress over lace-collar blouse with linen apron details and soft cable-knit scarf|oatmeal crochet cardigan layered over sage smocked top with gathered long skirt",
+"forest-green corduroy jacket over oatmeal linen shirt, natural knit vest and loose brown trousers|cream cable-knit cardigan over faded olive collarless shirt and relaxed rust-brown corduroy trousers|taupe wool cardigan over cream stand-collar shirt, wide linen trousers and knitted scarf",
+"soft crochet beret|natural straw cloche hat|small dried-flower hair comb",
+"moss-green wool newsboy cap|faded brown soft-brim cap|oatmeal knit beanie",
+"handcrafted wooden jewelry and crocheted pouch|pressed-flower brooch and lace-edged shawl|ceramic pendant and antique brass buttons",
+"woven basket with herbs|illustrated plant journal|cup of floral tea",
+"modern botanical café filled with ferns|sunlit secondhand cottagewear boutique|city greenhouse shop",
+"moss, oatmeal and muted cream|warm brown, sage and linen|rust, taupe and dusty olive"),
+
+D("Dolly Kei","Harajuku & Japanese","gothic",
+"wine-red tapestry waistcoat over lace-collared cream blouse with embroidered skirt and faux-fur stole|midnight-blue vintage dress with ornate bronze-brocade vest, velvet ribbon collar and layered scarf|moss-green jacquard jacket over dark lace blouse and patterned velvet skirt with antique sash",
+"long embroidered dark brocade waistcoat over cream vintage-collar shirt, fitted dark trousers and tapestry scarf|burgundy corduroy jacket over jacquard waistcoat, slim black trousers and embroidered cravat|antique-pattern tapestry blazer over lace-trimmed shirt, layered vest and charcoal tailored trousers",
+"deep-red velvet turban headband|embroidered vintage pillbox hat|antique gold hair comb",
+"black velvet wide-brim hat|tapestry newsboy cap|deep-plum felt trilby",
+"oversized antique filigree necklace and brooch|heavy cameo pendant with old-metal bangles|jewel-toned scarf and ornate rings",
+"ornate antique hand mirror|embroidered tapestry handbag|small weathered fairytale book",
+"eclectic antique clothing shop|velvet-lined vintage showroom|urban flea market with antique textile stalls",
+"burgundy, antique gold and ivory|deep emerald, black and copper|indigo, bronze and oxblood"),
+
+D("Cult Party Kei","Harajuku & Japanese","sweet",
+"ivory lace-trimmed vintage nightdress layered over airy cotton blouse with sheer shawl and delicate pearl ribbon|powder-pink translucent blouse over white lace slip dress with embroidered collar and quilted cropped jacket|oversized white lace cardigan over faded-lavender layered dress with crochet hems and ribbon ties","",
+"soft lace bonnet with fabric flowers|ivory vintage ribbon hairband|small faded-pink floral wreath","",
+"vintage bead necklace and lace gloves|mismatched pearls and tiny fabric corsage|handmade lace pouch and silver locket",
+"tiny embroidered cloth handbag|antique pearl hand mirror|pressed-flower envelope",
+"white vintage boutique with gauze curtains|dreamy dressing room with antique furniture|sunlit secondhand store",
+"faded ivory, antique white and blush|milk white, pale lilac and taupe|cream, whisper pink and pearl"),
+
+D("Visual Kei","Harajuku & Japanese","dramatic",
+"fitted black jacquard military jacket over high-collar ruffle blouse with slim leather-look trousers, buckles and silver chains|wine-red asymmetrical tailored jacket with black velvet lapels, corset-inspired vest and straight black trousers|ivory brocade jacket with dark lace collar, satin cravat and fitted black trousers",
+"fitted black military-cut tailcoat over high-neck lace shirt and slim black trousers|wine-red asymmetrical velvet blazer over leather harness-style waistcoat and tailored black trousers|structured white jacquard rock jacket with black piping, ruffled cravat and fitted charcoal trousers",
+"small black feathered fascinator|ornate slim-brim black top hat|dark jeweled hairpin",
+"narrow leather-banded fedora|decorated miniature top hat|sculpted gravity-defying spiked hairstyle",
+"stacked silver rings and ear cuffs|gothic pendant and fitted fingerless gloves|chain epaulettes and silver collar ornaments",
+"silver microphone held low|embellished leather glove lifted near face|polished dark electric-guitar neck in foreground",
+"avant-garde fashion photography studio|backstage rock fashion dressing room|dark modern concert venue corridor",
+"black, silver and dark wine|ivory, coal and chrome|deep purple, ink and steel"),
+
+D("Goth Punk / J-Punk","Harajuku & Japanese","gothic",
+"black buckle-strap jacket over red tartan pleated skirt with striped knit top, fishnet sleeves and chain belt|striped punk blouse under cropped asymmetrical jacket with checked skirt and silver safety-pin hardware|charcoal distressed zip jacket over graphic tee with fitted black zipper-panel trousers",
+"black cropped moto jacket over red-black striped tee with tapered bondage trousers and metal chain belt|dark tartan waistcoat over black shirt with distressed skinny jeans and buckle belt|zippered black harness jacket with red tartan panels and structured black trousers",
+"studded black beanie|tartan bow beret|black leather cap with safety pins",
+"spiked knit beanie|black tartan newsboy cap|worn leather strap cap",
+"spiked choker and metal chains|safety-pin necklaces and fingerless gloves|silver buckle bracelets and dark rings",
+"black headphones|chain-trim messenger bag|retro portable music player",
+"graffiti-walled streetwear alley|punk record shop with vinyl displays|modern underground music venue",
+"black, scarlet and silver|charcoal, tartan red and ivory|black, white and oxblood"),
+
+D("Tenshi Kaiwai","Harajuku & Japanese","sweet",
+"oversized powder-blue zip hoodie over white sporty blouse with blue pleated skirt and ribbon zipper pulls|white-and-ice-blue athletic jacket with wide sleeves, pale-blue skirt and translucent technical straps|cloud-blue oversized jersey top with white collar, technical piping and pleated white skirt",
+"oversized ice-blue track jacket with white piping, high-neck shirt and roomy white parachute trousers|pale-blue technical hoodie over white graphic top with wide-leg blue cargo trousers|roomy white sports jacket with cool-blue mesh panels and relaxed navy trousers",
+"pale-blue ribbon hairclip|translucent white headband|delicate white star barrettes",
+"ice-blue knit beanie|white technical baseball cap|pale-blue bucket hat",
+"clear bead jewelry and silver star pins|white headphones and tiny blue bag|translucent charms and delicate silver chains",
+"white over-ear headphones|transparent crossbody pouch|compact silver music player",
+"softly illuminated Japanese arcade|white-and-blue streetwear showroom|pastel metro-station fashion editorial",
+"ice blue, white and translucent silver|cloud grey, pale blue and ivory|powder blue, navy and bright white"),
+
+D("Coquette","Romantic & Heritage","romantic",
+"ivory pointelle cardigan over powder-pink fitted camisole with lace-trimmed high-waisted skirt and bow closures|rose-print milkmaid blouse with puff sleeves, cream A-line skirt and slim velvet neck ribbon|pale-blue square-neck knit top with lace trim, fitted blush cardigan and satin midi skirt","",
+"small pink ribbon tied into low ponytail|thin ivory lace headband|velvet bow hairclip","",
+"pearl earrings and tiny heart locket|lace-trim pearl bracelet and ribbon necklace|dainty gold rings and satin ribbon choker",
+"tiny satin bow handbag|folded vintage-style love letter|pearl compact mirror",
+"Parisian-inspired modern café|cream-colored fashion studio|boutique flower shop filled with roses",
+"ivory, blush and soft rose|milk blue, vanilla and pearl|strawberry pink, beige and cream"),
+
+D("Balletcore","Romantic & Heritage","romantic",
+"blush wrap cardigan tied over fitted ivory ribbed top with light chiffon ballet skirt and satin ribbon details|lilac off-shoulder long-sleeve wrap knit with high-waisted soft-pink tulle skirt|cream fitted dance-inspired bodysuit beneath thin cropped cardigan with wrap skirt and knit arm warmers","",
+"satin ribbon around low ballet bun|pale-pink fabric headband|delicate pearl barrette","",
+"minimal pearl studs and ribbon bracelet|fine silver necklace and satin ribbon wrist tie|tiny crystal earrings and soft knit arm warmers",
+"pair of satin ballet slippers held by ribbons|folded knit dance cardigan|small canvas dance bag",
+"sunlit contemporary ballet rehearsal studio|minimalist studio with pale draped fabric|mirror-lined modern dance hall",
+"ballet pink, ivory and warm grey|lilac, pearl and cream|oatmilk, soft rose and dove grey"),
+
+D("Whimsigoth","Romantic & Heritage","gothic",
+"emerald velvet bell-sleeve top with crescent embroidery, deep-plum high-waisted maxi skirt and velvet waist belt|plum mesh bell-sleeve blouse beneath fitted black velvet vest with dark floral skirt|burgundy velvet wrap top with embroidered celestial border and high-waisted wide-leg trousers",
+"deep-plum velvet overshirt over fitted black mock-neck top with dark wide-leg trousers|emerald jacquard waistcoat over midnight-blue silk shirt and charcoal tailored trousers|wine-red velvet shirt beneath draped black cardigan with tapered corduroy trousers",
+"dark velvet headscarf|celestial silver hair comb|burgundy wide-brim felt hat",
+"dark wide-brim felt hat|plum velvet newsboy cap|black embroidered beanie",
+"layered moon-and-star pendants and vintage rings|antique brass bangles and embroidered shawl|garnet pendant and filigree jewelry",
+"ornate velvet handbag|embroidered velvet journal|pressed-flower bookmark",
+"moody modern vintage record store|rich jewel-toned apartment studio|fashion boutique with stained-glass lamps",
+"emerald, plum and antique gold|burgundy, midnight and brass|indigo, black and garnet"),
+
+D("Romantic Goth","Romantic & Heritage","gothic",
+"black floral lace high-neck blouse beneath velvet corset-style waistcoat and flowing dark skirt|oxblood fitted velvet bodice with sheer lace bell sleeves, choker and draped black skirt|ivory high-collar lace blouse beneath fitted black velvet jacket with burgundy skirt",
+"fitted black velvet frock-inspired fashion jacket over dark ruffled silk shirt and high-waisted tailored trousers|crimson brocade waistcoat over lace-collar shirt, fitted velvet blazer and black trousers|long tailored black coat over plum satin shirt, dark embroidered vest and straight trousers",
+"black lace hair comb|velvet rose hairpiece|sculpted dark ribbon headband",
+"black felt fedora|dark rose lapel ornament|tailored burgundy flat cap",
+"garnet choker and lace gloves|silver rose jewelry and cameo brooch|velvet ribbon necklace and dark gemstone ring",
+"dark crimson rose|vintage leather notebook|carved silver hand mirror",
+"black velvet photography studio with roses|elegant modern candlelit restaurant|dark boutique with gilded mirrors",
+"black, garnet and antique silver|oxblood, charcoal and lace ivory|deep purple, black and pewter"),
+
+D("Dark Academia","Romantic & Heritage","classic",
+"brown herringbone tweed blazer over ivory turtleneck with high-waisted pleated wool skirt|charcoal checked waistcoat over cream button-down with burgundy necktie and tailored trousers|olive corduroy jacket over cable-knit sweater vest, cream collared blouse and dark plaid skirt",
+"dark-brown tweed blazer over cream shirt, charcoal wool waistcoat, burgundy tie and high-waisted tailored trousers|olive corduroy sport coat over fine ivory turtleneck and dark pleated trousers|charcoal herringbone coat over cable-knit sweater with slim dark wool trousers",
+"chocolate-brown beret|antique brass hairclip|dark plaid headband",
+"brown herringbone newsboy cap|dark wool flat cap|black felt fedora",
+"leather watch and antique brooch|gold-rimmed reading glasses and leather satchel|silk scarf and vintage signet ring",
+"marked-up paperback|fountain pen and notebook|old-fashioned leather satchel",
+"contemporary university library with dark shelves|vintage-style study café|wood-paneled modern bookshop",
+"espresso, burgundy and cream|olive, tan and charcoal|dark brown, black and parchment"),
+
+D("Light Academia","Romantic & Heritage","classic",
+"beige checked blazer over cream lace-collar blouse and oatmeal pleated skirt|buttercream cable-knit cardigan over white collared shirt and tan high-waisted linen trousers|pale-sage sweater vest over ivory blouse with camel A-line skirt",
+"light camel linen blazer over white shirt and cream knit vest with stone pleated trousers|ivory cable-knit sweater over pale-blue oxford with tan tailored trousers|sand checked sport coat over fine cream mock neck and oat loose tailored trousers",
+"oat-colored beret|cream ribbon barrette|beige woven headband",
+"sandy-brown flat cap|cream ribbed beanie|light-tan felt trilby",
+"tiny gold locket and pearl studs|classic thin watch and brown leather bag|delicate reading glasses and cameo pin",
+"linen-bound book|cream notebook and fountain pen|paper-wrapped flower bouquet",
+"sunlit modern university library|light-wood bookstore café|airy studio beside campus courtyard",
+"cream, camel and pale oat|warm white, light sage and tan|powder blue, ivory and sand"),
+
+D("Cottagecore","Romantic & Heritage","earthy",
+"sage gingham square-neck blouse with puff sleeves, cream linen pinafore and embroidered floral apron|butter-yellow smocked cotton blouse with floral skirt, crocheted cardigan and woven belt|pale-lilac prairie blouse with lace collar, faded-denim pinafore and flower embroidery",
+"oatmeal linen shirt beneath moss-green wool waistcoat with tan trousers and leather suspenders|sage cotton button-down with chunky cream cardigan and brown corduroy trousers|faded blue chambray shirt beneath sand canvas chore coat with olive linen trousers",
+"wide straw sunhat with gingham ribbon|embroidered cotton kerchief|small wildflower hair wreath",
+"tan woven straw hat|olive canvas cap|brown corduroy newsboy cap",
+"handmade embroidered pendant and floral bracelet|lace scarf and woven purse|wood-button accents and vintage watch",
+"woven basket of wildflowers|ceramic teacup|small bundle of lavender",
+"flower-filled urban farmers market|botanical greenhouse café|contemporary rustic kitchen studio",
+"sage, cream and butter yellow|muted lilac, dusty denim and oatmeal|olive, linen and warm brown"),
+
+D("Old Money / Quiet Luxury","Romantic & Heritage","classic",
+"cream fitted bouclé jacket over silk blouse with tailored camel midi skirt and pearl buttons|navy fine-knit sweater draped over ivory collared shirt with beige wide-leg tailored trousers|fitted black blazer over champagne silk camisole with pleated cream trousers and slim leather belt",
+"navy double-breasted blazer over crisp white shirt, grey knit vest and sand tailored trousers|camel cashmere overcoat over ivory turtleneck with charcoal pleated wool trousers|cream textured knit polo under light-tan tailored jacket with navy tapered trousers",
+"cream silk hair scarf|tortoiseshell hairclip|structured beige felt hat",
+"navy flat cap|tan woven Panama hat|clean dark wool baseball cap",
+"small pearl earrings and gold watch|minimal leather shoulder bag and hoop earrings|understated cufflinks and signet ring",
+"structured leather clutch|understated sunglasses|polished leather portfolio",
+"upscale contemporary hotel atrium|minimal luxury boutique|sunlit modern terrace café",
+"cream, camel and gold|navy, ivory and tan|espresso, champagne and black"),
+
+D("Victorian Goth","Romantic & Heritage","gothic",
+"high-neck black lace blouse under fitted damask corset-style bodice with layered velvet skirt and jet buttons|deep-wine jacquard jacket with sculpted sleeves, antique lace cuffs and modern dark maxi skirt|fitted black velvet cropped jacket over pintucked ivory blouse with brocade skirt",
+"fitted black high-collar frock-inspired coat over ivory pintucked shirt, damask waistcoat and narrow formal trousers|dark-wine brocade blazer over black high-neck shirt with slim charcoal trousers|black velvet tailcoat-inspired jacket with cravat, fitted vest and polished dark trousers",
+"small black veil fascinator|dark lace bonnet|sculpted black velvet pillbox hat",
+"tall black felt top hat|narrow black formal hat|dark-plum wool fedora",
+"black jet cameo brooch and lace gloves|antique-gold velvet choker|ornate gemstone rings and tailored gloves",
+"antique lace fan|dark leather-bound poetry book|ornate black velvet clutch",
+"dark fashion studio with vintage carved chair|modern heritage hotel interior|gothic-inspired formalwear boutique",
+"black, ivory and onyx|wine, coal and antique gold|plum, pewter and jet black"),
+
+D("Dark Coquette","Romantic & Heritage","romantic",
+"black lace-trim camisole beneath burgundy cropped cardigan with ribbon fastenings and black pleated skirt|plum fitted velvet top with delicate ribbon neckline, black high-waisted skirt and lace sleeves|ivory high-neck lace blouse under fitted black bodice with wine-red pleated skirt and slim velvet bow","",
+"slim black velvet ribbon in glossy hair|burgundy lace hair bow|small black-and-rose ribbon barrette","",
+"garnet heart pendant and black lace wrist cuff|dark pearl earrings and velvet choker|silver filigree ring and ribbon handbag",
+"satin black bow-clasp handbag|vintage compact mirror|crimson rose tied with ribbon",
+"romantic dimly lit café|burgundy velvet photography studio|dark-floral fashion boutique",
+"oxblood, black and cream|plum, coal and antique pearl|black, burgundy and silver"),
+
+D("Techwear","Urban & Alternative","urban",
+"fitted charcoal technical shell jacket with asymmetric waterproof zipper, articulated sleeve panels and matte black cargo trousers|slate-grey hooded technical anorak with sculpted collar, modular crossbody sling and tapered ripstop trousers|black cropped waterproof utility jacket with adjustable straps, structured cargo pants and layered performance top",
+"high-collar black ripstop shell jacket with asymmetric closure, modular chest sling and articulated cargo trousers|graphite waterproof parka with concealed zippers, fitted technical base layer and nylon utility trousers|black-olive softshell utility overshirt with reinforced seams, structured vest and tapered cargo trousers",
+"technical cap with reflective piping|matte-grey hood resting behind head|charcoal modular bucket hat",
+"waterproof black five-panel cap|charcoal hood framing hair|olive technical bucket hat",
+"crossbody utility pouch and slim gloves|metal carabiner clips and body bag|angular black sunglasses and zip hardware",
+"compact black utility bag|folded technical umbrella|angular sunglasses",
+"rain-slick modern urban overpass|concrete architectural studio|glass-and-steel metro concourse",
+"black, graphite and olive|carbon, slate and reflective silver|ink black, steel and navy"),
+
+D("Acubi","Urban & Alternative","urban",
+"grey asymmetrical fitted top beneath black bolero cardigan with relaxed charcoal parachute trousers|sage cropped knit zip top over white fitted tank with wide-leg grey cargo pants|black cut-out shoulder top with sheer grey layering and washed-charcoal trousers",
+"close-fitting charcoal knit tee beneath cropped zip cardigan with loose ash-grey cargo trousers|sage-grey fitted mock neck beneath asymmetrical charcoal zip vest and washed-black relaxed trousers|light-grey thermal shirt under cropped black bomber with generous straight-leg cargo trousers",
+"minimal silver hairclip|wraparound sunglasses resting in hair|narrow slate-grey hairband",
+"washed charcoal baseball cap|sleek black wraparound sunglasses|grey ribbed beanie",
+"small silver hoops and black shoulder bag|thin silver chains and compact headphones|minimal chrome pendant and utility belt",
+"metallic over-ear headphones|black nylon shoulder bag|rimless sunglasses",
+"cool-toned Seoul streetwear studio|modern concrete stairwell|minimalist contemporary clothing boutique",
+"charcoal, sage and ash grey|washed black, stone and silver|muted olive, steel and ivory"),
+
+D("Y2K / McBling","Urban & Alternative","glam",
+"hot-pink cropped velour zip hoodie over fitted white top with low-rise flared jeans and rhinestone belt|silver metallic fashion top under short faux-fur jacket with washed-blue bootcut jeans|baby-blue fitted graphic crop tee with pink cropped jacket, distressed low-rise denim and jeweled chain belt",
+"black-and-red racing track jacket over fitted white tee with wide dark-wash jeans and shiny belt buckle|cream velour zip jacket over graphic tee with relaxed faded jeans and oversized metallic watch|cobalt satin varsity jacket over fitted shirt with baggy denim and silver chain belt",
+"sparkling butterfly hairclips|rhinestone oversized sunglasses|glittery pink baseball cap",
+"blue-and-white trucker cap|tinted wraparound sunglasses|black velour baseball cap",
+"rhinestone butterfly necklace and glossy accessories|chunky charm bracelet and metallic bag|silver chain and shiny buckle accessories",
+"tiny metallic shoulder bag|rhinestone flip phone|glittery compact mirror",
+"glossy retro-inspired mall interior|candy-pink fashion photography studio|neon-lit modern shopping arcade",
+"hot pink, silver and white|icy blue, bubblegum and chrome|black, cobalt and glossy red"),
+
+D("Cybergoth","Urban & Alternative","dramatic",
+"structured black vinyl corset-inspired top over striped mesh sleeves with utility trousers and neon piping|black-and-acid-green industrial harness vest over fitted top with strapped cargo trousers|purple-black striped mesh shirt under glossy cropped technical jacket and black cargo pants",
+"matte black industrial zip vest over neon-green mesh sleeves with strapped cargo trousers|glossy charcoal synthetic high-collar jacket with purple harness and fitted black trousers|black-lime striped layered cyber shirt under buckled vinyl vest and multi-pocket trousers",
+"black cyber goggles resting on head|neon synthetic hair falls with clips|industrial black headpiece with fluorescent details",
+"industrial-style goggles on forehead|neon cyber hair extensions|matte black strapped cyber cap",
+"fluorescent acrylic bracelets and chains|industrial collar and neon wrist cuffs|reflective straps and synthetic jewelry",
+"clear industrial goggles|compact black utility shoulder bag|translucent neon plastic pouch",
+"blacklight-inspired modern dance-club corridor|warehouse fashion studio with LED strips|concrete techno-club entryway",
+"black, radioactive green and chrome|black, ultraviolet and silver|graphite, electric blue and acid yellow"),
+
+D("Punk Streetwear","Urban & Alternative","gothic",
+"distressed leather biker jacket over black graphic tee with red tartan mini skirt and studded belt|black tartan-trim waistcoat over white graphic tee with ripped charcoal jeans and silver chain belt|red-black flannel over fitted black denim jacket with grey ripped straight jeans",
+"worn black leather moto jacket over distressed white graphic tee with fitted black jeans and studded belt|red tartan sleeveless overshirt over black tee with heavy denim cargo trousers|patched black denim jacket over striped shirt with dark ripped jeans",
+"black studded beret|red plaid bandana|patched dark beanie",
+"black beanie with safety-pin patch|plaid cap|dark studded newsboy cap",
+"chunky chain jewelry and safety pins|studded bracelets and fingerless gloves|distressed leather cuffs and silver rings",
+"vintage cassette player|sticker-covered skateboard|patched shoulder bag",
+"music-poster-covered urban alley|gritty contemporary rehearsal studio|independent record shop",
+"black, tartan red and steel|charcoal, bone white and silver|washed black, oxblood and grey"),
+
+D("90s Grunge","Urban & Alternative","urban",
+"oversized forest-green flannel over washed-black graphic tee with ripped high-rise charcoal jeans|faded plum chunky cardigan over grey tank with loose jeans and worn leather belt|black slip-style dress layered over white long-sleeve tee beneath oversized distressed denim jacket",
+"oversized brown flannel over vintage washed-black tee with relaxed distressed jeans|faded charcoal knit cardigan over white thermal shirt with straight black jeans|worn indigo denim jacket over striped tee with relaxed dark jeans",
+"washed black knitted beanie|check-pattern bandana|distressed canvas cap",
+"charcoal knitted beanie|worn navy baseball cap|faded brown corduroy cap",
+"slim chain necklace and scuffed rings|worn canvas messenger bag and layered pendant|simple leather wristband and vintage accessories",
+"corded headphones|vintage music magazine|thrifted denim messenger bag",
+"rainy city sidewalk outside music shop|old brick fashion studio|secondhand streetwear store",
+"forest green, washed black and indigo|plum, grey and distressed denim|brown, charcoal and faded blue"),
+
+D("Gorpcore","Urban & Alternative","urban",
+"moss-orange technical fleece over ivory base layer with olive cargo hiking trousers|forest-green waterproof shell jacket over pale-blue fleece and stone utility trousers|bright-orange windbreaker over sand hiking vest with grey ripstop trousers",
+"boxy burnt-orange technical anorak over forest-green fleece with slate trail trousers|deep-olive outdoor vest over cobalt technical hoodie and stone cargo trousers|mustard-navy mountain shell jacket over cream fleece and dark hiking trousers",
+"compact outdoor nylon cap|color-block bucket hat|earthy green knitted beanie",
+"five-panel outdoor cap|technical brimmed sun cap|navy fleece beanie",
+"mini hiking sling and carabiner|sport watch and practical pockets|weatherproof shoulder bag and trail sunglasses",
+"small trail thermos|functional sling bag|folded modern hiking map",
+"rooftop garden overlooking modern city|urban trailhead beside contemporary architecture|light-filled outdoor equipment store",
+"forest, burnt orange and cream|olive, cobalt and stone|mustard, midnight and graphite"),
+
+D("Avant-Garde Runway","Urban & Alternative","dramatic",
+"sculptural black asymmetric blazer with exaggerated collar over fitted architectural top and sharply pleated trousers|ivory asymmetric corset-inspired tailored vest under angular cropped jacket with wide-leg charcoal trousers|metallic-silver sculpted shoulder jacket over black high-neck knit and architectural trousers",
+"sculptural charcoal jacket with asymmetric lapel over black mock neck and wide tailored trousers|ivory deconstructed blazer with origami-fold lapels, layered waistcoat and black pleated trousers|metallic-grey engineered high-collar jacket over fitted shirt with dark wide-leg trousers",
+"sculpted black geometric headpiece|architectural metallic hair cuff|minimal folded-fabric fascinator",
+"structured dark visor hat|sculpted angular-brim cap|geometric hair ornament",
+"oversized polished-silver cuff|sculptural metal earring and monochrome gloves|angular jewelry and architectural belt",
+"sculptural metallic clutch|black architectural portfolio|angular transparent accessory",
+"white cyclorama runway studio|modern concrete gallery|minimal chrome-and-black editorial set",
+"ink black, silver and bone|ivory, graphite and chrome|charcoal, steel and porcelain"),
+
+D("Street Goth","Urban & Alternative","gothic",
+"oversized black cropped bomber over fitted ribbed top with wide-leg cargo trousers and silver chain belt|charcoal distressed knit over fitted black top with cargo midi skirt and metal hardware|black off-shoulder streetwear knit beneath matte leather cropped jacket and structured trousers",
+"oversized washed-black bomber over fitted tee with draped cargo trousers and silver hardware|charcoal hooded zip jacket beneath long black utility coat with straight dark trousers|fitted sleeveless top beneath cropped leather jacket and baggy cargo denim",
+"matte black knit beanie|hardware-studded cap|sleek black hood framing hair",
+"washed-black beanie|black tactical baseball cap|charcoal hood",
+"chunky silver ear cuffs and chain belt|black leather shoulder bag and ring stack|silver pendants and hardware-trimmed sleeves",
+"black structured nylon shoulder bag|sleek black headphones|chrome-trimmed utility pouch",
+"underground concrete parking-garage editorial|city stairway at twilight|dark minimalist streetwear shop",
+"washed black, chrome and charcoal|onyx, gunmetal and smoke|black, slate and silver"),
+
+D("Modern Preppy","Urban & Alternative","classic",
+"navy fitted cardigan over white button-down blouse with tartan pleated miniskirt and narrow ribbon tie|cream tennis sweater vest over pale-blue oxford with tailored beige shorts|dark-green wool blazer over cable-knit pullover and grey plaid skirt",
+"navy heritage blazer over blue striped oxford with burgundy tie and tailored stone chinos|dark-green cable-knit vest over white oxford with navy pleated trousers|cream cricket sweater beneath tan blazer with charcoal wool trousers",
+"navy velvet headband|cream ribbon hair bow|dark-green wool beret",
+"navy baseball cap|brown wool flat cap|cream knitted beanie",
+"dainty signet necklace and leather satchel|polished wristwatch and crest brooch|fine leather accessories and understated gold jewelry",
+"hardback notebook|polished sunglasses|structured leather satchel",
+"contemporary campus courtyard|modern academy corridor|upscale fashion boutique",
+"navy, cream and burgundy|forest green, tan and ivory|powder blue, camel and white"),
+
+D("City Boy Casual","Urban & Alternative","urban",
+"oversized sky-blue oxford shirt over ivory tee with wide khaki chinos and navy sweater across shoulders|boxy cream chore jacket over striped shirt with relaxed charcoal trousers|navy oversized knit cardigan over white collared blouse with loose beige trousers",
+"oversized pale-blue oxford over clean white tee with wide khaki pleated chinos|boxy charcoal chore jacket over Breton-striped shirt with relaxed ecru trousers|cream oversized polo cardigan over crisp grey shirt with generous navy trousers",
+"navy cotton baseball cap|simple cream bucket hat|brown soft-brim cap",
+"washed navy baseball cap|tan bucket hat|dark wool watch cap",
+"simple silver watch and canvas tote|slim wire-frame glasses and shoulder bag|casual scarf and understated ring",
+"canvas tote with folded magazine|takeaway coffee cup|slim paperback",
+"stylish Tokyo side-street café|urban crosswalk beside design shops|minimalist modern bookstore",
+"sky blue, khaki and white|charcoal, cream and navy|olive, ecru and faded blue"),
+
+D("Office Siren","Urban & Alternative","classic",
+"fitted charcoal pinstripe waistcoat over ivory shirt with pencil skirt, leather belt and narrow necktie|black sculpted blazer over fitted grey fine-knit top with tailored high-waisted trousers|slate-grey fitted blouse with sharply tailored black pencil skirt and narrow-framed glasses","",
+"sleek black claw clip holding low twist|tortoiseshell hair barrette|narrow black satin headband","",
+"slim rectangular glasses and silver watch|minimal chain pendant and leather handbag|delicate metallic hoops and structured belt",
+"slim leather document folder|polished black handbag|silver pen and small leather notebook",
+"modern glass-walled executive office|minimal contemporary downtown lobby|monochrome business-fashion editorial",
+"charcoal, ivory and black|slate grey, silver and cream|black, espresso and pearl"),
+
+D("Oshare Kei","Harajuku & Japanese","maximal",
+"bright turquoise fitted vest over candy-pink printed blouse, black skinny trousers with star patches and colorful belt|colorful patterned blazer over striped top with checked tapered trousers and charm chains|pink-and-lime graphic zip jacket over bright layered shirt and fitted black jeans",
+"vivid blue cropped rock jacket over magenta graphic tee with narrow striped trousers and patch-covered belt|lime-and-purple checked tailored vest over graphic shirt with tapered black trousers|bright pink patterned short blazer over color-block layered top and slim black jeans",
+"colorful star barrettes|graphic patterned mini hat|playful side hair clips",
+"bright flat-brim cap|small patterned fedora|color-block beanie",
+"colorful plastic charm necklaces and star rings|playful layered belt chains and patterned wristbands|bright patterned gloves and pop accessories",
+"star-patterned compact bag|bright headphones|colorful music-player charm",
+"colorful Harajuku music boutique|pop-rock fashion studio|bright urban arcade",
+"pink, cyan and black|lime, purple and cobalt|red, yellow and turquoise")
+
+];
+
+/* ----- ART AND IDENTITY LIBRARY ----- */
+
+const HAIR={
+sweet:{
+ f:["glossy curled twin tails","soft curled bob with straight bangs","long silky ringlets","thick glossy braids"],
+ m:["softly parted medium-length hair","silky layered hair"],
+ colors:["strawberry blonde","pastel pink","warm honey blonde","soft cocoa brown","lavender"]
+},
+gothic:{
+ f:["sharp glossy hime cut","long dark waves with precise center part","short sculpted bob","elegant pinned curls"],
+ m:["sleek side-parted haircut","layered asymmetrical fringe","sharp shoulder-length hairstyle","polished undercut"],
+ colors:["jet black","blue-black","wine red","silver-white","dark chocolate"]
+},
+classic:{
+ f:["polished low chignon","glossy shoulder-length curls","neat braided crown","softly waved bob"],
+ m:["neatly side-parted haircut","soft dark waves brushed back","classic layered hairstyle"],
+ colors:["dark brown","warm chestnut","ash blonde","black","copper auburn"]
+},
+dandy:{
+ f:["crisp short bob","sculpted vintage wave","polished chin-length hairstyle"],
+ m:["sharp glossy side part","dark wavy medium-length hair","long fringe brushed aside","slicked-back hairstyle"],
+ colors:["raven black","deep chestnut","silver-blonde","copper auburn"]
+},
+gyaru:{
+ f:["extremely voluminous salon curls","glossy high-volume curled half-up style","long blonde waves with side bangs","large curled beehive-inspired style"],
+ m:["voluminous brushed-back hairstyle"],
+ colors:["honey blonde","caramel brown","champagne blonde","light ash brown"]
+},
+girly:{
+ f:["long twin tails with curled ends and straight bangs","glossy loose waves with curtain fringe","shoulder-length curls with neat bangs","silky high twin-tail hairstyle"],
+ m:["soft parted hairstyle"],
+ colors:["jet black","deep brown","cool ash brown","muted pink-brown"]
+},
+earthy:{
+ f:["loose chestnut braid","short softly waved hair","long natural waves","airy low bun"],
+ m:["softly grown-out hairstyle","relaxed wavy side part","medium-length natural curls"],
+ colors:["warm chestnut","earthy dark brown","copper auburn","ash blonde","raven black"]
+},
+romantic:{
+ f:["long silky waves with side fringe","elegant low twisted bun","neat wavy bob","long curls swept over shoulder"],
+ m:["soft side-parted hairstyle","brushed-back waves"],
+ colors:["chestnut brown","honey blonde","deep auburn","raven black","ash brown"]
+},
+urban:{
+ f:["sharp dark layered bob","glossy medium cut with center part","sleek straight hair tucked behind ear","short textured crop"],
+ m:["clean textured crop","relaxed layered haircut","brushed-back undercut","neat dark waves"],
+ colors:["jet black","smoky dark brown","ash brown","platinum blonde","blue-black"]
+},
+maximal:{
+ f:["colorful twin tails with layered clips","multicolored straight bob","two-tone glossy waves","pastel rainbow layered haircut"],
+ m:["colorful layered shag","short textured dyed fringe","bright contrasting streaks"],
+ colors:["pink and aqua color-block","lavender with yellow streaks","electric blue","hot pink","pastel rainbow"]
+},
+dramatic:{
+ f:["sculpted spiky hairstyle with colored streaks","long silver hair with face-framing layers","sharp layered fashion mullet","voluminous sculpted dark hair"],
+ m:["gravity-defying layered visual-kei haircut","sharp silver-black asymmetrical cut","dark red layered rock hairstyle","long straight hair with dramatic fringe"],
+ colors:["jet black","silver-white","wine red","black with platinum streaks","deep purple"]
+},
+glam:{
+ f:["glossy long waves","blonde high ponytail with flipped ends","voluminous straight blowout","sharp shoulder-length bob"],
+ m:["short platinum textured haircut","clean black spiked hairstyle","caramel medium-length shag"],
+ colors:["honey blonde","platinum blonde","caramel brown","jet black","rose pink"]
+}
+};
+
+const ARTS={
+polished:"Premium polished 2.5D Korean-inspired anime illustration, immaculate fine linework, attractive refined facial features, soft dimensional shading, luminous eyes, beautifully rendered hair and premium character key-visual finish.",
+lineart:"Delicate professional anime lineart, clean precise ink contours, elegant varied line weights, exceptionally detailed clothing seams, fine facial drawing and subtle restrained color accents.",
+sketch:"Expressive graphite anime fashion sketch, confident pencil lines, beautiful facial proportions, fine hatching, visible fashion-design construction strokes and delicate fabric-fold drawings.",
+colorSketch:"Elegant colored anime fashion sketch, fine pencil underdrawing, transparent pastel marker coloring, confident contour lines, beautiful garment construction and professional designer illustration finish.",
+cel:"Clean anime coloring with crisp fine linework, organized cel-shaded color shapes, precise specular highlights, beautiful expressive eyes and sharply readable garments.",
+josei:"Elegant shoujo and josei fashion illustration, luminous expressive eyes, refined attractive face, flowing hair detail, delicate lace rendering, soft dimensional coloring and sophisticated romantic staging.",
+watercolor:"Soft watercolor anime illustration, exquisite drawn facial features, translucent washes, delicate pigment textures, beautiful fabric detail and airy painterly atmosphere.",
+manga:"Premium manga ink illustration, precise black contours, controlled screentones, intricate garment hatching, selective color accents and expressive manga character-design polish.",
+marker:"Professional anime fashion marker concept illustration, thin pen outlines, layered alcohol-marker shading, translucent highlights, believable fabric drape and luxury lookbook presentation.",
+painterly:"Beautiful painterly anime character key visual, refined facial anatomy, delicate brush textures, soft cinematic color gradients, dimensional garment rendering and polished editorial finish."
+};
+
+const CROPS={
+face:"Tight face close-up beauty portrait cropped from upper chest upward, prioritizing eyes, hair, headwear, neckline and fine accessories.",
+bust:"Close shoulder-and-bust portrait, emphasizing expressive face, layered collar details, necklaces, jewelry and visible hands.",
+waist:"Close waist-up half-body fashion portrait, head to waist in frame, with detailed upper clothing construction, accessories and elegant hand gestures.",
+thigh:"Fashion portrait cropped from head to mid-thigh, keeping the face prominent while revealing tailored silhouette and garment structure."
+};
+
+const POSES={
+front:[
+"front-facing with direct editorial gaze, one hand lightly adjusting the collar",
+"facing the camera with relaxed shoulders and fingertips touching a garment detail",
+"upright, poised and facing forward with one graceful hand near the neckline"
+],
+three:[
+"elegant three-quarter view, fingers lightly adjusting headwear",
+"shoulders angled toward camera, one hand gently holding the prop",
+"subtle three-quarter turn and gaze directed toward camera"
+],
+side:[
+"subtle side-facing pose with gaze returned toward camera",
+"graceful side angle with a hand adjusting the collar",
+"head turning gently over the shoulder"
+],
+seated:[
+"seated upright on a modern studio chair, one hand near the collar",
+"seated in an elegant editorial pose with a prop held near the chest",
+"sitting at a modern café table with relaxed fashion-model posture"
+]
+};
+
+const LIGHT={
+soft:"Soft luminous studio lighting with delicate rim light and creamy garment highlights.",
+window:"Diffused natural window light, elegant shadows and beautiful luminous skin.",
+neon:"Controlled contemporary city-neon lighting, subtle reflected color and clear outfit rendering.",
+dramatic:"Sculpted editorial key light with cinematic shadows and beautiful light separation around the hair.",
+golden:"Warm golden-hour light with subtle ambient bounce and gentle atmospheric highlights."
+};
+
+const SKIN=[
+"fair skin with cool undertones",
+"light peach-toned skin",
+"golden light-medium skin",
+"medium warm olive skin",
+"rich caramel-brown skin",
+"deep brown skin with warm undertones",
+"deep ebony skin with cool undertones"
+];
+
+const HERITAGES=[
+"East Asian","Southeast Asian","South Asian","Black",
+"Latina / Latino","Middle Eastern / North African",
+"White / European","Indigenous","Mixed heritage"
+];
+
+const EYES=[
+"deep brown","warm amber","hazel","clear blue",
+"emerald green","steel grey","grey-green","violet"
+];
+
+const FACES=[
+"an elegantly tapered oval face with a delicate jaw",
+"a heart-shaped face with sculpted cheekbones",
+"a softly rounded face with a graceful chin",
+"a long elegant face with refined cheekbones",
+"a beautifully balanced face with defined jawline",
+"a delicate angular face with refined proportions"
+];
+
+const WOMEN=[
+"petite adult woman with graceful fashion-model proportions",
+"petite slender adult woman with delicate shoulders",
+"petite athletic adult woman with elegant proportions",
+"petite adult woman with a soft curvy silhouette"
+];
+
+const MEN=[
+"tall adult man with lean fashion-model proportions and broad shoulders",
+"tall athletic adult man with strong balanced proportions",
+"tall slender adult man with elegant long-lined proportions",
+"tall adult man with broad chest and refined masculine silhouette"
+];
+
+const NB=[
+"adult nonbinary fashion model with elegant long-lined proportions",
+"adult nonbinary person with refined angular proportions",
+"adult nonbinary fashion model with a graceful balanced silhouette"
+];
+
+const FEATURE_F=[
+"expressive almond-shaped eyes, graceful eyelashes and a delicate nose",
+"large expressive eyes, a refined nose bridge and softly defined lips",
+"clear focused eyes, high cheekbones and a graceful mouth",
+"soft doll-like eyes, refined facial structure and beautiful lips"
+];
+
+const FEATURE_M=[
+"focused eyes, defined brows and a sculpted nose bridge",
+"intense eyes, strong cheekbone structure and a refined jaw",
+"elegant eyes, straight nose and composed lips",
+"sharp brows, expressive gaze and fine facial details"
+];
+
+const EXPRESSIONS=[
+"calm confident expression",
+"quietly alluring and thoughtful expression",
+"subtle closed-mouth smile",
+"direct fashion-editorial gaze",
+"poised mysterious expression",
+"gentle playful smile",
+"introspective gaze",
+"composed cool expression"
+];
+
+/* ----- BROWSER GENERATOR ----- */
+
+const $=id=>document.getElementById(id);
+const one=arr=>arr[Math.floor(Math.random()*arr.length)];
+const randomInt=n=>Math.floor(Math.random()*n);
+const fields=["outfit","palette","head","jewelry","prop","scene"];
+const SAVE_KEY="tisayai-aesthetic-house-v1";
+
+let active=null;
+let face=null;
+let lookNumber=0;
+let archive=[];
+let toastTimer=null;
+let chosen={outfit:null,palette:null,head:null,jewelry:null,prop:null,scene:null,pose:null};
+
+function cut(){
+ const g=$("gender").value;
+ return g==="woman"?"f":g==="man"?"m":$("presentation").value;
+}
+function compatible(style){
+ return style[cut()].length>0;
+}
+function wardrobe(){
+ return cut()==="f"?active.f:active.m;
+}
+function lists(){
+ return {
+  outfit:wardrobe(),
+  palette:active.c,
+  head:cut()==="f"?active.hf:active.hm,
+  jewelry:active.j,
+  prop:active.p,
+  scene:active.s
+ };
+}
+function different(previous,n){
+ if(!n)return null;
+ if(n===1)return 0;
+ let result=randomInt(n);
+ return result===previous?(result+1)%n:result;
+}
+function locked(key){
+ return !!document.querySelector('[data-lock="'+key+'"]:checked');
+}
+function makeOptions(id,items,none=false){
+ let el=$(id);
+ el.replaceChildren();
+ el.add(new Option("✧ Surprise me · coordinated","auto"));
+ if(none)el.add(new Option("None · keep styling simple","none"));
+ items.forEach((v,i)=>{
+  let label=v.length>85?v.slice(0,84)+"…":v;
+  el.add(new Option(label,String(i)));
+ });
+}
+function rebuildWardrobe(){
+ const data=lists();
+ fields.forEach(f=>makeOptions(f,data[f],["head","jewelry","prop"].includes(f)));
+ fields.forEach(f=>chosen[f]=null);
+ $("styleDescription").textContent=active.name+" · Curated outfits, signature accessories, coordinated settings and color stories.";
+}
+function rebuildStyles(preferred){
+ let el=$("style");
+ el.replaceChildren();
+ el.add(new Option("✧ Surprise me with a compatible aesthetic","auto"));
+ const groups=[...new Set(FASHIONS.map(s=>s.group))];
+ groups.forEach(group=>{
+  let optgroup=document.createElement("optgroup");
+  optgroup.label=group;
+  FASHIONS.filter(s=>s.group===group&&compatible(s))
+   .forEach(s=>optgroup.add(new Option(s.name,s.name)));
+  if(optgroup.children.length)el.append(optgroup);
+ });
+ active=FASHIONS.find(s=>s.name===preferred&&compatible(s))
+       ||FASHIONS.find(compatible);
+ el.value=active.name;
+ rebuildWardrobe();
+}
+function faceIdentity(){
+ const mood=HAIR[active.mood]||HAIR.urban;
+ const g=$("gender").value;
+ const genderCut=cut();
+ return {
+  gender:g,
+  cut:genderCut,
+  heritage:$("heritage").value==="auto"?one(HERITAGES):$("heritage").value,
+  skin:$("skin").value==="auto"?one(SKIN):$("skin").value,
+  eye:$("eyeColor").value==="auto"?one(EYES):$("eyeColor").value,
+  color:$("hairColor").value==="auto"?one(mood.colors):$("hairColor").value,
+  hair:one(mood[genderCut]),
+  shape:one(FACES),
+  features:one(genderCut==="f"?FEATURE_F:FEATURE_M),
+  expression:one(EXPRESSIONS),
+  body:one(g==="woman"?WOMEN:g==="man"?MEN:NB)
+ };
+}
+function synchronizeFace(){
+ if(!face||face.gender!==$("gender").value||face.cut!==cut()){
+  face=faceIdentity();
+ }
+ const override=[
+  ["heritage","heritage"],["skin","skin"],
+  ["eyeColor","eye"],["hairColor","color"]
+ ];
+ override.forEach(([field,property])=>{
+  if($(field).value!=="auto")face[property]=$(field).value;
+ });
+}
+function roll(fieldsToRoll,force=false){
+ const data=lists();
+ fieldsToRoll.forEach(key=>{
+  if(key==="pose"){
+   chosen.pose=different(chosen.pose,3);
+   return;
+  }
+  if(locked(key)&&chosen[key]!==null)return;
+  const select=$(key);
+  if(force)select.value="auto";
+  const value=select.value;
+  if(value==="none"){chosen[key]=-1;return;}
+  if(value!=="auto"){chosen[key]=Number(value);return;}
+  chosen[key]=different(chosen[key],data[key].length);
+ });
+}
+function ensure(){
+ synchronizeFace();
+ const data=lists();
+ fields.forEach(key=>{
+  const value=chosen[key];
+  if(value===null||value>=data[key].length){
+   const choice=$(key).value;
+   chosen[key]=choice==="none"?-1:
+    choice==="auto"?randomInt(data[key].length):Number(choice);
+  }
+ });
+ if(chosen.pose===null)chosen.pose=randomInt(3);
+}
+function chosenValue(list,index){
+ if(index===null||index===-1)return "";
+ return list[index]||"";
+}
+function sentence(value){
+ return String(value||"").trim().replace(/\s+/g," ").replace(/[.\s]+$/,"");
+}
+function automaticLight(style){
+ if(["gothic","dramatic"].includes(style.mood))return LIGHT.dramatic;
+ if(["urban","maximal","glam"].includes(style.mood))return LIGHT.neon;
+ return LIGHT.soft;
+}
+function compose(style,identity,selection){
+ const genderCut=identity.cut;
+ const data={
+  outfit:genderCut==="f"?style.f:style.m,
+  palette:style.c,
+  head:genderCut==="f"?style.hf:style.hm,
+  jewelry:style.j,
+  prop:style.p,
+  scene:style.s
+ };
+ const chosenOutfit=chosenValue(data.outfit,selection.outfit);
+ const chosenHead=chosenValue(data.head,selection.head);
+ const chosenJewelry=chosenValue(data.jewelry,selection.jewelry);
+ const chosenProp=chosenValue(data.prop,selection.prop);
+ const chosenScene=chosenValue(data.scene,selection.scene);
+ const chosenPalette=chosenValue(data.palette,selection.palette);
+ const name=sentence($("name").value);
+ const gender=$("gender").value;
+ const poseType=$("pose").value==="auto"?"three":$("pose").value;
+ const poseList=POSES[poseType]||POSES.three;
+ const pose=poseList[(selection.pose||0)%poseList.length];
+ const pieces=[];
+ const intro=name?" of "+name:"";
+ pieces.push(
+  ARTS[$("art").value]+" Create an original "+style.name+
+  " fashion-subculture character portrait"+intro+"."
+ );
+ let subject=gender==="woman"?"adult woman":
+             gender==="man"?"adult man":"adult nonbinary person";
+ pieces.push(
+  "Subject: "+subject+", age "+$("age").value+", of "+
+  identity.heritage+" heritage; "+identity.body+", "+identity.skin+
+  "; "+identity.shape+"; "+identity.features+
+  ", "+identity.eye+" eyes, and a "+identity.expression+
+  ". Hairstyle: "+identity.hair+" in "+identity.color+
+  ", with beautifully rendered individual strands."
+ );
+ if(gender==="man"){
+  pieces.push(
+   "Character silhouette: tall adult male fashion model wearing "+
+   "authentic tailored menswear, styled with trousers, structured "+
+   "jackets, or subculture-specific princely breeches."
+  );
+ }else if(gender==="woman"){
+  pieces.push(
+   "Character silhouette: petite adult woman with elegant "+
+   "feminine proportions and carefully constructed fashion styling."
+  );
+ }else{
+  pieces.push(
+   genderCut==="m"?
+   "Character silhouette: androgynous editorial styling with tailored, trouser-based fashion.":
+   "Character silhouette: expressive nonbinary fashion presentation with feminine garment tailoring."
+  );
+ }
+ pieces.push(
+  "Authentic "+style.name+" fashion coordinate: "+chosenOutfit+
+  ". The garments are a coherent, carefully styled subculture outfit, "+
+  "with believable fabric layering, accurate tailoring, and recognizable fashion details."
+ );
+ if(chosenHead)pieces.push("Hat or head styling: "+chosenHead+".");
+ if($("richness").value!=="minimal"&&chosenJewelry)
+  pieces.push("Finishing accessories: "+chosenJewelry+".");
+ if($("richness").value==="maximal")
+  pieces.push(
+   "Luxury runway styling: emphasize intricate coordinated trims, "+
+   "ornamental hardware, material textures, jewelry placement and "+
+   "premium finishing details while retaining the same fashion aesthetic."
+  );
+ pieces.push(
+  "Coordinated clothing palette: "+chosenPalette+
+  ". Maintain color harmony across the garment layers, accessories and fabric details."
+ );
+ if(chosenProp)
+  pieces.push(
+   "Intentional fashion prop: "+chosenProp+
+   ", held or carried naturally as part of the styling."
+  );
+ pieces.push(
+  "Composition: "+CROPS[$("crop").value]+
+  " The model is "+pose+
+  ". Graceful anatomically accurate hands where visible, "+
+  "excellent eye detail and readable garment construction."
+ );
+ pieces.push(
+  "Contemporary fashion location: "+chosenScene+
+  ", styled as a softly defocused editorial setting with depth of field."
+ );
+ pieces.push(
+  $("light").value==="auto"?
+  automaticLight(style):LIGHT[$("light").value]
+ );
+ if($("density").value==="editorial"){
+  pieces.push(
+   "Beautiful face and hair detail, purposeful hand gesture, "+
+   "accurate garment proportions, clean precise fine linework, "+
+   "tactile fabric rendering, dimensional anime coloring and "+
+   "premium fashion lookbook finish."
+  );
+ }else if($("density").value==="couture"){
+  pieces.push(
+   "Couture-level finishing: exquisitely detailed eyes, refined "+
+   "facial anatomy, delicate hair contours, precise stitching, "+
+   "beautiful buttonholes, realistic cloth weight and drape, "+
+   "fine lace or embroidery where appropriate, polished metal "+
+   "reflections, cinematic layered lighting and luxury editorial composition."
+  );
+ }
+ if(sentence($("mood").value))
+  pieces.push("Personal aesthetic motif: "+sentence($("mood").value)+".");
+ if(sentence($("must").value))
+  pieces.push("Required original character details take priority: "+sentence($("must").value)+".");
+ if(sentence($("extra").value))
+  pieces.push("Additional visual art direction: "+sentence($("extra").value)+".");
+ return pieces.join("\n\n");
+}
+function updateCount(){
+ const text=$("promptText").value.trim();
+ $("wordCount").textContent=(text?text.split(/\s+/).length:0)+" words";
+}
+function render(){
+ ensure();
+ lookNumber++;
+ $("serial").textContent="MAISON TISAY · LOOK "+String(lookNumber).padStart(3,"0");
+ $("lookTitle").textContent=$("name").value.trim()||"The "+active.name+" Muse";
+ $("lookMeta").textContent=active.name+" · "+$("gender").value+
+  " · "+$("art").selectedOptions[0].textContent;
+ $("promptText").value=compose(active,face,chosen);
+ $("reason").textContent=
+  "The outfit is built around a recognizable "+active.name+
+  " fashion coordinate. The hat, accessories, palette, props and "+
+  "modern editorial background come from that same aesthetic. "+
+  "Signature garment: "+(wardrobe()[chosen.outfit]||wardrobe()[0])+".";
+ $("variationPanel").classList.add("hidden");
+ updateCount();
+}
+function generate(randomizeStyle=false,newFace=false){
+ if(randomizeStyle&&!locked("style")){
+  const possibilities=FASHIONS.filter(compatible);
+  const alternatives=possibilities.filter(s=>s!==active);
+  active=one(alternatives.length?alternatives:possibilities);
+  $("style").value=active.name;
+  rebuildWardrobe();
+ }
+ if(newFace||!face||!$("preserve").checked)face=faceIdentity();
+ synchronizeFace();
+ roll(fields);
+ chosen.pose=different(chosen.pose,3);
+ render();
+}
+function reroll(target,newFace=false){
+ if(newFace)face=faceIdentity();
+ roll(target,true);
+ render();
+}
+
+/* ----- COPY AND ARCHIVE ----- */
+
+let pending="";
+function toast(message){
+ const el=$("toast");
+ el.textContent=message;
+ el.classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>el.classList.remove("show"),3000);
+}
+async function copyText(text){
+ if(!text.trim()){toast("Generate a character first.");return;}
+ try{
+  if(!navigator.clipboard||!window.isSecureContext)throw Error("Clipboard restricted");
+  await navigator.clipboard.writeText(text);
+  $("copyModal").classList.remove("open");
+  toast("✦ Copied — ready to paste into Krea 2!");
+ }catch(error){
+  pending=text;
+  $("fallback").value=text;
+  $("copyModal").classList.add("open");
+  $("fallback").focus();
+  $("fallback").select();
+ }
+}
+function sheet(){
+ return [
+  "TISAY'S AESTHETIC HOUSE · CHARACTER SHEET",
+  "Creator: TisayAI",
+  "Aesthetic: "+active.name,
+  "Character: "+($("name").value.trim()||"Unnamed original character"),
+  "Gender: "+$("gender").value,
+  "Age: "+$("age").value,
+  "Art style: "+$("art").selectedOptions[0].textContent,
+  "Portrait: "+$("crop").selectedOptions[0].textContent,
+  "",
+  "COMPLETE EDITABLE KREA 2 PROMPT",
+  "",
+  $("promptText").value
+ ].join("\n");
+}
+function validEntry(o){
+ return o&&typeof o==="object"&&
+  typeof o.prompt==="string"&&o.prompt.length<=30000&&
+  typeof o.title==="string"&&o.title.length<=150&&
+  typeof o.style==="string";
+}
+function readArchive(){
+ try{
+  const records=JSON.parse(localStorage.getItem(SAVE_KEY)||"[]");
+  archive=Array.isArray(records)?records.filter(validEntry).slice(0,100):[];
+ }catch(error){archive=[];}
+}
+function writeArchive(){
+ try{
+  localStorage.setItem(SAVE_KEY,JSON.stringify(archive));
+  return true;
+ }catch(error){
+  toast("Storage unavailable. Export JSON to keep your creations.");
+  return false;
+ }
+}
+function saveOC(){
+ const prompt=$("promptText").value.trim();
+ if(!prompt){toast("Generate an OC first.");return;}
+ if(archive.length>=100){
+  toast("Archive full. Remove a design or export a backup.");
+  return;
+ }
+ const record={
+  id:Date.now()+"-"+Math.random().toString(36).slice(2,8),
+  title:($("name").value.trim()||active.name+" Muse").slice(0,150),
+  style:active.name,
+  gender:$("gender").value,
+  prompt,
+  created:new Date().toISOString()
+ };
+ archive.unshift(record);
+ writeArchive();
+ renderArchive();
+ toast("♡ OC saved in this browser.");
+}
+function renderArchive(){
+ const container=$("archiveList");
+ container.replaceChildren();
+ $("archiveCount").textContent=archive.length+" / 100 saved";
+ if(!archive.length){
+  const empty=document.createElement("div");
+  empty.className="empty";
+  empty.textContent="The private archive awaits its first fashion character.";
+  container.append(empty);
+  return;
+ }
+ archive.forEach((record,index)=>{
+  const row=document.createElement("div");
+  row.className="saved";
+  const info=document.createElement("div");
+  const title=document.createElement("strong");
+  title.textContent=record.title;
+  const detail=document.createElement("small");
+  const date=new Date(record.created);
+  detail.textContent=record.style+" · "+
+   (Number.isNaN(date.getTime())?"Saved":date.toLocaleDateString());
+  info.append(title,detail);
+  const actions=document.createElement("div");
+  actions.className="savedbuttons";
+  const load=document.createElement("button");
+  load.textContent="Load";
+  load.onclick=()=>loadSaved(record);
+  const copy=document.createElement("button");
+  copy.textContent="Copy";
+  copy.onclick=()=>copyText(record.prompt);
+  const remove=document.createElement("button");
+  remove.textContent="×";
+  remove.setAttribute("aria-label","Delete "+record.title);
+  remove.onclick=()=>{
+   if(confirm("Remove this OC from your private archive?")){
+    archive.splice(index,1);
+    writeArchive();
+    renderArchive();
+    toast("Archive entry removed.");
+   }
+  };
+  actions.append(load,copy,remove);
+  row.append(info,actions);
+  container.append(row);
+ });
+}
+function loadSaved(record){
+ if(record.gender==="man"||record.gender==="woman"||record.gender==="nonbinary")
+  $("gender").value=record.gender;
+ $("presentationWrap").classList.toggle("hidden",$("gender").value!=="nonbinary");
+ if($("gender").value==="nonbinary")$("presentation").value="f";
+ rebuildStyles(record.style);
+ $("name").value=record.title===record.style+" Muse"?"":record.title;
+ face=null;
+ ensure();
+ $("promptText").value=record.prompt;
+ $("lookTitle").textContent=record.title;
+ $("lookMeta").textContent="Loaded archive design · "+record.style;
+ $("reason").textContent="This saved prompt can be freely edited and copied.";
+ $("variationPanel").classList.add("hidden");
+ updateCount();
+ $("result").scrollIntoView({behavior:"smooth"});
+ toast("Saved fashion OC loaded.");
+}
+function exportJSON(){
+ const data={
+  application:"TisayAI Aesthetic House",
+  version:1,
+  exported:new Date().toISOString(),
+  characters:archive
+ };
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="tisayai-aesthetic-house-archive.json";
+ document.body.append(a);
+ a.click();
+ a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ toast("Archive JSON exported.");
+}
+function importJSON(file){
+ if(!file)return;
+ if(file.size>6000000){toast("Archive must be smaller than 6 MB.");return;}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const parsed=JSON.parse(reader.result);
+   const items=Array.isArray(parsed)?parsed:parsed.characters;
+   if(!Array.isArray(items))throw Error("Invalid archive");
+   const clean=items.filter(validEntry).map((item,i)=>({
+    id:String(item.id||Date.now()+"-"+i),
+    title:item.title,
+    style:item.style,
+    gender:["woman","man","nonbinary"].includes(item.gender)?item.gender:"woman",
+    prompt:item.prompt,
+    created:typeof item.created==="string"?item.created:new Date().toISOString()
+   }));
+   const known=new Set(archive.map(x=>x.id+"|"+x.prompt));
+   const added=clean.filter(x=>!known.has(x.id+"|"+x.prompt));
+   archive=[...added,...archive].slice(0,100);
+   writeArchive();
+   renderArchive();
+   toast("Imported "+added.length+" fashion characters.");
+  }catch(error){
+   toast("Unable to read this JSON character archive.");
+  }
+ };
+ reader.readAsText(file);
+}
+
+/* ----- THREE FASHION VARIATIONS ----- */
+
+function threeVariations(){
+ ensure();
+ const container=$("variationList");
+ container.replaceChildren();
+ const data=lists();
+ for(let i=0;i<3;i++){
+  const selection={...chosen};
+  fields.forEach(key=>{
+   if(!locked(key))
+    selection[key]=different((chosen[key]||0)+i,data[key].length);
+  });
+  selection.pose=randomInt(3);
+  const model=$("preserve").checked?{...face}:faceIdentity();
+  const prompt=compose(active,model,selection);
+  const item=document.createElement("div");
+  item.className="variant";
+  const bar=document.createElement("div");
+  bar.className="variantbar";
+  const title=document.createElement("span");
+  title.textContent="✧ LOOK "+String(i+1).padStart(2,"0")+" · "+active.name;
+  const button=document.createElement("button");
+  button.className="btn small";
+  button.textContent="COPY THIS LOOK";
+  const textarea=document.createElement("textarea");
+  textarea.value=prompt;
+  textarea.setAttribute("aria-label","Editable fashion variation "+(i+1));
+  button.onclick=()=>copyText(textarea.value);
+  bar.append(title,button);
+  item.append(bar,textarea);
+  container.append(item);
+ }
+ $("variationPanel").classList.remove("hidden");
+ $("variationPanel").scrollIntoView({behavior:"smooth"});
+ toast("Three independently copyable fashion looks created.");
+}
+
+/* ----- RESET AND EVENTS ----- */
+
+function resetSalon(){
+ if(!confirm("Reset the design salon? Saved archive entries will remain."))return;
+ $("gender").value="woman";
+ $("presentation").value="m";
+ $("presentationWrap").classList.add("hidden");
+ $("name").value="";
+ $("age").value="24";
+ ["heritage","skin","hairColor","eyeColor","pose","light"].forEach(id=>$(id).value="auto");
+ ["mood","must","extra"].forEach(id=>$(id).value="");
+ $("crop").value="waist";
+ $("art").value="polished";
+ $("density").value="editorial";
+ $("richness").value="signature";
+ $("preserve").checked=true;
+ document.querySelectorAll("[data-lock]").forEach(el=>el.checked=false);
+ rebuildStyles("Gothic Lolita");
+ face=null;
+ lookNumber=0;
+ generate(false,true);
+ toast("Salon reset. Your archive is safe.");
+}
+function refreshGender(){
+ const gender=$("gender").value;
+ $("presentationWrap").classList.toggle("hidden",gender!=="nonbinary");
+ if(gender==="man"){
+  $("genderMessage").textContent="Tall adult men wear curated trouser-based menswear, structured jackets and suitable princely breeches. Feminine-exclusive fashion categories are hidden.";
+ }else if(gender==="woman"){
+  $("genderMessage").textContent="Petite adult women can explore the complete feminine fashion collection, with recognizable Lolita, Gyaru, Harajuku and contemporary couture clothing.";
+ }else{
+  $("genderMessage").textContent="Choose either feminine fashion cuts or a tailored, trouser-based silhouette. Compatible aesthetics appear automatically.";
+ }
+ rebuildStyles(active?active.name:"Gothic Lolita");
+ face=null;
+ generate(false,true);
+}
+function init(){
+ readArchive();
+ renderArchive();
+ $("styleCount").textContent=FASHIONS.length+" CURATED AESTHETICS";
+ rebuildStyles("Gothic Lolita");
+
+ $("gender").addEventListener("change",refreshGender);
+ $("presentation").addEventListener("change",refreshGender);
+ $("style").addEventListener("change",()=>{
+  let requested=$("style").value;
+  if(requested==="auto"){
+   const alternatives=FASHIONS.filter(compatible);
+   requested=one(alternatives).name;
+  }
+  rebuildStyles(requested);
+  face=null;
+  generate(false,true);
+ });
+
+ document.querySelectorAll("[data-quick]").forEach(button=>{
+  button.addEventListener("click",()=>{
+   if(button.dataset.gender){
+    $("gender").value=button.dataset.gender;
+    $("presentationWrap").classList.add("hidden");
+   }
+   rebuildStyles(button.dataset.quick);
+   face=null;
+   generate(false,true);
+   $("result").scrollIntoView({behavior:"smooth"});
+  });
+ });
+
+ fields.forEach(key=>{
+  $(key).addEventListener("change",()=>{
+   const v=$(key).value;
+   chosen[key]=v==="none"?-1:v==="auto"?null:Number(v);
+   if($("promptText").value.trim()){
+    roll([key]);
+    render();
+   }
+  });
+ });
+
+ $("generate").onclick=()=>generate();
+ $("random").onclick=()=>generate(true,!$("preserve").checked);
+ $("rollOutfit").onclick=()=>reroll(["outfit"]);
+ $("rollAccessory").onclick=()=>reroll(["head","jewelry","prop"]);
+ $("rollPalette").onclick=()=>reroll(["palette"]);
+ $("rollScene").onclick=()=>reroll(["scene"]);
+ $("rollFace").onclick=()=>reroll([],true);
+ $("rollPose").onclick=()=>reroll(["pose"]);
+ $("variations").onclick=threeVariations;
+ $("reset").onclick=resetSalon;
+
+ $("promptText").addEventListener("input",updateCount);
+ $("copyPrompt").onclick=()=>copyText($("promptText").value);
+ $("copySheet").onclick=()=>copyText(sheet());
+ $("save").onclick=saveOC;
+
+ $("loadRecent").onclick=()=>archive.length?loadSaved(archive[0]):toast("Your archive is empty.");
+ $("copyRecent").onclick=()=>archive.length?copyText(archive[0].prompt):toast("No saved character yet.");
+ $("exportArchive").onclick=exportJSON;
+ $("importArchive").onclick=()=>$("importFile").click();
+ $("importFile").addEventListener("change",event=>{
+  importJSON(event.target.files[0]);
+  event.target.value="";
+ });
+
+ $("closeModal").onclick=()=>$("copyModal").classList.remove("open");
+ $("tryCopy").onclick=()=>copyText($("fallback").value);
+ $("copyModal").addEventListener("click",event=>{
+  if(event.target===$("copyModal"))$("copyModal").classList.remove("open");
+ });
+ document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")$("copyModal").classList.remove("open");
+ });
+
+ generate(false,true);
+}
+
+init();
+</script>
+</body>
+</html>
