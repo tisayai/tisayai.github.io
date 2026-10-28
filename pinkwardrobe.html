@@ -1,0 +1,1865 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff1f7">
+<meta name="description" content="Tisay's PINK Wardrobe — a medieval gothic JRPG fantasy character fashion atelier.">
+<title>Tisay's PINK Wardrobe | TisayAI</title>
+<style>
+:root{
+  --paper:#fff9fc;--milk:#ffffff;--blush:#fff0f6;
+  --pink:#d9458a;--hot:#bb246e;--rose:#f8b8d3;
+  --wine:#652746;--ink:#493044;--muted:#8c7182;
+  --line:#f0d5e2;--gold:#b78a55;--mint:#e8f6ee;
+  --shadow:0 14px 40px rgba(125,47,85,.085);
+  --radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,"Times New Roman",serif;line-height:1.55}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+a{color:var(--hot)}
+[hidden]{display:none!important}
+::selection{background:#f7bfd9;color:#54253f}
+:focus-visible{outline:3px solid #d9458a;outline-offset:3px}
+.wrap{width:min(1220px,94%);margin:auto}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(255,249,252,.95);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:8px 0}
+.logo{font-size:18px;font-weight:bold;letter-spacing:.025em;text-decoration:none;color:var(--wine)}
+.logo b{color:var(--pink)}
+.links{display:flex;gap:16px;flex-wrap:wrap}
+.links a{text-decoration:none;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.11em}
+.links a:hover{color:var(--hot)}
+.hero{position:relative;aspect-ratio:16/9;max-height:550px;border-radius:0 0 28px 28px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at 23% 30%,#ffe8f4 0%,transparent 55%),radial-gradient(ellipse at 80% 65%,#d9acd0 0%,transparent 55%),linear-gradient(130deg,#f9c7da,#f3e4f0 45%,#d58eb5)}
+.hero:before{content:"";position:absolute;inset:15px;border:1px solid rgba(255,255,255,.6);border-radius:19px;z-index:2;pointer-events:none}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,20,48,.46),rgba(73,28,55,.12),rgba(60,20,48,.36));z-index:1}
+#heroImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.heroContent{position:relative;z-index:3;text-align:center;padding:28px;color:white;text-shadow:0 2px 16px rgba(68,24,46,.3)}
+.heroMark{font-size:30px;color:#fff0d6}
+.hero h1{font-size:clamp(31px,6vw,78px);font-weight:normal;line-height:1.1;margin:13px 0}
+.hero h1 em{font-style:normal;color:#ffe0ed}
+.hero p{font-size:clamp(12px,1.6vw,17px);letter-spacing:.12em;margin:12px 0}
+.heroCta{margin-top:20px;display:inline-block;padding:10px 24px;border:1px solid rgba(255,255,255,.8);border-radius:40px;text-decoration:none;color:white;background:rgba(255,255,255,.14)}
+.heroCta:hover{background:rgba(255,255,255,.28)}
+.bannerTools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:13px 0 31px;padding:13px 18px;border:1px solid var(--line);border-radius:15px;background:white}
+.bannerTools label{font-size:12px;color:var(--muted)}
+.bannerTools input{flex:1;min-width:180px}
+.mini{font-size:11px;color:var(--muted)}
+.intro{text-align:center;margin:35px 0 30px}
+.kicker{text-transform:uppercase;letter-spacing:.25em;font-size:11px;color:var(--pink)}
+h2{font-weight:normal;font-size:clamp(25px,3.1vw,38px);color:var(--wine);margin:8px 0}
+h3{font-size:20px;font-weight:normal;color:var(--wine);margin:0 0 12px}
+.intro p{max-width:750px;margin:9px auto;color:var(--muted);font-size:14px}
+.panel{background:white;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.studioGrid{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(320px,.8fr);gap:20px;align-items:start}
+.stack{display:grid;gap:18px}
+.panelTop{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding-bottom:13px;margin-bottom:18px}
+.panelTop small{letter-spacing:.12em;color:var(--gold);font-size:11px;text-transform:uppercase}
+.fieldGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{min-width:0}
+.field.full{grid-column:1/-1}
+.fieldLabel{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px}
+.fieldLabel label{font-size:12px;font-weight:bold;color:var(--wine)}
+.fieldLabel small{font-size:10px;color:var(--muted)}
+input,select,textarea{width:100%;background:#fffbfd;color:var(--ink);border:1px solid #ecd1df;border-radius:10px;padding:10px 12px;outline:none;min-height:43px;font-size:13px}
+input:focus,select:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(217,69,138,.09)}
+textarea{resize:vertical;line-height:1.6}
+textarea#promptBox{font-family:Georgia,"Times New Roman",serif;font-size:14px;min-height:400px;background:#fffafd}
+button.primary{background:linear-gradient(120deg,#e75698,#b92f72);color:white;border:0;border-radius:11px;padding:13px 20px;font-size:13px;font-weight:bold;box-shadow:0 7px 16px rgba(193,51,117,.15)}
+button.primary:hover{filter:brightness(1.05)}
+button.secondary{background:white;color:var(--hot);border:1px solid #ebadc9;border-radius:11px;padding:11px 16px;font-size:12px}
+button.secondary:hover{background:#fff2f8}
+button.soft{background:#fff0f6;color:#a72e69;border:1px solid #f5d0e1;border-radius:10px;padding:10px 13px;font-size:12px}
+button.soft:hover{background:#ffe2ef}
+button.tiny{border:1px solid var(--line);border-radius:8px;background:white;color:var(--muted);padding:7px 10px;font-size:11px}
+.pin{width:25px;height:25px;min-height:0;padding:0;border:1px solid #efd1df;background:white;border-radius:7px;color:#ad8b9c;font-size:12px}
+.pin.active{background:#ffe0ee;color:var(--hot);border-color:#e49dbd}
+.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.btnRow{display:flex;gap:9px;flex-wrap:wrap}
+.btnRow button{flex-grow:1}
+.hint{background:#fff5fa;border-left:3px solid #e68cb7;padding:11px 13px;font-size:12px;color:#795368;border-radius:0 9px 9px 0;margin-top:15px}
+.groupTitle{font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:var(--pink);margin:20px 0 12px}
+.presetGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.preset{border:1px solid #f0c9dd;background:linear-gradient(130deg,#fff9fc,#fff0f6);border-radius:11px;padding:13px 10px;color:var(--wine);text-align:left;min-height:68px}
+.preset b{display:block;font-size:12px}
+.preset small{color:var(--muted);font-size:10px}
+.preset:hover{border-color:var(--pink);background:#ffeaf4}
+.detailList{display:grid;gap:9px;margin-top:13px}
+.detailList p{font-size:12px;margin:0;color:var(--muted)}
+.detailList strong{color:var(--wine)}
+.checkLine{display:flex;gap:9px;align-items:center;font-size:12px;color:var(--muted)}
+.checkLine input{width:auto;min-height:0}
+.summon{margin-top:28px}
+.summonCard{background:radial-gradient(circle at 90% 0,#fff0f8,transparent 48%),white}
+.actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.actions .mainAction{grid-column:1/-1;font-size:15px;padding:17px}
+.status{font-size:12px;color:var(--muted);margin:12px 0 0;min-height:20px}
+.result{margin-top:28px}
+.resultGrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,.7fr);gap:18px}
+.outputHeading{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:11px}
+.outputHeading h3{margin:0}
+.wordcount{font-size:11px;color:var(--muted)}
+.outButtons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.outButtons .primary{grid-column:1/-1;font-size:15px;padding:15px}
+.concept{background:linear-gradient(145deg,#fff3f9,#fff);border:1px solid var(--line);border-radius:15px;padding:18px}
+.concept .big{font-size:24px;font-weight:normal;color:var(--wine);line-height:1.3;margin:8px 0 15px}
+.concept p{font-size:12px;color:#785e6e;margin:9px 0}
+.chip{display:inline-block;font-size:10px;background:#fff;border:1px solid #efd0df;color:#a54377;padding:5px 9px;border-radius:99px;margin:3px}
+.variants{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}
+.variant{border:1px solid var(--line);background:white;border-radius:14px;padding:15px}
+.variant h4{font-weight:normal;color:var(--wine);margin:5px 0}
+.variant p{color:var(--muted);font-size:12px;min-height:70px}
+.variant button{width:100%}
+.archive{margin:30px 0}
+.archiveItems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.saved{padding:14px;border:1px solid var(--line);border-radius:13px;background:#fffafd}
+.saved h4{margin:0;color:var(--wine);font-size:15px}
+.saved p{margin:5px 0 12px;color:var(--muted);font-size:11px}
+.footer{text-align:center;padding:32px 10px 95px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+.footer a{color:var(--hot);text-decoration:none}
+.footerMark{font-size:26px;color:#df91b4}
+.floatbar{position:fixed;z-index:30;bottom:12px;left:50%;transform:translateX(-50%);width:min(470px,94%);background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 9px 35px rgba(92,36,68,.17);display:flex;gap:8px;backdrop-filter:blur(13px)}
+.floatbar button{flex:1}
+.toast{position:fixed;bottom:91px;left:50%;transform:translateX(-50%);background:var(--wine);color:#fff;padding:12px 19px;border-radius:15px;font-size:12px;z-index:100;max-width:90%;text-align:center;box-shadow:var(--shadow)}
+.modal{position:fixed;inset:0;background:rgba(45,21,39,.64);z-index:110;display:grid;place-items:center;padding:14px}
+.modalInner{background:#fff;width:min(670px,100%);border-radius:18px;padding:22px}
+.modalInner textarea{height:250px;margin:13px 0}
+.modalInner p{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.studioGrid,.resultGrid{grid-template-columns:1fr}.variants{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){
+ .nav{justify-content:center}.links{justify-content:center;gap:12px}
+ .hero{aspect-ratio:16/11;border-radius:0 0 19px 19px}
+ .hero p{letter-spacing:.04em}
+ .panel{padding:16px}.fieldGrid{gap:12px}
+ .actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .actions .mainAction{grid-column:1/-1}
+ .archiveItems,.variants{grid-template-columns:1fr}
+ .bannerTools input{width:100%;flex-basis:100%}
+ .btnRow button{flex:1}
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+ <div class="wrap nav">
+  <a class="logo" href="#top">✧ Tisay's <b>PINK Wardrobe</b></a>
+  <nav class="links" aria-label="Main navigation">
+   <a href="#design">Design</a>
+   <a href="#summon">Summon</a>
+   <a href="#prompt">Prompt</a>
+   <a href="#archive">Archive</a>
+  </nav>
+ </div>
+</header>
+
+<div class="wrap" id="top">
+ <section class="hero" aria-label="Wardrobe hero banner">
+  <img id="heroImage" alt="Custom PINK Wardrobe hero illustration" hidden>
+  <div class="heroContent">
+   <div class="heroMark">❦</div>
+   <p>✦ THE MEDIEVAL FANTASY FASHION ATELIER ✦</p>
+   <h1>Tisay's<br><em>PINK Wardrobe</em></h1>
+   <p>Dress Your Legend · Enchant Your Silhouette</p>
+   <a class="heroCta" href="#design">✧ Enter the Wardrobe</a>
+  </div>
+ </section>
+
+ <div class="bannerTools">
+  <label for="bannerUrl">✦ 16:9 hero banner hotlink</label>
+  <input id="bannerUrl" type="url" placeholder="https://your-image-host.com/banner.png">
+  <button class="soft" id="applyBanner" type="button">Apply Banner</button>
+  <button class="tiny" id="clearBanner" type="button">Clear</button>
+ </div>
+ <p class="mini" style="margin-top:-20px;margin-bottom:25px">Paste your direct PNG, JPG, or WEBP image URL. Recommended size: 1920 × 1080. The banner URL is saved in this browser.</p>
+
+ <div class="intro" id="design">
+  <span class="kicker">《 ❦ 》 The wardrobe opens</span>
+  <h2>I · The Character Wardrobe</h2>
+  <p>A medieval-gothic JRPG fashion studio for beautiful adult human heroes, villains, nobles, servants, adventurers, and everyday fantasy characters. Every outfit begins with its role, then receives a coherent fashion identity.</p>
+ </div>
+
+ <div class="studioGrid">
+  <div class="stack">
+   <section class="panel">
+    <div class="panelTop"><h3>01 · Identity & Face</h3><small>✧ The Muse</small></div>
+    <div class="fieldGrid">
+     <div class="field">
+      <div class="fieldLabel"><label for="gender">Character presentation</label><button class="pin" data-pin="gender" title="Lock trait">◇</button></div>
+      <select id="gender">
+       <option value="auto">Surprise me</option>
+       <option value="woman">Woman · petite bishoujo</option>
+       <option value="man">Man · tall bishounen</option>
+      </select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="age">Adult age</label><button class="pin" data-pin="age" title="Lock trait">◇</button></div>
+      <select id="age">
+       <option value="auto">Random adult age</option>
+       <option>22–26 years old</option>
+       <option>27–32 years old</option>
+       <option>33–39 years old</option>
+       <option>40–49 years old</option>
+      </select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="role">Fantasy occupation / social role</label><button class="pin" data-pin="role" title="Lock trait">◇</button></div>
+      <select id="role"><option value="auto">Surprise me · any medieval role</option></select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="style">Fashion subculture · medieval adaptation</label><button class="pin" data-pin="style" title="Lock trait">◇</button></div>
+      <select id="style"><option value="auto">Curated aesthetic for this role</option></select>
+      <small class="mini">Only compatible aesthetics appear when a role is selected.</small>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="build">Figure & build</label><button class="pin" data-pin="build" title="Lock trait">◇</button></div>
+      <select id="build">
+       <option value="auto">Role-appropriate silhouette</option>
+       <option value="slender">Slender / delicate</option>
+       <option value="athletic">Lean and athletic</option>
+       <option value="soft">Soft and graceful</option>
+       <option value="curvy">Curvy and petite</option>
+       <option value="muscular">Muscular and strong</option>
+       <option value="broad">Broad-shouldered</option>
+      </select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="skin">Complexion</label><button class="pin" data-pin="skin" title="Lock trait">◇</button></div>
+      <select id="skin"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="hair">Hair color</label><button class="pin" data-pin="hair" title="Lock trait">◇</button></div>
+      <select id="hair"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="hairstyle">Hairstyle</label><button class="pin" data-pin="hairstyle" title="Lock trait">◇</button></div>
+      <select id="hairstyle"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="eyes">Eye color</label><button class="pin" data-pin="eyes" title="Lock trait">◇</button></div>
+      <select id="eyes"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="expression">Expression</label><button class="pin" data-pin="expression" title="Lock trait">◇</button></div>
+      <select id="expression"></select>
+     </div>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panelTop"><h3>02 · Couture & Accessories</h3><small>✧ The Finery</small></div>
+    <div class="fieldGrid">
+     <div class="field full">
+      <div class="fieldLabel"><label for="look">Curated outfit set</label><button class="pin" data-pin="look" title="Lock outfit">◇</button></div>
+      <select id="look"><option value="auto">Surprise me · coordinated role outfit</option></select>
+      <small class="mini">Select a role and presentation to reveal its signature outfits.</small>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="headwear">Hat / headdress</label><button class="pin" data-pin="headwear" title="Lock headwear">◇</button></div>
+      <select id="headwear"><option value="auto">Curated for role</option></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="prop">Iconic prop</label><button class="pin" data-pin="prop" title="Lock prop">◇</button></div>
+      <select id="prop"><option value="auto">Curated for role</option></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="focus">Fashion emphasis</label></div>
+      <select id="focus">
+       <option value="auto">Balanced couture</option>
+       <option value="tailoring">Structured tailoring & waist</option>
+       <option value="collar">Elaborate neckline & collar</option>
+       <option value="sleeves">Statement sleeves & cuffs</option>
+       <option value="armor">Decorative armor craftsmanship</option>
+       <option value="jewels">Jewelry, chains & brooches</option>
+       <option value="headwear">Ornate headwear & hairpieces</option>
+       <option value="layers">Layered fabric & cape styling</option>
+       <option value="embroidery">Embroidery & textile patterns</option>
+      </select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="modern">Rare modern-inspired accent</label></div>
+      <select id="modern">
+       <option value="none">Pure medieval fantasy</option>
+       <option value="auto">Occasional subtle accent</option>
+       <option value="spectacles">Fine wire spectacles</option>
+       <option value="tie">Narrow silk necktie</option>
+       <option value="ribbon">Decorative ribbon tie</option>
+      </select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="paletteCustom">Custom color story</label></div>
+      <input id="paletteCustom" placeholder="Optional · pearl pink, antique gold, deep wine">
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="wardrobeNote">Must-have clothing / hat / accessories</label></div>
+      <textarea id="wardrobeNote" rows="3" placeholder="e.g. fitted scarlet velvet doublet, black lace cravat, ornate gold brooch, dark leather gloves..."></textarea>
+     </div>
+    </div>
+    <div class="hint"><strong>Wardrobe tailoring:</strong> Male characters receive princely, masculine menswear silhouettes such as doublets, fitted tunics, breeches, coats, robes and armor. Female characters receive feminine gowns, bodices, skirts, tailored adventuring sets and armor. Both are always adults and fully human.</div>
+   </section>
+
+   <section class="panel">
+    <div class="panelTop"><h3>03 · Portrait & Setting</h3><small>✧ The Stage</small></div>
+    <div class="fieldGrid">
+     <div class="field">
+      <div class="fieldLabel"><label for="frame">Portrait framing</label><button class="pin" data-pin="frame" title="Lock framing">◇</button></div>
+      <select id="frame">
+       <option value="auto">Portrait-first random</option>
+       <option value="half-body" selected>Close-up half body · preferred</option>
+       <option value="face close-up">Face close-up</option>
+       <option value="chest-up">Chest-up portrait</option>
+       <option value="waist-up">Waist-up fashion portrait</option>
+       <option value="three-quarter">Three-quarter fashion portrait</option>
+      </select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="pose">Gesture / pose</label><button class="pin" data-pin="pose" title="Lock pose">◇</button></div>
+      <select id="pose"></select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="scene">Scene / environment</label><button class="pin" data-pin="scene" title="Lock scene">◇</button></div>
+      <select id="scene"><option value="auto">Role-specific location</option></select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="sceneCustom">Custom location</label></div>
+      <input id="sceneCustom" placeholder="Optional · moonlit cathedral balcony, castle rose garden...">
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="lighting">Lighting</label><button class="pin" data-pin="lighting" title="Lock lighting">◇</button></div>
+      <select id="lighting"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="mood">Fashion mood</label></div>
+      <select id="mood">
+       <option value="auto">Character-appropriate</option>
+       <option value="romantic">Romantic & alluring</option>
+       <option value="regal">Regal & commanding</option>
+       <option value="innocent">Soft & elegant</option>
+       <option value="dangerous">Dark & seductive</option>
+       <option value="mysterious">Mysterious & ethereal</option>
+       <option value="heroic">Heroic & noble</option>
+       <option value="playful">Charming & playful</option>
+       <option value="solemn">Solemn & ceremonial</option>
+      </select>
+     </div>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panelTop"><h3>04 · Illustration & Direction</h3><small>✧ The Finish</small></div>
+    <div class="fieldGrid">
+     <div class="field full">
+      <div class="fieldLabel"><label for="art">Anime illustration style</label><button class="pin" data-pin="art" title="Lock art style">◇</button></div>
+      <select id="art"></select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="density">Prompt detail</label></div>
+      <select id="density">
+       <option value="balanced">Balanced · fashion focused</option>
+       <option value="exploratory">Exploratory · light</option>
+       <option value="detailed">Detailed · rich costume</option>
+       <option value="couture">Art Director · maximal couture</option>
+      </select>
+     </div>
+     <div class="field">
+      <div class="fieldLabel"><label for="ratio">Canvas aspect ratio</label></div>
+      <select id="ratio">
+       <option value="2:3" selected>2:3 · portrait</option>
+       <option value="3:4">3:4 · portrait</option>
+       <option value="4:5">4:5 · portrait</option>
+       <option value="1:1">1:1 · square</option>
+       <option value="9:16">9:16 · tall portrait</option>
+       <option value="16:9">16:9 · cinematic</option>
+       <option value="3:2">3:2 · landscape</option>
+      </select>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="designation">Character name / designation</label></div>
+      <input id="designation" placeholder="Optional · Lady Isolde, the Crimson Duelist">
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="seed">Seedwords / character story</label></div>
+      <textarea id="seed" rows="3" placeholder="e.g. exiled prince, moonlit masquerade, proud, silver hair, forbidden romance..."></textarea>
+     </div>
+     <div class="field full">
+      <div class="fieldLabel"><label for="must">Other must-have visual details</label></div>
+      <textarea id="must" rows="3" placeholder="e.g. sharp elegant features, one silver earring, violet eyes, long braid, black gloves..."></textarea>
+     </div>
+    </div>
+    <div class="hint">Your custom details take priority. Locked traits and manually selected fields remain stable during randomization. Krea 2's canvas dimensions are set in Krea itself.</div>
+   </section>
+  </div>
+
+  <aside class="stack">
+   <section class="panel">
+    <div class="panelTop"><h3>✧ Quick Wardrobe Looks</h3><small>Instant muse</small></div>
+    <p class="mini">Start with a curated character direction. Each preset can be customized afterward.</p>
+    <div class="presetGrid" id="presets"></div>
+    <div class="groupTitle">The Wardrobe Philosophy</div>
+    <div class="detailList">
+     <p><strong>01 · Role first.</strong> A prince dresses differently from a commoner. Each social role has its own tailored outfit sets.</p>
+     <p><strong>02 · Aesthetic second.</strong> Royalcore, Ouji, Gothic Aristocrat, Mori, Romantic Goth and other fashion languages are adapted into appropriate medieval garments.</p>
+     <p><strong>03 · Feminine & masculine silhouettes.</strong> Petite adult women, tall adult men, and beautiful JRPG character proportions.</p>
+     <p><strong>04 · Fashion over clutter.</strong> Purposeful layering, elegant craftsmanship, flattering shapes, beautiful colors and signature accessories.</p>
+     <p><strong>05 · Portrait priority.</strong> Face, collar, upper-body couture, gestures, hairstyle and headwear are composed for expressive close-ups.</p>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panelTop"><h3>✦ Wardrobe Controls</h3><small>How to use</small></div>
+    <p class="mini">Use the diamond beside a field to preserve its generated value. A filled diamond means that trait is locked.</p>
+    <div class="detailList">
+     <p>✧ <strong>Generate</strong> builds an original coherent outfit and portrait.</p>
+     <p>✧ <strong>Reroll Outfit</strong> changes the clothing, headwear and detailing while retaining identity.</p>
+     <p>✧ <strong>Reroll Scene</strong> changes the location.</p>
+     <p>✧ <strong>Reroll Palette</strong> explores new coordinated colors.</p>
+     <p>✧ <strong>Three Variations</strong> creates alternate fashion looks of the same character.</p>
+    </div>
+   </section>
+
+   <section class="panel">
+    <div class="panelTop"><h3>✧ Outfit Vocabulary</h3><small>Fashion index</small></div>
+    <p class="mini">The generator coordinates historical and high-fantasy garments, with different wardrobes for each role.</p>
+    <div id="vocabulary">
+     <span class="chip">Doublets</span><span class="chip">Cotehardies</span><span class="chip">Houppelandes</span><span class="chip">Surcoats</span><span class="chip">Tabards</span><span class="chip">Gambesons</span><span class="chip">Jerkins</span><span class="chip">Mantles</span><span class="chip">Court gowns</span><span class="chip">Laced bodices</span><span class="chip">Kirtles</span><span class="chip">Breeches</span><span class="chip">Bracers</span><span class="chip">Gorgets</span><span class="chip">Wimples</span><span class="chip">Hennins</span><span class="chip">Chaperons</span><span class="chip">Bycocket hats</span><span class="chip">Circlets</span><span class="chip">Hoods</span><span class="chip">Veils</span><span class="chip">Jabots</span><span class="chip">Capelets</span><span class="chip">Liripipes</span><span class="chip">Pouches</span><span class="chip">Reliquaries</span>
+    </div>
+   </section>
+  </aside>
+ </div>
+
+ <section class="summon" id="summon">
+  <div class="intro">
+   <span class="kicker">《 ❦ 》 The fitting chamber</span>
+   <h2>II · Summon Your Character</h2>
+   <p>One click to build a complete outfit-led illustration prompt. Reroll only what you want to change.</p>
+  </div>
+  <div class="panel summonCard">
+   <div class="actions">
+    <button class="primary mainAction" id="generate">✦ Generate Character & Outfit</button>
+    <button class="soft" data-mode="outfit">↻ Reroll Outfit</button>
+    <button class="soft" data-mode="palette">✧ Reroll Palette</button>
+    <button class="soft" data-mode="scene">☾ Reroll Scene</button>
+    <button class="soft" data-mode="pose">✧ Pose & Prop</button>
+    <button class="soft" data-mode="face">❦ Reroll Face</button>
+    <button class="soft" id="fullRandom">✦ Full Randomize</button>
+    <button class="secondary" id="three">✧ Create 3 Variations</button>
+    <button class="secondary" id="unlock">◇ Unlock All</button>
+    <button class="secondary" id="reset">↺ Reset Studio</button>
+   </div>
+   <p class="status" id="status" role="status">The wardrobe is ready. Choose a look or generate a surprise character.</p>
+   <div class="variants" id="variants" hidden></div>
+  </div>
+ </section>
+
+ <section class="result" id="prompt">
+  <div class="intro">
+   <span class="kicker">《 ❦ 》 Your creation</span>
+   <h2>III · The Finished Ensemble</h2>
+   <p>Complete, editable character illustration prompts designed for Krea 2. Copy directly into your generation workflow.</p>
+  </div>
+  <div class="resultGrid">
+   <div class="panel">
+    <div class="outputHeading">
+     <h3>Your Krea 2 Prompt</h3>
+     <span class="wordcount" id="wordCount">0 words</span>
+    </div>
+    <textarea id="promptBox" spellcheck="true" placeholder="Your beautifully tailored character prompt will appear here. You can edit every word before copying."></textarea>
+    <div class="outButtons">
+     <button class="primary" id="copyPrompt">✦ Copy Complete Prompt</button>
+     <button class="secondary" id="copySheet">Copy Character Sheet</button>
+     <button class="secondary" id="saveCharacter">♡ Save Character</button>
+    </div>
+    <p class="mini" style="margin-top:12px">Your prompt is fully editable. Copying always uses the exact current text above, including any edits you make.</p>
+   </div>
+   <aside class="concept" id="concept">
+    <span class="kicker">✦ Character Design Notes</span>
+    <div class="big" id="conceptTitle">The Wardrobe Awaits</div>
+    <p id="conceptBody">A new fashion muse is waiting to be dressed.</p>
+    <div id="conceptChips"></div>
+    <hr style="border:0;border-top:1px solid var(--line);margin:17px 0">
+    <p id="conceptOutfit">Outfit construction, fashion direction and color harmony will appear here.</p>
+   </aside>
+  </div>
+ </section>
+
+ <section class="archive" id="archive">
+  <div class="intro">
+   <span class="kicker">《 ❦ 》 Private keepsakes</span>
+   <h2>IV · The Wardrobe Archive</h2>
+   <p>Save your favorite original characters in your browser and export JSON backups to keep your collection.</p>
+  </div>
+  <div class="panel">
+   <div class="panelTop">
+    <h3>♡ Saved Characters</h3>
+    <small id="archiveCount">0 / 100</small>
+   </div>
+   <div class="btnRow">
+    <button class="secondary" id="loadRecent">Load Most Recent</button>
+    <button class="secondary" id="exportJSON">Export Archive JSON</button>
+    <button class="secondary" id="importJSON">Import Archive JSON</button>
+    <input id="importFile" type="file" accept=".json,application/json" hidden>
+   </div>
+   <div class="archiveItems" id="archiveItems"></div>
+   <p class="mini">Saved locally when browser storage is available. Back up your archive before clearing browser data or moving devices.</p>
+  </div>
+ </section>
+</div>
+
+<footer class="footer">
+ <div class="footerMark">❦</div>
+ <p>Where fantasy becomes fashion.</p>
+ <p>✦ Crafted by <strong>TisayAI</strong> ✦</p>
+ <p><a href="https://tisayai.github.io/" target="_blank" rel="noopener noreferrer">tisayai.github.io</a></p>
+ <p>Tisay's PINK Wardrobe · Medieval Gothic JRPG Fantasy Atelier</p>
+</footer>
+
+<div class="floatbar">
+ <button class="primary" id="floatGenerate">✦ Generate</button>
+ <button class="secondary" id="floatCopy">Copy Prompt</button>
+</div>
+
+<div id="toast" class="toast" hidden role="status"></div>
+<div id="copyModal" class="modal" hidden>
+ <div class="modalInner" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <h3 id="modalTitle">✧ Copy Your Creation</h3>
+  <p>Automatic clipboard access is restricted. Select the text below and use Copy on your device.</p>
+  <textarea id="fallbackText"></textarea>
+  <div class="btnRow">
+   <button class="primary" id="tryCopy">Try Copy Again</button>
+   <button class="secondary" id="selectAll">Select All</button>
+   <button class="secondary" id="closeModal">Close</button>
+  </div>
+ </div>
+</div>
+
+<script>
+"use strict";
+
+/* ========================================================
+   TISAY'S PINK WARDROBE
+   Original standalone browser-only character generator.
+   ======================================================== */
+
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const unique = a => [...new Set(a)];
+const sampleDifferent = (a,old) => {
+ const pool=a.filter(x=>x!==old);
+ return pick(pool.length?pool:a);
+};
+const escapeHTML = s => String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
+}[c]));
+const randomID=()=>Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9);
+const STORAGE="tisayPinkWardrobeArchiveV1";
+const BANNER_STORAGE="tisayPinkWardrobeBannerV1";
+const MAX_SAVES=100;
+
+/* Aesthetics are coordinated with role families.
+   They change textile language, colors and ornaments.
+   They never replace the role's clothing silhouette. */
+
+const AESTHETICS=[
+ {id:"rosewater",name:"Rosewater Royalcore",groups:["royal","court","holy"],colors:["rose quartz, ivory and champagne gold","powder blue, pearl white and soft gold","pale lilac, blush pink and silver"],fabric:"lustrous silk, fine brocade and pearl beading",detail:"rose-scroll embroidery, fine gilt edging, delicate pearl buttons",motif:"roses, lilies and heraldic petals"},
+ {id:"ouji",name:"Velvet Ouji Court",groups:["royal","court","service","performance"],colors:["black cherry, ivory and antique brass","midnight blue, cream and silver","deep plum, rose beige and pale gold"],fabric:"tailored velvet, satin facings and smooth wool",detail:"decorative cuffs, tiny bows, refined neck ruffles and ornamental buttons",motif:"crowns, miniature heraldry and fleur-de-lis"},
+ {id:"aristocrat",name:"Gothic Aristocrat",groups:["royal","court","holy","underworld","service"],colors:["sable black, wine red and old silver","black plum, ash rose and gunmetal","midnight blue, bone ivory and silver"],fabric:"black velvet, crisp linen and fine lace",detail:"architectural collars, elegant brooches, narrow embroidery and long structured layers",motif:"black roses, cathedral tracery and mourning jewels"},
+ {id:"knightcore",name:"Silver Knightcore",groups:["martial","royal","travel","holy"],colors:["steel blue, ivory and polished silver","wine red, charcoal and bright steel","forest green, pale gold and warm iron"],fabric:"fine wool, supple leather, polished steel and embroidered linen",detail:"heraldic trim, shaped armor edges, shield emblems and precise buckles",motif:"lions, swords, stars and heraldic shields"},
+ {id:"blackrose",name:"Black Rose Romance",groups:["royal","court","underworld","performance"],colors:["oxblood, black and muted gold","dusty rose, midnight black and silver","crimson, deep violet and porcelain white"],fabric:"velvet, silk satin, delicate lace and smooth leather",detail:"scalloped borders, rose brooches, lace cuffs and ornamental clasps",motif:"thorned roses, velvet ribbons and black gemstones"},
+ {id:"cathedral",name:"Ivory Cathedral Gothic",groups:["holy","royal","martial","arcane"],colors:["alabaster, tarnished gold and slate","bone white, muted violet and silver","deep indigo, cathedral gold and ivory"],fabric:"heavy silk, woven damask, cream linen and polished metal",detail:"gothic arch embroidery, ceremonial clasps and finely inset gemstones",motif:"stained glass, sacred stars and pointed arches"},
+ {id:"academia",name:"Candlelit Gothic Academia",groups:["arcane","court","town","holy"],colors:["aubergine, antique cream and bronze","ink black, burgundy and parchment","bottle green, cocoa brown and antique gold"],fabric:"fine wool, linen, embossed leather and brushed velvet",detail:"careful pleating, manuscript-inspired embroidery, fine buckles and scholar's accessories",motif:"illuminated letters, astronomy and antique keys"},
+ {id:"whimsigoth",name:"Starlit Whimsigoth",groups:["arcane","travel","town","performance"],colors:["amethyst, midnight teal and gold","plum violet, navy and lunar silver","emerald, aubergine and bronze"],fabric:"sheer overlaid silk, soft velvet and embroidered gauze",detail:"celestial stitching, jeweled clasps, flowing cuffs and moonstone ornaments",motif:"moons, constellations and alchemical stars"},
+ {id:"mori",name:"Enchanted Forest Mori",groups:["travel","town","service","arcane"],colors:["sage green, cream and warm chestnut","moss green, dusty rose and ivory","fern green, soft ochre and pearl beige"],fabric:"high-quality linen, soft wool, fine cotton and botanical embroidery",detail:"graceful layered collars, delicate embroidery, attractive ties and neat soft folds",motif:"ferns, wildflowers and woodland vines"},
+ {id:"duelist",name:"Crimson Court Duelist",groups:["martial","court","underworld","performance"],colors:["scarlet, jet black and silver","navy, white and polished gold","burgundy, charcoal and antique brass"],fabric:"tailored velvet, supple leather and fine linen",detail:"pointed cuffs, elaborate belt hardware, contrast piping and embroidered lapels",motif:"rapiers, roses and heraldic flourishes"},
+ {id:"reliquary",name:"Gilded Reliquary",groups:["holy","arcane","martial"],colors:["ivory, garnet and old gold","plum, antique silver and black","warm cream, lapis blue and brass"],fabric:"ceremonial damask, silk velvet and luminous metalwork",detail:"ornate filigree, precious chains, relic-shaped clasps and intricate woven borders",motif:"reliquaries, halos and sacred geometry"},
+ {id:"moonveil",name:"Moonveil Romantic Goth",groups:["arcane","royal","court","holy"],colors:["moonlit silver, black and lavender","midnight blue, pearl gray and lilac","deep violet, rose ash and silver"],fabric:"luminous satin, gauze overlays and soft black velvet",detail:"delicate veiling, silver beadwork, cascading trim and elegant floral stitching",motif:"crescent moons, nocturnal flowers and silver stars"},
+ {id:"scarlet",name:"Scarlet Thorn Order",groups:["martial","underworld","court"],colors:["dark crimson, black and aged steel","black, vermilion and dull gold","deep burgundy, iron gray and ivory"],fabric:"dense wool, waxed leather, matte steel and burgundy velvet",detail:"angular leatherwork, deliberate seams, sharp ceremonial trim and sculpted buckles",motif:"thorns, swords and black heraldry"},
+ {id:"merchant",name:"Gilded Merchantcore",groups:["town","court","service"],colors:["teal, copper and vanilla cream","burgundy, warm gold and jade","peacock blue, tan and antique brass"],fabric:"fine patterned wool, satin, soft leather and brocade",detail:"coin-like ornaments, decorative pockets, carefully polished buttons and tasteful borders",motif:"keys, trade emblems and botanical brocade"},
+ {id:"harvest",name:"Rose Harvest Folk",groups:["town","travel","service"],colors:["terracotta, cream and muted rose","pomegranate, caramel and ivory","cornflower blue, honey and linen white"],fabric:"crisp linen, soft wool, sturdy cotton and embroidered cloth",detail:"pretty folk embroidery, lace-edged collars and elegantly fitted waist details",motif:"wheat, garden flowers and fruit blossoms"},
+ {id:"winter",name:"Winter Court Elegance",groups:["royal","martial","travel","court"],colors:["ice blue, midnight navy and silver","winter white, pine green and pale gold","frosted lilac, charcoal and pearl"],fabric:"rich winter wool, silky lining, velvet and restrained fur edging",detail:"snowflake filigree, silver clasps and sumptuous collar construction",motif:"frost flowers, snow crystals and winter heraldry"},
+ {id:"masquerade",name:"Midnight Masquerade",groups:["royal","court","performance","underworld"],colors:["black, amethyst and gold","wine red, black and moon silver","peacock blue, deep plum and bronze"],fabric:"silk brocade, glossy satin and tailored velvet",detail:"theatrical cuffs, jeweled chains and feather-inspired embroidery",motif:"masquerade fans, harlequin diamonds and jeweled roses"},
+ {id:"starcourt",name:"Astral Court Fantasy",groups:["arcane","performance","travel","royal"],colors:["midnight cobalt, silver and soft violet","deep indigo, rose gold and cream","azure, black and starlight gold"],fabric:"iridescent silk, fine velvet and embroidered satin",detail:"celestial beadwork, tiny gilt stars and carefully layered translucent accents",motif:"astrolabes, constellations and radiant stars"},
+ {id:"shadow",name:"Raven Shadow Gothic",groups:["underworld","martial","arcane"],colors:["raven black, slate and dark silver","ink blue, charcoal and blood red","black violet, pewter and muted plum"],fabric:"matte velvet, fitted leather and dark brushed wool",detail:"razor-clean tailoring, feather-shaped clasps and subtle metallic stitching",motif:"ravens, black feathers and hidden blades"},
+ {id:"ivory",name:"Ivory Service Elegance",groups:["service","holy","court","town"],colors:["black, ivory and antique silver","rose beige, cream and muted gold","smoky blue, white and pewter"],fabric:"pressed linen, refined cotton, fine wool and subtle silk accents",detail:"spotless cuffs, decorative fastenings, restrained ribbons and beautifully matched trim",motif:"household crests, lilies and keys"}
+];
+
+/* Each role owns masculine and feminine outfit recipes.
+   This prevents random garment incompatibilities. */
+
+function role(id,label,group,m,w,hM,hW,props,scenes,accessories){
+ return {id,label,group,
+  looks:{man:m.map(parseLook),woman:w.map(parseLook)},
+  hats:{man:hM,woman:hW},
+  props,scenes,accessories};
+}
+function parseLook(s){
+ let i=s.indexOf("::");
+ return {name:s.slice(0,i),clothes:s.slice(i+2)};
+}
+
+const ROLES=[
+role("heir","Crown Heir · Prince / Princess","royal",
+["Velvet Prince::a sharply fitted brocade doublet with a shaped waist, silk shirt, narrow embroidered shoulder cape, matching tailored breeches and polished knee boots",
+ "Heraldic Heir::a velvet sleeveless surcoat over an elegant masculine tunic, gold-clasped mantle, tailored hose, ceremonial sword belt and embroidered gloves"],
+["Rosewater Princess::an off-shoulder silk court gown with a fitted embroidered bodice, graceful full skirt, jeweled girdle and delicate detachable shoulder veil",
+ "Gothic Princess::a high-waisted velvet kirtle with a sculpted sweetheart bodice, translucent bishop sleeves, layered court overskirt and intricate pearl-laced trim"],
+["slender jeweled circlet","miniature crown","velvet princely beret"],
+["pearl coronet","gem-set fillet","delicate gold hennin"],
+["royal signet ring","sealed succession decree","ceremonial sword","golden rose scepter"],
+["sunlit castle throne gallery","royal balcony above the city","grand tapestry-lined audience hall"],
+["engraved house brooch","gemstone collar chain","royal silk gloves"]),
+
+role("regent","Regent · King / Queen","royal",
+["Sovereign Mantle::a dark damask royal doublet with a broad embroidered collar, richly lined clasped mantle, formal breeches and a heavy seal-bearing belt",
+ "Iron Crown::a noble high-collared coat of velvet over a tailored tunic, brocade panels, jeweled ceremonial gorget and polished court boots"],
+["Crowned Sovereign::a magnificent fitted silk gown with structured long sleeves, embroidered stomacher, heavy court mantle and jeweled waist girdle",
+ "Winter Regent::a regal velvet court kirtle with a square neckline, elegant fitted sleeves, fur-edged mantle and embroidered gold-trimmed overskirt"],
+["royal crown","ornamental crown cap","gold circlet"],
+["jeweled crown","pearl diadem","delicate royal veil"],
+["royal orb","scepter","wax-sealed edict","ceremonial sword"],
+["throne beneath carved gothic arches","towering royal audience chamber","marble palace overlooking the capital"],
+["dynastic collar","ornate signet","antique enamel brooch"]),
+
+role("exile","Exiled Heir · Wandering Royal","royal",
+["Exile's Brocade::a travel-ready embroidered doublet, fitted riding breeches, high leather boots and a weatherproof velvet-lined half cloak bearing a faded royal crest",
+ "Disguised Crown::a slim silk-lined jerkin over a lace-neck shirt, practical aristocratic trousers, narrow sword belt and understated embroidered mantle"],
+["Hidden Princess::a tailored riding bodice over a lightweight kirtle, embroidered overskirt divided for travel, fitted gloves and a noble clasped cloak",
+ "Rose Exile::a richly colored belted medieval gown with slim sleeves, elegant front lacing, hooded silk mantle and discreet jeweled heirloom"],
+["travel chaperon","hood with gold clasp","modest princely circlet"],
+["embroidered travel hood","small jeweled fillet","soft velvet riding cap"],
+["hidden signet ring","rolled family genealogy","ancestral dagger","royal pendant"],
+["abandoned palace courtyard","moonlit mountain border road","old castle gate at dawn"],
+["forgotten house emblem","inherited ruby brooch","silver family chain"]),
+
+role("courtier","Courtier · Noble Companion","court",
+["Velvet Courtier::a finely patterned fitted cotehardie with elegant pointed sleeves, belted waist, close hose and a scalloped shoulder mantle",
+ "Gothic Dandy::an elaborate masculine silk doublet over a high-collared linen shirt, velvet sleeveless jacket, tailored breeches and embroidered gloves"],
+["Court Rose::an elegant embroidered kirtle with a fitted waist, gently draped overgown, delicate laced sleeves and a pearl-trimmed belt",
+ "Velvet Lady::a graceful high-waisted court gown with a sculpted bodice, luxurious wide neckline, flowing detachable sleeves and filigree jewelry"],
+["velvet chaperon","embroidered court cap","small noble beret"],
+["embroidered fillet","pearl hairnet","light silk veil"],
+["folding court fan","handwritten invitation","jeweled snuff-sized keepsake box","embroidered gloves"],
+["grand palace ballroom","sunlit gothic court arcade","rose garden beside a palace fountain"],
+["silk collar chain","heraldic belt clasp","gemstone brooch"]),
+
+role("ambassador","Royal Ambassador · Envoy","court",
+["Velvet Envoy::a severe but elegant brocade doublet, court sash, structured shoulder cape, fine dark breeches and a pendant diplomatic seal",
+ "Sapphire Delegate::a tailored long princely coat over a high-neck tunic, narrow embroidered cuffs, fitted trousers and polished leather boots"],
+["Pearl Envoy::a refined long-sleeved court gown with an embroidered high bodice, flowing silk overgown and delicately belted waist",
+ "Sapphire Delegate::an elegant fitted velvet riding bodice, pleated formal skirt, structured shoulder cape and matching diplomat's gloves"],
+["diplomatic flat cap","ornate chaperon","small feathered court hat"],
+["silk crespine hairnet","delicate jeweled circlet","embroidered hood"],
+["rolled treaty","silver diplomatic seal","waxed parchment scroll","engraved letter case"],
+["tall council hall with banners","moonlit embassy balcony","stained-glass diplomatic chamber"],
+["state insignia","decorated sash clasp","signet ring"]),
+
+role("duelist","Court Duelist · Sword Noble","court",
+["Crimson Duelist::a razor-fitted silk doublet with slashed decorative sleeves, open lace-neck linen shirt, tailored breeches and an ornate rapier baldric",
+ "Black Rose Swordsman::a velvet jerkin over a ruffled high-collared shirt, sculpted leather waist belt, narrow trousers and a dramatic short cloak"],
+["Scarlet Duelist::a beautifully tailored riding jacket with fitted waist, embroidered blouse, elegant split overskirt over slender breeches and a jeweled rapier belt",
+ "Rose Rapier Lady::a lace-up structured bodice, sleek high-low court skirt over fitted riding leggings, beautiful puffed sleeves and a silk capelet"],
+["feathered velvet beret","ornamental cavalier-style cap","black court hat"],
+["small feathered beret","jeweled hair ribbon","rose hair comb"],
+["ornate rapier","embroidered dueling glove","polished dagger","sealed challenge letter"],
+["moonlit dueling gallery","marble palace staircase","courtyard of a sword academy"],
+["engraved sword belt","crimson signet","ornamental gauntlet"]),
+
+role("masqueradehost","Masquerade Host · Court Entertainer","performance",
+["Midnight Host::a black velvet doublet with dramatic pointed cuffs, brocade waistcoat-like jerkin, fitted breeches and gemstone shoulder chain",
+ "Carnival Noble::a richly patterned male court suit of fitted tunic, paneled sleeves, narrow trousers, silk collar ribbon and short flared mantle"],
+["Moonlit Hostess::a luxurious fitted satin bodice with romantic neckline, elegant layered bell-shaped skirt, sheer sleeve overlays and jeweled waist ornaments",
+ "Velvet Masquerade::a dark embroidered gown with sculpted bodice, high waist, flowing silk skirt panels and a delicate black lace collar"],
+["feathered masquerade cap","ornamental black beret","jeweled half mask raised above forehead"],
+["pearl hair comb","miniature jeweled crown","delicate half mask raised above forehead"],
+["decorated masquerade mask held in hand","silver invitation","black rose","gilded fan"],
+["grand candlelit masquerade ballroom","gothic opera hall balcony","moonlit palace festival"],
+["black gem brooch","satin bow","gold mask chain"]),
+
+role("knight","Royal Knight · Chevalier","martial",
+["Rose Knight::a polished fitted steel breastplate over an embroidered gambeson, heraldic surcoat, articulated shoulder guards, sword belt and riding gauntlets",
+ "Courtly Champion::a slim engraved cuirass over dark padded armor, rich velvet shoulder mantle, fitted riding trousers and elegant plated bracers"],
+["Lady of the Rose::a delicately engraved breastplate shaped for an athletic feminine silhouette, fitted armored waist, embroidered split surcoat, elegant gauntlets and tall riding boots",
+ "Silver Dame::a tailored martial doublet beneath graceful silver shoulder armor, heraldic capelet, slim riding breeches and jeweled sword belt"],
+["open-faced heraldic sallet","knightly circlet","folded-back mail coif"],
+["small jeweled circlet","open-faced silver sallet","braided heraldic ribbon"],
+["longsword with ornate hilt","heraldic shield","silver riding gloves","ceremonial lance"],
+["sunlit castle armory","misty jousting field","great hall beneath knightly banners"],
+["heraldic brooch","engraved gorget","silver gauntlets"]),
+
+role("errant","Knight-Errant · Wandering Champion","martial",
+["Wandering Champion::a well-maintained leather-trimmed gambeson, fitted steel pauldrons, split travel surcoat, slender plated bracers and a dark riding cloak",
+ "Lone Chevalier::a graceful half-plate harness over a tailored tunic, riding breeches, polished boots and a long embroidered shoulder scarf"],
+["Wandering Dame::a fitted leather armor bodice over an embroidered gambeson, split riding skirt over practical leggings, polished steel shoulders and a flowing travel cloak",
+ "Rose Wanderer::a slim breastplate, scalloped surcoat, narrow leather sword belt, fine riding gloves and a beautifully draped mantle"],
+["open-faced steel helmet","travel hood","narrow metal circlet"],
+["braided leather hairband","folded riding hood","open-faced steel helmet"],
+["longsword","polished kite shield","small travel relic","engraved scabbard"],
+["misty stone bridge","ruined abbey at golden hour","ancient road overlooking a fortress"],
+["engraved sword pommel","silver collar clasp","heraldic sash"]),
+
+role("mercenary","Mercenary · Hired Sword","martial",
+["Blacksteel Mercenary::a sharply fitted black leather brigandine over quilted gambeson, iron shoulder plates, belted trousers and functional blade harness",
+ "Scarlet Contract::a sleeveless reinforced jerkin over fitted linen shirt, asymmetrical steel pauldron, leather forearm guards and a short military cloak"],
+["Scarlet Mercenary::a structured leather brigandine with shaped waist, practical fitted breeches, decorative armored shoulder guards and a crimson sash",
+ "Iron Rose::a tailored reinforced corslet over dark martial tunic, engraved steel bracers, plated belt and elegant high boots"],
+["leather military cap","folded-back hood","open-faced metal helm"],
+["slender leather headband","hood worn back","small military cap"],
+["sheathed longsword","paid contract scroll","ornate dagger","mercenary badge"],
+["garrison courtyard beneath banners","rain-lit stone mercenary guild","fortress gate at dusk"],
+["company badge","military belt buckle","contract medallion"]),
+
+role("captain","Guard Captain · Castle Commander","martial",
+["Royal Captain::a dark fitted military doublet beneath polished steel chest armor, embroidered command tabard, broad leather sword belt and structured mantle",
+ "Night Watch Commander::a high-collared gambeson with engraved shoulder plates, fitted trousers, dark cape and silver captain's insignia"],
+["Lady Commander::a tailored high-neck gambeson and elegantly fitted breastplate, short heraldic cape, practical breeches and decorated command belt",
+ "Silver Captain::a beautifully shaped military coat over dark armored bodice, polished gorget, riding leggings and sweeping lined cloak"],
+["open-faced captain's helm","embroidered military beret","dark watch hood"],
+["small military beret","silver hair circlet","open-faced captain's helm"],
+["captain's sword","sealed military orders","silver command baton","heraldic gauntlet"],
+["castle battlements at sunrise","royal guard headquarters","fortress strategy chamber"],
+["captain's badge","decorative gorget","engraved command buckle"]),
+
+role("squire","Squire · Knightly Apprentice","martial",
+["Young Squire::a fitted quilted arming doublet beneath a clean heraldic tabard, riding breeches, practical bracers and well-kept calf boots",
+ "Court Squire::a graceful sleeveless tunic over embroidered linen shirt, shaped padded shoulder guards, sword belt and short noble cloak"],
+["Rose Squire::a pretty but practical fitted gambeson, heraldic waist tabard, narrow riding breeches and lightweight metal bracers",
+ "Page of the Court::an elegant high-neck fitted tunic with decorative sleeve ties, split martial overskirt above leggings, riding boots and small heraldic cape"],
+["small heraldic cap","folded cloth hood","simple arming cap"],
+["narrow heraldic ribbon","small arming cap","soft folded hood"],
+["polished training sword","knight's heraldic gloves","rolled tournament banner","shield strap"],
+["courtyard sword-training ground","bright knightly stable gallery","castle practice courtyard"],
+["squire's enamel badge","leather sword hanger","heraldic pin"]),
+
+role("paladin","Paladin · Sacred Champion","holy",
+["Cathedral Paladin::a finely engraved silver breastplate over cream gambeson, white heraldic surcoat, high ceremonial gorget and gilded sword belt",
+ "Reliquary Guardian::a sculpted gold-and-steel cuirass, fitted dark under-armor, embroidered sacred mantle and white cloth tabard"],
+["Holy Dame::a gracefully fitted polished breastplate, white embroidered split surcoat, slim armored gauntlets and a jeweled sacred mantle",
+ "Silver Sanctifier::a fitted ceremonial gambeson, elegant shining pauldrons, embroidered high-neck capelet and polished plated bracers"],
+["open-faced silver helm","gold sacred circlet","ceremonial steel coronet"],
+["silver circlet","tiny ceremonial crown","open-faced jeweled sallet"],
+["blessed sword","sacred shield","gold reliquary","holy oath scroll"],
+["great cathedral sanctuary","sunlit marble chapel","sacred fortress hall"],
+["sacred order medallion","engraved gorget","reliquary chain"]),
+
+role("ranger","Ranger · Royal Huntmaster","travel",
+["Forest Huntmaster::a beautifully tailored green wool jerkin, fine linen undershirt, close hunting breeches, ornate forearm bracers and leaf-clasped mantle",
+ "King's Archer::a fitted riding tunic beneath elegant leather shoulder armor, hooded short cloak, archery gloves and richly decorated bow case"],
+["Woodland Huntress::a fitted embroidered hunting bodice, practical divided riding skirt over leggings, fine leather bracers and an elegant hooded cape",
+ "Emerald Archer::a high-collared fitted jerkin, softly pleated short overskirt over narrow breeches, beautifully laced boots and leaf-embroidered mantle"],
+["bycocket hunting hat","folded forest hood","green archer cap"],
+["feathered bycocket hat","braided green headband","embroidered forest hood"],
+["carved longbow","silver hunting horn","royal falconry glove","rolled forest map"],
+["emerald woodland overlook","royal hunting lodge","misty forest castle path"],
+["leaf-shaped clasp","embroidered quiver strap","silver stag pin"]),
+
+role("mage","Court Mage · Royal Sorcerer","arcane",
+["Velvet Archmage::a long fitted masculine mage's coat over a dark silk tunic, shaped embroidered waist panel, narrow hose, high pointed collar and jeweled spell belt",
+ "Astral Scholar::a tailored high-neck robe-coat with structured shoulders, fitted breeches beneath long split panels, embroidered sleeves and a polished grimoire chain"],
+["Astral Magistra::a fitted silk mage's gown with structured bodice, wide flowing sleeves, rich embroidered overskirt and a jeweled moonstone waist belt",
+ "Velvet Sorceress::a beautifully tailored high-neck bodice over a flowing split ceremonial skirt, elaborate bell sleeves, dark satin mantle and gemstone clasps"],
+["slim sorcerer's circlet","soft folded wizard cap","astral scholar's hood"],
+["moonstone circlet","pointed velvet witch hat","jeweled star hairpin"],
+["illuminated spellbook","crystal-tipped wand","ornate arcane staff","floating magical sigil"],
+["starlit royal observatory","cathedral sorcery library","gothic tower with celestial windows"],
+["astrolabe pendant","moonstone brooch","spell-ring chain"]),
+
+role("witch","Witch · Oracle · Seer","arcane",
+["Moon Seer::a fitted dark velvet tunic with elongated embroidered sleeves, narrow leather belt, long split ritual coat and slim tailored trousers",
+ "Thorn Warlock::a high-collared silk shirt under an ornate masculine long coat, dark waist sash, fitted hose and delicate star-patterned mantle"],
+["Velvet Witch::a flattering lace-up velvet bodice, long flowing ceremonial skirt, beautifully draped bell sleeves, jeweled waist chain and moonstone lace collar",
+ "Moon Oracle::an elegant silk kirtle with fitted embroidered waist, layered translucent shoulder shawl, long sleeves and an intricate celestial girdle"],
+["pointed dark velvet mage hat","moon circlet","embroidered hood"],
+["ornate pointed witch hat","silver moon circlet","lace star veil"],
+["crystal ball","moonstone tarot-sized cards","silver ritual dagger","bottled starlight"],
+["candlelit fortune chamber","moonlit gothic garden","ancient stone observatory"],
+["crescent necklace","jeweled sleeve chain","astrology medallion"]),
+
+role("alchemist","Alchemist · Arcane Researcher","arcane",
+["Gothic Alchemist::a tailored scholar's doublet beneath a long sleeveless work coat, high linen collar, fitted dark breeches, neatly arranged glass vial belt and ornate cuffs",
+ "Royal Chemist::a fitted velvet tunic with protective leather sleeve guards, embroidered scholar mantle, slim trousers and delicate silver instruments"],
+["Court Alchemist::a fitted high-neck blouse and graceful belted overdress with practical narrowed sleeves, tiny potion pouches, elegant apron panel and jeweled clasps",
+ "Moonlit Researcher::a tailored velvet bodice over a pleated skirt, fine embroidered long coat, small reagent belt and delicate leather gloves"],
+["scholar's flat cap","fine wire spectacles","dark velvet hood"],
+["lace scholar cap","delicate hairnet","fine wire spectacles"],
+["glowing potion vial","brass alchemical flask","engraved formula book","small astrolabe"],
+["gothic laboratory filled with glass","candlelit academy study","tower chamber of alchemical instruments"],
+["glass vial pendant","engraved reagent buckle","small gold key"]),
+
+role("spellblade","Spellblade · Arcane Swordsman","arcane",
+["Astral Blade::a fitted dark silk doublet beneath light engraved chest armor, split mage mantle, narrow tailored trousers and jewel-mounted sword harness",
+ "Runic Duelist::a sculpted leather jerkin over a high-collared spell shirt, patterned sword belt, elegant bracers and embroidered half cloak"],
+["Starblade Maiden::a beautifully fitted enchanted armor bodice with luminous metal trim, lightweight split skirt over leggings, jeweled gauntlets and embroidered mantle",
+ "Moonlit Battlemage::a tailored velvet battle tunic, shaped armored waist, slender riding breeches, silver rune sleeves and decorative sword belt"],
+["runic circlet","small armored coronet","high spell hood worn back"],
+["silver arcane circlet","jeweled hair chain","narrow armored headband"],
+["enchanted rapier","rune-inscribed longsword","silver magical focus","glowing spell crystal"],
+["ruined arcane cathedral","moonlit fortress tower","enchanted royal training court"],
+["rune buckle","enchanted collar pin","arcane chain"]),
+
+role("cleric","Cathedral Cleric · Priest / Priestess","holy",
+["Ivory Cleric::a dignified masculine clerical cassock with a fitted shoulder line, embroidered stole, silk-lined ceremonial cope and polished silver clasp",
+ "Chapel Confessor::a high-collared long tunic beneath a tailored sleeveless ecclesiastical coat, narrow sleeves, decorated prayer belt and dark mantle"],
+["Cathedral Priestess::an elegant high-neck gown with fitted bodice, delicate ecclesiastical embroidery, graceful bell sleeves, long skirt and embroidered stole",
+ "Ivory Devotee::a graceful cream kirtle beneath a richly embroidered chapel mantle, fitted sleeves, precious waist girdle and light ceremonial veil"],
+["small clerical cap","white ecclesiastical hood","gold ceremonial circlet"],
+["embroidered wimple","delicate chapel veil","gold sacred fillet"],
+["illuminated prayer book","silver incense vessel","small holy reliquary","ceremonial prayer beads"],
+["sunlit cathedral nave","quiet candlelit chapel","stained-glass sanctuary"],
+["sacred clasp","embroidered stole","silver prayer chain"]),
+
+role("inquisitor","Cathedral Inquisitor · Gothic Judge","holy",
+["Gothic Inquisitor::a severe fitted black doublet with a rigid high collar, silver-edged long mantle, embossed leather gloves and narrow formal trousers",
+ "Judgment Knight::a dark ceremonial gambeson beneath sculpted steel gorget, black embroidered tabard, elegant waist sash and engraved gauntlets"],
+["Silver Inquisitor::a fitted black high-neck coat over a richly embroidered bodice, long formal skirt, silver shoulder clasp and severe lace cuffs",
+ "Cathedral Judge::an elegantly structured dark gown with narrow sleeves, pointed embroidered collar, jeweled girdle and a dramatic mantle"],
+["black judicial chaperon","small silver circlet","dark folded hood"],
+["black lace veil","silver judicial fillet","structured dark hood"],
+["sealed court decree","silver judicial staff","ancient oath book","ceremonial dagger"],
+["gothic tribunal chamber","cathedral cloister at dusk","grand hall of judgment"],
+["silver authority chain","judicial seal","cathedral collar pin"]),
+
+role("relickeeper","Reliquary Keeper · Sacred Archivist","holy",
+["Relic Guardian::a tailored long ceremonial tunic under a jeweled sleeveless surcoat, ornate narrow collar, linen sleeves and a decorative reliquary belt",
+ "Sacred Archivist::a clean cream scholar's doublet with gold-edged long coat, carefully fitted dark hose, embroidered mantle and silver keys"],
+["Sacred Keeper::a beautifully tailored cream ceremonial gown with long embroidered sleeves, jeweled belt, delicate silk overcape and carefully arranged reliquary chains",
+ "Ivory Archivist::a graceful high-waisted kirtle beneath a gold-edged robe, fitted lace cuffs, pearl hair veil and engraved key belt"],
+["reliquary cap","gold sacred fillet","simple hood"],
+["gold thread veil","pearl circlet","embroidered wimple"],
+["small jeweled reliquary","ancient gilded book","sacred keys","glass-covered relic"],
+["gilded cathedral treasury","hidden chapel archives","stained-glass reliquary room"],
+["golden key chain","relic-shaped brooch","silver medallion"]),
+
+role("assassin","Assassin · Shadow Court Agent","underworld",
+["Raven Assassin::a fitted dark leather doublet with sculpted high collar, layered shoulder guards, narrow breeches, close forearm wraps and an elegant black half cloak",
+ "Silk Shadow::a black tailored jerkin over a fine linen shirt, narrow sword harness, engraved gloves and sleek dark boots"],
+["Velvet Assassin::a tightly tailored dark velvet bodice reinforced with subtle leather armor, fitted leggings, narrow hip drape, elegant gloves and a raven-clasped mantle",
+ "Midnight Blade::a fitted black military tunic, structured leather corslet, short split overskirt over leggings, engraved bracers and a dark hood resting behind the hair"],
+["folded-back shadow hood","black velvet cap","dark archer's bycocket"],
+["black lace hood worn back","raven hairpin","dark velvet riding cap"],
+["ornate stiletto dagger","sealed secret letter","silver throwing knife","black rose"],
+["moonlit palace rooftop","shadowy gothic corridor","castle balcony above a dark city"],
+["raven feather clasp","thin silver chain","dark engraved belt"]),
+
+role("executioner","Executioner · Royal Headsman","underworld",
+["Royal Executioner::a sharply tailored black leather jerkin over a crimson high-neck tunic, heavy clean leather gauntlets, broad ceremonial belt and long dark shoulder mantle",
+ "Masked Headsman::a fitted charcoal gambeson beneath sleeveless black surcoat, polished metal collar guards, formal leather trousers and a folded-back execution hood"],
+["Scarlet Executioner::a beautifully fitted black armored bodice over a crimson blouse, practical dark riding breeches, ceremonial skirt panels, polished leather gloves and dramatic hooded mantle",
+ "Black Tribunal::a high-neck dark velvet tunic dress with structured waist, close sleeves, fitted leggings, broad decorative belt and an elegant jet-black capelet"],
+["black execution hood folded behind the neck","severe dark leather cap","dark ceremonial hood resting back"],
+["black lace-edged execution hood folded back","narrow crimson headband","dark folded hood"],
+["polished ceremonial axe resting at side","sealed royal sentence","heavy iron key","black leather gloves"],
+["torchlit fortress tribunal","gothic castle courtyard at dusk","dark ceremonial stone hall"],
+["royal justice emblem","engraved black buckle","crimson authority sash"]),
+
+role("thief","Rogue · Master Thief","underworld",
+["Velvet Rogue::a close-fitting dark burgundy doublet, sleek leather jerkin, fitted trousers, elegant low-profile shoulder cloak and silver lockpick belt",
+ "Noble Cutpurse::a carefully tailored brocade vest over an open-collar linen shirt, dark riding breeches, knife sash and soft black gloves"],
+["Rose Rogue::a flattering fitted lace-up bodice over a soft linen blouse, slim dark breeches, short draped overskirt and pretty velvet hooded capelet",
+ "Midnight Thief::a refined black leather corslet, fitted tunic, embroidered short cloak, tall boots and delicate silver waist chain"],
+["shadow hood worn back","small black beret","travel cap"],
+["black velvet beret","small silk hood","ribboned hair comb"],
+["ornate lockpicks","stolen jeweled brooch","rolled treasure map","tiny silver dagger"],
+["moonlit city rooftops","gothic market alley at night","noble treasury corridor"],
+["small coin chain","silver key ring","ornamental pouch clasp"]),
+
+role("gravekeeper","Gravekeeper · Cemetery Warden","underworld",
+["Raven Warden::a handsome high-collared black wool coat over a fitted charcoal doublet, narrow dark trousers, clean gloves and a long hooded mantle",
+ "Crypt Guardian::a severe dark linen tunic beneath a finely fitted leather vest, silver key belt, slim leggings and black embroidered cowl"],
+["Moon Cemetery Keeper::a graceful black high-neck gown with closely fitted bodice, lace-trimmed sleeves, narrow waist belt and long elegant hooded mantle",
+ "Raven Warden::a fitted charcoal coat over a dark pleated skirt and silk blouse, neat gloves, gothic brooch and black lace capelet"],
+["dark chaperon","black folded hood","small gravewarden cap"],
+["dark lace veil","black bonnet","silver crescent hairpin"],
+["large antique cemetery key","silver lantern","small bouquet of black roses","memorial book"],
+["moonlit cemetery colonnade","gothic crypt entrance","ivy-covered chapel graveyard"],
+["raven brooch","silver key chain","mourning gemstone"]),
+
+role("merchant","Merchant · Guild Magnate","town",
+["Gilded Merchant::a rich velvet doublet with patterned standing collar, embroidered sleeveless overcoat, decorated belt pouch, tailored hose and polished boots",
+ "Silk Trader::a brocade jerkin over a cream linen shirt, fitted breeches, coin-chain clasp and elegant merchant's mantle"],
+["Pearl Merchant::a beautifully fitted brocade bodice over a silk blouse, formal pleated skirt, decorated waist pouch and elegant short velvet mantle",
+ "Guild Lady::a rich jewel-toned court kirtle with sophisticated fitted sleeves, embroidered belt, pearl jewelry and a silk-lined shoulder cape"],
+["rich velvet chaperon","embroidered merchant cap","small feathered beret"],
+["ornate velvet cap","pearl hairnet","embroidered fillet"],
+["leather ledger book","small jeweled strongbox","sealed trade contract","gold counting scales"],
+["luxurious medieval market arcade","gothic trading hall","merchant guild balcony"],
+["guild insignia","decorated coin chain","gold ring"]),
+
+role("apothecary","Apothecary · Herbal Healer","town",
+["Velvet Apothecary::a neat fitted linen doublet beneath a dark green sleeveless work coat, decorative herb pouches, rolled cuffs and tailored wool breeches",
+ "Royal Herbalist::a refined high-neck tunic with fitted vest, embroidered botanical cuffs, fine leather belt and a short clasped cloak"],
+["Garden Apothecary::a feminine fitted bodice with botanical embroidery over an elegant blouse, pleated midi-length kirtle, neat working apron panel and silver herb brooch",
+ "Rose Healer::a beautiful cream laced kirtle with a slim forest-green overdress, fitted sleeves, flower-trimmed belt and a graceful shawl"],
+["herbalist's soft cap","green chaperon","fine wire spectacles"],
+["embroidered linen bonnet","small velvet cap","floral headband"],
+["glass healing vial","herbal recipe book","small bouquet of medicinal flowers","polished mortar"],
+["gothic herbal pharmacy","sunlit monastery herb garden","candlelit healing chamber"],
+["pressed flower pendant","herbalist brooch","botanical embroidered cuff"]),
+
+role("innkeeper","Innkeeper · Tavern Proprietor","town",
+["Rosewood Innkeeper::a handsome fitted russet doublet over a spotless ivory linen shirt, decorated leather waist belt, rolled sleeves and smart dark breeches",
+ "Velvet Tavern Lord::a richly colored wool waist jerkin with soft collar, neat apron tied at hip, tailored trousers and ornamental brass buttons"],
+["Rosewood Hostess::a flattering embroidered bodice over an ivory puff-sleeve blouse, full but tidy pleated skirt, decorative apron and soft lace neckline",
+ "Velvet Tavern Lady::a fitted burgundy kirtle with short elegant sleeves, cream underblouse, embroidered waist belt and neatly layered overskirt"],
+["soft wool cap","folded chaperon","small merchant beret"],
+["embroidered linen bonnet","flowered ribbon headband","small velvet cap"],
+["ornate brass inn key","ceramic wine cup","guest ledger","polished silver serving tray"],
+["warm candlelit inn hall","gothic tavern with stained-glass windows","flowered inn courtyard"],
+["brass key ring","embroidered inn emblem","decorative apron clasp"]),
+
+role("blacksmith","Blacksmith · Royal Armorer","town",
+["Royal Armorer::a sturdy fitted dark linen shirt with rolled sleeves, clean reinforced leather apron, shaped bracers, well-made trousers and polished metalwork tools",
+ "Gilded Smith::a muscular craftsman's tunic beneath an embossed chest apron, elegant forge gloves, narrow sword belt and decorated brass fittings"],
+["Roseforge Smith::a structured fitted leather workshop bodice over a linen blouse, beautifully finished waist apron, narrow work trousers and engraved bracers",
+ "Royal Metalsmith::a tailored practical tunic with decorative steel shoulder guard, slim leather apron, fitted leggings and delicate artisan embroidery"],
+["dark smith's cap","leather headband","simple wool cap"],
+["woven hair scarf","neat leather headband","small linen cap"],
+["engraved smithing hammer","partly forged silver sword","jewel-inlaid metalwork","artisan tongs"],
+["royal forge lit by glowing embers","grand castle armory workshop","gothic smithy with arched windows"],
+["forge guild badge","hammer-shaped pendant","engraved wrist guard"]),
+
+role("tailor","Royal Tailor · Court Dressmaker","town",
+["Court Tailor::a beautifully fitted velvet jerkin over a fine silk shirt, colorful embroidery cuffs, practical breeches and an elegant leather needle case",
+ "Velvet Modiste::a masculine silk doublet with precise decorative seams, rich tailored sleeves, formal narrow hose and ornate measuring cord"],
+["Rose Dressmaker::a perfectly fitted corset-style bodice over a fine blouse, elegant full kirtle, ornamental working apron and beautiful lace cuff trims",
+ "Royal Seamstress::a sophisticated laced velvet gown with beautiful fitted waist, softly gathered sleeves and a silk ribbon measuring cord"],
+["fashionable velvet cap","small decorated beret","soft chaperon"],
+["lace hair cap","decorative rose bonnet","silk ribbon headband"],
+["jeweled embroidery scissors","silk measuring ribbon","gold needle case","embroidered fabric sample"],
+["castle couture workshop","sunlit royal dressing chamber","gothic atelier with hanging silk"],
+["gold thimble necklace","sewing guild brooch","ornamental pincushion"]),
+
+role("valet","Valet · Maid · Personal Attendant","service",
+["Velvet Valet::a pristine fitted black doublet with ivory standing collar, narrow formal breeches, perfectly pressed cuffs, refined waist sash and white gloves",
+ "Court Butler::a tailored long charcoal servant's coat over an embroidered high-neck shirt, sleek trousers, silver house brooch and neat leather shoes"],
+["Pearl Handmaid::a graceful black fitted bodice over an ivory high-collar blouse, elegant full skirt, lace-trimmed working apron and delicate ribbon cuffs",
+ "Royal Lady's Maid::a beautifully tailored rose-beige servant gown with fitted sleeves, refined waist sash, neat decorative apron and small white lace collar"],
+["household crest cap","dark velvet chaperon","plain formal cap"],
+["lace maid's headband","small embroidered coif","refined ribbon bonnet"],
+["silver serving tray","folded court gloves","ornate room key","wax-sealed invitation"],
+["luxurious royal dressing suite","stately palace hallway","candlelit noble household"],
+["silver household pin","polished service gloves","small key chain"]),
+
+role("steward","Chamberlain · House Steward","service",
+["Royal Steward::a high-neck brocade doublet under a formal long sleeveless overcoat, decorative house chain, fitted breeches and immaculate dark gloves",
+ "Grand Chamberlain::a structured dark velvet long coat with ornamental clasps, silk waist sash, narrow formal trousers and embroidered cuffs"],
+["Lady Steward::a fitted high-neck brocade gown with elegant narrow sleeves, silver house chain, beautiful embroidered belt and softly pleated skirt",
+ "Palace Chamberlain::a formal dark velvet bodice over a fine silk blouse, graceful long skirt, dignified short mantle and silver keys"],
+["formal court chaperon","small velvet cap","embroidered household hood"],
+["silk hairnet","embroidered fillet","small noble cap"],
+["ring of palace keys","household account ledger","silver command staff","sealed schedule scroll"],
+["palace administration chamber","royal hallway of portraits","grand noble dining gallery"],
+["house authority chain","ornate key clasp","silver seal"]),
+
+role("bard","Bard · Court Minstrel","performance",
+["Rose Minstrel::an elegant fitted velvet doublet with decorative slashed sleeves, narrow waist sash, silk breeches and an embroidered short cape",
+ "Moonlit Troubadour::a romantic linen poet shirt beneath a rich patterned jerkin, tailored dark trousers, velvet collar ribbon and a beautifully decorated lute strap"],
+["Rose Bard::a pretty embroidered lace-up bodice over a soft silk blouse, flowing layered kirtle skirt, delicate sleeve ribbons and a jewel-trimmed waist belt",
+ "Velvet Songstress::a fitted jewel-toned velvet gown with graceful flared sleeves, feminine square neckline, elegant waist ribbons and embroidered shoulder cape"],
+["feathered minstrel cap","velvet beret","decorative chaperon"],
+["rose hair wreath","small feathered beret","silk ribbon headband"],
+["ornately carved lute","small jeweled harp","rolled love ballad","rose-shaped hand bell"],
+["royal music chamber","castle banquet hall","moonlit bardic festival"],
+["musical note brooch","silk ribbon necklace","pearl cuff chain"]),
+
+role("pilgrim","Pilgrim · Sacred Wanderer","travel",
+["Silver Pilgrim::a well-tailored wool travel tunic beneath an elegant long split mantle, narrow leather belt, fitted breeches, riding boots and a small reliquary chain",
+ "Quiet Wanderer::a pale linen shirt beneath a structured dark travel jerkin, graceful hooded cloak, clean leather gloves and embroidered pilgrim insignia"],
+["Moon Pilgrim::a beautiful modest fitted kirtle in fine wool, flowing but practical skirt, soft mantle, elegant travel hood and delicate sacred medallion",
+ "Rose Wanderer::a high-waisted fitted silk traveling gown with narrow sleeves, decorative leather belt, soft hooded shoulder cape and clean walking shoes"],
+["pilgrim hood","broad felt traveling hat","simple linen cap"],
+["soft travel bonnet","embroidered hood","simple silver circlet"],
+["pilgrim's walking staff","small sacred pendant","antique map","illuminated travel prayer"],
+["ancient pilgrimage road","sunrise outside gothic monastery","stone bridge near sacred ruins"],
+["sacred travel badge","small reliquary","embroidered travel clasp"]),
+
+role("cartographer","Cartographer · Castle Explorer","travel",
+["Royal Cartographer::a fitted scholarly doublet beneath a sleeveless exploration coat, fine linen shirt, narrow riding breeches and a leather map case",
+ "Star Surveyor::a tailored dark velvet jerkin, soft travel mantle, slim trousers, embroidered cuff details and ornate silver measuring instruments"],
+["Rose Cartographer::a beautiful tailored riding bodice over cream blouse, slim adventure breeches, refined short overskirt and a wide decorative map belt",
+ "Moon Surveyor::a neat high-neck tunic dress with fitted waist, long traveling jacket, embroidered sleeves, slim leggings and fine silver accessories"],
+["scholar's traveling cap","flat velvet beret","feathered bycocket hat"],
+["small explorer beret","woven hair scarf","soft travel hood"],
+["rolled illuminated map","brass compass","small astrolabe","engraved ruler"],
+["castle mapmaking tower","windy coastal citadel","gothic observatory library"],
+["compass pendant","silver surveyor clasp","ornate map case"])
+];
+
+const SKINS=["porcelain fair","warm ivory","fair rosy","light olive","golden beige","warm tan","honey brown","bronze brown","rich caramel brown","deep umber","deep ebony"];
+const HAIRS=["raven black","soft black","blue-black","dark chocolate brown","chestnut brown","warm auburn","copper red","strawberry blonde","golden blonde","ash blonde","platinum blonde","silver white","ash gray","rose pink","dusty lavender","midnight blue","wine burgundy","dark emerald green"];
+const EYES=["deep brown","warm amber","honey gold","emerald green","jade green","sapphire blue","ice blue","steel gray","silver gray","violet","amethyst purple","rose pink","crimson red","teal"];
+const HAIRSTYLES={
+ man:["long straight hair tied in a low ribbon","shoulder-length layered hair","sleek center-parted dark waves","long hair braided over one shoulder","neatly swept-back court hair","long smooth hair with a narrow side braid","short elegant swept fringe","medium-length feathered hair","sleek chin-length bob","long hair in a high warrior ponytail","short wavy nobleman's hairstyle","long silky hair with face-framing strands"],
+ woman:["long flowing hair with romantic curls","elegant braided crown","long straight hair with blunt bangs","high braided ponytail","soft shoulder-length waves","long hair in a half-up royal hairstyle","sleek glossy bob","intricate medieval double braids","long curled sidelocks with jeweled pins","high braided bun with face-framing strands","waist-length silky hair","short chic pixie cut","loose low chignon with decorative pins"]
+};
+const EXPRESSIONS=["gentle confident smile","cool aristocratic gaze","warm inviting smile","mischievous charming grin","solemn noble expression","soft wistful gaze","fierce determined expression","enigmatic faint smile","romantically intense gaze","quiet scholarly concentration","playful knowing smile","regal composed expression"];
+const POSES=["looking directly at the viewer while delicately touching the collar","one hand resting against an embroidered chest brooch","turning three-quarters toward the viewer with a graceful shoulder angle","holding the role-specific prop near the upper body","one hand lightly lifting the edge of the mantle","adjusting a decorative glove while gazing at the viewer","one hand loosely against the waist belt","fingers gently touching a jeweled necklace","looking back over the shoulder with a poised expression","presenting a small character-specific object with an elegant hand gesture","resting a gloved hand near the heart","lightly holding a silk ribbon or cape clasp"];
+const LIGHTS=["soft luminous golden-hour light with subtle cool rim light","candlelit amber glow and refined shadow shaping","moonlit blue light with delicate silver highlights","soft stained-glass illumination across the face and collar","dramatic but gentle chiaroscuro with warm reflective accents","diffused rosy daylight and soft fabric highlights","cool twilight with warm lantern accents","misty morning light and delicate dimensional shading"];
+const ARTS=[
+ ["Polished JRPG anime illustration","polished Japanese fantasy character illustration, clean refined linework, rich anime coloring, beautifully dimensional fabric and elegant character design"],
+ ["Detailed anime coloring","high-end anime coloring with smooth cel-shading transitions, expressive faces, sharp costume detail and jewel-toned highlights"],
+ ["Anime pencil sketch","delicate Japanese anime pencil sketch, fine graphite linework, elegant hatching, selective blush washes and finely studied costume construction"],
+ ["Elegant anime lineart","precise fine anime ink lineart, expressive varied line weight, intricate clothing contours and restrained translucent color accents"],
+ ["Colored manga illustration","beautifully inked manga character illustration with refined color fills, elegant line control, expressive eyes and sophisticated costume shading"],
+ ["Korean 2.5D anime illustration","polished 2.5D Korean anime character illustration, delicate lines, semi-realistic facial rendering, luminous hair and premium fashion-character finish"],
+ ["Dark gothic JRPG painting","richly painted gothic Japanese fantasy illustration with refined faces, intricate armor and textiles, atmospheric depth and romantic dramatic light"],
+ ["Watercolor fantasy anime","delicate anime watercolor painting with controlled ink outlines, graceful pigment blooms and luminous romantic costume colors"],
+ ["Anime concept key visual","premium JRPG character concept key visual with crisp linework, refined material studies, attractive facial proportions and elaborate fashion detailing"],
+ ["Soft storybook anime","luxurious medieval fantasy anime storybook art, elegant pencil-like edges, delicate painterly color and refined decorative textile rendering"],
+ ["Gothic monochrome manga","elegant black-and-white manga inking, fine cross-hatching, luminous white highlights and detailed gothic fabric textures"]
+];
+const ART_MAP=Object.fromEntries(ARTS);
+const FOCUS={
+ auto:"a balanced, intentional silhouette with one memorable couture focal point",
+ tailoring:"strong fitted waist construction, deliberate seams, shaped panels and beautifully balanced proportions",
+ collar:"a spectacular but coherent neckline, high collar, jabot or embroidered collar structure appropriate to the outfit",
+ sleeves:"ornate sleeve construction, elegant cuffs, pointed medieval tailoring and exquisite trim",
+ armor:"refined sculpted armor workmanship integrated naturally with the character's actual occupation",
+ jewels:"carefully coordinated brooches, rings, small chains, jewels and ornamental fastenings",
+ headwear:"beautiful role-appropriate headwear, hair ornaments and matching upper-body couture",
+ layers:"harmonious layering of mantles, capelets, surcoats and finely lined fabrics",
+ embroidery:"close attention to period-inspired embroidery, woven motifs, ornamental edging and textile craftsmanship"
+};
+const MOODS={
+ romantic:"romantic, alluring and graceful",
+ regal:"regal, imposing and poised",
+ innocent:"soft, refined and tender",
+ dangerous:"darkly seductive and formidable",
+ mysterious:"mysterious, poetic and ethereal",
+ heroic:"heroic, gallant and distinguished",
+ playful:"charming, witty and playful",
+ solemn:"solemn, ceremonial and restrained"
+};
+const PRESETS=[
+ ["✦ Crowned Prince","Velvet royal heir","heir","man","ouji"],
+ ["❀ Rose Princess","Romantic high court","heir","woman","rosewater"],
+ ["⚔ Silver Knight","Heraldic chevalier","knight","man","knightcore"],
+ ["☾ Moon Oracle","Starlit sorceress","witch","woman","moonveil"],
+ ["♜ Gothic Regent","Dark royal glamour","regent","man","aristocrat"],
+ ["✧ Rose Duelist","Noble sword heroine","duelist","woman","duelist"],
+ ["♠ Raven Assassin","Elegant dark agent","assassin","man","shadow"],
+ ["♡ Velvet Maid","Charming court service","valet","woman","ivory"],
+ ["✠ Ivory Paladin","Sacred knightly beauty","paladin","woman","cathedral"],
+ ["❦ Court Bard","Beautiful minstrel","bard","man","blackrose"],
+ ["✧ Witch's Atelier","Arcane fashion","mage","woman","whimsigoth"],
+ ["⚒ Royal Armorer","Handsome artisan","blacksmith","man","merchant"],
+ ["♠ Scarlet Headsman","Gothic executioner","executioner","man","scarlet"],
+ ["✿ Forest Huntress","Folk fantasy archer","ranger","woman","mori"],
+ ["✦ Moonlit Courtier","Gothic noble beauty","courtier","man","aristocrat"],
+ ["☽ Graveyard Rose","Romantic dark commoner","gravekeeper","woman","blackrose"]
+];
+
+/* === Local state === */
+let current=null;
+let variants=[];
+let locks=new Set();
+let archive=[];
+let lastCopyText="";
+let toastTimer=null;
+
+function safeGet(k){try{return localStorage.getItem(k)}catch{return null}}
+function safeSet(k,v){try{localStorage.setItem(k,v);return true}catch{return false}}
+function choose(key,options,changed,prior,seedValue=null){
+ const el=$(key);
+ const manual=el ? el.value : "auto";
+ if(manual && manual!=="auto" && options.includes(manual))return manual;
+ if(prior && prior[key]!==undefined && options.includes(prior[key])){
+  if(locks.has(key)||!changed)return prior[key];
+ }
+ if(seedValue && options.includes(seedValue))return seedValue;
+ return sampleDifferent(options,changed && prior?prior[key]:undefined);
+}
+function valueOrAuto(id){return $(id)?.value||"auto"}
+function makeSelect(id,items,first,selected="auto"){
+ const el=$(id);
+ el.innerHTML="";
+ const opt=new Option(first,"auto");
+ el.add(opt);
+ for(const item of items){
+  const text=Array.isArray(item)?item[0]:item;
+  const val=Array.isArray(item)?item[1]:item;
+  el.add(new Option(text,val));
+ }
+ if([...el.options].some(o=>o.value===selected))el.value=selected;
+}
+function roleBy(id){return ROLES.find(r=>r.id===id)}
+function styleBy(id){return AESTHETICS.find(s=>s.id===id)}
+function allowedStyles(r){return AESTHETICS.filter(a=>a.groups.includes(r.group))}
+function makeRoleOptions(){
+ makeSelect("role",ROLES.map(r=>[r.label,r.id]),"Surprise me · any medieval role");
+}
+function refreshStyleOptions(){
+ const r=roleBy(valueOrAuto("role"));
+ const styles=r?allowedStyles(r):AESTHETICS;
+ const old=valueOrAuto("style");
+ makeSelect("style",styles.map(s=>[s.name,s.id]),"Curated aesthetic for this role",old);
+}
+function refreshOutfitOptions(){
+ const r=roleBy(valueOrAuto("role"));
+ const gender=valueOrAuto("gender");
+ const previous=valueOrAuto("look");
+ let items=[];
+ if(r){
+  if(gender==="auto"){
+   items=r.looks.man.map((look,i)=>[
+    "Set "+(i+1)+" · "+look.name+" / "+r.looks.woman[i].name,String(i)
+   ]);
+  }else{
+   items=r.looks[gender].map((look,i)=>[
+    "Set "+(i+1)+" · "+look.name,String(i)
+   ]);
+  }
+ }
+ makeSelect("look",items,"Surprise me · coordinated role outfit",previous);
+}
+function refreshRoleItems(){
+ const r=roleBy(valueOrAuto("role"));
+ const gender=valueOrAuto("gender");
+ const oldH=valueOrAuto("headwear");
+ const oldP=valueOrAuto("prop");
+ const oldS=valueOrAuto("scene");
+ let hats=[];
+ if(r){
+  hats=gender==="auto"?
+   unique([...r.hats.man,...r.hats.woman]):
+   r.hats[gender];
+ }
+ makeSelect("headwear",[["Bareheaded · show hairstyle","bareheaded"],...hats.map(h=>[h,h])],"Curated for role",oldH);
+ makeSelect("prop",r?r.props:[],"Curated for role",oldP);
+ makeSelect("scene",r?r.scenes:[],"Role-specific location",oldS);
+ refreshOutfitOptions();
+}
+function initOptions(){
+ makeRoleOptions();
+ makeSelect("skin",SKINS,"Surprise me");
+ makeSelect("hair",HAIRS,"Surprise me");
+ makeSelect("hairstyle",unique([...HAIRSTYLES.man,...HAIRSTYLES.woman]),"Surprise me");
+ makeSelect("eyes",EYES,"Surprise me");
+ makeSelect("expression",EXPRESSIONS,"Surprise me");
+ makeSelect("pose",POSES,"Portrait gesture · surprise me");
+ makeSelect("lighting",LIGHTS,"Cinematic lighting · surprise me");
+ makeSelect("art",ARTS.map(x=>[x[0],x[0]]),"Polished anime style · surprise me");
+ refreshStyleOptions();
+ refreshRoleItems();
+ const presets=$("presets");
+ PRESETS.forEach((p,i)=>{
+  let b=document.createElement("button");
+  b.type="button";b.className="preset";
+  b.innerHTML="<b>"+escapeHTML(p[0])+"</b><small>"+escapeHTML(p[1])+"</small>";
+  b.addEventListener("click",()=>usePreset(i));
+  presets.appendChild(b);
+ });
+ for(const b of document.querySelectorAll(".pin")){
+  b.type="button";
+  b.addEventListener("click",()=>{
+   const k=b.dataset.pin;
+   if(locks.has(k))locks.delete(k);else{
+    if(!current){
+     locks.add(k);
+    }else{
+     locks.add(k);
+    }
+   }
+   redrawLocks();
+  });
+ }
+ $("role").addEventListener("change",()=>{
+  refreshStyleOptions();refreshRoleItems();
+ });
+ $("gender").addEventListener("change",refreshRoleItems);
+}
+function redrawLocks(){
+ document.querySelectorAll(".pin").forEach(b=>{
+  let active=locks.has(b.dataset.pin);
+  b.classList.toggle("active",active);
+  b.textContent=active?"◆":"◇";
+  b.setAttribute("aria-pressed",String(active));
+  b.title=active?"Unlock this trait":"Lock this trait";
+ });
+}
+function usePreset(i){
+ const p=PRESETS[i];
+ $("role").value=p[2];$("gender").value=p[3];
+ refreshStyleOptions();refreshRoleItems();
+ $("style").value=p[4];
+ build("all");
+ notify(p[0]+" summoned.");
+ location.hash="prompt";
+}
+
+/* Interpret familiar seedwords, but only for Auto fields. */
+const ALIASES={
+ heir:["prince","princess","crown prince","crown princess","royal heir"],
+ regent:["king","queen","regent","monarch"],
+ exile:["exiled prince","exiled princess","runaway prince","runaway princess","exiled heir"],
+ courtier:["courtier","noble companion","lady-in-waiting","aristocrat"],
+ ambassador:["ambassador","envoy","diplomat"],
+ duelist:["duelist","fencer","swordsman","swordswoman"],
+ masqueradehost:["masquerade host","ball host"],
+ knight:["knight","chevalier","dame knight"],
+ errant:["knight-errant","wandering knight"],
+ mercenary:["mercenary","hired sword"],
+ captain:["captain","commander"],
+ squire:["squire","page"],
+ paladin:["paladin","holy knight"],
+ ranger:["ranger","huntress","hunter","archer"],
+ mage:["mage","wizard","sorcerer","sorceress"],
+ witch:["witch","oracle","seer","warlock"],
+ alchemist:["alchemist","chemist"],
+ spellblade:["spellblade","magic swordsman","battlemage"],
+ cleric:["cleric","priest","priestess"],
+ inquisitor:["inquisitor","judge"],
+ relickeeper:["relic keeper","reliquary keeper","sacred archivist"],
+ assassin:["assassin","hitman"],
+ executioner:["executioner","headsman"],
+ thief:["thief","rogue","pickpocket"],
+ gravekeeper:["gravekeeper","cemetery keeper","gravedigger"],
+ merchant:["merchant","trader","guildmaster"],
+ apothecary:["apothecary","herbalist","healer"],
+ innkeeper:["innkeeper","tavernkeeper"],
+ blacksmith:["blacksmith","armorer","weaponsmith"],
+ tailor:["tailor","seamstress","dressmaker"],
+ valet:["valet","maid","butler","handmaid","servant"],
+ steward:["steward","chamberlain","housekeeper"],
+ bard:["bard","minstrel","musician","troubadour"],
+ pilgrim:["pilgrim","wanderer"],
+ cartographer:["cartographer","mapmaker","explorer"]
+};
+function seeds(){
+ const s=($("seed").value+" "+$("must").value).toLowerCase();
+ const findAlias=(str,term)=>{
+  const esc=term.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return new RegExp("(^|[^a-z])"+esc+"([^a-z]|$)").test(str);
+ };
+ let r=null,style=null,hair=null,eyes=null,gender=null;
+ const matches=[];
+ for(const [id,aliases] of Object.entries(ALIASES))
+  for(const a of aliases)
+   if(findAlias(s,a))matches.push([a.length,id]);
+ if(matches.length)r=matches.sort((a,b)=>b[0]-a[0])[0][1];
+ for(const a of AESTHETICS){
+  const tokens=[a.name.toLowerCase(),a.name.toLowerCase().split(" ")[0]];
+  if(tokens.some(t=>t.length>3 && findAlias(s,t)))style=a.id;
+ }
+ const colors=[...HAIRS].sort((a,b)=>b.length-a.length);
+ for(const h of colors)
+  if(s.includes(h+" hair")){hair=h;break}
+ for(const e of [...EYES].sort((a,b)=>b.length-a.length))
+  if(s.includes(e+" eyes")){eyes=e;break}
+ if(/\b(princess|woman|female|lady|maiden)\b/.test(s))gender="woman";
+ if(/\b(prince|man|male|gentleman|lord)\b/.test(s))gender="man";
+ return {role:r,style,hair,eyes,gender};
+}
+function changeKeys(mode){
+ const sets={
+  all:["gender","role","style","age","build","skin","hair","hairstyle","eyes","expression","look","headwear","prop","accessory","palette","ornament","pose","scene","lighting","frame","art","flourish"],
+  outfit:["look","headwear","accessory","ornament","flourish"],
+  palette:["palette","ornament","flourish"],
+  scene:["scene","lighting"],
+  pose:["pose","prop"],
+  face:["skin","hair","hairstyle","eyes","expression"],
+  variation:["look","headwear","prop","accessory","palette","ornament","pose","scene","lighting","flourish"]
+ };
+ return new Set(sets[mode]||sets.all);
+}
+function compose(mode="all",prior=current){
+ const change=changeKeys(mode);
+ const roll=k=>!prior||change.has(k);
+ const seed=seeds();
+
+ let gender=choose("gender",["man","woman"],roll("gender"),prior,seed.gender);
+ const requestedStyle=valueOrAuto("style");
+ const eligibleRoles=requestedStyle==="auto"?
+  ROLES:ROLES.filter(r=>allowedStyles(r).some(a=>a.id===requestedStyle));
+ let roleID=choose("role",eligibleRoles.map(r=>r.id),roll("role"),prior,seed.role);
+ const r=roleBy(roleID);
+ const validStyles=allowedStyles(r);
+ let styleID=choose("style",validStyles.map(a=>a.id),roll("style")||roleID!==prior?.role,prior,seed.style);
+ const a=styleBy(styleID);
+
+ let age=choose("age",["22–26 years old","27–32 years old","33–39 years old","40–49 years old"],roll("age"),prior);
+ let build=choose("build",["slender","athletic","soft","curvy","muscular","broad"],roll("build"),prior);
+ if(valueOrAuto("build")==="auto" && (!prior||roll("build"))){
+  build=pick(gender==="woman"?
+   ["slender","slender","soft","curvy","athletic"]:
+   ["slender","slender","athletic","athletic","muscular","broad"]);
+ }
+
+ const roleChanged=!prior || prior.role!==roleID || prior.gender!==gender;
+ const look=choose("look",["0","1"],roll("look")||roleChanged,roleChanged?null:prior);
+ const skins=SKINS;
+ let skin=choose("skin",skins,roll("skin"),prior);
+ let hair=choose("hair",HAIRS,roll("hair"),prior,seed.hair);
+ const hairOptions=HAIRSTYLES[gender];
+ let hairstyle=choose("hairstyle",hairOptions,roll("hairstyle")||roleChanged,prior);
+ let eyes=choose("eyes",EYES,roll("eyes"),prior,seed.eyes);
+ let expression=choose("expression",EXPRESSIONS,roll("expression"),prior);
+ let frame=choose("frame",["half-body","half-body","half-body","waist-up","chest-up","face close-up","three-quarter"],roll("frame"),prior);
+ let art=choose("art",ARTS.map(v=>v[0]),roll("art"),prior);
+
+ let hats=[...r.hats[gender],"bareheaded","bareheaded"];
+ let headwear=choose("headwear",hats,roll("headwear")||roleChanged,roleChanged?null:prior);
+ let prop=choose("prop",r.props,roll("prop")||roleChanged,roleChanged?null:prior);
+ let scene=choose("scene",r.scenes,roll("scene")||roleChanged,roleChanged?null:prior);
+ let accessory=choose("accessory",r.accessories,roll("accessory")||roleChanged,roleChanged?null:prior);
+ let pose=choose("pose",POSES,roll("pose"),prior);
+ let lighting=choose("lighting",LIGHTS,roll("lighting"),prior);
+ let palette=choose("palette",a.colors,roll("palette")||prior?.style!==styleID,prior?.style===styleID?prior:null);
+ let ornament=choose("ornament",[
+  "delicate piped seams and miniature gem clasps",
+  "elaborate embroidered collar edging and beautiful cuff finishing",
+  "a striking jeweled fastening and a narrow patterned belt",
+  "intricate silk appliqué and ornamental sleeve trim",
+  "sculpted metal filigree and polished decorative buttons",
+  "carefully arranged velvet ribbons and tailored fabric folds",
+  "an elegant brooch with a complementary pendant chain"
+ ],roll("ornament"),prior);
+ let flourish=choose("flourish",[
+  "a small precious jewel serves as the main upper-body focal point",
+  "a distinctive high collar frames the face and neckline",
+  "the garment's fitted waist and shoulder construction define the silhouette",
+  "a richly embroidered mantle gives the costume a memorable outline",
+  "an elegant accessory creates a clear storytelling focal point",
+  "contrasting fabric textures emphasize refined garment construction",
+  "precise metallic edging provides a striking couture finish"
+ ],roll("flourish"),prior);
+
+ const result={
+  gender,role:roleID,style:styleID,age,build,skin,hair,
+  hairstyle,eyes,expression,look,headwear,prop,scene,
+  accessory,pose,lighting,palette,ornament,flourish,frame,art
+ };
+ return result;
+}
+
+/* === Prompt construction === */
+function fitDescription(c){
+ if(c.gender==="woman"){
+  const map={
+   slender:"petite and slender with delicate, elegant proportions",
+   soft:"petite with softly graceful feminine proportions",
+   curvy:"petite with a shapely, feminine silhouette",
+   athletic:"petite and athletic with a refined heroine's physique",
+   muscular:"petite and strong with defined athletic musculature",
+   broad:"petite and sturdily built with confident posture"
+  };
+  return "a beautiful adult human woman, "+map[c.build]+", refined bishoujo JRPG facial features";
+ }
+ const map={
+  slender:"tall, lean and elegantly sculpted",
+  athletic:"tall, athletic and beautifully proportioned",
+  soft:"tall and gracefully slim with a gentle silhouette",
+  curvy:"tall with a softly defined masculine build",
+  muscular:"tall, strongly muscled and strikingly athletic",
+  broad:"tall, broad-shouldered and powerfully built"
+ };
+ return "a handsome adult human man, "+map[c.build]+", attractive bishounen JRPG facial features";
+}
+function frameDescription(frame){
+ return ({
+  "face close-up":"an intimate face close-up portrait showing the full hairstyle, face, exquisite collar, shoulders and visible upper-chest costume details",
+  "chest-up":"a close chest-up portrait emphasizing the face, elaborate neckline, shoulders and upper-body fashion",
+  "waist-up":"an elegant close waist-up portrait showing the face, detailed bodice or doublet, hands and waist accessories",
+  "half-body":"a close-up half-body fashion portrait from the upper thighs or waist upward, with the face, upper-body garments, hands and costume detailing beautifully visible",
+  "three-quarter":"a three-quarter-length fashion portrait balancing an expressive face with the outfit's silhouette and elaborate clothing"
+ })[frame];
+}
+function modernDetail(v,c){
+ if(v==="none")return "";
+ if(v==="spectacles")return "Include a subtle pair of fine wire spectacles integrated into the medieval fantasy styling.";
+ if(v==="tie")return "Include a narrow silk necktie, styled as an understated fantasy court accessory.";
+ if(v==="ribbon")return "Include an elegant medieval court ribbon tie at the collar.";
+ if(v==="auto"){
+  const r=roleBy(c.role);
+  if(["arcane","court","town","service"].includes(r.group)&&Math.random()<.1)
+   return "A delicate pair of fine wire spectacles adds a restrained scholarly accent.";
+ }
+ return "";
+}
+function moodOf(c){
+ const chosen=valueOrAuto("mood");
+ if(chosen!=="auto")return MOODS[chosen];
+ const group=roleBy(c.role).group;
+ return ({
+  royal:"regal, romantic and distinguished",
+  court:"charismatic and fashionable",
+  martial:"heroic, captivating and strong",
+  arcane:"mysterious, elegant and magical",
+  holy:"serene, noble and luminous",
+  underworld:"dangerous, captivating and composed",
+  town:"charming, attractive and personable",
+  service:"refined, elegant and attentive",
+  performance:"charming, theatrical and romantic",
+  travel:"adventurous, beautiful and poetic"
+ })[group];
+}
+function roleName(c){
+ const r=roleBy(c.role);
+ const special={
+  heir:["Prince","Princess"],regent:["King","Queen"],
+  exile:["Exiled Prince","Exiled Princess"],
+  knight:["Knight","Dame Knight"],
+  duelist:["Court Swordsman","Court Swordswoman"],
+  mage:["Court Sorcerer","Court Sorceress"],
+  witch:["Warlock","Witch"],
+  cleric:["Priest","Priestess"],
+  ranger:["Ranger","Huntress"],
+  valet:["Valet","Handmaid"],
+  bard:["Minstrel","Songstress"],
+  steward:["Chamberlain","House Steward"]
+ };
+ if(special[c.role])return special[c.role][c.gender==="man"?0:1];
+ return r.label.split(" · ")[0];
+}
+function designation(c){
+ return $("designation").value.trim()||
+  (styleBy(c.style).name+" · "+roleName(c));
+}
+function garmentName(c){
+ return roleBy(c.role).looks[c.gender][Number(c.look)].name;
+}
+function customTail(){
+ return {
+  wardrobe:$("wardrobeNote").value.trim(),
+  must:$("must").value.trim(),
+  story:$("seed").value.trim(),
+  scene:$("sceneCustom").value.trim(),
+  palette:$("paletteCustom").value.trim()
+ };
+}
+function makePrompt(c){
+ const r=roleBy(c.role),a=styleBy(c.style);
+ const outfit=r.looks[c.gender][Number(c.look)];
+ const x=customTail();
+ const density=valueOrAuto("density");
+ const ratio=valueOrAuto("ratio");
+ const palette=x.palette||c.palette;
+ const modern=modernDetail(valueOrAuto("modern"),c);
+ const head=c.headwear==="bareheaded"?
+  "Hair fully visible, styled to frame the face beautifully":c.headwear;
+ const focus=FOCUS[valueOrAuto("focus")];
+ const name=designation(c);
+ const pose=c.pose+", naturally interacting with "+c.prop;
+ const scene=x.scene||c.scene;
+ const lighting=c.lighting;
+
+ const paragraphs=[
+  `${ART_MAP[c.art]}. Original medieval gothic high-fantasy JRPG character design. ${frameDescription(c.frame)}. A premium character fashion portrait with an expressive attractive face and a carefully coordinated, memorable outfit.`,
+
+  `${name}. ${fitDescription(c)}, ${c.age}, ${c.skin} skin, ${c.hair} hair styled as ${c.hairstyle}, ${c.eyes} eyes and a ${c.expression}. The character's appearance is ${moodOf(c)}. Human anatomy, natural ears, beautiful hands and elegant fashion-model posing.`,
+
+  `WARDROBE — ${outfit.name}: ${outfit.clothes}. This is a complete, coherent costume appropriate to the character's position as ${roleName(c)}. Preserve the character's ${c.gender==="man"?"tailored masculine menswear or masculine role-specific armor/robes":"feminine couture or beautifully tailored feminine role-specific armor"} silhouette. Flattering construction, excellent garment fit and a sophisticated medieval-fantasy design language.`,
+
+  `FASHION IDENTITY — ${a.name}, reinterpreted as authentic-feeling medieval gothic fantasy. Color story: ${palette}. Textiles: ${a.fabric}. Signature embellishment: ${a.detail}. Decorative motifs: ${a.motif}. A coordinated ${c.accessory}; ${c.ornament}. ${focus}. ${c.flourish}.`,
+
+  `HEADWEAR & DETAILS — ${head}. Beautifully detailed hair, carefully rendered collar and neckline, distinct fabric edges, fine fastenings and expressive facial details. ${modern}`,
+
+  `POSE & CHARACTER PROP — ${pose}. Natural graceful fingers, intentional hand-to-prop interaction, flattering three-quarter facial perspective and expressive posture.`,
+
+  `ENVIRONMENT — ${scene}. ${lighting}. Medieval gothic architecture and atmospheric high-fantasy storytelling, with the character visually dominant and the setting softly receding into depth.`,
+
+  `ILLUSTRATION FINISH — elegant facial beauty, detailed eyes and hair strands, crisp costume seams, premium fashion illustration design, carefully painted velvet, silk, wool, lace, leather and metal, cinematic depth, balanced ornate details, polished contemporary JRPG character artwork. Canvas composition guidance: ${ratio}.`
+ ];
+
+ if(density==="exploratory"){
+  paragraphs.splice(4,1);
+  paragraphs[7]=`ART FINISH — polished anime character illustration, elegant linework, richly detailed costume, attractive face, soft cinematic lighting and coherent fantasy fashion. ${ratio} composition guidance.`;
+ }
+ if(density==="detailed"||density==="couture"){
+  paragraphs.push(`COSTUME CRAFT — carefully distinguish base layer, fitted mid-layer, outer layer, fastening points, collar construction, sleeve structure, waist placement and the material finish of each decorative piece. Fine stitching, embroidered edges, shaped folds, polished clasps and well-matched accessories provide rich but readable detail.`);
+ }
+ if(density==="couture"){
+  paragraphs.push(`ART DIRECTOR'S COUTURE NOTES — fashion-editorial hierarchy: the character's face first, then the silhouette-defining garment, then one spectacular couture detail, followed by smaller jewelry and props. A unified visual identity across embroidery, metal finishes and palette. Luxurious JRPG character key-visual quality with subtle atmospheric depth and immaculate costume craftsmanship.`);
+ }
+ if(x.wardrobe)paragraphs.splice(3,0,"CUSTOM CLOTHING PRIORITY — "+x.wardrobe+". Integrate these specified pieces directly into the coordinated outfit.");
+ if(x.must)paragraphs.splice(2,0,"ESSENTIAL CHARACTER DETAILS — "+x.must+". These explicit visual details take priority.");
+ if(x.story)paragraphs.push("CHARACTER STORY & MOTIFS — "+x.story+". Express the story through the character's appearance, outfit and overall mood while preserving the manually selected visual identity.");
+
+ return paragraphs.filter(Boolean).join("\n\n").trim();
+}
+function updateConcept(c){
+ const r=roleBy(c.role),a=styleBy(c.style);
+ const look=r.looks[c.gender][Number(c.look)];
+ $("conceptTitle").textContent=designation(c);
+ $("conceptBody").textContent=roleName(c)+" · "+(c.gender==="man"?"Tall bishounen":"Petite bishoujo")+" · "+a.name;
+ $("conceptOutfit").textContent=look.name+": "+look.clothes+". Palette: "+($("paletteCustom").value.trim()||c.palette)+".";
+ $("conceptChips").innerHTML="";
+ [look.name,a.name,c.art,c.frame,c.headwear==="bareheaded"?"Uncovered hair":c.headwear].forEach(t=>{
+  let s=document.createElement("span");
+  s.className="chip";s.textContent=t;
+  $("conceptChips").appendChild(s);
+ });
+}
+function wordCount(){
+ const s=$("promptBox").value.trim();
+ $("wordCount").textContent=(s?s.split(/\s+/).length:0)+" words";
+}
+function display(c){
+ current=c;
+ $("promptBox").value=makePrompt(c);
+ wordCount();updateConcept(c);
+ $("status").textContent="✦ "+designation(c)+" has been dressed. Your finished prompt is ready to copy.";
+}
+function build(mode="all"){
+ const c=compose(mode);
+ display(c);
+ $("variants").hidden=true;
+ variants=[];
+ return c;
+}
+function ensureCurrent(){
+ if(!current)build("all");
+ return current;
+}
+function createVariations(){
+ ensureCurrent();
+ variants=[];
+ const base=current;
+ for(let i=0;i<3;i++){
+  const c=compose("variation",base);
+  const text=makePrompt(c);
+  variants.push({character:c,prompt:text});
+ }
+ const root=$("variants");
+ root.innerHTML="";
+ variants.forEach((v,i)=>{
+  let box=document.createElement("div");
+  box.className="variant";
+  let title=document.createElement("h4");
+  title.textContent="Look "+String(i+1).padStart(2,"0")+" · "+garmentName(v.character);
+  let p=document.createElement("p");
+  p.textContent=v.character.palette+" · "+v.character.headwear;
+  let copy=document.createElement("button");
+  copy.className="secondary";copy.textContent="Copy This Look";
+  copy.addEventListener("click",()=>copyText(v.prompt));
+  let load=document.createElement("button");
+  load.className="tiny";load.style.marginTop="8px";
+  load.style.width="100%";load.textContent="Use as Main Prompt";
+  load.addEventListener("click",()=>{
+   display(v.character);
+   $("promptBox").value=v.prompt;
+   wordCount();
+   notify("Variation loaded.");
+   location.hash="prompt";
+  });
+  box.append(title,p,copy,load);
+  root.appendChild(box);
+ });
+ root.hidden=false;
+ $("status").textContent="Three coordinated outfit variations are ready. Copy any look or load it as your main prompt.";
+}
+function characterSheet(){
+ const c=ensureCurrent(),r=roleBy(c.role),a=styleBy(c.style);
+ const outfit=r.looks[c.gender][Number(c.look)];
+ return [
+  "TISAY'S PINK WARDROBE — CHARACTER SHEET",
+  "Character: "+designation(c),
+  "Role: "+roleName(c),
+  "Presentation: "+c.gender,
+  "Human, adult: "+c.age,
+  "Build: "+c.build,
+  "Complexion: "+c.skin,
+  "Hair: "+c.hair+", "+c.hairstyle,
+  "Eyes: "+c.eyes,
+  "Expression: "+c.expression,
+  "Fashion aesthetic: "+a.name,
+  "Curated outfit: "+outfit.name,
+  "Clothing: "+outfit.clothes,
+  "Palette: "+($("paletteCustom").value.trim()||c.palette),
+  "Headwear: "+c.headwear,
+  "Accessory: "+c.accessory,
+  "Prop: "+c.prop,
+  "Pose: "+c.pose,
+  "Scene: "+($("sceneCustom").value.trim()||c.scene),
+  "Art style: "+c.art,
+  "Framing: "+c.frame,
+  "Story: "+$("seed").value.trim(),
+  "Must-haves: "+$("must").value.trim(),
+  "",
+  "CREATED WITH TISAY'S PINK WARDROBE",
+  "https://tisayai.github.io/"
+ ].join("\n");
+}
+
+/* === Clipboard === */
+function notify(s){
+ const t=$("toast");t.textContent=s;t.hidden=false;
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>t.hidden=true,2700);
+}
+async function copyText(s){
+ if(!s){notify("Generate a prompt first.");return}
+ lastCopyText=s;
+ try{
+  if(navigator.clipboard && window.isSecureContext){
+   await navigator.clipboard.writeText(s);
+   notify("✦ Prompt copied!");
+   return;
+  }
+ }catch(e){}
+ const ta=document.createElement("textarea");
+ ta.value=s;ta.style.position="fixed";ta.style.opacity="0";
+ document.body.appendChild(ta);ta.select();
+ let ok=false;
+ try{ok=document.execCommand("copy")}catch(e){}
+ ta.remove();
+ if(ok){notify("✦ Copied!");return}
+ $("fallbackText").value=s;
+ $("copyModal").hidden=false;
+ $("fallbackText").focus();$("fallbackText").select();
+}
+function copyMain(){
+ ensureCurrent();
+ copyText($("promptBox").value);
+}
+function closeModal(){
+ $("copyModal").hidden=true;
+}
+function setupCopy(){
+ $("copyPrompt").onclick=copyMain;
+ $("floatCopy").onclick=copyMain;
+ $("copySheet").onclick=()=>copyText(characterSheet());
+ $("closeModal").onclick=closeModal;
+ $("selectAll").onclick=()=>{
+  $("fallbackText").focus();$("fallbackText").select();
+ };
+ $("tryCopy").onclick=async()=>{
+  const text=$("fallbackText").value;
+  try{
+   await navigator.clipboard.writeText(text);
+   closeModal();notify("✦ Copied!");
+  }catch(e){$("fallbackText").focus();$("fallbackText").select()}
+ };
+ $("copyModal").addEventListener("click",e=>{
+  if(e.target===$("copyModal"))closeModal();
+ });
+ document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeModal();
+ });
+}
+
+/* === Archive === */
+function readArchive(){
+ try{
+  let a=JSON.parse(safeGet(STORAGE)||"[]");
+  archive=Array.isArray(a)?a.slice(0,MAX_SAVES).filter(x=>x && typeof x.prompt==="string"):[];
+ }catch(e){archive=[]}
+ renderArchive();
+}
+function saveArchive(){
+ if(!safeSet(STORAGE,JSON.stringify(archive)))
+  notify("Browser storage unavailable. Export JSON for a backup.");
+ renderArchive();
+}
+function saveCharacter(){
+ const c=ensureCurrent();
+ const text=$("promptBox").value.trim();
+ if(!text){notify("The prompt is empty.");return}
+ const item={
+  id:randomID(),date:new Date().toISOString(),
+  name:designation(c),character:JSON.parse(JSON.stringify(c)),
+  prompt:text
+ };
+ archive.unshift(item);
+ archive=archive.slice(0,MAX_SAVES);
+ saveArchive();notify("♡ Character saved to this browser.");
+}
+function loadItem(id){
+ const item=archive.find(x=>x.id===id);
+ if(!item)return;
+ const c=item.character;
+ if(c && roleBy(c.role) && styleBy(c.style) &&
+    ["man","woman"].includes(c.gender)){
+  current=c;updateConcept(c);
+ }
+ $("promptBox").value=item.prompt;
+ wordCount();
+ $("status").textContent="Saved character loaded. The exact archived prompt is editable and ready to copy.";
+ notify("Archive character loaded.");
+ location.hash="prompt";
+}
+function renderArchive(){
+ $("archiveCount").textContent=archive.length+" / "+MAX_SAVES;
+ const root=$("archiveItems");
+ root.innerHTML="";
+ if(!archive.length){
+  const e=document.createElement("p");
+  e.className="mini";e.textContent="Your wardrobe archive is empty.";
+  root.appendChild(e);return;
+ }
+ archive.forEach(item=>{
+  let box=document.createElement("article");
+  box.className="saved";
+  let h=document.createElement("h4");h.textContent=item.name||"Unnamed Character";
+  let p=document.createElement("p");
+  p.textContent=new Date(item.date).toLocaleString();
+  let buttons=document.createElement("div");buttons.className="btnRow";
+  const make=(label,fn)=>{
+   let b=document.createElement("button");
+   b.className="tiny";b.textContent=label;
+   b.addEventListener("click",fn);buttons.appendChild(b);
+  };
+  make("Load",()=>loadItem(item.id));
+  make("Copy",()=>copyText(item.prompt));
+  make("Delete",()=>{
+   if(confirm("Delete this saved character?")){
+    archive=archive.filter(x=>x.id!==item.id);
+    saveArchive();
+   }
+  });
+  box.append(h,p,buttons);
+  root.appendChild(box);
+ });
+}
+function downloadJSON(){
+ const payload={
+  format:"TisayPinkWardrobeArchive",
+  version:1,
+  exported:new Date().toISOString(),
+  characters:archive
+ };
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;a.download="Tisay-PINK-Wardrobe-Archive.json";
+ document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),3000);
+ notify("Archive JSON exported.");
+}
+async function importJSON(file){
+ if(!file)return;
+ try{
+  if(file.size>5_000_000)throw Error("Archive file is too large.");
+  let data=JSON.parse(await file.text());
+  let list=Array.isArray(data)?data:data.characters;
+  if(!Array.isArray(list))throw Error("Invalid archive format.");
+  let clean=list.filter(x=>x && typeof x.prompt==="string" &&
+    x.prompt.length<50000).map(x=>({
+     id:randomID(),
+     date:typeof x.date==="string"?x.date:new Date().toISOString(),
+     name:String(x.name||"Imported Character").slice(0,150),
+     character:x.character||null,
+     prompt:x.prompt
+  }));
+  archive=[...clean,...archive].slice(0,MAX_SAVES);
+  saveArchive();
+  notify(clean.length+" characters imported.");
+ }catch(e){notify("Import failed: "+e.message)}
+ $("importFile").value="";
+}
+function setupArchive(){
+ $("saveCharacter").onclick=saveCharacter;
+ $("exportJSON").onclick=downloadJSON;
+ $("importJSON").onclick=()=>$("importFile").click();
+ $("importFile").onchange=e=>importJSON(e.target.files?.[0]);
+ $("loadRecent").onclick=()=>{
+  if(archive.length)loadItem(archive[0].id);
+  else notify("Your archive is empty.");
+ };
+}
+
+/* === Banner === */
+function setBanner(url){
+ const img=$("heroImage");
+ if(!url){img.hidden=true;img.removeAttribute("src");return}
+ img.onerror=()=>{
+  img.hidden=true;
+  notify("Banner could not load. Check the direct image hotlink.");
+ };
+ img.onload=()=>{img.hidden=false};
+ img.src=url;
+}
+function applyBanner(){
+ const raw=$("bannerUrl").value.trim();
+ if(!raw){
+  safeSet(BANNER_STORAGE,"");
+  setBanner("");notify("Banner cleared.");return;
+ }
+ try{
+  const u=new URL(raw);
+  if(!["https:","http:"].includes(u.protocol))
+   throw Error("Use an HTTP or HTTPS image URL.");
+  safeSet(BANNER_STORAGE,u.href);
+  setBanner(u.href);
+  notify("16:9 banner URL applied.");
+ }catch(e){notify("Please enter a valid direct image URL.")}
+}
+function setupBanner(){
+ const saved=safeGet(BANNER_STORAGE);
+ if(saved){$("bannerUrl").value=saved;setBanner(saved)}
+ $("applyBanner").onclick=applyBanner;
+ $("clearBanner").onclick=()=>{
+  $("bannerUrl").value="";
+  safeSet(BANNER_STORAGE,"");
+  setBanner("");notify("Banner cleared.");
+ };
+ $("bannerUrl").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){e.preventDefault();applyBanner()}
+ });
+}
+
+/* === Studio actions === */
+function resetStudio(){
+ if(!confirm("Reset the designer controls? Saved archive characters will remain."))return;
+ document.querySelectorAll("select").forEach(el=>{
+  el.selectedIndex=0;
+ });
+ document.querySelectorAll("#design input:not([type=file]),#design textarea").forEach(el=>{
+  if(el.id!=="bannerUrl")el.value="";
+ });
+ $("designation").value="";$("seed").value="";$("must").value="";
+ $("wardrobeNote").value="";$("sceneCustom").value="";$("paletteCustom").value="";
+ $("frame").value="half-body";
+ $("density").value="balanced";
+ $("ratio").value="2:3";
+ $("modern").value="none";
+ locks.clear();redrawLocks();
+ refreshStyleOptions();refreshRoleItems();
+ current=null;variants=[];
+ $("promptBox").value="";wordCount();
+ $("variants").innerHTML="";$("variants").hidden=true;
+ $("conceptTitle").textContent="The Wardrobe Awaits";
+ $("conceptBody").textContent="A new fashion muse is waiting to be dressed.";
+ $("conceptOutfit").textContent="Outfit construction, fashion direction and color harmony will appear here.";
+ $("conceptChips").innerHTML="";
+ $("status").textContent="Wardrobe reset. Your archive remains untouched.";
+ notify("Studio reset.");
+}
+function setupStudio(){
+ $("generate").onclick=()=>build("all");
+ $("floatGenerate").onclick=()=>{
+  build("all");location.hash="prompt";
+ };
+ $("fullRandom").onclick=()=>build("all");
+ document.querySelectorAll("[data-mode]").forEach(b=>{
+  b.addEventListener("click",()=>build(b.dataset.mode));
+ });
+ $("three").onclick=createVariations;
+ $("unlock").onclick=()=>{
+  locks.clear();redrawLocks();notify("All individual locks released.");
+ };
+ $("reset").onclick=resetStudio;
+ $("promptBox").addEventListener("input",wordCount);
+}
+
+/* === Startup === */
+function start(){
+ initOptions();
+ setupBanner();
+ setupCopy();
+ setupArchive();
+ setupStudio();
+ readArchive();
+ redrawLocks();
+ wordCount();
+}
+if(document.readyState==="loading")
+ document.addEventListener("DOMContentLoaded",start);
+else start();
+
+</script>
+</body>
+</html>
